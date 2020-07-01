@@ -1,0 +1,72 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+ margin:0rem;
+ padding:0rem}
+.goods{
+ width:4.4rem;
+ height:3.2rem;
+ color:#FFF
+ }
+.content{
+ height:90%;
+ width:90%;
+ margin:auto
+ }
+/* .content_wrap1{
+ } */
+.public h3{
+ font-weight:400;
+ height:0.3rem;
+ line-height:0.3rem;
+ text-align:center;
+ letter-spacing:0.05rem;
+ margin-top:0.15rem;
+ font-size:0.14rem;}
+.content_wrap1 img{
+ vertical-align:middle}
+.content_wrap1 b{
+ color:#40d9ee;
+ font-weight:600}
+.content_wrap1 span{
+ margin-left:0.15rem;
+ margin-right:0.12rem}
+.content_module{
+ width:100%;}
+.content_module{
+ width:33.33%;
+ margin-top:0.15rem;
+ float:left}
+.module_01{
+ float:left}
+.module_02{
+ float:left;
+ font-size:0.12rem;
+ line-height:0.2rem;}
+.module_01 img{
+ margin-right:0.1rem}
+.content_wrap2 div{
+	background-image:url('./img/frame.png');
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+	padding:0.2rem;
+	font-size:0.12rem;
+	margin-top:0.1rem;
+ 
+ }
+.module_02 dt{
+ color:#fffbb7;}
+.content_wrap2 b{
+ color:#fffbb7;
+ margin-left:0.1rem;
+ margin-right:0.1rem}
+ 
+
+
+ol li{display:inline;margin:0rem 0rem 0rem 0.03rem;width:0.1rem;}
+/* ol li a{background:url(../images/switcher.gif) 0px -10px}
+ol li a:hover{background:url(../images/switcher.gif) 0px 10px}
+ol li a.active{background:url(../images/switcher.gif) 0px 0px}
+ol li a.active:hover{background:url(../images/switcher.gif) 0px 0px} */
+
+ 

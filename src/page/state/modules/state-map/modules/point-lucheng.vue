@@ -1,0 +1,243 @@
+<template>
+  <div class="wrapper">
+    <div :class="item.class" :key="index" v-for="(item,index) in dataArr">
+      <div class="word1">
+        <dl>
+          <dd>{{item.name}}</dd>
+          <dt>{{item.value}}</dt>
+        </dl>
+      </div>
+<!--      <div class="line">-->
+<!--        <img src="../images/line.png" alt/>-->
+<!--      </div>-->
+      <div class="point">
+        <img src="../images/light.png" alt/>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: 'StateMapPointWenZhou',
+  props: {
+    data: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
+  computed: {
+    dataArr() {
+      const arr = [
+        { name: '仰义街道', value: 0, class: 'point100' },
+        { name: '山福镇', value: 0, class: 'point101' },
+        { name: '丰门街道', value: 0, class: 'point102' },
+        { name: '南汇街道', value: 0, class: 'point103' },
+        { name: '七都街道', value: 0, class: 'point104' },
+        { name: '滨江街道', value: 0, class: 'point105' },
+        { name: '双屿街道', value: 0, class: 'point106' },
+        { name: '藤桥镇', value: 0, class: 'point107' },
+        { name: '广化街道', value: 0, class: 'point108' },
+        { name: '大南街道', value: 0, class: 'point109' },
+        { name: '松台街道', value: 0, class: 'point110' },
+        { name: '南郊街道', value: 0, class: 'point111' },
+        { name: '五马街道', value: 0, class: 'point112' },
+        { name: '蒲鞋市街道', value: 0, class: 'point113' }
+      ]
+      for (let i = 0; i < this.data.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+          if (arr[j].name === this.data[i].name) {
+            arr[j].value = this.data[i].value
+            j = arr.length
+          }
+        }
+      }
+      return arr
+    }
+  }
+}
+</script>
+<style scoped lang="less">
+  .point {
+    left: 1.039rem;
+    top: 3.13rem;
+    float: left;
+    margin-top: 0.6rem;
+    margin-left: -0.2rem;
+  }
+  .point img {
+    animation: mymove 1s infinite;
+  }
+  .p1 {
+    display: block;
+  }
+  .point_1 {
+    width: 0.12rem;
+    height: 0.12rem;
+    border-radius: 0.14rem;
+    margin-left: calc(50% - 0.07rem);
+    margin-top: calc(50% - 0.07rem);
+    background: #39e7e0;
+    animation: mymove 2s infinite;
+  }
+  @keyframes mymove {
+    0% {
+      opacity: 0.5
+    }
+    100% {
+      opacity: 1
+    }
+  }
+  img {
+    display: block;
+  }
+  .line {
+    /* position: absolute;
+    left: 9.93rem;
+    top: 2.69rem; */
+    /* background: #f00; */
+    float: left;
+    margin-top: 0.12rem;
+  }
+  .word1 {
+    height: 0.33rem;
+    color: white;
+    position: absolute;
+    font-size: 0.18rem;
+    /* left: 830px;
+    top: 195px; */
+    margin: 0;
+    padding: 0;
+    /* background: #00f; */
+    text-align: left;
+    float: left;
+    left: 0.2rem
+  }
+  .point100,
+  .point101,
+  .point102,
+  .point103,
+  .point104,
+  .point105,
+  .point106,
+  .point107,
+  .point108,
+  .point109,
+  .point110,
+  .point111,
+  .point112,
+  .point113
+  {
+    width: 2.23rem;
+    height: 1rem;
+    position: absolute;
+    left: 41%;
+    top: 30%;
+    /* background: #39e7e0; */
+    margin: 0;
+    padding: 0;
+    line-height: 0.3rem;
+  }
+  .point101 {
+    left: 28.5%;
+    top: 17%;
+    .point{
+      margin-top: 0.35rem;
+    }
+  }
+  .point102 {
+    left: 44%;
+    top: 39%;
+    .point{
+      /*margin-top: 0.2rem;*/
+    }
+  }
+  .point103 {
+    left: 74.2%;
+    top: 57%;
+    .point{
+      margin-top: 0.1rem;
+    }
+  }
+  .point104 {
+    left: 90.5%;
+    top: 50%;
+    .point{
+      margin-top: 0.3rem;
+    }
+  }
+  .point105 {
+    left: 79%;
+    top: 36%;
+    .point{
+      margin-top: 1.1rem;
+    }
+  }
+  .point106 {
+    left: 51%;
+    top: 45%;
+    .point{
+      margin-top: 0.3rem;
+    }
+  }
+  .point107 {
+    left: 24.3%;
+    top: 31%;
+    .point{
+      margin-top: 0.3rem;
+    }
+  }
+  .point108 {
+    left: 57.5%;
+    top: 51%;
+    .point{
+      margin-top: 0.1rem;
+    }
+  }
+  .point109 {
+    left: 65.7%;
+    top: 54%;
+    .point{
+      margin-top: 0rem;
+    }
+  }
+  .point110 {
+       left: 61%;
+       top: 31%;
+       .point{
+         margin-top: 1rem;
+       }
+     }
+  .point111 {
+    left: 63%;
+    top: 62%;
+    .point{
+      margin-top: -0.17rem;
+    }
+  }
+  .point112 {
+    left: 66%;
+    top: 40%;
+    .point{
+      margin-top: 0.55rem;
+    }
+  }
+  .point113 {
+    left: 73%;
+    top: 48%;
+    .point{
+      margin-top: 0.4rem;
+    }
+  }
+  /*.point100 dl{*/
+  /*  color:#ffd13d;*/
+  /*}*/
+  /*.point110 dl{*/
+  /*  color:#ffd13d;*/
+  /*}*/
+  /*.point106 dl{*/
+  /*  color:#ffd13d;*/
+  /*}*/
+  /* eslint-disable */
+</style>

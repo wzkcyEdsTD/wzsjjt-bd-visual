@@ -1,0 +1,127 @@
+/*@charset "utf-8";*/
+/*!* CSS Document *!*/
+/**{*/
+/*  margin:0rem;*/
+/*  padding:0rem}*/
+/*.roadTran{*/
+/* background:url(web/light.png);*/
+/* width:4.4rem;*/
+/* background-position:0.65rem 0.15rem;*/
+/* background-repeat:no-repeat;*/
+/*  margin-top:0.5rem;*/
+/* }*/
+
+/*.wrap {*/
+/* width:2rem;*/
+/* height:2rem;*/
+/* padding-top: 0.2rem;*/
+/* right:0;*/
+/* bottom:0;*/
+/* margin:auto;*/
+/* transform-style:preserve-3d;*/
+/* position:relative*/
+/* }*/
+/*.wrap h3{*/
+/* position:absolute;*/
+/* top:1.2rem;*/
+/* left:0.7rem;*/
+/* color:#ffe400;*/
+/* font-weight:600;*/
+/* font-size: 0.18rem;*/
+/* }*/
+/*#earth {*/
+/* position:absolute;*/
+/* z-index: 4;*/
+/* width:1rem;*/
+/* height:1rem;*/
+/* border-radius:1.8rem;*/
+/* overflow:hidden;*/
+/* -webkit-box-sizing: border-box;*/
+/* -moz-box-sizing: border-box;*/
+/* box-sizing: border-box;*/
+/* border:0.01rem solid #00cbff;*/
+/* box-shadow: 0 0 0.1rem 0.05rem rgba(119,216,255,0.4);*/
+/* background-size:1.28rem 1.28rem;*/
+/* background-repeat:no-repeat;*/
+/* background-position: -0.14rem -0.14rem;*/
+/* animation-timing-function: linear;*/
+/* background-image:url(web/circular.png);*/
+/* }*/
+
+
+/*#earthGravity {*/
+/*  position:absolute;*/
+/*  height:0.5rem;*/
+/*  width:0.5rem;*/
+/*  top:calc(50% - 0.25rem);*/
+/*  left:calc(50% - 0.25rem);*/
+/*  animation-timing-function: linear;*/
+/*  z-index:0;*/
+/* }*/
+
+/*#earth dl{*/
+/* margin:auto;*/
+/* font-size:0.16rem;*/
+/* margin-top:0.3rem;*/
+/* margin-left:0rem;*/
+/* text-align:center;*/
+/* font-weight:500}*/
+/*#earth dd{*/
+/*  color:#ffffff;*/
+/*  font-size:0.15rem}*/
+/*#earth dt{*/
+/*  color:#04dbf5}*/
+
+
+/*.cartoonX_01{*/
+/* animation: gravityRotationX_01 20s infinite;*/
+/* }*/
+/*.cartoonY_01{*/
+/* animation:gravityRotationY_01 20s infinite;*/
+/* }*/
+/*.cartoonX_02{*/
+/* animation: gravityRotationX_02 20s infinite;*/
+/* }*/
+/*.cartoonY_02{*/
+/* animation:gravityRotationY_02 20s infinite;*/
+/* }*/
+/* .cartoonX_03{*/
+/* animation: gravityRotationX_03 20s infinite;*/
+/* }*/
+/*.cartoonY_03{*/
+/* animation:gravityRotationY_03 20s infinite;*/
+/* }*/
+/*  .cartoonX_04{*/
+/* animation: gravityRotationX_04 20s infinite;*/
+/* }*/
+/*.cartoonY_04{*/
+/* animation:gravityRotationY_04 20s infinite;*/
+/* }*/
+/*.cartoonX_05{*/
+/* animation: gravityRotationX_05 20s infinite;*/
+/* }*/
+/*.cartoonY_05{*/
+/* animation:gravityRotationY_05 20s infinite;*/
+/* }*/
+/* .cartoonX_06{*/
+/* animation: gravityRotationX_06 20s infinite;*/
+/* }*/
+/*.cartoonY_06{*/
+/* animation:gravityRotationY_06 20s infinite;*/
+/* }*/
+/*.cartoonX_07{*/
+/* animation: gravityRotationX_07 20s infinite;*/
+/* }*/
+/*.cartoonY_07{*/
+/* animation:gravityRotationY_07 20s infinite;*/
+/* }*/
+/*.cartoonX_08{*/
+/* animation: gravityRotationX_08 20s infinite;*/
+/* }*/
+/*.cartoonY_08{*/
+/* animation:gravityRotationY_08 20s infinite;*/
+/* }*/
+/* #earth:hover{
+ animation-play-state:paused;
+-webkit-animation-play-state:paused;
+} */

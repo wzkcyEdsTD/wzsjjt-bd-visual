@@ -1,0 +1,502 @@
+
+@keyframes gravityRotationX_01 { 
+    0% { 
+      z-index:400;
+      transform:translateX(-1.8rem);
+      animation-timing-function: ease-in;
+    }
+    25% { 
+      transform:translateX(0rem);
+      animation-timing-function: ease-out;
+    }
+    50% {
+      transform:translateX(1.35rem);
+      animation-timing-function: ease-in;
+    }
+    75% {
+      transform:translateX(0rem);
+      animation-timing-function: ease-out;
+    }
+    100% {
+      transform:translateX(-1.8rem);
+      animation-timing-function: ease-in;
+    }
+  }
+  
+  @keyframes gravityRotationY_01 { 
+    0% {
+      transform: translateY(0rem) scale(1.0,1.0);
+      animation-timing-function: ease-out;
+      transform-origin: top top;
+      opacity:0.9;
+  }
+  25% {
+      transform: translateY(-0.8rem) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity:0.8;
+  }
+  50% {
+      transform: translateY(0rem) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity:1;
+  }
+  75% {
+      transform: translateY(0.8rem) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity:1;
+  }
+  100% {
+      transform: translateY(0rem) scale(1.0,1.0);
+      animation-timing-function: ease-out;
+      opacity:0.9;
+  }
+  }
+  
+  
+  
+  @keyframes gravityRotationX_02 { 
+  0% {
+      z-index: 400;
+      transform: translateX(0rem);
+      animation-timing-function: ease-out;
+  }
+  25% {
+      transform: translateX(1.35rem);
+      animation-timing-function: ease-in;
+  }
+  50% {
+      transform: translateX(0rem);
+      animation-timing-function: ease-out;
+  }
+  75% {
+      transform: translateX(-1.8rem);
+      animation-timing-function: ease-in;
+  }
+  100% {
+      transform: translateX(0rem);
+      animation-timing-function: ease-out;
+  }
+  }
+  
+  @keyframes gravityRotationY_02 { 
+   0% {
+      transform: translateY(-0.8rem) scale(.8,.8);
+      animation-timing-function: ease-in;
+      transform-origin: top top;
+      opacity: 0.8;
+  }
+  25% {
+      transform: translateY(0rem) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  50% {
+      transform: translateY(0.8rem) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  75% {
+      transform: translateY(0rem) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  100% {
+      transform: translateY(-0.8rem) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity: 0.8;
+  }
+  }
+  
+  
+  @keyframes gravityRotationX_03 { 
+  0% {
+      z-index: 400;
+      transform: translateX(1.35rem);
+      animation-timing-function: ease-in;
+  }
+  25% {
+      transform: translateX(0rem);
+      animation-timing-function: ease-out;
+  }
+  50% {
+      transform: translateX(-1.8rem);
+      animation-timing-function: ease-in;
+  }
+  75% {
+      transform: translateX(0rem);
+      animation-timing-function: ease-out;
+  }
+  100% {
+      transform: translateX(1.35rem);
+      animation-timing-function: ease-in;
+  }
+  }
+  
+  @keyframes gravityRotationY_03 { 
+   0% {
+      transform: translateY(0rem) scale(.9,.9);
+      animation-timing-function: ease-out;
+      transform-origin: top top;
+      opacity: 0.9;
+  }
+  25% {
+      transform: translateY(0.8rem) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  50% {
+      transform: translateY(0rem) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity:0.9;
+  }
+  75% {
+      transform: translateY(-0.8rem) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity: 0.8;
+  }
+  100% {
+      transform: translateY(0rem) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  }
+  
+  
+  
+  @keyframes gravityRotationX_04 { 
+  0% {
+      z-index: 400;
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  25% {
+      transform: translateX(-180px);
+      animation-timing-function: ease-in;
+  }
+  50% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  75% {
+      transform: translateX(135px);
+      animation-timing-function: ease-in;
+  }
+  100% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  }
+  
+  @keyframes gravityRotationY_04 { 
+   0% {
+      transform: translateY(80px) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      transform-origin: top top;
+      opacity: 1.0;
+  }
+  25% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  50% {
+      transform: translateY(-80px) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity:0.8;
+  }
+  75% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  100% {
+      transform: translateY(80px) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  @keyframes gravityRotationX_05 { 
+  0% {
+      z-index: 400;
+      transform: translateX(-110px);
+      animation-timing-function: ease-in;
+  }
+  12.5% {
+      z-index: 400;
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  
+  37.5% {
+      transform: translateX(135px);
+      animation-timing-function: ease-in;
+  }
+  
+  62.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+      /* background-color: white; */
+  }
+  
+  87.5% {
+      transform: translateX(-180px);
+      animation-timing-function: ease-in;
+      /* background-color: white; */
+  }
+  100% {
+      transform: translateX(-110px);
+      animation-timing-function: ease-in;
+  }}
+  
+  @keyframes gravityRotationY_05 { 
+   0% {
+      transform: translateY(-70px) scale(.85,.85);
+      animation-timing-function: ease-out;
+      transform-origin: top top;
+      opacity:0.85;
+  }
+  12.5% {
+      transform: translateY(-80px) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity: 0.8;
+  }
+  
+  37.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  62.5% {
+      transform: translateY(80px) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  87.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  100% {
+      transform: translateY(-70px) scale(.85,.85);
+      animation-timing-function: ease-out;
+      opacity: 0.85;
+  }
+  }
+  
+  @keyframes gravityRotationX_06 { 
+  0% {
+      z-index: 400;
+      transform: translateX(100px);
+      animation-timing-function: ease-out;
+  }
+  12.5% {
+      transform: translateX(135px);
+      animation-timing-function: ease-in;
+  }
+  
+  37.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  
+  62.5% {
+      transform: translateX(-180px);
+      animation-timing-function: ease-in;
+      /* background-color: white; */
+  }
+  
+  87.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+      /* background-color: white; */
+  }
+  100% {
+      transform: translateX(100px);
+      animation-timing-function: ease-in;
+  }}
+  
+  @keyframes gravityRotationY_06 { 
+   0% {
+      transform: translateY(-60px) scale(.85,.85);
+      animation-timing-function: ease-in;
+      transform-origin: top top;
+      opacity:0.85;
+  }
+  12.5% {
+      transform: translateY(0px) scale(.8,.8);
+      animation-timing-function: ease-out;
+      opacity: 0.8;
+  }
+  
+  37.5% {
+      transform: translateY(80px) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  62.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  87.5% {
+      transform: translateY(-80px) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity: 0.8;
+  }
+  100% {
+      transform: translateY(-60px) scale(.85,.85);
+      animation-timing-function: ease-out;
+      opacity: 0.85;
+  }
+  }
+  
+  
+  
+  @keyframes gravityRotationX_07 { 
+  0% {
+      z-index: 400;
+      transform: translateX(-105px);
+      animation-timing-function: ease-out;
+  }
+  12.5% {
+      z-index: 400;
+      transform: translateX(-180px);
+      animation-timing-function: ease-in;
+  }
+  
+  37.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  
+  62.5% {
+      transform: translateX(135px);
+      animation-timing-function: ease-in;
+      /* background-color: white; */
+  }
+  
+  87.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+      /* background-color: white; */
+  }
+  100% {
+      transform: translateX(-105px);
+      animation-timing-function: ease-in;
+  }}
+  
+  @keyframes gravityRotationY_07 { 
+   0% {
+      transform: translateY(70px) scale(.95,.95);
+      animation-timing-function: ease-in;
+      transform-origin: top top;
+      opacity:0.95;
+  }
+  12.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  
+  37.5% {
+      transform: translateY(-80px) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity: 0.8;
+  }
+  62.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  87.5% {
+      transform: translateY(80px) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  100% {
+      transform: translateY(70px) scale(.95,.95);
+      animation-timing-function: ease-out;
+      opacity: 0.95;
+  }
+  }
+  
+  
+  @keyframes gravityRotationX_08 { 
+  0% {
+      z-index: 400;
+      transform: translateX(95px);
+      animation-timing-function: ease-in;
+  }
+  12.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+  }
+  
+  37.5% {
+      transform: translateX(-180px);
+      animation-timing-function: ease-in;
+  }
+  
+  62.5% {
+      transform: translateX(0px);
+      animation-timing-function: ease-out;
+      /* background-color: white; */
+  }
+  
+  87.5% {
+      transform: translateX(135px);
+      animation-timing-function: ease-in;
+      /* background-color: white; */
+  }
+  100% {
+      transform: translateX(95px);
+      animation-timing-function: ease-out;
+  }}
+  
+  @keyframes gravityRotationY_08 { 
+   0% {
+      transform: translateY(70px) scale(.95,.95);
+      animation-timing-function: ease-out;
+      transform-origin: top top;
+      opacity:0.95;
+  }
+  12.5% {
+      transform: translateY(80px) scale(1.0,1.0);
+      animation-timing-function: ease-in;
+      opacity: 1.0;
+  }
+  
+  37.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: 0.9;
+  }
+  62.5% {
+      transform: translateY(-80px) scale(.8,.8);
+      animation-timing-function: ease-in;
+      opacity: 0.9;
+  }
+  87.5% {
+      transform: translateY(0px) scale(.9,.9);
+      animation-timing-function: ease-out;
+      opacity: .9;
+  }
+  100% {
+      transform: translateY(70px) scale(.95,.95);
+      animation-timing-function: ease-in;
+      opacity: 0.95;
+  }
+  }
+  
+  
