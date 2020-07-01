@@ -23,7 +23,7 @@
     "element-ui": "^2.13.0",
     "esri-loader": "^2.14.0",
     "good-storage": "^1.1.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonp": "^0.2.1",
     "mapbox-gl-compare": "^0.3.0",
     "ol": "^6.1.1",
