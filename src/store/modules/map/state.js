@@ -1,6 +1,14 @@
+/*
+ * @Author: eds
+ * @Date: 2020-07-01 15:22:07
+ * @LastEditTime: 2020-07-01 15:42:57
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\state.js
+ */
 const state = {
-  collapse1: false, // 折叠左侧
-  collapse2: false, // 折叠右侧
+  collapse1: true, // 折叠左侧
+  collapse2: true, // 折叠右侧
   splitScreen: false, // 分屏是否开启
   legendShow: true, // 显示图例
   tree: [], // 左侧树数据

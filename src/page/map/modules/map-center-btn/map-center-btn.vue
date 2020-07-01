@@ -55,13 +55,13 @@
             @click="printMap">
             打印
           </div>
-          <div
+          <!-- <div
             class="item item-spc"
             :class="{'active':isPointSearch}"
             title="点位搜索"
             @click="pointSearch">
             点位搜索
-          </div>
+          </div> -->
         </div>
         <div ref="slider" class="children_opacity" v-show="isSetOpacity && isCoverToolbarShow">
           <Slider></Slider>
@@ -127,8 +127,8 @@ export default {
         { name: '测距离', value: 'line_string', abbrev: '测距' },
         { name: '测面积', value: 'polygon', abbrev: '测面' },
         { name: '空间查询', value: 'spatialQuery', abbrev: '空间查询' },
-        { name: '周边分析', value: 'aroundAnalysis', abbrev: '周边分析' },
-        { name: '就近分析', value: 'nearAnalysis', abbrev: '就近分析' },
+        // { name: '周边分析', value: 'aroundAnalysis', abbrev: '周边分析' },
+        // { name: '就近分析', value: 'nearAnalysis', abbrev: '就近分析' },
         { name: '分屏管理', value: 'split_screen', abbrev: '分屏' },
         { name: '一键清空', value: 'clearMapFeature', abbrev: '清空' }
       ],
