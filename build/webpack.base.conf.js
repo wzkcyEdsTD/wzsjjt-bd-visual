@@ -51,6 +51,8 @@ module.exports = {
       page: resolve("src/page"),
       base: resolve("src/base"),
       api: resolve("src/api"),
+      mock: resolve("src/mock"),
+      config: resolve("src/config"),
       cesium: path.resolve(__dirname, cesiumSource)
     }
   },

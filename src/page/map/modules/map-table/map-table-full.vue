@@ -196,7 +196,7 @@ export default {
     initData() {
       if (this.currentOnePoint && this.currentOnePoint.datasetname) {
         const showFileds = [...this.currentOnePoint.showField]
-        if (this.userInfo.district.length > 4) {
+        if (this.userInfo.district && this.userInfo.district.length > 4) {
           const index1 = showFileds.indexOf('DISTRICT')
           if (index1 !== -1) {
             showFileds[index1] = 'street'
@@ -206,25 +206,25 @@ export default {
             showFileds[index2] = 'street'
           }
         }
-        likeStatisticsAll(this.search, showFileds, this.exactQuery.key, this.exactQuery.value, this.exactBarQuery.key, this.exactBarQuery.value, this.pageNo, this.pageSize, this.currentOnePoint.datasetname.split(':')[1], this.userInfo.district, this.currentOnePoint.sql, showFileds[showFileds.length - 1], this.value).then((data) => {
-          if (!this.currentOnePoint || !data) {
-            this.count = 0
-            return
-          }
-          const newData = data.values
-          this.count = data.values.length
-          this.collmns = data.collmns
-          if (newData.length) {
-            for (var i = 0; i < newData.length; i++) {
-              newData[i].index = this.pageNo + i
-            }
-            if (this.pageNo === 1) {
-              this.tableData = newData
-            } else {
-              this.tableData = [...this.tableData, ...newData]
-            }
-          }
-        })
+        // likeStatisticsAll(this.search, showFileds, this.exactQuery.key, this.exactQuery.value, this.exactBarQuery.key, this.exactBarQuery.value, this.pageNo, this.pageSize, this.currentOnePoint.datasetname.split(':')[1], this.userInfo.district, this.currentOnePoint.sql, showFileds[showFileds.length - 1], this.value).then((data) => {
+        //   if (!this.currentOnePoint || !data) {
+        //     this.count = 0
+        //     return
+        //   }
+        //   const newData = data.values
+        //   this.count = data.values.length
+        //   this.collmns = data.collmns
+        //   if (newData.length) {
+        //     for (var i = 0; i < newData.length; i++) {
+        //       newData[i].index = this.pageNo + i
+        //     }
+        //     if (this.pageNo === 1) {
+        //       this.tableData = newData
+        //     } else {
+        //       this.tableData = [...this.tableData, ...newData]
+        //     }
+        //   }
+        // })
       }
     },
     rowClick(data) {

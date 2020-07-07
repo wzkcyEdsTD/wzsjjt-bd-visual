@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:04
- * @LastEditTime: 2020-07-01 15:33:28
+ * @LastEditTime: 2020-07-07 16:10:17
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\config\index.js
@@ -19,11 +19,7 @@ module.exports = {
     assetsPublicPath: "/",
     proxyTable: {
       "/": {
-        // target: 'http://10.10.0.6:9000',
-        target: "http://192.168.1.158:9000",
-        // target: 'http://192.168.1.52:9000',
-        // target: 'http://127.0.0.1:9000',
-        // target: 'http://10.10.0.4:9000',
+        target: "http://10.36.234.84:9000",
         changeOrigin: true,
         pathRewrite: {
           "^/": ""
@@ -75,7 +71,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: "#source-map",
 

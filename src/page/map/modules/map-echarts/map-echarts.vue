@@ -120,26 +120,26 @@ export default {
       if (dData && dData.datasetname) {
         const tableName = dData.datasetname.split(':')[1]
         const chartField = dData.chartField
-        statistics([chartField, ...dData.chartValue], tableName, this.userInfo.district, dData.sql).then((data) => {
-          if (!data || !data.length) {
-            return false
-          }
-          // 传值给柱状图
-          this.barData = data[0]
-          this.barCity = !(this.userInfo.district.length > 4)
-          // 以下是另外一个echart
-          const optionArr = []
-          dData.chartValue.forEach((item, index) => {
-            optionArr.push({
-              label: dData.chartName[index],
-              value: item,
-              data: data[index + 1]
-            })
-          })
-          this.options = optionArr
-          this.selectValue = dData.chartValue[0]
-          this.initEchart2()
-        })
+        // statistics([chartField, ...dData.chartValue], tableName, this.userInfo.district, dData.sql).then((data) => {
+        //   if (!data || !data.length) {
+        //     return false
+        //   }
+        //   // 传值给柱状图
+        //   this.barData = data[0]
+        //   this.barCity = !(this.userInfo.district.length > 4)
+        //   // 以下是另外一个echart
+        //   const optionArr = []
+        //   dData.chartValue.forEach((item, index) => {
+        //     optionArr.push({
+        //       label: dData.chartName[index],
+        //       value: item,
+        //       data: data[index + 1]
+        //     })
+        //   })
+        //   this.options = optionArr
+        //   this.selectValue = dData.chartValue[0]
+        //   this.initEchart2()
+        // })
       } else {
         this.barData = []
         this.options = [{ value: '', data: [] }]

@@ -9,17 +9,17 @@
 
 <script>
 export default {
-  name: 'MapBox',
+  name: "MapBox",
   props: {
     // 渲染方位
     region: {
       type: String,
-      default: ''
+      default: ""
     },
     // 背景图
     bg: {
       type: String,
-      default: ''
+      default: ""
     },
     // 是否折叠
     collapse: {
@@ -29,73 +29,71 @@ export default {
   },
   data() {
     return {
-      btnisCollapse: '' // 按钮是否折叠
-    }
+      btnisCollapse: "" // 按钮是否折叠
+    };
   },
   computed: {
     // 是否折叠
     isCollapse() {
-      return this.collapse ? 'collapse' : ''
+      return this.collapse ? "collapse" : "";
     }
   },
   mounted() {
-    this.initBtnCollapse()
-    this.$bus.on('close_rightWrapper', (val) => {
-      this.$emit('changeCollapse', true)
-    })
-    this.$bus.on('close_splitScreen', (val) => {
-      this.$emit('changeCollapse', true)
-    })
+    this.initBtnCollapse();
+    this.$bus.on("close_rightWrapper", val => {
+      this.$emit("changeCollapse", true);
+    });
+    this.$bus.on("close_splitScreen", val => {
+      this.$emit("changeCollapse", true);
+    });
   },
   methods: {
     // 初始化按钮是否折叠
     initBtnCollapse() {
-      this.btnisCollapse = this.collapse ? 'collapse' : ''
+      this.btnisCollapse = this.collapse ? "collapse" : "";
     },
     changeCollapse() {
-      this.$emit('changeCollapse', !this.collapse)
+      this.$emit("changeCollapse", !this.collapse);
     }
   },
   watch: {
     collapse() {
       setTimeout(() => {
-        this.initBtnCollapse()
-      }, 300)
+        this.initBtnCollapse();
+      }, 300);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="less">
-  .wrapper {
+.wrapper {
+  position: absolute;
+  padding: @font-size-medium;
+  transition: left 0.3s linear, right 0.3s linear;
+  background: rgba(3, 67, 106, 0.9);
+  width: 3.8rem;
+  top: 60px;
+  bottom: 10px;
+  .btn {
+    .bg-image("images/collapse");
+    width: 0.15rem;
+    height: 1rem;
+    margin-top: -0.75rem;
     position: absolute;
-    padding: @font-size-medium;
-    height: 100%;
-    transition: left .3s linear, right .3s linear;
-    background: rgba(3, 67, 106, 0.9);
-    width: 3.8rem;
-    max-height: calc(100% - 0.1rem);
     top: 50%;
-    transform: translate(0, -50%);
+    text-align: center;
+    cursor: pointer;
+  }
+  &.west {
+    left: @font-size-medium;
     .btn {
-      .bg-image('images/collapse');
-      width: 0.15rem;
-      height: 1rem;
-      margin-top: -0.75rem;
-      position: absolute;
-      top: 50%;
-      text-align: center;
-      cursor: pointer;
+      right: -0.15rem;
     }
-    &.west {
-      left: @font-size-medium;
-      .btn {
-        right: -0.15rem;
-      }
-      &.collapse {
-        left: -3.8rem
-      }
-      /*&:after {
+    &.collapse {
+      left: -3.8rem;
+    }
+    /*&:after {
         content: '';
         display: block;
         width: 3.8rem;
@@ -107,17 +105,17 @@ export default {
         transform-origin: right bottom;
         transform: rotate(90deg);
       }*/
+  }
+  &.east {
+    right: @font-size-medium;
+    .btn {
+      left: -0.15rem;
+      transform: rotate(180deg);
     }
-    &.east {
-      right: @font-size-medium;
-      .btn {
-        left: -0.15rem;
-        transform: rotate(180deg);
-      }
-      &.collapse {
-        right: -3.8rem;
-      }
-      /*&:after {
+    &.collapse {
+      right: -3.8rem;
+    }
+    /*&:after {
         content: '';
         display: block;
         width: 3.8rem;
@@ -129,8 +127,8 @@ export default {
         transform-origin: left bottom;
         transform: rotate(-90deg);
       }*/
-    }
-    /*&:before {
+  }
+  /*&:before {
        content: '';
        display: block;
        width: 3.8rem;
@@ -140,5 +138,5 @@ export default {
        bottom: 0;
        .bg-image('images/line');
      }*/
-  }
+}
 </style>

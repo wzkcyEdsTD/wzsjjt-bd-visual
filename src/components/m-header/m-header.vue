@@ -170,17 +170,17 @@ export default {
     };
   },
   created() {
-    Promise.all([getUserInfo(), getMenu()]).then(res => {
-      let districtName = res[0].districtName;
-      this.menuList = res[1]
-        .map(val => {
-          val.district = val.district.split(",");
-          return val;
-        })
-        .filter(val => {
-          return val.isHided !== 1;
-        });
-    });
+    // Promise.all([getUserInfo(), getMenu()]).then(res => {
+    //   let districtName = res[0].districtName;
+    //   this.menuList = res[1]
+    //     .map(val => {
+    //       val.district = val.district.split(",");
+    //       return val;
+    //     })
+    //     .filter(val => {
+    //       return val.isHided !== 1;
+    //     });
+    // });
   },
   computed: {
     ...mapGetters(["userInfo"]),

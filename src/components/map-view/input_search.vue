@@ -209,8 +209,8 @@ export default {
     // width: 0.5rem;
     height: 0.3rem;
     position: absolute;
-    left: 7.35rem;
-    top: 0.54rem;
+    left:8.1rem;
+    top: 0.555rem;
     z-index: 1;
     margin: 0.04rem;
     transition: all 0.3s linear;
