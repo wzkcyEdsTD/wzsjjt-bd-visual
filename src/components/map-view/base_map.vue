@@ -3,44 +3,56 @@
  * @Author: jiangbotao
  * @Date: 2019-12-09 23:17:48
  * @LastEditors: eds
- * @LastEditTime: 2020-07-07 10:29:32
+ * @LastEditTime: 2020-07-13 10:01:20
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\base_map.vue
  -->
 <template>
   <div>
+    <div id="rightMap" v-if="isShwo">
+      <!-- <SwitchBtn v-if="isShwo" class="switchBtn" @switchMap="switchMap"></SwitchBtn> -->
+    </div>
+
+    <SwitchBtn v-if="isShwo" v-bind:isShwo="isShwo" class="switchBtn" @switchMap="switchMap"></SwitchBtn>
+    <!-- <div class="toCenterRight" v-if="isShwo" :class="{collapse: collapse1, active: centerShow}" title="">
+      <p>wwo zao fdaf </p>
+      <i style="width: 100%;height: 0.42rem;" @click="showTool" ></i>
+      <div
+        class="center-item"
+        :class="'btn'+(index+1)"
+        :key="index"
+        :title="item.name"
+        v-for="(item, index) in mapNew"
+        @click="changeMapTollBarTop(item, index)">{{item.abbrev}}</div>
+    </div>-->
+    <div id="base-map">
+      <InputSearch
+        class="search"
+        :class="this.collapse1?'collapse':''"
+        :getBlurNames="getBlurNames"
+        @chooseAddress="chooseAddress($event)"
+        @searchFeatureNames="searchFeatureNames($event)"
+      ></InputSearch>
+      <MeterBox
+        ref="meterBox"
+        :data="measureMsg"
+        class="meter-box"
+        :class="this.collapse1?'collapse':''"
+      ></MeterBox>
+      <div class="legend-box" :class="{collapse:collapse2,splitScreen:splitScreen}">
+        <Legend2 ref="legend2" :legendMsg2="legendMsg2"></Legend2>
+        <Legend ref="legend" :legendMsg="legendMsg"></Legend>
+      </div>
+      <BaseMapMenu
+        ref="baseMapMenu"
+        @hideBasemapMenu="hideBasemapMenu"
+        @checkValue="checkValue"
+        :showSwicthMenu="showSwicthMenu"
+        :currentCheck="currentCheck"
+        class="basemap-menu"
+      ></BaseMapMenu>
+    </div>
     <div>
-      <div id="base-map">
-        <InputSearch
-          class="search"
-          :class="this.collapse1?'collapse':''"
-          :getBlurNames="getBlurNames"
-          @chooseAddress="chooseAddress($event)"
-          @searchFeatureNames="searchFeatureNames($event)"
-        ></InputSearch>
-        <MeterBox
-          ref="meterBox"
-          :data="measureMsg"
-          class="meter-box"
-          :class="this.collapse1?'collapse':''"
-        ></MeterBox>
-        <div class="legend-box" :class="{collapse:collapse2,splitScreen:splitScreen}">
-          <Legend2 ref="legend2" :legendMsg2="legendMsg2"></Legend2>
-          <Legend ref="legend" :legendMsg="legendMsg"></Legend>
-        </div>
-        <BaseMapMenu
-          ref="baseMapMenu"
-          @hideBasemapMenu="hideBasemapMenu"
-          @checkValue="checkValue"
-          :showSwicthMenu="showSwicthMenu"
-          :currentCheck="currentCheck"
-          class="basemap-menu"
-        />
-      </div>
-      <SwitchBtn v-if="isShwo" v-bind:isShwo="isShwo" class="switchBtn" @switchMap="switchMap"></SwitchBtn>
-      <div id="rightMap" v-if="isShwo"></div>
-      <div>
-        <div id="map_line" class="mapQuart"></div>
-      </div>
+      <div id="map_line" class="mapQuart"></div>
     </div>
   </div>
 </template>
@@ -86,6 +98,99 @@ import {
 } from "@turf/turf";
 import MAP_CONFIG from "./mapconfig";
 import BaseMapMenu from "./basemap_menu.vue";
+
+const colorAry = [
+  "#FF0000",
+  "White",
+  "#fbb03b",
+  "#223b53",
+  "#e55e5e",
+  "#3bb2d0",
+  "#cccccc",
+  "#FFFAFA",
+  "#F8F8FF",
+  "#FFF8DC",
+  "#FFFFF0",
+  "#00FF7F",
+  "#00EE76",
+  "#00CD66",
+  "#008B45",
+  "#00FF00",
+  "#00EE00",
+  "#FFFF00",
+  "#EEEE00",
+  "#FFD700",
+  "#FFFFE0",
+  "#F0FFFF",
+  "#FFF9DC",
+  "#90EE90",
+  "#ecf353",
+  "#d7fb5b",
+  "#b0fb5b",
+  "#fdf0dd",
+  "#f5bd70",
+  "#e9f623",
+  "#fafcd9",
+  "#edf236",
+  "#cdf236",
+  "#f3fdc9",
+  "#f4f5ef",
+  "#ebece9",
+  "#b6d440",
+  "#99f50f",
+  "#f1fedc",
+  "#b9f87c",
+  "#f3feeb",
+  "#cbfdaa",
+  "#a0fa66",
+  "#77e133",
+  "#5ff344",
+  "#ddfefc",
+  "#79f6f0",
+  "#dfe0fb",
+  "#00FF00",
+  "#f2f736",
+  "#F0F8FF",
+  "#FF4500",
+  "#ADFF2F",
+  "#FFFAF0",
+  "#F5F5DC",
+  "#EEE9E9",
+  "#FFBBFF",
+  "#EE0000",
+  "#FF6347",
+  "#FFA500",
+  "#98FB98",
+  "#7CFC00",
+  "#7FFF00",
+  "#00FA9A",
+  "#00FF01",
+  "#00FF02",
+  "#01FF00",
+  "#02FF00",
+  "#FBFBFB",
+  "#FFFF01",
+  "#FFFF02",
+  "#f3fdbf",
+  "#f4fdbf",
+  "#fafee7",
+  "#eafa94",
+  "#f7f9eb",
+  "#f27e21",
+  "#f9c471",
+  "#f985d9",
+  "#f8c3ea",
+  "#f8e7f3",
+  "#fce3e3",
+  "#e3f3fc",
+  "#d8dff9",
+  "#e5e6eb",
+  "#fcfdfd",
+  "#dbedf6",
+  "#f5242e",
+  "#f4ebec",
+  "#f1f3f1"
+];
 
 export default {
   name: "BaseMap",
@@ -734,8 +839,7 @@ export default {
       for (var i = 0; i < checkedMenu.length; i++) {
         if (
           "point" === checkedMenu[i].geotype &&
-          "" !== checkedMenu[i].icon.trim() &&
-          checkedMenu[i].icon !== null
+          "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
         ) {
           this.scatterLayerAliasAry.push(checkedMenu[i].alias);
         }
@@ -745,8 +849,7 @@ export default {
             var childrenData = checkedMenu[i].children[j];
             if (
               "point" === childrenData.geotype &&
-              "" !== childrenData.icon.trim() &&
-              childrenData.icon !== null
+              "" !== childrenData.icon.trim() && childrenData.icon !== null
             ) {
               this.scatterLayerAliasAry.push(childrenData.alias);
             }
@@ -1173,8 +1276,7 @@ export default {
       for (var i = 0; i < checkedMenu.length; i++) {
         if (
           "point" === checkedMenu[i].geotype &&
-          "" !== checkedMenu[i].icon.trim() &&
-          checkedMenu[i].icon !== null
+          "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
         ) {
           legendAry.push({
             icon: checkedMenu[i].icon,
@@ -1187,8 +1289,7 @@ export default {
             var childrenData = checkedMenu[i].children[j];
             if (
               "point" === childrenData.geotype &&
-              "" !== childrenData.icon.trim() &&
-              childrenData.icon !== null
+              "" !== childrenData.icon.trim() && childrenData.icon !== null
             ) {
               legendAry.push({
                 icon: childrenData.icon,
@@ -1231,8 +1332,7 @@ export default {
         if (
           ("line" === checkedMenu[i].geotype ||
             "polygon" === checkedMenu[i].geotype) &&
-          "" !== checkedMenu[i].icon.trim() &&
-          checkedMenu[i].icon !== null
+          "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
         ) {
           legendAry.push({
             icon: checkedMenu[i].icon,
@@ -1246,8 +1346,7 @@ export default {
             if (
               ("line" === childrenData.geotype ||
                 "polygon" === childrenData.geotype) &&
-              "" !== childrenData.icon.trim() &&
-              childrenData.icon !== null
+              "" !== childrenData.icon.trim() && childrenData.icon !== null
             ) {
               legendAry.push({
                 icon: childrenData.icon,
@@ -1348,6 +1447,10 @@ export default {
     switchMap(x) {
       var basemapSourcesTiles = MAP_CONFIG.basemapSourcesTiles;
       var url = this.setMapList(basemapSourcesTiles, x);
+      // if (this.rightMap.getLayer(x)) {
+      //   this.rightMap.removeLayer(x);
+      //   this.rightMap.removeSource(x);
+      // }
       if (x === "closeMap") {
         this.isShwo = false;
         document.getElementById("base-map").style.width = "100%";
@@ -1367,39 +1470,79 @@ export default {
     },
     switchLayer(url, x) {
       this.rightMapType = x;
-      document.getElementById("rightMap").innerHTML = "";
-      this.rightMap = new mapboxgl.Map({
-        container: "rightMap",
-        style: {
-          version: 8,
-          sources: {
-            "rightlayer-source": {
-              type: "raster",
-              tiles: [url],
-              tileSize: 256,
-              rasterSource: "iserver"
-            }
+      if (x === "globe_3D") {
+        // if (this.rightMap.getLayer("2012YX")) {
+        //   this.rightMap.removeLayer("2012YX");
+        //   this.rightMap.removeSource("2012YX");
+        //   this.rightMap.remove();
+        // }
+        // 天地图
+        var image_Source = new Cesium.WebMapTileServiceImageryProvider({
+          url:
+            "http://t0.tianditu.com/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=856886d7882dbcad0f73442fb277db3c",
+          layer: "vec",
+          style: "default",
+          format: "tiles",
+          tileMatrixSetID: "w",
+          credit: new Cesium.Credit("天地图全球影像服务"),
+          subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+          maximumLevel: 18,
+          show: false
+        });
+        // 创建三维球
+        this.rightMap = new Cesium.Viewer("rightMap", {
+          imageryProvider: image_Source
+        });
+        // this.rightMap.imageryLayers.removeAll();//移除所有底图
+        $(".cesium-widget-credits").hide(); //去除logo（jquery写法，也可以按类名找到元素隐藏即可）
+        // 添加SuperMap三维白模以及
+        var superMap3D =
+          "http://10.36.234.83:8090/iserver/services/3D-dsjmap/rest/realspace";
+        var superMap3Dbaimo =
+          "http://10.36.234.83:8090/iserver/services/3D-RES_PY_LC_Z1-SW_BM/rest/realspace";
+        var scene = this.rightMap.scene;
+        scene.open(superMap3D);
+        scene.open(superMap3Dbaimo);
+        this.set3DView();
+        // var __this = this;
+        // Cesium.when.all([promise1, promise2], function(layers) {
+        //   // 设置视角
+        //   __this.set3DView();
+        // });
+      } else {
+        document.getElementById("rightMap").innerHTML = "";
+        this.rightMap = new mapboxgl.Map({
+          container: "rightMap",
+          style: {
+            version: 8,
+            sources: {
+              "rightlayer-source": {
+                type: "raster",
+                tiles: [url],
+                tileSize: 256,
+                rasterSource: "iserver"
+              }
+            },
+            layers: [
+              {
+                id: "right-layer",
+                type: "raster",
+                source: "rightlayer-source",
+                minzoom: 8,
+                maxzoom: 19
+              }
+            ]
           },
-          layers: [
-            {
-              id: "right-layer",
-              type: "raster",
-              source: "rightlayer-source",
-              minzoom: 8,
-              maxzoom: 19
-            }
-          ]
-        },
-        crs: "EPSG:4490",
-        zoom: 8.8,
-        minZoom: 8.8,
-        maxZoom: 18
-      });
-      this.rightMap.setCenter(this.map.getCenter());
-      this.rightMap.setZoom(this.map.getZoom());
-      // this.setCenter(this.map, this.rightMap);
-      this.set2DView();
-
+          crs: "EPSG:4490",
+          zoom: 8.8,
+          minZoom: 8.8,
+          maxZoom: 18
+        });
+        this.rightMap.setCenter(this.map.getCenter());
+        this.rightMap.setZoom(this.map.getZoom());
+        // this.setCenter(this.map, this.rightMap);
+        this.set2DView();
+      }
       this.setRightMap();
     },
     getCurrentExtent() {
@@ -3699,8 +3842,7 @@ export default {
         for (var i = 0; i < checkedMenu.length; i++) {
           if (
             "point" === checkedMenu[i].geotype &&
-            "" !== checkedMenu[i].icon.trim() &&
-            checkedMenu[i].icon !== null
+            "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
           ) {
             this.addSpatialQueryResultSet(
               queryPolygonGeometry,
@@ -3718,7 +3860,7 @@ export default {
               if (
                 "point" === checkedMenu[i].children[j].geotype &&
                 "" !== checkedMenu[i].children[j].icon.trim() &&
-                checkedMenu[i].children[j].icon !== null
+                  checkedMenu[i].children[j].icon !== null
               ) {
                 this.addSpatialQueryResultSet(
                   queryPolygonGeometry,
@@ -4843,7 +4985,7 @@ export default {
                   if (
                     "point" === checkedMenu[i].geotype &&
                     "" !== checkedMenu[i].icon.trim() &&
-                    checkedMenu[i].icon !== null
+                      checkedMenu[i].icon !== null
                   ) {
                     if (layname === checkedMenu[i].alias) {
                       showField = checkedMenu[i].showField;
@@ -4862,7 +5004,7 @@ export default {
                       if (
                         "point" === childrenData.geotype &&
                         "" !== childrenData.icon.trim() &&
-                        childrenData.icon !== null
+                          childrenData.icon !== null
                       ) {
                         if (layname === childrenData.alias) {
                           showField = childrenData.showField;
@@ -5712,6 +5854,7 @@ export default {
             maxFeatures: 100000
           });
         }
+
         var __this = this;
         new FeatureService(url).getFeaturesBySQL(sqlParam, function(
           serviceResult
@@ -5745,7 +5888,12 @@ export default {
                 __this.fourColorLevel4.push(features.features[i]);
               }
             }
+            // console.log('__this.fourColorLevel1: ' + CircularJSON.stringify(__this.fourColorLevel1));
+            // console.log('__this.fourColorLevel2: ' + CircularJSON.stringify(__this.fourColorLevel2));
+            // console.log('__this.fourColorLevel3: ' + CircularJSON.stringify(__this.fourColorLevel3));
+            // console.log('__this.fourColorLevel4: ' + CircularJSON.stringify(__this.fourColorLevel4));
             __this.addFourcolorLegend();
+
             // 加载数据资源
             if (!__this.map.getSource(alias + "_level1" + "_source")) {
               __this.map.addSource(alias + "_level1" + "_source", {
@@ -5803,6 +5951,7 @@ export default {
                 features: levelAry4
               });
             }
+
             // 加载图层
             if (__this.map.getLayer(alias + "_level1" + "_layer")) {
               __this.map.removeLayer(alias + "_level1" + "_layer");
@@ -5868,6 +6017,7 @@ export default {
               },
               "wz_boundary_layer"
             );
+
             // 设置弹框
             if (__this.loadedLayer.indexOf(alias + "_level1" + "_layer") < 0) {
               __this.loadedLayer.push(alias + "_level1" + "_layer");
@@ -5917,6 +6067,7 @@ export default {
                 __this.addFourcolorLayerPopup(feature);
               });
             }
+
             if (__this.currentMapType !== "fourColorMap") {
               __this.removeLayer("level1_layer");
               __this.removeLayer("level2_layer");
@@ -5945,6 +6096,7 @@ export default {
       frameWindow.style.zIndex = "1";
       frameWindow.style.width = "100%";
       frameWindow.style.height = "100%";
+
       document.body.insertBefore(frameWindow, document.body.firstChild);
       var span = document.createElement("span");
       span.appendChild(content);
@@ -5986,6 +6138,14 @@ export default {
                 return;
               }
               frameWindow.focus();
+              // try {
+              //     if (!frameWindow.document.execCommand('print', false, null)) {
+              //         frameWindow.print();
+              //     }
+              //     document.body.focus();
+              // } catch (e) {
+              //     frameWindow.print();
+              // }
               var color = document.getElementById("base-map").style
                 .backgroundColor;
               document.getElementById("app").style.background = color;
@@ -6003,7 +6163,11 @@ export default {
       });
     }
   },
-  beforeDestroy() {}
+  beforeDestroy() {
+    // this.map.on('load', () => {
+    //   this.map.remove()
+    // })
+  }
 };
 </script>
 <style scoped lang="less">

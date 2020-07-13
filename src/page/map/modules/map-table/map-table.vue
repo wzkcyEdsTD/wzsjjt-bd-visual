@@ -196,45 +196,45 @@ export default {
             exactQueryKey = "district";
           }
         }
-        // likeStatistics(
-        //   this.search,
-        //   showFileds,
-        //   exactQueryKey,
-        //   this.exactQuery.value,
-        //   this.exactBarQuery.key,
-        //   this.exactBarQuery.value,
-        //   this.pageNo,
-        //   this.pageSize,
-        //   this.currentOnePoint.datasetname.split(":")[1],
-        //   this.userInfo.district,
-        //   this.currentOnePoint.sql,
-        //   showFileds[showFileds.length - 1]
-        // ).then(data => {
-        //   this.$emit("closeLoading");
-        //   if (!this.currentOnePoint) {
-        //     return;
-        //   }
-        //   if (data) {
-        //     const newData = data.slice(0, -1);
-        //     this.count = data.slice(-1);
-        //     this.$emit("setCount", this.count);
-        //     if (newData.length) {
-        //       for (var i = 0; i < newData.length; i++) {
-        //         newData[i].index = this.pageNo + i;
-        //       }
-        //       // newData[0].latitude = ''
-        //       if (this.pageNo === 1) {
-        //         this.tableData = newData;
-        //       } else {
-        //         this.tableData = [...this.tableData, ...newData];
-        //       }
-        //     }
-        //   } else {
-        //     this.count = 0;
-        //     this.$emit("setCount", this.count);
-        //     this.tableData = [];
-        //   }
-        // });
+        likeStatistics(
+          this.search,
+          showFileds,
+          exactQueryKey,
+          this.exactQuery.value,
+          this.exactBarQuery.key,
+          this.exactBarQuery.value,
+          this.pageNo,
+          this.pageSize,
+          this.currentOnePoint.datasetname.split(":")[1],
+          this.userInfo.district,
+          this.currentOnePoint.sql,
+          showFileds[showFileds.length - 1]
+        ).then(data => {
+          this.$emit("closeLoading");
+          if (!this.currentOnePoint) {
+            return;
+          }
+          if (data) {
+            const newData = data.slice(0, -1);
+            this.count = data.slice(-1);
+            this.$emit("setCount", this.count);
+            if (newData.length) {
+              for (var i = 0; i < newData.length; i++) {
+                newData[i].index = this.pageNo + i;
+              }
+              // newData[0].latitude = ''
+              if (this.pageNo === 1) {
+                this.tableData = newData;
+              } else {
+                this.tableData = [...this.tableData, ...newData];
+              }
+            }
+          } else {
+            this.count = 0;
+            this.$emit("setCount", this.count);
+            this.tableData = [];
+          }
+        });
       } else {
         this.count = 0;
         this.$emit("setCount", this.count);

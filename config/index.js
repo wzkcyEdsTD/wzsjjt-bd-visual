@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:04
- * @LastEditTime: 2020-07-07 16:10:17
+ * @LastEditTime: 2020-07-13 18:35:41
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\config\index.js
@@ -16,10 +16,10 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: "static",
-    assetsPublicPath: "/",
+    assetsPublicPath: "./",
     proxyTable: {
       "/": {
-        target: "http://10.36.234.84:9000",
+        target: "http://192.168.0.25:9000",
         changeOrigin: true,
         pathRewrite: {
           "^/": ""
@@ -65,7 +65,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, "../dist"),
     assetsSubDirectory: "static",
-    assetsPublicPath: "/",
+    assetsPublicPath: "./",
 
     /**
      * Source Maps

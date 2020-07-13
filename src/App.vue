@@ -35,13 +35,14 @@ export default {
     })
   },
   mounted() {
-    // getUserInfo().then((data) => {
-    // if (data.districtName !== this.userInfo.districtName) {
-    //   this.$router.push('/state')
-    // }
-    // this.SetUserInfo(data)
-    // document.getElementsByTagName('title')[0].innerText = this.userInfo.districtName + '智慧应急一张图'
-    // })
+    getUserInfo().then(data => {
+      if (data.districtName !== this.userInfo.districtName) {
+        this.$router.push("/state");
+      }
+      this.SetUserInfo(data);
+      document.getElementsByTagName("title")[0].innerText =
+        this.userInfo.districtName + "智慧应急一张图";
+    });
     // // 下面跟我没关系
     // getRoleCategory().then(res => {
     this.getName(category);
