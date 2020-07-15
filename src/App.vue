@@ -40,8 +40,7 @@ export default {
         this.$router.push("/state");
       }
       this.SetUserInfo(data);
-      document.getElementsByTagName("title")[0].innerText =
-        this.userInfo.districtName + "智慧应急一张图";
+      document.getElementsByTagName("title")[0].innerText = "温州设计集团大数据可视化分析基础平台";
     });
     // // 下面跟我没关系
     // getRoleCategory().then(res => {

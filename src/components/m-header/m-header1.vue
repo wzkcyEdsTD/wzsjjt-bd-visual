@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <span class="title-small" @click="jump">温州市智慧应急一张图</span>
+    <span class="title-small" @click="jump">温州设计集团大数据可视化分析基础平台</span>
     <div class="title"></div>
     <div class="nav nav1">
       <div class="nav-item" :class="navIsActive(item.to)?'active':''" v-for="(item,index) in list1" :key="index">

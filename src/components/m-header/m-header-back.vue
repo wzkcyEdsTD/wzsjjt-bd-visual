@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="title_first">{{titleName}}智慧应急一张图</div>
+    <div class="title_first">温州设计集团大数据可视化分析基础平台</div>
     <div class="nav1" :class="{'nofull':ulWidth < boxWidth}">
       <div class="nav-box">
         <ul ref="ul" :style="{'width':ulWidth+'px'}">

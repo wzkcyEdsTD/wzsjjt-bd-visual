@@ -292,8 +292,9 @@ export default {
     position: absolute;
     right: 0.14rem;
     bottom: 0.05rem;
-    top: 0.05rem;
+    top: 80px;
     z-index: 999999;
+    padding : 10px;
     /*background: rgba(3, 67, 106, 0.95);*/
     background: #01334e;
     padding: 0.1rem;
