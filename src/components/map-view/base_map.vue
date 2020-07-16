@@ -3,7 +3,7 @@
  * @Author: jiangbotao
  * @Date: 2019-12-09 23:17:48
  * @LastEditors: eds
- * @LastEditTime: 2020-07-14 15:22:41
+ * @LastEditTime: 2020-07-16 15:30:58
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\base_map.vue
  -->
 <template>
@@ -73,7 +73,7 @@ import Legend from "components/map-view/legend";
 import Legend2 from "components/map-view/legend2";
 import SwitchBtn from "components/map-view/switch_btn";
 import $ from "jquery";
-import "./base_map.less";
+// import "./base_map.less";
 import { mapGetters, mapActions } from "vuex";
 import getDistrictData from "./wenzhou_district.json";
 import getStreetData from "./wenzhou_street.json";
@@ -6171,6 +6171,6 @@ export default {
   }
 };
 </script>
-<style scoped lang="less">
-
+<style lang="less">
+@import url("./base_map.less");
 </style>

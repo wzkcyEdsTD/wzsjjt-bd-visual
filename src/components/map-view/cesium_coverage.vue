@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-14 15:34:24
+ * @LastEditTime: 2020-07-16 19:42:08
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -48,7 +48,7 @@ import $ from "jquery";
 import { mapGetters } from "vuex";
 import cesiumLayers from "config/server/cesiumLayers";
 import CoverageData from "mock/coverage";
-import './cesium_coverage.less';
+import "./cesium_coverage.less";
 const Cesium = window.Cesium;
 export default {
   name: "Coverage",
@@ -274,6 +274,16 @@ export default {
                   })
                 );
               }
+              break;
+            case 901:
+              if (this.finalayer !== null) {
+                this.finalayer.then(function(layer) {
+                  layer.visible = true;
+                });
+              } else {
+                this.finalayer = window.earth.scene.open(a.url);
+              }
+              this.locateFinaLyr();
               break;
             case 201:
               // 鹤盛镇倾斜摄影
@@ -1206,35 +1216,35 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .coverage {
   position: absolute;
-  bottom  : 40px;
-  left    : 15px;
+  bottom: 40px;
+  left: 15px;
 
   .treeFilterInput {
-    position       : absolute;
-    right          : 25px;
-    top            : 12px;
-    width          : 40%;
-    height         : 40px;
-    display        : flex;
-    align-items    : center;
+    position: absolute;
+    right: 25px;
+    top: 12px;
+    width: 40%;
+    height: 40px;
+    display: flex;
+    align-items: center;
     justify-content: center;
 
     .el-input__inner {
       background: none;
-      border    : 1px solid #449bf6;
-      color     : white;
+      border: 1px solid #449bf6;
+      color: white;
     }
   }
 
   .layerTreeContainer {
-    height  : calc(100% - 110px);
+    height: calc(100% - 110px);
     overflow: hidden auto;
 
     .el-tree-node__expand-icon {
-      color    : #449bf6;
+      color: #449bf6;
       font-size: 18px;
     }
 
@@ -1248,7 +1258,7 @@ export default {
         #449bf6 0 -1px 0;
     }
 
-    .el-tree-node:focus>.el-tree-node__content {
+    .el-tree-node:focus > .el-tree-node__content {
       background: none;
     }
 
@@ -1259,13 +1269,13 @@ export default {
     .el-checkbox__input.is-checked .el-checkbox__inner,
     .el-checkbox__input.is-indeterminate .el-checkbox__inner {
       background-color: #0adffa;
-      border-color    : #0adffa;
+      border-color: #0adffa;
     }
 
     .el-checkbox__inner::after {
-      border     : 1px solid black;
+      border: 1px solid black;
       border-left: 0;
-      border-top : 0;
+      border-top: 0;
     }
 
     .el-checkbox__inner::before {
@@ -1274,80 +1284,80 @@ export default {
   }
 
   .mapboxgl-popup-content {
-    min-width : 405px;
-    height    : auto;
+    min-width: 405px;
+    height: auto;
     background: rgba(13, 20, 34, 0.9);
-    border    : 2px solid #01cfff;
-    padding   : 0px;
+    border: 2px solid #01cfff;
+    padding: 0px;
 
     .mapboxgl-popup-close-button {
-      line-height : 35px;
-      font-size   : 20px;
-      color       : #0de0c1;
+      line-height: 35px;
+      font-size: 20px;
+      color: #0de0c1;
       margin-right: 10px;
     }
 
     .pop-tip {
       .pop-tip-title {
-        margin       : 0;
-        color        : #fff;
-        line-height  : 40px;
-        max-width    : 400px;
-        height       : 40px;
-        padding      : 0 25px;
-        font-size    : 20px;
-        overflow     : hidden;
+        margin: 0;
+        color: #fff;
+        line-height: 40px;
+        max-width: 400px;
+        height: 40px;
+        padding: 0 25px;
+        font-size: 20px;
+        overflow: hidden;
         text-overflow: ellipsis;
-        white-space  : nowrap;
+        white-space: nowrap;
         border-bottom: 1px solid #00e3f1;
       }
 
       .pop-tip-table {
-        margin   : 5px 10px;
-        color    : #fff;
+        margin: 5px 10px;
+        color: #fff;
         font-size: 16px;
 
         .pop-tip-table-title {
-          color        : #21e077;
-          overflow     : hidden;
+          color: #21e077;
+          overflow: hidden;
           text-overflow: ellipsis;
-          white-space  : nowrap;
+          white-space: nowrap;
         }
       }
 
       .pop-tip-bottom {
-        width      : 100%;
+        width: 100%;
         // position: absolute;
-        height     : 40px;
+        height: 40px;
 
         .pop-tip-more {
-          position     : absolute;
-          color        : #00e3f1;
-          padding      : 2px 10px;
-          border       : 1px solid #00e3f1;
+          position: absolute;
+          color: #00e3f1;
+          padding: 2px 10px;
+          border: 1px solid #00e3f1;
           border-radius: 25px;
-          margin-left  : 10px;
+          margin-left: 10px;
         }
 
         .pop-tip-analyse {
-          position     : absolute;
-          color        : #00e3f1;
-          right        : 0;
-          padding      : 2px 10px;
-          border       : 1px solid #00e3f1;
+          position: absolute;
+          color: #00e3f1;
+          right: 0;
+          padding: 2px 10px;
+          border: 1px solid #00e3f1;
           border-radius: 25px;
-          margin-right : 10px;
+          margin-right: 10px;
         }
 
         .pop-tip-more:hover {
-          color           : #fff;
-          cursor          : pointer;
+          color: #fff;
+          cursor: pointer;
           background-color: #00e3f1;
         }
 
         .pop-tip-analyse:hover {
-          color           : #fff;
-          cursor          : pointer;
+          color: #fff;
+          cursor: pointer;
           background-color: #00e3f1;
         }
       }
@@ -1356,7 +1366,7 @@ export default {
 
   .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
   .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
-    border-top-color   : #01cfff;
+    border-top-color: #01cfff;
     border-bottom-color: #01cfff;
   }
 
@@ -1365,22 +1375,22 @@ export default {
   }
 
   .el-popover {
-    height         : 440px;
-    background     : url("../../common/images/popover.png") no-repeat;
+    height: 440px;
+    background: url("../../common/images/popover.png") no-repeat;
     background-size: 100% 100%;
-    border         : none !important;
-    bottom         : 16px;
-    left           : 30px;
+    border: none !important;
+    bottom: 16px;
+    left: 30px;
 
     .el-popover__title {
       margin-bottom: 10px;
-      padding      : 10px;
-      font-size    : 16px;
+      padding: 10px;
+      font-size: 16px;
       border-bottom: 1px solid #449bf6;
-      color        : white;
-      font-size    : 18px;
-      line-height  : 20px;
-      text-shadow  : #449bf6 1px 0 0, #449bf6 0 1px 0, #449bf6 -1px 0 0,
+      color: white;
+      font-size: 18px;
+      line-height: 20px;
+      text-shadow: #449bf6 1px 0 0, #449bf6 0 1px 0, #449bf6 -1px 0 0,
         #449bf6 0 -1px 0;
     }
   }
@@ -1389,5 +1399,4 @@ export default {
     background: none;
   }
 }
-
 </style>
