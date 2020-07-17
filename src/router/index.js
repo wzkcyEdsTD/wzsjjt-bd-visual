@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 14:19:49
- * @LastEditTime: 2020-07-16 15:25:47
+ * @LastEditTime: 2020-07-17 09:06:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\router\index.js
@@ -16,8 +16,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "state",
-      component: resolve => require(["page/state/state"], resolve) // 404页面
+      redirect: "Map"
     },
     {
       path: "/state",

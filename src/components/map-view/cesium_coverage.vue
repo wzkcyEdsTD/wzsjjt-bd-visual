@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-16 19:42:08
+ * @LastEditTime: 2020-07-16 20:35:01
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -282,6 +282,18 @@ export default {
                 });
               } else {
                 this.finalayer = window.earth.scene.open(a.url);
+                Cesium.when(this.finalayer, function(layers) {
+                  console.log(layers);
+                });
+                window.earth.screenSpaceEventHandler.setInputAction(
+                  function leftClick(movement) {
+                    var pickedFeature = window.earth.scene.pick(
+                      movement.position
+                    );
+                    console.log(pickedFeature);
+                  },
+                  Cesium.ScreenSpaceEventType.LEFT_CLICK
+                );
               }
               this.locateFinaLyr();
               break;

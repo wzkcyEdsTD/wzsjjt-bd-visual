@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-07-07 15:22:15
+ * @LastEditTime: 2020-07-17 09:03:18
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\state.js
@@ -14,7 +14,7 @@ const state = {
   legendShow: true, // 显示图例
   tree: [], // 左侧树数据
   // currentMapType: 'juhe', // 'fourColorMap', // 地图类型  四色图
-  currentMapType: 'sandian', // 地图类型  四色图
+  currentMapType: 'cesiumMap', // 地图类型  四色图 sandian
   treeCheckedList: [], // 所有选中的树和地图点的数据
   typeIndex: 0, // 底部初始激活下标
   currentOnePoint: {}, // 地图当前图层的数据

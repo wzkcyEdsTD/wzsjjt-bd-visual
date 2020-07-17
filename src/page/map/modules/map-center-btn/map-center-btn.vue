@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper map-tools">
     <div class="map-toolbar-box map-toolbar-spc" :class="this.collapse1?'collapse':''">
       <div class="map-type">
         <div
@@ -376,6 +376,11 @@ export default {
 </script>
 
 <style scoped lang="less">
+.map-tools{
+  > * {
+    z-index: 2;
+  }
+}
 .toCenter {
   width: 0.5rem;
   height: 0.46rem;
