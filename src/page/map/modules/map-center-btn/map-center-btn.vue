@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper map-tools">
-    <div class="map-toolbar-box map-toolbar-spc" :class="this.collapse1?'collapse':''">
+    <div
+      class="map-toolbar-box map-toolbar-spc"
+      :class="currentMapType == 'cesiumMap' || this.collapse1?'collapse':''"
+    >
       <div class="map-type">
         <div
           class="item"
@@ -12,13 +15,22 @@
         >{{item.name}}</div>
       </div>
     </div>
-    <div class="toCenter1" :class="collapse1?'collapse':''" title="全图">
+    <div
+      class="toCenter1"
+      :class="currentMapType == 'cesiumMap' || collapse1?'collapse':''"
+      title="全图"
+    >
       <i
         style="width: 100%;height: 0.42rem;"
         @click="changeMapTollBar({ name: '地图居中', value: 'map_init' })"
       ></i>
     </div>
-    <div class="toCenter" :class="{collapse: collapse1, active: centerShow}" title>
+    <div
+      class="toCenter"
+      v-show="currentMapType != 'cesiumMap'"
+      :class="{collapse: currentMapType == 'cesiumMap' || collapse1, active: centerShow}"
+      title="底图"
+    >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
       <div
         class="center-item"
@@ -29,11 +41,36 @@
         @click="changeMapTollBarTop(item, index)"
       >{{item.abbrev}}</div>
     </div>
-    <div class="map-toolbar-box-map" :class="{'collapse': collapse1, active: toolShow}">
+    <div
+      class="map-toolbar-box-map"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow,moveUp:currentMapType == 'cesiumMap'}"
+    >
       <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
         <i style="width: 32px;height: 32px;" @click="mapTool"></i>
       </span>
-      <div class="map-toolbar-box" :class="{active: toolShow}">
+      <!-- 3d地图工具 -->
+      <div
+        v-show="currentMapType == 'cesiumMap'"
+        class="map-toolbar-box"
+        :class="{active: toolShow}"
+      >
+        <div class="map-type tool-detail">
+          <div
+            class="item item-spc"
+            :class="'btn'+(index+1)"
+            :key="index"
+            :title="item.name"
+            v-for="(item, index) in map3DBtn"
+            @click="changeMap3DTollBar(item, index)"
+          >{{item.abbrev}}</div>
+        </div>
+      </div>
+      <!-- 2d地图工具 -->
+      <div
+        v-show="currentMapType != 'cesiumMap'"
+        class="map-toolbar-box"
+        :class="{active: toolShow}"
+      >
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
@@ -50,13 +87,6 @@
             @click="setOpacity"
           >透明度</div>
           <div class="item item-spc" title="打印" @click="printMap">打印</div>
-          <!-- <div
-            class="item item-spc"
-            :class="{'active':isPointSearch}"
-            title="点位搜索"
-            @click="pointSearch">
-            点位搜索
-          </div>-->
         </div>
         <div ref="slider" class="children_opacity" v-show="isSetOpacity && isCoverToolbarShow">
           <Slider></Slider>
@@ -73,7 +103,7 @@
       v-if="mapNew[selectIndex].children"
       v-show="mapNew[selectIndex].childrenShow && centerShow"
       class="item-child"
-      :class="collapse1?'collapse':''"
+      :class="currentMapType == 'cesiumMap' || collapse1?'collapse':''"
       :style="{top:mapNew[selectIndex].top}"
     >
       <div>
@@ -109,23 +139,23 @@ export default {
       dituType: "standard-raster",
       // 地图类型
       mapType: [
-        { name: "聚合图", value: "juhe" },
-        { name: "散点图", value: "sandian" },
-        { name: "四色图(等级图)", value: "fourColorMap" },
+        { name: "二维", value: "sandian" },
         { name: "三维", value: "cesiumMap" }
       ],
       selectIndex: 0,
       toolShow: false,
       centerShow: false,
       // 地图工具按钮
+      map3DBtn: [
+        { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
+        { name: "BIM观光", value: "3d2", abbrev: "BIM观光" },
+        { name: "透视分析", value: "3d3", abbrev: "透视分析" },
+        { name: "阴影分析", value: "3d4", abbrev: "阴影分析" }
+      ],
       mapBtn: [
-        // { name: '地图居中', value: 'map_init' },
-        // { name: '地图居中', value: 'map_init', abbrev: '居中' },
         { name: "测距离", value: "line_string", abbrev: "测距" },
         { name: "测面积", value: "polygon", abbrev: "测面" },
         { name: "空间查询", value: "spatialQuery", abbrev: "空间查询" },
-        // { name: '周边分析', value: 'aroundAnalysis', abbrev: '周边分析' },
-        // { name: '就近分析', value: 'nearAnalysis', abbrev: '就近分析' },
         { name: "分屏管理", value: "split_screen", abbrev: "分屏" },
         { name: "一键清空", value: "clearMapFeature", abbrev: "清空" }
       ],
@@ -293,6 +323,9 @@ export default {
       };
       this.$emit("setMapTollBar", obj);
     },
+    changeMap3DTollBar(item, index) {
+      this.$bus.$emit("cesium-3d-maptool", item);
+    },
     changeMapTollBarTop(item, index) {
       if (typeof index === "number") this.selectIndex = index;
       this.mapNew = this.mapNew.map((val, i) => {
@@ -376,7 +409,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.map-tools{
+.map-tools {
   > * {
     z-index: 2;
   }
@@ -499,7 +532,10 @@ export default {
   }
 }
 .map-toolbar-box-map.active {
-  height: 5.66rem; // 多
+  height: 4rem;
+}
+.map-toolbar-box-map.moveUp {
+  top: 1.6rem;
 }
 .map-toolbar-box-map {
   overflow: hidden;
@@ -564,7 +600,7 @@ export default {
   .map-toolbar-box.active {
     transition: height 0.3s linear;
     padding: 0.06rem 0;
-    height: 5.2rem; // 多
+    height: 100%; // 多
     padding-top: 0px;
   }
 }

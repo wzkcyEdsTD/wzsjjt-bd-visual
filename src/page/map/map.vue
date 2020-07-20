@@ -6,13 +6,13 @@
       @setMapTollBar="setMapTollBar"
       :currentBaseMapType="currentBaseMapType"
     ></MapCenterBtn>
-    <div class="cesium-map" v-show="currentMapType == 'cesiumMap'">
+    <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
       <CesiumMap />
     </div>
-    <div class="map" v-show="currentMapType != 'cesiumMap'">
-      <div :class="this.collapse1?'collapse':''">
+    <div class="map" v-if="currentMapType != 'cesiumMap'">
+      <div :class="[this.collapse1?'collapse':'','cover-map']">
         <BaseMap
-          class="is-print"
+          class="is-print cover-map"
           ref="baseMap"
           :getDistrict="exactQuery"
           :isCloseSpace="isCloseSpace"
@@ -573,6 +573,10 @@ export default {
     top: 0;
     left: 0;
     z-index: 1;
+    .cover-map {
+      width: 100%;
+      height: 100%;
+    }
   }
   .cesium-map {
     position: absolute;

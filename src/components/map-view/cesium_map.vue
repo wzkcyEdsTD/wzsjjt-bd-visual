@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-16 20:26:54
+ * @LastEditTime: 2020-07-20 17:17:04
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -10,20 +10,34 @@
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
     <Coverage />
+    <RegionSimulateFlood ref="regionsimulateflood" v-show="showSubFrame == '3d1'" />
   </div>
 </template>
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-import Coverage from "components/map-view/cesium_coverage";
+import Coverage from "./cesium_coverage";
+import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
 const Cesium = window.Cesium;
 
 export default {
-  components: { Coverage },
+  data() {
+    return {
+      showSubFrame: null
+    };
+  },
+  components: { Coverage, RegionSimulateFlood },
   mounted() {
     this.init3DMap();
+    this.eventRegsiter();
   },
   methods: {
+    eventRegsiter() {
+      this.$bus.$off("cesium-3d-maptool");
+      this.$bus.$on("cesium-3d-maptool", ({ value }) => {
+        this.showSubFrame = value;
+      });
+    },
     init3DMap() {
       // 加载地图和影像地图
       var viewer = new Cesium.Viewer("cesiumContainer", {
@@ -44,6 +58,40 @@ export default {
       );
       imagelayer.transparentBackColor = new Cesium.Color(0.0, 0.0, 0.0, 1);
       imagelayer.transparentBackColorTolerance = 0.1;
+      // 叠加四大流域范围
+      var promiseroute11 = Cesium.GeoJsonDataSource.load(
+        "/static/yjjson/四大流域.json"
+      );
+      promiseroute11
+        .then(function(dataSource) {
+          viewer.dataSources.add(dataSource);
+          var Routes11 = dataSource.entities.values;
+
+          for (var i = 0; i < Routes11.length; i++) {
+            var pg = Routes11[i];
+            // pg.polygon.material = Cesium.Color.ALICEBLUE.withAlpha(0.0)
+            pg.polygon.fill = false;
+            pg.polygon.Width = 2;
+            // pg.polygon.heightReference = Cesium.HeightReference.CLAMP_TO_GROUND
+            pg.polygon.outline = false;
+            // pg.polygon.outlineWidth = 5
+            // pg.polygon.outlineColor = Cesium.Color.YELLOW
+
+            var linePositions = pg.polygon.hierarchy._value.positions;
+            viewer.entities.add({
+              polyline: {
+                positions: linePositions,
+                material: Cesium.Color.YELLOW,
+                width: 2,
+                clampToGround: true
+              },
+              name: pg.name
+            });
+          }
+        })
+        .otherwise(function(error) {
+          window.alert(error);
+        });
       // 叠加mvt图层
       viewer.scene.addVectorTilesMap({
         url: ServiceUrl.YJMVT,
@@ -52,8 +100,7 @@ export default {
         viewer: viewer
       });
       // 移除缓冲圈
-      $("#loadingbar").remove();
-      $(".cesium-widget-credits").hide(); // 隐藏supermap logo
+      $(".cesium-widget-credits").hide();
       viewer.scene.camera.setView({
         // 将经度、纬度、高度的坐标转换为笛卡尔坐标
         destination: Cesium.Cartesian3.fromDegrees(

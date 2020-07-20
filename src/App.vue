@@ -40,13 +40,15 @@ export default {
         this.$router.push("/state");
       }
       this.SetUserInfo(data);
-      document.getElementsByTagName("title")[0].innerText = "温州设计集团大数据可视化分析基础平台";
+      document.getElementsByTagName("title")[0].innerText =
+        "温州设计集团大数据可视化分析基础平台";
     });
     // // 下面跟我没关系
-    // getRoleCategory().then(res => {
-    this.getName(category);
-    this.SetNameList(this.nameList);
-    // })
+    getRoleCategory().then(res => {
+      // this.getName(category);
+      this.getName(res);
+      this.SetNameList(this.nameList);
+    });
   },
   methods: {
     ...mapActions(["SetUserInfo", "changeLoad", "SetResize"]),

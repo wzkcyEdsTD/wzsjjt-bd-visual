@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-07-17 09:03:18
+ * @LastEditTime: 2020-07-20 12:36:23
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\state.js
@@ -20,6 +20,8 @@ const state = {
   currentOnePoint: {}, // 地图当前图层的数据
   mapLoaded: false, // 地图底图是否加载完毕
   nameList: [],
-  specalTreeName: '' // 根据名称展示指定tree节点
+  specalTreeName: '', // 根据名称展示指定tree节点
+  //  3d
+  primitivelist : [],
 }
 export default state

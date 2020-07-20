@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-16 20:35:01
+ * @LastEditTime: 2020-07-20 16:05:40
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -48,7 +48,6 @@ import $ from "jquery";
 import { mapGetters } from "vuex";
 import cesiumLayers from "config/server/cesiumLayers";
 import CoverageData from "mock/coverage";
-import "./cesium_coverage.less";
 const Cesium = window.Cesium;
 export default {
   name: "Coverage",
@@ -1232,7 +1231,7 @@ export default {
 .coverage {
   position: absolute;
   bottom: 40px;
-  left: 15px;
+  left: 50px;
 
   .treeFilterInput {
     position: absolute;
