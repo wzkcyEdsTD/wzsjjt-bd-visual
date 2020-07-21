@@ -92,6 +92,7 @@ export default {
     this.handlerDis = undefined;
     this.handlerArea = undefined;
     this.handlerHeight = undefined;
+    this.clearGauge();
   },
   methods: {
     //  事件绑定

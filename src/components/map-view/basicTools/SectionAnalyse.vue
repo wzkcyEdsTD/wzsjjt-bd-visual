@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:40
- * @LastEditTime: 2020-07-21 19:11:02
+ * @LastEditTime: 2020-07-21 19:37:30
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\SectionAnalyse.vue
@@ -59,6 +59,7 @@ export default {
     this.profile = undefined;
     this.tooltip = undefined;
     this.viewer = undefined;
+    this.clearVisualize();
   },
   methods: {
     //  事件绑定
@@ -88,12 +89,10 @@ export default {
         var line = result.object;
         var startPoint = line._positions[0];
         var endPoint = line._positions[line._positions.length - 1];
-
         var scartographic = Cesium.Cartographic.fromCartesian(startPoint);
         var slongitude = Cesium.Math.toDegrees(scartographic.longitude);
         var slatitude = Cesium.Math.toDegrees(scartographic.latitude);
         var sheight = scartographic.height;
-
         var ecartographic = Cesium.Cartographic.fromCartesian(endPoint);
         var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
         var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
@@ -155,7 +154,7 @@ export default {
     },
     //  清除分析结果
     clearVisualize() {
-      this.handlerLine.clear();
+      this.handlerLine && this.handlerLine.clear();
     },
     createTooltip(frameDiv) {
       var tooltip = function(frameDiv) {

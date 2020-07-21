@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:26
- * @LastEditTime: 2020-07-21 16:57:37
+ * @LastEditTime: 2020-07-21 20:07:57
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\VisualizationAnalyse.vue
@@ -45,7 +45,10 @@ export default {
   },
   created() {
     this.viewer = window.earth;
-    this.pointHandler = new Cesium.DrawHandler(this.viewer, Cesium.DrawMode.Point);
+    this.pointHandler = new Cesium.DrawHandler(
+      this.viewer,
+      Cesium.DrawMode.Point
+    );
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
     this.viewshed3D = new Cesium.ViewShed3D(this.viewer.scene);
   },
@@ -55,9 +58,10 @@ export default {
   beforeDestroy() {
     this.pointHandler = undefined;
     this.handler = undefined;
-    this.viewshed3D = undefined;
+    this.viewshed3D && this.viewshed3D.destroy();
     this.viewPosition = undefined;
     this.viewer = undefined;
+    this.clearVisualize();1
   },
   methods: {
     //  事件绑定
@@ -124,12 +128,13 @@ export default {
     //  关闭可视域分析
     closeVisualize() {
       this.clearVisualize();
-      this.viewshed3D.destroy();
+      this.viewshed3D && this.viewshed3D.destroy();
       this.$bus.$emit("cesium-3d-maptool", { value: null });
     },
     //  清除分析结果
     clearVisualize() {
       this.viewer.entities.removeAll();
+      this.viewshed3D.distance = 0.1;
       this.viewer.scene.viewFlag = true;
     }
   }
