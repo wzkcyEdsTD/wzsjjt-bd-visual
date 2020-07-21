@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:40
- * @LastEditTime: 2020-07-21 17:24:16
+ * @LastEditTime: 2020-07-21 19:11:02
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\SectionAnalyse.vue
@@ -148,7 +148,7 @@ export default {
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
       }
     },
-    //  关闭可视域分析
+    //  关闭分析
     closeVisualize() {
       this.clearVisualize();
       this.$bus.$emit("cesium-3d-maptool", { value: null });

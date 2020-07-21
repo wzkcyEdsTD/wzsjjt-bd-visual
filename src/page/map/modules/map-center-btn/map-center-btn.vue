@@ -150,7 +150,8 @@ export default {
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
         { name: "BIM分析", value: "3d2", abbrev: "BIM观光" },
         { name: "可视分析", value: "3d3", abbrev: "可视分析" },
-        { name: "剖面分析", value: "3d4", abbrev: "剖面分析" }
+        { name: "剖面分析", value: "3d4", abbrev: "剖面分析" },
+        { name: "测量工具", value: "3d5", abbrev: "测量工具" }
       ],
       mapBtn: [
         { name: "测距离", value: "line_string", abbrev: "测距" },

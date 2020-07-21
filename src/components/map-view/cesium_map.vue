@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-21 17:18:14
+ * @LastEditTime: 2020-07-21 18:56:41
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -14,6 +14,7 @@
     <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
     <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubFrame == '3d3'" />
     <SectionAnalyse ref="sectionanalyse" v-if="showSubFrame == '3d4'" />
+    <CesiumMapTool ref="cesiummaptool" v-if="showSubFrame == '3d5'" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import Coverage from "./cesium_coverage";
 import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
+import CesiumMapTool from "./basicTools/CesiumMapTool";
 const Cesium = window.Cesium;
 
 export default {
@@ -36,7 +38,8 @@ export default {
     Coverage,
     RegionSimulateFlood,
     VisualizationAnalyse,
-    SectionAnalyse
+    SectionAnalyse,
+    CesiumMapTool
   },
   mounted() {
     this.init3DMap();
