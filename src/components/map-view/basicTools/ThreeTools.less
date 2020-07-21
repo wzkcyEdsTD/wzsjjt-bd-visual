@@ -4,105 +4,18 @@
 }
 
 .ThreeDContainer {
-  position       : absolute;
-  bottom         : 30px;
-  left           : 30%;
-  width          : 40%;
-  z-index        : 101;
-  // height: 550px;
-  overflow       : hidden;
-  display        : flex;
-  flex-direction : column;
-  // align-items: center;
-  justify-content: center;
+  position : absolute;
+  bottom   : 30px;
+  left     : 50%;
+  transform: translateX(-50%);
 
-  .dialogArrow {
-    position        : relative;
-    width           : 5%;
-    height          : 0%;
-    border          : 20px solid transparent;
-    border-top-color: rgba(81, 161, 201, 0.6);
-    top             : -20%;
-    left            : var(--arrowleft);
-    margin-bottom   : -15px;
-  }
-
-  .kongxin {
-    position        : relative;
-    width           : 5%;
-    height          : 0%;
-    border          : 20px solid transparent;
-    border-top-color: rgba(11, 20, 35, 1);
-    top             : -20%;
-    left            : var(--arrowleft);
-    margin-bottom   : -15px;
-    margin-top      : -26px;
-  }
-
-  .dynamicFlood {
-    // width: 50%;
-    // height: 246px;
+  .tframe {
     overflow       : hidden;
     display        : flex;
     align-items    : center;
     justify-content: center;
     background     : rgba(11, 20, 35, 0.8);
     border         : 1px solid rgba(81, 161, 201, 0.6);
-  }
-
-  .staticFlood {
-    width          : 60%;
-    // height: 180px;
-    overflow       : hidden;
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
-    background     : rgba(11, 20, 35, 0.8);
-    border         : 1px solid rgba(81, 161, 201, 0.6);
-    margin-left    : 20%;
-  }
-
-  .RegionSimulateFlood {
-    overflow       : hidden;
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
-    background     : rgba(11, 20, 35, 0.8);
-    border         : 1px solid rgba(81, 161, 201, 0.6);
-  }
-
-  .SimulateFlood {
-    overflow       : hidden;
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
-    background     : rgba(11, 20, 35, 0.8);
-    border         : 1px solid rgba(81, 161, 201, 0.6);
-  }
-
-  .closeelformbtn {
-    position: absolute;
-    right   : var(--closeright);
-    top     : 0;
-    height  : 40px;
-    width   : 40px;
-    cursor  : pointer;
-  }
-
-  .threedbutton {
-    // width: 50%;
-    height         : 50px;
-    overflow       : hidden;
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
-
-    .bg {
-      color           : #fff;
-      background-color: #003354;
-      border          : 2px solid rgba(0, 242, 255, 1);
-      border-radius   : 4px;
-    }
   }
 
   .el-button {
@@ -137,6 +50,12 @@
     margin-bottom: 3%;
   }
 
+  .elformbtns {
+    >.el-form-item__content {
+      margin-left: 0 !important;
+    }
+  }
+
   .el-form-item__label {
     color: #0DD4F2;
   }
@@ -161,7 +80,7 @@
   }
 
   .el-form-item {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     color        : rgba(0, 242, 255, 1);
   }
 }

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-20 17:17:04
+ * @LastEditTime: 2020-07-21 17:18:14
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -10,14 +10,20 @@
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
     <Coverage />
-    <RegionSimulateFlood ref="regionsimulateflood" v-show="showSubFrame == '3d1'" />
+    <RegionSimulateFlood ref="regionsimulateflood" v-if="showSubFrame == '3d1'" />
+    <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
+    <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubFrame == '3d3'" />
+    <SectionAnalyse ref="sectionanalyse" v-if="showSubFrame == '3d4'" />
   </div>
 </template>
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
+import "./basicTools/ThreeTools.less";
 import Coverage from "./cesium_coverage";
 import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
+import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
+import SectionAnalyse from "./basicTools/SectionAnalyse";
 const Cesium = window.Cesium;
 
 export default {
@@ -26,7 +32,12 @@ export default {
       showSubFrame: null
     };
   },
-  components: { Coverage, RegionSimulateFlood },
+  components: {
+    Coverage,
+    RegionSimulateFlood,
+    VisualizationAnalyse,
+    SectionAnalyse
+  },
   mounted() {
     this.init3DMap();
     this.eventRegsiter();

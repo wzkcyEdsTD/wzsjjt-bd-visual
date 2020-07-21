@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-20 16:05:40
+ * @LastEditTime: 2020-07-21 14:28:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -12,7 +12,7 @@
       placement="right-end"
       title="图层选择"
       width="280"
-      trigger="manual"
+      trigger="click"
       class="layerPopover"
       v-model="visible"
     >
@@ -30,16 +30,16 @@
           @check-change="checkChange"
         />
       </div>
-      <img
-        slot="reference"
-        :class="{animated: true, pulse: rotateIn}"
-        style="animation-duration: 0.5s;"
-        :src="avatar"
-        width="59px"
-        height="60px"
-        @click="visible = !visible"
-      />
     </el-popover>
+    <img
+      slot="reference"
+      :class="{animated: true, pulse: rotateIn}"
+      style="animation-duration: 0.5s;"
+      :src="avatar"
+      width="59px"
+      height="60px"
+      @click="visible = !visible"
+    />
   </div>
 </template>
 

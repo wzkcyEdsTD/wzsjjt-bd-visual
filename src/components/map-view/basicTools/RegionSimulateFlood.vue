@@ -1,6 +1,6 @@
 <template>
   <div class="ThreeDContainer">
-    <div class="RegionSimulateFlood">
+    <div class="RegionSimulateFlood tframe">
       <el-form ref="dxForm" :rules="regionSimulaterules" :model="dxForm" label-width="150px">
         <el-row>
           <el-col :span="12">
@@ -34,10 +34,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item>
+            <el-form-item class="elformbtns">
               <el-button class="elformbtn" @click="startRegionSimulate('dxForm')">开始</el-button>
               <el-button class="elformbtn" @click="clearRegionSimulate">清除</el-button>
-              <el-button class="elformbtn" @click="closeRegionSimulate">清除</el-button>
+              <el-button class="elformbtn" @click="closeRegionSimulate">关闭</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -142,34 +142,6 @@ export default {
         return;
       }
 
-      // // 创建分层设色对象
-      // var hyp = new Cesium.HypsometricSetting()
-      // // 设置显示模式
-      // hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE
-      // // 设置线颜色为红色
-      // hyp._lineColor = new Cesium.Color(1.0, 0.0, 0.0, 1.0)
-      // // 设置最大/最小可见高度
-      // hyp.MinVisibleValue = parseInt(this.dxForm.minheight)
-      // hyp.MaxVisibleValue = parseInt(this.currentHeight)
-      // // 新建颜色表
-      // var colorTable = new Cesium.ColorTable()
-      // colorTable.insert(71, new Cesium.Color(0, 39 / 255, 148 / 255))
-      // colorTable.insert(0, new Cesium.Color(149 / 255, 232 / 255, 249 / 255))
-
-      // hyp.ColorTable = colorTable
-      // hyp.Opacity = 0.5
-      // // 等高线间隔
-      // hyp.LineInterval = 50.0
-      // hyp.CoverageArea = this.curRiverPosition
-      // try {
-      //   window.earth.scene.globe.HypsometricSetting = {
-      //     hypsometricSetting: hyp,
-      //     analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_REGION
-      //   }
-      // } catch (e) {
-      //   console.log(e)
-      // }
-
       // 使用primitive模拟洪水淹没
       this.hidePrimitive();
       var Primits = new Cesium.PrimitiveCollection();
@@ -246,7 +218,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less">
-@import url("./ThreeTools.less");
-</style>

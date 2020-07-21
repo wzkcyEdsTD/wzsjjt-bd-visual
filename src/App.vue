@@ -37,7 +37,7 @@ export default {
   mounted() {
     getUserInfo().then(data => {
       if (data.districtName !== this.userInfo.districtName) {
-        this.$router.push("/state");
+        this.$router.push("/map");
       }
       this.SetUserInfo(data);
       document.getElementsByTagName("title")[0].innerText =

@@ -148,9 +148,9 @@ export default {
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
-        { name: "BIM观光", value: "3d2", abbrev: "BIM观光" },
-        { name: "透视分析", value: "3d3", abbrev: "透视分析" },
-        { name: "阴影分析", value: "3d4", abbrev: "阴影分析" }
+        { name: "BIM分析", value: "3d2", abbrev: "BIM观光" },
+        { name: "可视分析", value: "3d3", abbrev: "可视分析" },
+        { name: "剖面分析", value: "3d4", abbrev: "剖面分析" }
       ],
       mapBtn: [
         { name: "测距离", value: "line_string", abbrev: "测距" },
@@ -289,21 +289,8 @@ export default {
       if (item.value === this.currentMapType) return;
       this.SetCurrentMapType(item.value);
       this.SetCollapse1(item.value == "cesiumMap");
-      // this.canCilckMapType = false;
-      // if (
-      //   !(
-      //     (this.currentMapType === "juhe" && item.value === "sandian") ||
-      //     (this.currentMapType === "sandian" && item.value === "juhe")
-      //   )
-      // ) {
-      //   var el = document.getElementsByClassName(
-      //     "mapboxgl-control-container"
-      //   )[0];
-      //   if (el) {
-      //     el.remove();
-      //   }
-      // }
-      // this.SetCurrentMapType(item.value);
+      //  点击三维地图,切出地图工具
+      this.toolShow = item.value == "cesiumMap";
     },
     // 点击地图按钮
     changeMapTollBar(item, index) {
