@@ -245,12 +245,11 @@ export default {
     },
     // 初始化数据
     initData() {
-      // getRoleCategory().then((data) => {
-      const data = category;
-      this.SetTree(data);
-      this.initTreeData();
-      this.initCheckedData();
-      // })
+      getRoleCategory().then(data => {
+        this.SetTree(data);
+        this.initTreeData();
+        this.initCheckedData();
+      });
     },
     // 初始化默认勾选数据
     initCheckedData() {
