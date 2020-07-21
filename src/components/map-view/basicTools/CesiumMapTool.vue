@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 18:38:39
- * @LastEditTime: 2020-07-21 19:22:09
+ * @LastEditTime: 2020-07-21 19:27:15
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\CesiumMapTool.vue
@@ -87,7 +87,12 @@ export default {
   mounted() {
     this.eventRegsiter();
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    this.viewer = undefined;
+    this.handlerDis = undefined;
+    this.handlerArea = undefined;
+    this.handlerHeight = undefined;
+  },
   methods: {
     //  事件绑定
     eventRegsiter() {
