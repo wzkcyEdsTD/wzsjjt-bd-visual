@@ -24,21 +24,6 @@
     "legendStatus": false
   },
   {
-    "id": 900,
-    "label": "BIM",
-    "children": [
-      {
-        "id": 901,
-        "label": "bimtest",
-        "type": "scenes",
-        "url": "http://172.20.83.222:8090/iserver/services/3D-zcc/rest/realspace",
-        "dataurl": "http://10.36.234.83:8098/iserver/services/data-SW_Data/rest/data/featureResults.rjson?returnContent=true",
-        "legendImg": "",
-        "legendStatus": false
-      }
-    ]
-  },
-  {
     "id": 20,
     "label": "倾斜摄影",
     "children": [

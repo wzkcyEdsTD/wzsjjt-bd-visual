@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-21 14:28:29
+ * @LastEditTime: 2020-07-22 15:54:59
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -16,7 +16,6 @@
       class="layerPopover"
       v-model="visible"
     >
-      >
       <el-input v-model="filterText" class="treeFilterInput" placeholder="搜索" size="small" />
       <div class="layerTreeContainer">
         <el-tree

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-21 18:56:41
+ * @LastEditTime: 2020-07-22 15:58:14
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -23,6 +23,7 @@ import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
 import Coverage from "./cesium_coverage";
 import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
+import BimAnalyse from "./basicTools/BimAnalyse";
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
@@ -37,6 +38,7 @@ export default {
   components: {
     Coverage,
     RegionSimulateFlood,
+    BimAnalyse,
     VisualizationAnalyse,
     SectionAnalyse,
     CesiumMapTool
