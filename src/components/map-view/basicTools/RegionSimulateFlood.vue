@@ -1,5 +1,5 @@
 <template>
-  <div class="ThreeDContainer">
+  <div class="ThreeDContainer" :style="{width:'700px'}">
     <div class="RegionSimulateFlood tframe">
       <el-form ref="dxForm" :rules="regionSimulaterules" :model="dxForm" label-width="150px">
         <el-row>

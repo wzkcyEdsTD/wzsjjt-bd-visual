@@ -1,14 +1,14 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 18:38:39
- * @LastEditTime: 2020-07-21 19:27:15
+ * @LastEditTime: 2020-07-23 10:09:33
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\CesiumMapTool.vue
 -->
 <template>
-  <div class="ThreeDContainer">
-    <div class="cesiummaptool tframe" :style="{width:'680px'}">
+  <div class="ThreeDContainer" :style="{width:'680px'}">
+    <div class="cesiummaptool tframe">
       <el-form label-width="100px" :rules="toolTypeRules">
         <el-row>
           <el-col :span="8">

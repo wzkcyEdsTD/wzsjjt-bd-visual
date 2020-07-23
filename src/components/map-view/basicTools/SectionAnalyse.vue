@@ -1,14 +1,14 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:40
- * @LastEditTime: 2020-07-21 19:37:30
+ * @LastEditTime: 2020-07-23 10:10:05
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\SectionAnalyse.vue
 -->
 <template>
-  <div class="ThreeDContainer">
-    <div class="sectionanalyse tframe" :style="{width:'400px'}">
+  <div class="ThreeDContainer" :style="{width:'400px'}">
+    <div class="sectionanalyse tframe">
       <el-form label-width="100px">
         <el-row>
           <el-col :span="24">
