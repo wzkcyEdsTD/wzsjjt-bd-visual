@@ -82,7 +82,7 @@
     </div>
     <div class="right-content-first">
       <div class="title_second" @click="showOperate = !showOperate">
-        <div class="tit_1">{{titleName}}应急管理局</div>
+        <div class="tit_1">管理员</div>
       </div>
       <div class="modal" v-show="showOperate">
         <div class="item" @click="changePWD">修改密码</div>

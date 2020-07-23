@@ -1,19 +1,19 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-07-23 10:57:46
+ * @LastEditTime: 2020-07-23 16:06:54
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
 -->
 <template>
-  <div class="ThreeDContainer" :style="{width:'680px'}">
+  <div class="ThreeDContainer" :style="{width:'200px'}">
     <div class="bimanalayse tframe">
       <el-form>
         <el-row>
-          <el-col :span="8" v-if="BimTreeData.length">
-            <el-form-item>
-              <el-popover placement="top" title="图层选择" width="400" trigger="click">
+          <el-col :span="24">
+            <el-form-item class="elformbtns">
+              <el-popover placement="top" title="图层选择" width="300" trigger="click">
                 <div class="bim-analyse-tree">
                   <el-tree
                     :data="BimTreeData"
@@ -24,10 +24,6 @@
                 </div>
                 <el-button slot="reference">图层选择</el-button>
               </el-popover>
-            </el-form-item>
-          </el-col>
-          <el-col :span="16">
-            <el-form-item class="elformbtns">
               <el-button class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
             </el-form-item>
           </el-col>
@@ -73,8 +69,8 @@ export default {
     this.cameraMove();
   },
   beforeDestroy() {
-    this.viewer = undefined;
     this.clearBimAnalyse();
+    this.viewer = undefined;
   },
   methods: {
     //  事件绑定
@@ -83,7 +79,6 @@ export default {
         this.forceBimData = Object.keys(feature).map(k => {
           return { k, v: feature[k] };
         });
-        console.log(this.forceBimData);
       });
     },
     //  相机移动
@@ -126,7 +121,10 @@ export default {
             dataSetName: "Merge_F_03a_AS_9__2018_1",
             isMerge: true
           });
-          console.log(layer);
+          const color = new Cesium.Color.fromCssColorString(
+            "rgba(23,92,239,0.3)"
+          );
+          layer.selectedColor = color;
           // layer.datasetInfo().then(result => {
           //   console.log(result);
           // });

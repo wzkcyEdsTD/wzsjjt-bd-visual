@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-22 15:54:59
+ * @LastEditTime: 2020-07-23 16:34:12
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -1060,16 +1060,15 @@ export default {
     },
     locateFinaLyr() {
       window.earth.scene.camera.setView({
-        // 将经度、纬度、高度的坐标转换为笛卡尔坐标
-        destination: new Cesium.Cartesian3(
-          -2879666.465118293,
-          4857346.35133024,
-          2994449.5823786138
-        ),
+        destination: {  //方位(direction)
+          x: -2885689.43805791,
+          y: 4865993.322893596,
+          z: 2977614.8110983055
+        },
         orientation: {
-          heading: 6.282980209780585,
-          pitch: -0.8423216768642132,
-          roll: 6.283185307179586
+          heading: 0.003115109744838307,  //方位角(heading)
+          pitch: -0.5846590801356228,     //俯仰角(pitch)
+          roll: 0                         //滚动角(roll)
         }
       });
     },

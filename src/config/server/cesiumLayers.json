@@ -10,7 +10,7 @@
   {
     "id": 30,
     "label": "精模",
-    "url": "http://10.36.234.83:8098/iserver/services/3D-SW_YJ/rest/realspace/datas/yj_finally_all@yjfinally_cgcs/config",
+    "url": "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2017/config",
     "bgcolor": "",
     "legendImg": "",
     "legendStatus": false

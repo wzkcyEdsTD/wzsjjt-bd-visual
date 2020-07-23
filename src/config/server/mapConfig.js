@@ -81,10 +81,10 @@ export const ServiceUrl = {
   YJYXZJ:
     "http://10.36.245.203:8090/iserver/services/map-agscache-YJYXZJ2019CGCS2000/rest/maps/YJ_YXZJ_2019_CGCS2000",
   // 永嘉dem
-  // YJDem:
-  //   "http://172.20.83.223:8098/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
   YJDem:
-    "http://10.36.234.83:8098/iserver/services/3D-DEM_YJ/rest/realspace/datas/DEM_YJ@2018dem",
+    "http://172.20.83.223:8098/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
+  // YJDem:
+  //   "http://10.36.234.83:8098/iserver/services/3D-DEM_YJ/rest/realspace/datas/DEM_YJ@2018dem",
 
   // 标准版地图
   YJBZMap:
