@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-23 16:34:12
+ * @LastEditTime: 2020-07-24 10:11:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -1139,6 +1139,7 @@ export default {
         url: dataServiceUrl,
         data: queryObjJSON,
         success: result => {
+          console.log(result)
           var resultObj = JSON.parse(result);
           if (resultObj.featureCount > 0) {
             _this.addClapFeature(resultObj.features[0]);
