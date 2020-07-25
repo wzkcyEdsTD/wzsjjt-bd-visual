@@ -32,6 +32,8 @@
       title="底图"
     >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
+      <!-- 3d地图工具 -->
+      <!-- 2d地图工具 -->
       <div
         class="center-item"
         :class="'btn'+(index+1)"

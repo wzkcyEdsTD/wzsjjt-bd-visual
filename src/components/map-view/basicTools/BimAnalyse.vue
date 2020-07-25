@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-07-24 15:00:29
+ * @LastEditTime: 2020-07-24 17:10:01
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -216,9 +216,9 @@ export default {
       var extrudeHeight = Number(
         selectedFeature.fieldValues[selectedFeature.fieldNames.indexOf("LSG")]
       ); // 层高（拉伸高度）
-      Cesium.GroundPrimitive.bottomAltitude = bottomHeight; // 矢量面贴对象的底部高程
-      Cesium.GroundPrimitive.extrudeHeight = extrudeHeight; // 矢量面贴对象的拉伸高度
-      var points3D = []; // [经度, 纬度, 经度, 纬度, ...]的形式，存放楼层面上的点坐标
+      Cesium.GroundPrimitive.bottomAltitude = bottomHeight;
+      Cesium.GroundPrimitive.extrudeHeight = extrudeHeight;
+      var points3D = [];
       for (var pt of selectedFeature.geometry.points) {
         points3D.push(pt.x, pt.y);
       }
