@@ -1,14 +1,14 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:26
- * @LastEditTime: 2020-07-21 20:07:57
+ * @LastEditTime: 2020-07-28 10:59:15
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\VisualizationAnalyse.vue
 -->
 <template>
-  <div class="ThreeDContainer">
-    <div class="visualizationanalyse tframe" :style="{width:'400px'}">
+  <div class="ThreeDContainer" :style="{width:'400px'}">
+    <div class="visualizationanalyse tframe">
       <el-form label-width="100px">
         <el-row>
           <el-col :span="24">
@@ -32,7 +32,7 @@ const viewModel = {
   verticalFov: 1.0,
   horizontalFov: 1.0,
   visibleAreaColor: "#ffffffff",
-  invisibleAreaColor: "#ffffffff"
+  invisibleAreaColor: "#ffffffff",
 };
 export default {
   name: "VisualizationAnalyse",
@@ -41,7 +41,7 @@ export default {
     handler: undefined,
     viewshed3D: undefined,
     viewPosition: undefined,
-    viewer: undefined
+    viewer: undefined,
   },
   created() {
     this.viewer = window.earth;
@@ -61,13 +61,14 @@ export default {
     this.viewshed3D && this.viewshed3D.destroy();
     this.viewPosition = undefined;
     this.viewer = undefined;
-    this.clearVisualize();1
+    this.clearVisualize();
+    1;
   },
   methods: {
     //  事件绑定
     eventRegsiter() {
       const that = this;
-      that.handler.setInputAction(function(e) {
+      that.handler.setInputAction(function (e) {
         if (!that.viewPosition) return;
         // 若此标记为false，则激活对可视域分析对象的操作
         if (!that.viewer.scene.viewFlag) {
@@ -87,11 +88,11 @@ export default {
           }
         }
       }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-      that.handler.setInputAction(function(e) {
+      that.handler.setInputAction(function (e) {
         //鼠标右键事件回调，不再执行鼠标移动事件中对可视域的操作
         that.viewer.scene.viewFlag = true;
       }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
-      that.pointHandler.drawEvt.addEventListener(function(result) {
+      that.pointHandler.drawEvt.addEventListener(function (result) {
         const point = result.object;
         const position = point.position;
         that.viewPosition = position;
@@ -133,10 +134,10 @@ export default {
     },
     //  清除分析结果
     clearVisualize() {
-      this.viewer.entities.removeAll();
-      this.viewshed3D.distance = 0.1;
-      this.viewer.scene.viewFlag = true;
-    }
-  }
+      this.viewer && this.viewer.entities.removeAll();
+      this.viewshed3D && (this.viewshed3D.distance = 0.1);
+      this.viewer && (this.viewer.scene.viewFlag = true);
+    },
+  },
 };
 </script>

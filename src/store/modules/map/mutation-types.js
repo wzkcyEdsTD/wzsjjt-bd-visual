@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-07-07 15:27:34
+ * @LastEditTime: 2020-07-28 14:15:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\mutation-types.js
@@ -19,3 +19,5 @@ export const SET_SPECAL_TREE_NAME = "SET_SPECAL_TREE_NAME";
 export const SET_SPLIT_SCREEN = "SET_SPLIT_SCREEN";
 export const SET_NAME_LIST = "SET_NAME_LIST";
 export const SET_FORCE_MAP_TYPE = "SET_FORCE_MAP_TYPE";
+export const SET_FORCE_BIM_DATA = "SET_FORCE_BIM_DATA";
+export const SET_FORCE_ROOM_DATA = "SET_FORCE_ROOM_DATA";

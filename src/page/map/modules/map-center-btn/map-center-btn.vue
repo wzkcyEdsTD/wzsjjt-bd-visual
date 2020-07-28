@@ -17,7 +17,7 @@
     </div>
     <div
       class="toCenter1"
-      :class="currentMapType == 'cesiumMap' || collapse1?'collapse':''"
+      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
       title="全图"
     >
       <i
@@ -27,25 +27,46 @@
     </div>
     <div
       class="toCenter"
-      v-show="currentMapType != 'cesiumMap'"
-      :class="{collapse: currentMapType == 'cesiumMap' || collapse1, active: centerShow}"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: centerShow,moveRight1:currentMapType == 'cesiumMap'}"
       title="底图"
     >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
       <!-- 3d地图工具 -->
+      <div
+        v-show="currentMapType == 'cesiumMap'"
+        class="map-toolbar-box"
+        :class="{active: centerShow}"
+      >
+        <div class="map-type tool-detail">
+          <div
+            class="item item-spc"
+            :class="'btn'+(index+1)"
+            :key="index"
+            :title="item.name"
+            v-for="(item, index) in map3DBtn"
+            @click="changeMap3DEventBar(item, index)"
+          >{{item.abbrev}}</div>
+        </div>
+      </div>
       <!-- 2d地图工具 -->
       <div
-        class="center-item"
-        :class="'btn'+(index+1)"
-        :key="index"
-        :title="item.name"
-        v-for="(item, index) in mapNew"
-        @click="changeMapTollBarTop(item, index)"
-      >{{item.abbrev}}</div>
+        v-show="currentMapType != 'cesiumMap'"
+        class="map-toolbar-box"
+        :class="{active: centerShow}"
+      >
+        <div
+          class="center-item"
+          :class="'btn'+(index+1)"
+          :key="index"
+          :title="item.name"
+          v-for="(item, index) in mapNew"
+          @click="changeMapTollBarTop(item, index)"
+        >{{item.abbrev}}</div>
+      </div>
     </div>
     <div
       class="map-toolbar-box-map"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow,moveUp:currentMapType == 'cesiumMap'}"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"
     >
       <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
         <i style="width: 32px;height: 32px;" @click="mapTool"></i>
@@ -62,11 +83,12 @@
             :class="'btn'+(index+1)"
             :key="index"
             :title="item.name"
-            v-for="(item, index) in map3DBtn"
-            @click="changeMap3DTollBar(item, index)"
+            v-for="(item, index) in map3DTool"
+            @click="changeMap3DToolBar(item, index)"
           >{{item.abbrev}}</div>
         </div>
       </div>
+
       <!-- 2d地图工具 -->
       <div
         v-show="currentMapType != 'cesiumMap'"
@@ -98,25 +120,6 @@
         </div>
       </div>
     </div>
-    <div
-      @mouseover="mapChildMouseover(0)"
-      @mouseout="mapChildMouseout(0)"
-      @click.stop
-      v-if="mapNew[selectIndex].children"
-      v-show="mapNew[selectIndex].childrenShow && centerShow"
-      class="item-child"
-      :class="currentMapType == 'cesiumMap' || collapse1?'collapse':''"
-      :style="{top:mapNew[selectIndex].top}"
-    >
-      <div>
-        <div :key="'b'+index2" v-for="(item2,index2) in mapNew[selectIndex].children">
-          <label :class="{'active':dituType===item2.value}" @click="changedituType(item2)">
-            <span></span>
-            {{item2.name}}
-          </label>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -132,8 +135,8 @@ export default {
       type: String,
       defaule() {
         return "";
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -142,7 +145,7 @@ export default {
       // 地图类型
       mapType: [
         { name: "二维", value: "sandian" },
-        { name: "三维", value: "cesiumMap" }
+        { name: "三维", value: "cesiumMap" },
       ],
       selectIndex: 0,
       toolShow: false,
@@ -151,16 +154,20 @@ export default {
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
         { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
-        { name: "可视分析", value: "3d3", abbrev: "可视分析" },
-        { name: "剖面分析", value: "3d4", abbrev: "剖面分析" },
-        { name: "测量工具", value: "3d5", abbrev: "测量工具" }
+        { name: "BIM车站", value: "3d3", abbrev: "BIM车站" },
+        { name: "地下管线", value: "3d4", abbrev: "地下管线" },
+      ],
+      map3DTool: [
+        { name: "测量工具", value: "3t1", abbrev: "测量工具" },
+        { name: "可视分析", value: "3t2", abbrev: "可视分析" },
+        { name: "剖面分析", value: "3t3", abbrev: "剖面分析" },
       ],
       mapBtn: [
         { name: "测距离", value: "line_string", abbrev: "测距" },
         { name: "测面积", value: "polygon", abbrev: "测面" },
         { name: "空间查询", value: "spatialQuery", abbrev: "空间查询" },
         { name: "分屏管理", value: "split_screen", abbrev: "分屏" },
-        { name: "一键清空", value: "clearMapFeature", abbrev: "清空" }
+        { name: "一键清空", value: "clearMapFeature", abbrev: "清空" },
       ],
       mapNew: [
         {
@@ -174,14 +181,14 @@ export default {
             {
               name: "标准底图",
               value: "standard-raster",
-              inputName: "dituType"
+              inputName: "dituType",
             },
             {
               name: "大数据底图",
               value: "bigdata-raster",
-              inputName: "dituType"
-            }
-          ]
+              inputName: "dituType",
+            },
+          ],
         },
         {
           name: "影像",
@@ -195,17 +202,17 @@ export default {
             { name: "2014影像", value: "2014YX", inputName: "dituType" },
             { name: "2017影像", value: "2017YX", inputName: "dituType" },
             { name: "2018影像", value: "2018YX", inputName: "dituType" },
-            { name: "2019影像", value: "2019YX", inputName: "dituType" }
-          ]
-        }
+            { name: "2019影像", value: "2019YX", inputName: "dituType" },
+          ],
+        },
       ],
       isPointSearch: false,
       isSetOpacity: false,
-      isCoverToolbarShow: false
+      isCoverToolbarShow: false,
     };
   },
   computed: {
-    ...mapGetters("map", ["currentMapType", "collapse1", "mapLoaded"])
+    ...mapGetters("map", ["currentMapType", "collapse1", "mapLoaded"]),
   },
   watch: {
     mapLoaded() {
@@ -219,7 +226,7 @@ export default {
           break;
         }
       }
-    }
+    },
   },
   methods: {
     setOpacity(event) {
@@ -283,7 +290,7 @@ export default {
       this[item.inputName] = item.value;
       const obj = {
         t: Math.random(), // 这个随机数不能删
-        value: item.value
+        value: item.value,
       };
       this.$emit("setMapTollBar", obj);
     },
@@ -293,7 +300,7 @@ export default {
       this.SetCurrentMapType(item.value);
       this.SetCollapse1(item.value == "cesiumMap");
       //  点击三维地图,切出地图工具
-      this.toolShow = item.value == "cesiumMap";
+      // this.toolShow = item.value == "cesiumMap";
     },
     // 点击地图按钮
     changeMapTollBar(item, index) {
@@ -309,11 +316,14 @@ export default {
       }
       const obj = {
         t: Math.random(), // 这个随机数不能删
-        value: item.value
+        value: item.value,
       };
       this.$emit("setMapTollBar", obj);
     },
-    changeMap3DTollBar(item, index) {
+    changeMap3DEventBar(item, index) {
+      this.$bus.$emit("cesium-3d-event", item);
+    },
+    changeMap3DToolBar(item, index) {
       this.$bus.$emit("cesium-3d-maptool", item);
     },
     changeMapTollBarTop(item, index) {
@@ -327,8 +337,8 @@ export default {
         if (!item.childrenShow) return;
         // 当前是聚合散点图时
         let stand, bigData, newYX;
-        this.mapNew.forEach(val => {
-          val.children.forEach(v => {
+        this.mapNew.forEach((val) => {
+          val.children.forEach((v) => {
             switch (v.name) {
               case "标准底图":
                 stand = v;
@@ -350,14 +360,14 @@ export default {
         ) {
           // item.name === '矢量'
           if (item.name === "矢量") {
-            const result = this.mapNew[0].children.filter(val => {
+            const result = this.mapNew[0].children.filter((val) => {
               return val.value === this.dituType;
             });
             result.length
               ? console.log("无需切换")
               : this.changedituType(stand);
           } else if (item.name === "影像") {
-            const result = this.mapNew[1].children.filter(val => {
+            const result = this.mapNew[1].children.filter((val) => {
               return val.value === this.dituType;
             });
             result.length
@@ -366,14 +376,14 @@ export default {
           }
         } else {
           if (item.name === "矢量") {
-            const result = this.mapNew[0].children.filter(val => {
+            const result = this.mapNew[0].children.filter((val) => {
               return val.value === this.dituType;
             });
             result.length
               ? console.log("无需切换")
               : this.changedituType(bigData);
           } else if (item.name === "影像") {
-            const result = this.mapNew[1].children.filter(val => {
+            const result = this.mapNew[1].children.filter((val) => {
               return val.value === this.dituType;
             });
             result.length
@@ -385,16 +395,16 @@ export default {
       }
       const obj = {
         t: Math.random(), // 这个随机数不能删
-        value: item.value
+        value: item.value,
       };
       this.$emit("setMapTollBar", obj);
     },
-    ...mapActions("map", ["SetCurrentMapType", "SetCollapse1"])
+    ...mapActions("map", ["SetCurrentMapType", "SetCollapse1"]),
   },
   components: {
     LongitudeSearch,
-    Slider
-  }
+    Slider,
+  },
 };
 </script>
 
@@ -411,15 +421,15 @@ export default {
   background: #03315a !important;
   position: absolute;
   transition: all 0.3s linear;
-  top: 1.6rem;
+  top: 0.5rem;
   border-radius: 6px;
-  left: 4.1rem;
+  left: 4.7rem;
   /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
   border: 1px #5ab0e5 solid !important;
   cursor: pointer;
   overflow: hidden;
   &.active {
-    height: 1.4rem;
+    height: 3.1rem;
     > i {
       .bg-image("images/draw_type-act");
       background-size: 0.34rem;
@@ -460,6 +470,21 @@ export default {
   &.collapse {
     left: 0.16rem;
   }
+  .map-toolbar-box {
+    height: 0;
+    padding: 0 0.06rem;
+    position: relative;
+    top: -0.1rem;
+    left: 0;
+    margin: 0;
+    overflow-y: hidden;
+  }
+  .map-toolbar-box.active {
+    transition: height 0.3s linear;
+    padding: 0.06rem 0;
+    height: 100%; // 多
+    padding-top: 0px;
+  }
 }
 .toCenter:hover {
   /*background-color: rgba(0, 0, 0, 0.4) !important;*/
@@ -471,9 +496,9 @@ export default {
   background: #03315a !important;
   position: absolute;
   transition: all 0.3s linear;
-  top: 1rem;
+  top: 0.5rem;
   border-radius: 6px;
-  left: 4.1rem;
+  left: 5.3rem;
   /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
   border: 1px #5ab0e5 solid !important;
   cursor: pointer;
@@ -524,13 +549,16 @@ export default {
 .map-toolbar-box-map.active {
   height: 4rem;
 }
-.map-toolbar-box-map.moveUp {
-  top: 1.6rem;
+.toCenter.moveRight1 {
+  left: 0.8rem !important;
+}
+.toCenter1.moveRight2 {
+  left: 1.45rem !important;
 }
 .map-toolbar-box-map {
   overflow: hidden;
   position: absolute;
-  top: 2.2rem;
+  top: 0.5rem;
   left: 4.1rem;
   width: 0.5rem;
   height: 0.46rem;
@@ -595,11 +623,8 @@ export default {
   }
 }
 .toCenter.active ~ .map-toolbar-box-map {
-  top: 3.2rem;
+  // top: 3.2rem;
 }
-// .toCenter.active ~ .toCenter1{
-//   top: 2.6rem;
-// }
 .toCenter div:nth-child(3) {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }

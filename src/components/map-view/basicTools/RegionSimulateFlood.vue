@@ -175,7 +175,7 @@ export default {
     },
     closeRegionSimulate() {
       this.clearRegionSimulate();
-      this.$bus.$emit("cesium-3d-maptool", { value: null });
+      this.$bus.$emit("cesium-3d-event", { value: null });
     },
     // 清除地形淹没效果
     clearRegionSimulate() {

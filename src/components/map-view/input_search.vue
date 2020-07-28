@@ -209,7 +209,7 @@ export default {
     // width: 0.5rem;
     height: 0.3rem;
     position: absolute;
-    left:8.1rem;
+    left:5.9rem;
     top: 0.555rem;
     z-index: 1;
     margin: 0.04rem;

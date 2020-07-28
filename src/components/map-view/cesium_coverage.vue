@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-24 10:11:13
+ * @LastEditTime: 2020-07-28 15:08:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -61,12 +61,13 @@ export default {
       data: CoverageData,
       defaultProps: {
         children: "children",
-        label: "label"
+        label: "label",
       },
       isVal: false,
       cesiumData: cesiumLayers,
       baimolayer: null,
-      finalayer: null, // 精模,
+      finalayer2012: null,
+      finalayer2017: null,
       avatar: require("common/images/coverage.png"),
       hszlayer: null, // 鹤盛镇
       drylayer: null, // 大若岩镇
@@ -97,19 +98,19 @@ export default {
       blzhandler: null, // 永嘉碧莲镇绑定事件
       qtzlayer: null, // 永嘉桥头镇
       qtzhandler: null, // 永嘉桥头镇绑定事件
-      sqcllayer: null // 山区村落自然灾害易发区
+      sqcllayer: null, // 山区村落自然灾害易发区
     };
   },
   computed: {
     ...mapGetters(["map"]),
     isData() {
       return this.isVal ? this.data : this.cesiumData;
-    }
+    },
   },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
-    }
+    },
   },
   mounted() {
     window.showInfo = () => {
@@ -120,11 +121,11 @@ export default {
       this.$bus.$emit("nearby", { x: 2 });
       this.$bus.$emit("surroundClick", true);
     };
-    this.$bus.$on("sendDiZhi", e => {
+    this.$bus.$on("sendDiZhi", (e) => {
       this.isVal = e;
     });
 
-    this.$bus.$on("clearChecked", e => {
+    this.$bus.$on("clearChecked", (e) => {
       var nodeLst;
       if (e.mapType !== "3D") {
         nodeLst = this.data;
@@ -139,7 +140,7 @@ export default {
     });
 
     // 设置白模勾选状态
-    this.$bus.$on("setBaiMoChecked", e => {
+    this.$bus.$on("setBaiMoChecked", (e) => {
       this.$refs.tree.setChecked("4", e.show, e.deep);
     });
   },
@@ -166,7 +167,7 @@ export default {
             type: a.type,
             point: {},
             polyline: { width: 30 },
-            polygon: {}
+            polygon: {},
           };
           var color = null;
           switch (a.id) {
@@ -182,7 +183,7 @@ export default {
               // this.addEntity(a.url, a.type, color)
               entityObj.polyline = {
                 material: Cesium.Color.RED,
-                width: 20
+                width: 20,
               };
               this.addEntities(entityObj);
               break;
@@ -193,9 +194,9 @@ export default {
               entityObj.polyline = {
                 material: new Cesium.PolylineDashMaterialProperty({
                   color: color,
-                  dashLength: 8
+                  dashLength: 8,
                 }),
-                width: 20
+                width: 20,
               };
               this.addEntities(entityObj);
               break;
@@ -206,8 +207,8 @@ export default {
               entityObj.polygon = {
                 material: new Cesium.GridMaterialProperty({
                   color: Cesium.Color.TOMATO,
-                  lineCount: new Cesium.Cartesian2(12, 12)
-                })
+                  lineCount: new Cesium.Cartesian2(12, 12),
+                }),
               };
               this.addEntities(entityObj);
               break;
@@ -217,7 +218,7 @@ export default {
               // this.addEntity(a.url, a.type, color)
               entityObj.polyline = {
                 material: Cesium.Color.YELLOW,
-                width: 10
+                width: 10,
               };
               this.addEntities(entityObj);
               break;
@@ -226,38 +227,68 @@ export default {
               color = Cesium.Color.NAVAJOWHITE;
               // this.addEntity(a.url, a.type, color)
               entityObj.polygon = {
-                material: Cesium.Color.NAVAJOWHITE.withAlpha(0.5)
+                material: Cesium.Color.NAVAJOWHITE.withAlpha(0.5),
               };
               this.addEntities(entityObj);
               break;
             case 4:
               // 白模
               if (this.baimolayer !== null) {
-                this.baimolayer.then(function(layer) {
+                this.baimolayer.then(function (layer) {
                   layer.visible = true;
                 });
               } else {
                 this.baimolayer = window.earth.scene.addS3MTilesLayerByScp(
                   a.url,
                   {
-                    name: "baimo"
+                    name: "baimo",
                   }
                 );
               }
               break;
             case 30:
-              // 精模
-              if (this.finalayer !== null) {
-                this.finalayer.then(function(layer) {
+              if (this.finalayer2012 !== null) {
+                this.finalayer2012.then(function (layer) {
                   layer.visible = true;
                 });
               } else {
-                this.finalayer = window.earth.scene.addS3MTilesLayerByScp(
+                const LAYER_NAME = "jingmo2012";
+                this.finalayer2012 = window.earth.scene.addS3MTilesLayerByScp(
                   a.url,
-                  {
-                    name: "jingmo"
-                  }
+                  { name: LAYER_NAME }
                 );
+                Cesium.when(this.finalayer2012, async (layers) => {
+                  const layer = window.earth.scene.layers.find(LAYER_NAME);
+                  layer.setQueryParameter({
+                    url: a.dataurl,
+                    dataSourceName: "172.20.83.196_swdata",
+                    dataSetName: "max_2012",
+                    isMerge: true,
+                  });
+                });
+              }
+              this.locateFinaLyr();
+              break;
+            case 31:
+              if (this.finalayer2017 !== null) {
+                this.finalayer2017.then(function (layer) {
+                  layer.visible = true;
+                });
+              } else {
+                const LAYER_NAME = "jingmo2017";
+                this.finalayer2017 = window.earth.scene.addS3MTilesLayerByScp(
+                  a.url,
+                  { name: LAYER_NAME }
+                );
+                Cesium.when(this.finalayer2017, async (layers) => {
+                  const layer = window.earth.scene.layers.find(LAYER_NAME);
+                  layer.setQueryParameter({
+                    url: a.dataurl,
+                    dataSourceName: "172.20.83.196_swdata",
+                    dataSetName: "max_2017",
+                    isMerge: true,
+                  });
+                });
               }
               this.locateFinaLyr();
               break;
@@ -268,38 +299,16 @@ export default {
               } else {
                 this.sqcllayer = window.earth.imageryLayers.addImageryProvider(
                   new Cesium.SuperMapImageryProvider({
-                    url: a.url
+                    url: a.url,
                   })
                 );
               }
-              break;
-            case 901:
-              if (this.finalayer !== null) {
-                this.finalayer.then(function(layer) {
-                  layer.visible = true;
-                });
-              } else {
-                this.finalayer = window.earth.scene.open(a.url);
-                Cesium.when(this.finalayer, function(layers) {
-                  console.log(layers);
-                });
-                window.earth.screenSpaceEventHandler.setInputAction(
-                  function leftClick(movement) {
-                    var pickedFeature = window.earth.scene.pick(
-                      movement.position
-                    );
-                    console.log(pickedFeature);
-                  },
-                  Cesium.ScreenSpaceEventType.LEFT_CLICK
-                );
-              }
-              this.locateFinaLyr();
               break;
             case 201:
               // 鹤盛镇倾斜摄影
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.hszlayer !== null) {
-                this.hszlayer.then(function(layer) {
+                this.hszlayer.then(function (layer) {
                   layer.visible = true;
                   this.setview(
                     120.8387279805759,
@@ -323,7 +332,7 @@ export default {
                 name: "鹤盛镇",
                 lng: 120.8387279805759,
                 lat: 28.371971130691417,
-                height: 291.08784810315643
+                height: 291.08784810315643,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -331,7 +340,7 @@ export default {
               // 大若岩镇倾斜摄影
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.drylayer !== null) {
-                this.drylayer.then(layer => {
+                this.drylayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.62184613528393,
@@ -355,7 +364,7 @@ export default {
                 name: "大若岩镇",
                 lng: 120.62184613528393,
                 lat: 28.274737966665757,
-                height: 244.76462327032053
+                height: 244.76462327032053,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -363,7 +372,7 @@ export default {
               // 三维倾斜永嘉枫林镇
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.flzlayer !== null) {
-                this.flzlayer.then(layer => {
+                this.flzlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.75575851539088,
@@ -387,7 +396,7 @@ export default {
                 name: "枫林镇",
                 lng: 120.75575851539088,
                 lat: 28.33507791787183,
-                height: 288.32367182732537
+                height: 288.32367182732537,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -395,7 +404,7 @@ export default {
               // 三维倾斜永嘉界坑村
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.jkclayer !== null) {
-                this.jkclayer.then(layer => {
+                this.jkclayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.40930812949061,
@@ -419,7 +428,7 @@ export default {
                 name: "界坑乡",
                 lng: 120.40930812949061,
                 lat: 28.44132591044351,
-                height: 708.0313029476863
+                height: 708.0313029476863,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -427,7 +436,7 @@ export default {
               // 三维倾斜永嘉桥下镇1
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.qxzOlayer !== null) {
-                this.qxzOlayer.then(layer => {
+                this.qxzOlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.55651911551178,
@@ -451,7 +460,7 @@ export default {
                 name: "桥下镇1",
                 lng: 120.55651911551178,
                 lat: 28.16172350146348,
-                height: 242.4084108219556
+                height: 242.4084108219556,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -459,7 +468,7 @@ export default {
               // 三维倾斜永嘉桥下镇2
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.qxzTlayer !== null) {
-                this.qxzTlayer.then(layer => {
+                this.qxzTlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.56133273898112,
@@ -483,7 +492,7 @@ export default {
                 name: "桥下镇2",
                 lng: 120.56133273898112,
                 lat: 28.14169291592059,
-                height: 242.14159886635622
+                height: 242.14159886635622,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -491,7 +500,7 @@ export default {
               // 三维倾斜永嘉溪下乡
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.xxxlayer !== null) {
-                this.xxxlayer.then(layer => {
+                this.xxxlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.48664280212724,
@@ -515,7 +524,7 @@ export default {
                 name: "溪下乡",
                 lng: 120.48664280212724,
                 lat: 28.49672230235694,
-                height: 577.4576632360657
+                height: 577.4576632360657,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
@@ -523,7 +532,7 @@ export default {
               // 三维倾斜永嘉沙头镇
               // window.earth.scene.globe.depthTestAgainstTerrain = true // 深度测试
               if (this.stzlayer !== null) {
-                this.stzlayer.then(layer => {
+                this.stzlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.76422242166228,
@@ -547,14 +556,14 @@ export default {
                 name: "沙头镇",
                 lng: 120.76422242166228,
                 lat: 28.18909322620766,
-                height: 459.15589999858855
+                height: 459.15589999858855,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
             case 209:
               // 三维倾斜永嘉巽宅镇
               if (this.xzzlayer !== null) {
-                this.xzzlayer.then(layer => {
+                this.xzzlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.49072736166544,
@@ -578,14 +587,14 @@ export default {
                 name: "巽宅镇",
                 lng: 120.49072736166544,
                 lat: 28.337897347538647,
-                height: 439.53423
+                height: 439.53423,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
             case 210:
               // 三维倾斜永嘉岩头镇
               if (this.ytzlayer !== null) {
-                this.ytzlayer.then(layer => {
+                this.ytzlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.76438461789809,
@@ -609,14 +618,14 @@ export default {
                 name: "岩头镇",
                 lng: 120.76438461789809,
                 lat: 28.351542555895815,
-                height: 606.98235
+                height: 606.98235,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
             case 211:
               // 三维倾斜永嘉岩坦镇
               if (this.ytanlayer !== null) {
-                this.ytanlayer.then(layer => {
+                this.ytanlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.72538630132725,
@@ -640,14 +649,14 @@ export default {
                 name: "岩坦镇",
                 lng: 120.72538630132725,
                 lat: 28.43329372991379,
-                height: 370.16315545780446
+                height: 370.16315545780446,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
             case 212:
               // 三维倾斜永嘉碧莲镇
               if (this.blzlayer !== null) {
-                this.blzlayer.then(layer => {
+                this.blzlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.56959564155919,
@@ -671,14 +680,14 @@ export default {
                 name: "碧莲镇",
                 lng: 120.56959564155919,
                 lat: 28.301079769394445,
-                height: 459.15589999568067
+                height: 459.15589999568067,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
             case 213:
               // 三维倾斜永嘉水云溪
               if (this.syxlayer !== null) {
-                this.syxlayer.then(layer => {
+                this.syxlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(
                     120.63877494046184,
@@ -702,14 +711,14 @@ export default {
                 name: "水云溪",
                 lng: 120.63877494046184,
                 lat: 28.27743052748186,
-                height: 552.1622241592182
+                height: 552.1622241592182,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
             case 214:
               // 三维倾斜永嘉桥头镇
               if (this.qtzlayer !== null) {
-                this.qtzlayer.then(layer => {
+                this.qtzlayer.then((layer) => {
                   layer.visible = true;
                   this.setview(120.7601745, 28.19577031, 459.1559);
                 });
@@ -729,24 +738,28 @@ export default {
                 name: "桥头镇",
                 lng: 120.7601745,
                 lat: 28.19577031,
-                height: 459.1559
+                height: 459.1559,
               };
               this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
               break;
           }
         } else {
           if (a.id === 4) {
-            this.baimolayer.then(function(layer) {
+            this.baimolayer.then(function (layer) {
               layer.visible = false;
             });
           } else if (a.id === 30) {
-            this.finalayer.then(function(layer) {
+            this.finalayer2012.then(function (layer) {
+              layer.visible = false;
+            });
+          } else if (a.id === 31) {
+            this.finalayer2017.then(function (layer) {
               layer.visible = false;
             });
           } else if (a.id === 40) {
             this.sqcllayer.show = false;
           } else if (a.id === 201) {
-            this.hszlayer.then(function(layer) {
+            this.hszlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -755,11 +768,11 @@ export default {
               name: "鹤盛镇",
               lng: 120.8387279805759,
               lat: 28.371971130691417,
-              height: 291.08784810315643
+              height: 291.08784810315643,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 202) {
-            this.drylayer.then(function(layer) {
+            this.drylayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -768,11 +781,11 @@ export default {
               name: "大若岩镇",
               lng: 120.62184613528393,
               lat: 28.274737966665757,
-              height: 244.76462327032053
+              height: 244.76462327032053,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 203) {
-            this.flzlayer.then(function(layer) {
+            this.flzlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -781,11 +794,11 @@ export default {
               name: "枫林镇",
               lng: 120.75575851539088,
               lat: 28.33507791787183,
-              height: 288.32367182732537
+              height: 288.32367182732537,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 204) {
-            this.jkclayer.then(function(layer) {
+            this.jkclayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -794,11 +807,11 @@ export default {
               name: "界坑乡",
               lng: 120.40930812949061,
               lat: 28.44132591044351,
-              height: 708.0313029476863
+              height: 708.0313029476863,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 205) {
-            this.qxzOlayer.then(function(layer) {
+            this.qxzOlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -807,11 +820,11 @@ export default {
               name: "桥下镇1",
               lng: 120.55651911551178,
               lat: 28.16172350146348,
-              height: 242.4084108219556
+              height: 242.4084108219556,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 206) {
-            this.qxzTlayer.then(function(layer) {
+            this.qxzTlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -820,11 +833,11 @@ export default {
               name: "桥下镇2",
               lng: 120.56133273898112,
               lat: 28.14169291592059,
-              height: 242.14159886635622
+              height: 242.14159886635622,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 207) {
-            this.xxxlayer.then(function(layer) {
+            this.xxxlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -833,11 +846,11 @@ export default {
               name: "溪下乡",
               lng: 120.48664280212724,
               lat: 28.49672230235694,
-              height: 577.4576632360657
+              height: 577.4576632360657,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 208) {
-            this.stzlayer.then(function(layer) {
+            this.stzlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -846,11 +859,11 @@ export default {
               name: "沙头镇",
               lng: 120.76422242166228,
               lat: 28.18909322620766,
-              height: 459.15589999858855
+              height: 459.15589999858855,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 209) {
-            this.xzzlayer.then(function(layer) {
+            this.xzzlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -859,11 +872,11 @@ export default {
               name: "巽宅镇",
               lng: 120.49072736166544,
               lat: 28.337897347538647,
-              height: 439.53423
+              height: 439.53423,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 210) {
-            this.ytzlayer.then(function(layer) {
+            this.ytzlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -872,11 +885,11 @@ export default {
               name: "岩头镇",
               lng: 120.76438461789809,
               lat: 28.351542555895815,
-              height: 606.98235
+              height: 606.98235,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 211) {
-            this.ytanlayer.then(function(layer) {
+            this.ytanlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -885,11 +898,11 @@ export default {
               name: "岩坦镇",
               lng: 120.72538630132725,
               lat: 28.43329372991379,
-              height: 370.16315545780446
+              height: 370.16315545780446,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 212) {
-            this.blzlayer.then(function(layer) {
+            this.blzlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -898,11 +911,11 @@ export default {
               name: "碧莲镇",
               lng: 120.56959564155919,
               lat: 28.301079769394445,
-              height: 459.15589999568067
+              height: 459.15589999568067,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 213) {
-            this.syxlayer.then(function(layer) {
+            this.syxlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -911,11 +924,11 @@ export default {
               name: "水云溪",
               lng: 120.63877494046184,
               lat: 28.27743052748186,
-              height: 552.1622241592182
+              height: 552.1622241592182,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else if (a.id === 214) {
-            this.qtzlayer.then(function(layer) {
+            this.qtzlayer.then(function (layer) {
               layer.visible = false;
             });
             param = {
@@ -924,7 +937,7 @@ export default {
               name: "桥头镇",
               lng: 120.7601745,
               lat: 28.19577031,
-              height: 459.1559
+              height: 459.1559,
             };
             this.$bus.$emit("simulateFlood", param); // 控制洪水淹没模拟的显示与隐藏，以及倾斜摄影下拉列表的数据
           } else {
@@ -956,19 +969,19 @@ export default {
       if (dataName.length > 0) {
         this.sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
-            attributeFilter: "1=1"
+            attributeFilter: "1=1",
           },
           datasetNames: dataName,
-          toIndex: -1
+          toIndex: -1,
         });
         new FeatureService(dataSourceUrl.dataWenzhouyingji).getFeaturesBySQL(
           this.sqlParam,
-          serviceResult => {
+          (serviceResult) => {
             if (serviceResult && serviceResult.result) {
               if (!this.map.getSource(layerId)) {
                 this.map.addSource(layerId, {
                   type: "geojson",
-                  data: serviceResult.result.features
+                  data: serviceResult.result.features,
                 });
               }
               this.map.addLayer({
@@ -977,10 +990,10 @@ export default {
                 source: layerId,
                 paint: {
                   "fill-color": "#FF3300" /* 填充的颜色 */,
-                  "fill-opacity": 0 /* 透明度 */
-                }
+                  "fill-opacity": 0 /* 透明度 */,
+                },
               });
-              this.map.on("click", "queryDatas", e => {
+              this.map.on("click", "queryDatas", (e) => {
                 const html = `<div class="pop-tip">
                 <p class="pop-tip-title">${e.features[0].properties.NAME}</p>
                 <table class="pop-tip-table">
@@ -1021,11 +1034,11 @@ export default {
       const _this = this;
       // 叠加三维点线面通用方法
       var promiseroute11 = Cesium.GeoJsonDataSource.load(obj.url, {
-        clampToGround: true
+        clampToGround: true,
       });
       // window.earth.scene.globe.depthTestAgainstTerrain = false// 取消深度测试
       promiseroute11
-        .then(dataSource => {
+        .then((dataSource) => {
           window.earth.dataSources.add(dataSource);
           this.$store.state.app.datasourcelist.push(dataSource.name); // 将datasource的name存储，方便清空
           const entities = dataSource.entities.values;
@@ -1042,7 +1055,7 @@ export default {
                   image: _this.avatar,
                   heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                   width: 40,
-                  height: 40
+                  height: 40,
                 });
                 break;
               case "Polygon":
@@ -1054,22 +1067,23 @@ export default {
             }
           }
         })
-        .otherwise(function(error) {
+        .otherwise(function (error) {
           console.log(error);
         });
     },
     locateFinaLyr() {
       window.earth.scene.camera.setView({
-        destination: {  //方位(direction)
-          x: -2885689.43805791,
-          y: 4865993.322893596,
-          z: 2977614.8110983055
+        destination: {
+          //方位(direction)
+          x: -2876276.933400896,
+          y: 4843131.36288743,
+          z: 2993318.7080605105,
         },
         orientation: {
-          heading: 0.003115109744838307,  //方位角(heading)
-          pitch: -0.5846590801356228,     //俯仰角(pitch)
-          roll: 0                         //滚动角(roll)
-        }
+          heading: 0.003412230608473621, //方位角(heading)
+          pitch: -0.5809013016156084, //俯仰角(pitch)
+          roll: 0, //滚动角(roll)
+        },
       });
     },
     // 添加倾斜摄影
@@ -1082,18 +1096,18 @@ export default {
       var layer = null;
       var handler = null;
       layer = scene.addS3MTilesLayerByScp(qxurl, { name: name });
-      layer.then(obliqueLayers => {
+      layer.then((obliqueLayers) => {
         camera.setView({
           // 将经度、纬度、高度的坐标转换为笛卡尔坐标
           destination: Cesium.Cartesian3.fromDegrees(lng, lat, height),
           orientation: {
             heading: 5.6326,
             pitch: -0.40149976501196627,
-            roll: 6.283185307179572
-          }
+            roll: 6.283185307179572,
+          },
         });
         handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-        handler.setInputAction(e => {
+        handler.setInputAction((e) => {
           // 首先移除之前添加标识实体
           window.earth.entities.removeById("identify-area");
           // 获取点击位置笛卡尔坐标
@@ -1106,7 +1120,7 @@ export default {
           var queryPoint = {
             // 查询点对象
             x: longitude,
-            y: latitude
+            y: latitude,
           };
           this.queryByPoint(
             queryPoint,
@@ -1129,8 +1143,8 @@ export default {
           id: 0,
           parts: [1],
           points: [queryPoint],
-          type: "POINT"
-        }
+          type: "POINT",
+        },
       };
 
       const queryObjJSON = JSON.stringify(queryObj); // 转化为JSON字符串作为查询参数
@@ -1138,16 +1152,16 @@ export default {
         type: "post",
         url: dataServiceUrl,
         data: queryObjJSON,
-        success: result => {
-          console.log(result)
+        success: (result) => {
+          console.log(result);
           var resultObj = JSON.parse(result);
           if (resultObj.featureCount > 0) {
             _this.addClapFeature(resultObj.features[0]);
           }
         },
-        error: msg => {
+        error: (msg) => {
           console.log(msg);
-        }
+        },
       });
     },
     // 将数据服务查询到的要素添加到场景中高亮显示，表示选中效果。
@@ -1159,15 +1173,15 @@ export default {
         name: "单体化标识面",
         polygon: {
           hierarchy: Cesium.Cartesian3.fromDegreesArray(lonLatArr),
-          material: new Cesium.Color(1.0, 0.0, 0.0, 0.3)
+          material: new Cesium.Color(1.0, 0.0, 0.0, 0.3),
         },
-        clampToS3M: true // 贴在S3M模型表面
+        clampToS3M: true, // 贴在S3M模型表面
       });
     },
     // 得到[经度,纬度,经度,纬度...]形式的数组，用于构造面。
     getLonLatArray(points) {
       var point3D = [];
-      points.forEach(point => {
+      points.forEach((point) => {
         point3D.push(point.x);
         point3D.push(point.y);
       });
@@ -1181,8 +1195,8 @@ export default {
         orientation: {
           heading: 5.6326,
           pitch: -0.40149976501196627,
-          roll: 6.283185307179572
-        }
+          roll: 6.283185307179572,
+        },
       });
     },
     // 山区灾害图例
@@ -1193,36 +1207,36 @@ export default {
           label: "极高风险区",
           legendStatus: obj.legendStatus,
           type: "Polygon",
-          bgcolor: "#e7254f"
+          bgcolor: "#e7254f",
         },
         {
           id: obj.id + "middleHigh",
           label: "较高风险区",
           legendStatus: obj.legendStatus,
           type: "Polygon",
-          bgcolor: "#f79646"
+          bgcolor: "#f79646",
         },
         {
           id: obj.id + "middle",
           label: "中风险区",
           legendStatus: obj.legendStatus,
           type: "Polygon",
-          bgcolor: "#ffff00"
+          bgcolor: "#ffff00",
         },
         {
           id: obj.id + "low",
           label: "低风险区",
           legendStatus: obj.legendStatus,
           type: "Polygon",
-          bgcolor: "#59926d"
-        }
+          bgcolor: "#59926d",
+        },
       ];
 
       for (var i = 0; i < legends.length; i++) {
         this.$bus.$emit("cesiumLegend", legends[i]);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
