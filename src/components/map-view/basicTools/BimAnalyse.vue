@@ -1,13 +1,13 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-07-28 14:55:18
+ * @LastEditTime: 2020-07-28 20:12:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
 -->
 <template>
-  <div class="ThreeDContainer" :style="{width:'200px'}">
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'200px'}">
     <div class="bimanalayse tframe">
       <el-form>
         <el-row>
@@ -67,13 +67,6 @@ export default {
     //  事件绑定
     eventRegsiter() {
       const that = this;
-      // that.viewer.pickEvent.addEventListener((feature) => {
-      //   that.SetForceBimData(
-      //     Object.keys(feature).map((k) => {
-      //       return { k, v: feature[k] };
-      //     })
-      //   );
-      // });
       that.handler.setInputAction((e) => {
         let position = that.viewer.scene.pickPosition(e.position);
         !position && (position = Cesium.Cartesian3.fromDegrees(0, 0, 0));
@@ -87,7 +80,6 @@ export default {
     //  相机移动
     cameraMove() {
       this.viewer.scene.camera.setView({
-        // 将经度、纬度、高度的坐标转换为笛卡尔坐标
         destination: {
           x: -2875652.7880414873,
           y: 4843023.435651329,

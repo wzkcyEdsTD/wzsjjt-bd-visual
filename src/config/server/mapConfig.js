@@ -119,5 +119,7 @@ export const BimSourceURL = {
   SCENE_URL_BUILDING_9:
     "http://172.20.83.223:8090/iserver/services/3D-Placement_house_merge/rest/realspace/datas/Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge/config",
   STATION_SCENE_URL:
-    "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace"
+    "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace",
+  STATION_DATA_URL:
+    "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data"
 };

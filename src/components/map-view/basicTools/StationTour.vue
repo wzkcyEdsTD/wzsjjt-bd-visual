@@ -1,24 +1,27 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 09:41:59
- * @LastEditTime: 2020-07-28 17:15:31
+ * @LastEditTime: 2020-07-28 20:10:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\StationTour.vue
 -->
 <template>
-  <div class="ThreeDContainer" :style="{width:'600px'}">
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'640px'}">
     <div class="stationtour tframe">
       <el-form>
         <el-row>
           <el-col :span="24">
             <el-form-item class="elformbtns">
               <el-popover placement="top" title="图层选择" width="300" trigger="click">
-                <div class="bim-analyse-tree">
+                <div class="bim-analyse-tree" v-if="shallTree">
                   <el-tree
                     :data="StationTreeData"
                     show-checkbox
                     node-key="id"
+                    ref="tree"
+                    :default-expanded-keys="['all']"
+                    :default-checked-keys="['all']"
                     @check-change="checkChange"
                   />
                 </div>
@@ -40,17 +43,33 @@
 import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
-const LAYER_NAME = "Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge";
+const layerName = [
+  "顶板",
+  "机场站-B1",
+  "机场站-B2",
+  "机场站标识",
+  "机场站标注",
+];
 export default {
   name: "StationTour",
   data() {
     return {
-      StationTreeData: [],
+      shallTree: false,
+      keys: [],
+      StationTreeData: [{ id: "all", label: "图层控制", children: [] }],
       tourOn: false,
       // cesium Object
       viewer: undefined,
       flyManager: undefined,
     };
+  },
+  watch: {
+    StationTreeData: {
+      handler(n, o) {
+        n[0].children.length == 3 && (this.shallTree = true);
+      },
+      deep: true,
+    },
   },
   created() {
     this.viewer = window.earth;
@@ -98,21 +117,61 @@ export default {
     },
     //  初始化BIM场景
     initBimScene(fn) {
-      const _LAYER_ = this.viewer.scene.layers.find(LAYER_NAME);
+      const _LAYER_ = this.viewer.scene.layers.find(layerName[0]);
       if (_LAYER_) {
-        _LAYER_.visible = true;
+        layerName.map((d) => (this.viewer.scene.layers.find(d).visible = true));
       } else {
-        const { STATION_SCENE_URL } = BimSourceURL;
-        // const promise = this.viewer.scene.open(SCENE_URL);
+        const { STATION_SCENE_URL, STATION_DATA_URL } = BimSourceURL;
         const promise = this.viewer.scene.open(STATION_SCENE_URL);
         Cesium.when(promise, async (layers) => {
-          layers.map((d) => console.log(d));
+          layerName.map((d, index) => {
+            if (index > 2) return undefined;
+            const layer = this.viewer.scene.layers.find(d);
+            layer.setQueryParameter({
+              url: STATION_DATA_URL,
+              dataSourceName: d,
+              isMerge: true,
+            });
+            const color = new Cesium.Color.fromCssColorString(
+              "rgba(23,92,239,0.3)"
+            );
+            layer.selectedColor = color;
+            layer.datasetInfo().then((result) => {
+              this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
+              this.StationTreeData[0].children.push({
+                id: d,
+                label: d,
+                children: result.map((v, index) => {
+                  return {
+                    id: `${d}_${index}`,
+                    label: v.datasetName,
+                    k: d,
+                    startID: v.startID,
+                    endID: v.endID,
+                  };
+                }),
+              });
+            });
+          });
         });
       }
     },
     //  树结构改变
     checkChange(...params) {
-      console.log(params);
+      const obj = { 顶板: [], "机场站-B1": [], "机场站-B2": [] };
+      const nodes = this.$refs.tree
+        .getCheckedNodes()
+        .filter((v) => !v.children)
+        .map((v) => {
+          for (let i = v.startID; i < v.endID + 1; i++) {
+            obj[v.k].push(i);
+          }
+        });
+      console.log(obj);
+      Object.keys(obj).map((v) => {
+        const layer = this.viewer.scene.layers.find(v);
+        layer.setOnlyObjsVisible(obj[v], true);
+      });
     },
     startStationTour() {
       this.flyManager && this.flyManager.play();
@@ -130,7 +189,7 @@ export default {
     //  清除BIM模块
     clearStationTour() {
       this.flyManager && (this.flyManager = undefined);
-      // this.viewer.scene.layers.find(LAYER_NAME).visible = false;
+      layerName.map((d) => (this.viewer.scene.layers.find(d).visible = false));
     },
   },
 };
