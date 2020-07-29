@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-28 17:16:36
+ * @LastEditTime: 2020-07-29 17:32:06
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -24,7 +24,7 @@
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
-import Coverage from "./cesium_coverage";
+import Coverage from "./treeTool/TreeTool";
 import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
 import BimAnalyse from "./basicTools/BimAnalyse";
 import StationTour from "./basicTools/StationTour";

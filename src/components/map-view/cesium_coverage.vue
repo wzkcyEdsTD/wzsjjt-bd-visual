@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-28 15:08:43
+ * @LastEditTime: 2020-07-29 17:10:26
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -300,6 +300,7 @@ export default {
                 this.sqcllayer = window.earth.imageryLayers.addImageryProvider(
                   new Cesium.SuperMapImageryProvider({
                     url: a.url,
+                    name : 'test'
                   })
                 );
               }
