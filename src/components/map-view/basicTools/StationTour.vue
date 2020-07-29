@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 09:41:59
- * @LastEditTime: 2020-07-28 20:10:13
+ * @LastEditTime: 2020-07-29 10:30:08
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\StationTour.vue
@@ -137,6 +137,7 @@ export default {
             );
             layer.selectedColor = color;
             layer.datasetInfo().then((result) => {
+              console.log(result);
               this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
               this.StationTreeData[0].children.push({
                 id: d,
@@ -170,7 +171,7 @@ export default {
       console.log(obj);
       Object.keys(obj).map((v) => {
         const layer = this.viewer.scene.layers.find(v);
-        layer.setOnlyObjsVisible(obj[v], true);
+        layer.setObjsVisible(obj[v], true);
       });
     },
     startStationTour() {
@@ -188,6 +189,7 @@ export default {
     },
     //  清除BIM模块
     clearStationTour() {
+      this.stopStationTour();
       this.flyManager && (this.flyManager = undefined);
       layerName.map((d) => (this.viewer.scene.layers.find(d).visible = false));
     },

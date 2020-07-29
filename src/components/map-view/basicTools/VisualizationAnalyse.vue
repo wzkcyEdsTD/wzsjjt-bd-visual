@@ -57,7 +57,7 @@ export default {
   },
   beforeDestroy() {
     this.pointHandler = undefined;
-    this.handler = undefined;
+    this.handler.destory()
     this.viewshed3D && this.viewshed3D.destroy();
     this.viewPosition = undefined;
     this.viewer = undefined;

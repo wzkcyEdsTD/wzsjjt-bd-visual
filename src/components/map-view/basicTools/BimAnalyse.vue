@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-07-28 20:12:29
+ * @LastEditTime: 2020-07-29 10:02:24
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -14,11 +14,14 @@
           <el-col :span="24">
             <el-form-item class="elformbtns">
               <el-popover placement="top" title="图层选择" width="300" trigger="click">
-                <div class="bim-analyse-tree">
+                <div class="bim-analyse-tree" v-if="shallTree">
                   <el-tree
                     :data="BimTreeData"
                     show-checkbox
                     node-key="id"
+                    ref="tree"
+                    :default-expanded-keys="['all']"
+                    :default-checked-keys="['all']"
                     @check-change="checkChange"
                   />
                 </div>
@@ -36,17 +39,27 @@
 import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
-const LAYER_NAME = "Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge";
+const LAYER_NAME = "F-03a_AS-9";
 export default {
   name: "BimAnalyse",
   data() {
     return {
-      BimTreeData: [],
+      shallTree: false,
+      keys: [],
+      BimTreeData: [{ id: "all", label: "图层控制", children: [] }],
       // cesium Object
       viewer: undefined,
       handler: undefined,
       lastHouseEntity: undefined,
     };
+  },
+  watch: {
+    BimTreeData: {
+      handler(n, o) {
+        n[0].children.length == 1 && (this.shallTree = true);
+      },
+      deep: true,
+    },
   },
   created() {
     this.viewer = window.earth;
@@ -59,7 +72,7 @@ export default {
   },
   beforeDestroy() {
     this.clearBimAnalyse();
-    this.handler = undefined;
+    this.handler.destory();
     this.viewer = undefined;
   },
   methods: {
@@ -101,25 +114,36 @@ export default {
         const { SCENE_URL, SCENE_DATA_URL } = BimSourceURL;
         // const promise = this.viewer.scene.open(SCENE_URL);
         const promise = this.viewer.scene.addS3MTilesLayerByScp(
-          "http://172.20.83.223:8090/iserver/services/3D-Placement_house_merge/rest/realspace/datas/Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge/config",
-          {
-            name: LAYER_NAME,
-          }
+          `${SCENE_URL}/datas/${LAYER_NAME}/config`,
+          { name: LAYER_NAME }
         );
-        console.log("start loading...");
         Cesium.when(promise, async (layers) => {
-          console.log("end loading...");
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
           layer.setQueryParameter({
             url: SCENE_DATA_URL,
-            dataSourceName: "F-03a_AS-9_merge",
-            dataSetName: "Merge_F_03a_AS_9__2018_1",
+            dataSourceName: LAYER_NAME,
             isMerge: true,
           });
           const color = new Cesium.Color.fromCssColorString(
             "rgba(23,92,239,0.3)"
           );
           layer.selectedColor = color;
+          console.log(layer)
+          layer.datasetInfo().then((result) => {
+            this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
+            this.BimTreeData[0].children.push({
+              id: LAYER_NAME,
+              label: LAYER_NAME,
+              children: result.map((v, index) => {
+                return {
+                  id: `${LAYER_NAME}_${index}`,
+                  label: v.datasetName,
+                  startID: v.startID,
+                  endID: v.endID,
+                };
+              }),
+            });
+          });
         });
       }
     },
@@ -203,7 +227,17 @@ export default {
     },
     //  树结构改变
     checkChange(...params) {
-      console.log(params);
+      const array = [];
+      const nodes = this.$refs.tree
+        .getCheckedNodes()
+        .filter((v) => !v.children)
+        .map((v) => {
+          for (let i = v.startID; i < v.endID + 1; i++) {
+            array.push(i);
+          }
+        });
+      const layer = this.viewer.scene.layers.find(LAYER_NAME);
+      layer.setObjsVisible(array, true);
     },
     //  关闭BIM分析模块
     closeBimAnalyse() {

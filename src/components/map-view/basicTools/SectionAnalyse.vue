@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:40
- * @LastEditTime: 2020-07-28 11:00:38
+ * @LastEditTime: 2020-07-29 10:01:54
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\SectionAnalyse.vue
@@ -54,8 +54,8 @@ export default {
     this.eventRegsiter();
   },
   beforeDestroy() {
-    this.handlerLine = undefined;
-    this.handler = undefined;
+    this.handlerLine.destory();
+    this.handler.destory()
     this.profile = undefined;
     this.tooltip = undefined;
     this.viewer = undefined;
