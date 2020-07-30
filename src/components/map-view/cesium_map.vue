@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-29 17:32:06
+ * @LastEditTime: 2020-07-30 11:20:26
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -9,15 +9,17 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <Coverage />
-    <RegionSimulateFlood ref="regionsimulateflood" v-if="showSubFrame == '3d1'" />
-    <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
-    <StationTour ref="stationtour" v-if="showSubFrame == '3d3'" />
-    <!-- <UnderGround ref="underground" v-if="showSubFrame == '3d4'" /> -->
-    <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
-    <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
-    <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
-    <InfoFrame ref="infoframe" />
+    <div v-if="mapLoaded">
+      <Coverage />
+      <RegionSimulateFlood ref="regionsimulateflood" v-if="showSubFrame == '3d1'" />
+      <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
+      <StationTour ref="stationtour" v-if="showSubFrame == '3d3'" />
+      <!-- <UnderGround ref="underground" v-if="showSubFrame == '3d4'" /> -->
+      <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
+      <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
+      <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
+      <InfoFrame ref="infoframe" />
+    </div>
   </div>
 </template>
 
@@ -41,6 +43,7 @@ export default {
     return {
       showSubFrame: null,
       showSubTool: null,
+      mapLoaded: false,
     };
   },
   components: {
@@ -55,7 +58,9 @@ export default {
     InfoFrame,
   },
   mounted() {
-    this.init3DMap();
+    this.init3DMap(() => {
+      this.mapLoaded = true;
+    });
     this.eventRegsiter();
   },
   methods: {
@@ -70,7 +75,7 @@ export default {
         this.showSubTool = value;
       });
     },
-    init3DMap() {
+    init3DMap(fn) {
       const that = this;
       // 加载地图和影像地图
       var viewer = new Cesium.Viewer("cesiumContainer", {
@@ -146,14 +151,14 @@ export default {
         },
       });
       window.earth = viewer; // 全局变量（优化性能）
-      // store.dispatch('cesium', viewer)
-      // this.initPop();
       viewer.pickEvent.addEventListener((feature) => {
+        console.log(feature);
         const _data_ = Object.keys(feature).map((k) => {
           return { k, v: feature[k] };
         });
         that.SetForceBimData(_data_);
       });
+      fn && fn();
     },
   },
 };

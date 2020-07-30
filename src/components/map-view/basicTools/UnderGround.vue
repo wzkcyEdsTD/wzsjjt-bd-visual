@@ -44,7 +44,7 @@ export default {
   },
   beforeDestroy() {
     this.clearUnderGround();
-    this.handler.destory()
+    this.handler.destroy()
     this.viewer = undefined;
   },
   methods: {

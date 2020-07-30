@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-29 17:37:03
+ * @LastEditTime: 2020-07-30 11:06:15
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\treeTool\treeTool.vue
@@ -24,7 +24,6 @@
           show-checkbox
           node-key="id"
           :filter-node-method="filterNode"
-          :props="defaultProps"
           default-expand-all
           @check-change="checkChange"
         />
@@ -73,19 +72,20 @@ export default {
     this.eventRegsiter();
   },
   beforeDestroy() {
-    this.handler.destory();
+    this.handler.destroy();
   },
   methods: {
     eventRegsiter() {
-      this.handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
+      this.handler = new Cesium.ScreenSpaceEventHandler(
+        window.earth.scene.canvas
+      );
       this.handler.setInputAction((e) => {
-        window.earth.entities.removeById("identify-area");
-        const position = scene.pickPosition(e.position);
+        const position = window.earth.scene.pickPosition(e.position);
         const cartographic = Cesium.Cartographic.fromCartesian(position);
         const longitude = Cesium.Math.toDegrees(cartographic.longitude);
         const latitude = Cesium.Math.toDegrees(cartographic.latitude);
         const queryPoint = { x: longitude, y: latitude };
-        // this.queryByPoint(queryPoint);
+        console.log(queryPoint);
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     filterNode(value, data) {
@@ -119,12 +119,17 @@ export default {
                   url: node.dataurl,
                   isMerge: true,
                 });
-              node.camera && this.setview(...node.camera);
             });
           } else {
             LAYER.visible = true;
           }
         }
+        node.camera &&
+          this.setview(
+            node.cameraDone
+              ? node.camera
+              : Cesium.Cartesian3.fromDegrees(...node.camera)
+          );
       } else {
         const LAYER = node.vectorTile
           ? this.imageLayer[node.id]
@@ -134,10 +139,10 @@ export default {
       }
     },
     // 三维定位
-    setview(lng, lat, height) {
+    setview(cameraSight) {
       window.earth.scene.camera.setView({
         // 将经度、纬度、高度的坐标转换为笛卡尔坐标
-        destination: Cesium.Cartesian3.fromDegrees(lng, lat, height),
+        destination: cameraSight,
         orientation: {
           heading: 5.6326,
           pitch: -0.40149976501196627,

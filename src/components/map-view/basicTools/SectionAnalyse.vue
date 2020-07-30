@@ -54,8 +54,8 @@ export default {
     this.eventRegsiter();
   },
   beforeDestroy() {
-    this.handlerLine.destory();
-    this.handler.destory()
+    this.handlerLine.destroy();
+    this.handler.destroy()
     this.profile = undefined;
     this.tooltip = undefined;
     this.viewer = undefined;

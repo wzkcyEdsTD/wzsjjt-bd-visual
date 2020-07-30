@@ -72,7 +72,7 @@ export default {
   },
   beforeDestroy() {
     this.clearBimAnalyse();
-    this.handler.destory();
+    this.handler.destroy();
     this.viewer = undefined;
   },
   methods: {
