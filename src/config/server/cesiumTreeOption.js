@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-07-30 11:04:03
+ * @LastEditTime: 2020-07-30 15:56:06
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\config\server\cesiumTreeOption.js
@@ -10,7 +10,7 @@ const TOP_LEVEL_OPTION = [
   {
     label: "白模",
     url:
-      "http://10.36.234.83:8098/iserver/services/3D-SW_YJ/rest/realspace/datas/RES_YJ_Z_EraseMax_Model@Baimo/config"
+      "http://172.20.83.223:8098/iserver/services/3D-CM_LC/rest/realspace/datas/RES_LC_EraseMAX_Z_Model@baimo/config"
   },
   {
     label: "2012精模",
@@ -23,9 +23,9 @@ const TOP_LEVEL_OPTION = [
       dataSetName: "max_2012"
     },
     camera: {
-      x: -2876276.933400896,
-      y: 4843131.36288743,
-      z: 2993318.7080605105
+      x: -2877074.5261789295,
+      y: 4842678.649871697,
+      z: 2993284.6421134197
     },
     cameraDone: true
   },
@@ -40,9 +40,9 @@ const TOP_LEVEL_OPTION = [
       dataSetName: "max_2017"
     },
     camera: {
-      x: -2876276.933400896,
-      y: 4843131.36288743,
-      z: 2993318.7080605105
+      x: -2877074.5261789295,
+      y: 4842678.649871697,
+      z: 2993284.6421134197
     },
     cameraDone: true
   },
@@ -51,6 +51,18 @@ const TOP_LEVEL_OPTION = [
     url:
       "http://10.36.234.83:8090/iserver/services/map-FXFX_DATA/rest/maps/FXFX_YJ_ComprehensiveScore",
     vectorTile: true
+  }
+];
+const BIM_GRAPHIS_OPTION = [
+  {
+    label: "安置房BIM分析",
+    busEvent: "cesium-3d-event",
+    componentKey: "3d2"
+  },
+  {
+    label: "机场BIM场景",
+    busEvent: "cesium-3d-event",
+    componentKey: "3d3"
   }
 ];
 const LEAN_GRAPHIS_OPTION = [
@@ -128,6 +140,17 @@ const LEAN_GRAPHIS_OPTION = [
       x: -2868148.921505489,
       y: 4845701.558019418,
       z: 2996299.072267176
+    },
+    cameraDone: true
+  },
+  {
+    label: "中央涂村2",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ZhongYangTu_2016_2/config",
+    camera: {
+      x: -2868406.778311407,
+      y: 4845735.803338195,
+      z: 2996063.3154144934
     },
     cameraDone: true
   },
@@ -306,6 +329,14 @@ export const CESIUM_TREE_OPTION = [
   ...TOP_LEVEL_OPTION.map(v => {
     return { ...v, id: v.label };
   }),
+  {
+    id: "BIM",
+    label: "BIM",
+    disabled: true,
+    children: BIM_GRAPHIS_OPTION.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
   {
     id: "倾斜摄影",
     label: "倾斜摄影",

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-30 11:06:15
+ * @LastEditTime: 2020-07-30 16:39:34
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\treeTool\treeTool.vue
@@ -93,7 +93,12 @@ export default {
     },
     checkChange(node, checked, c) {
       if (checked) {
-        if (node.vectorTile) {
+        if (node.componentKey) {
+          ["安置房BIM分析", "机场BIM场景"].filter(
+            (v) => v != node.id && this.$refs.tree.setChecked(v, false)
+          );
+          this.$bus.$emit(node.busEvent, { value: node.componentKey });
+        } else if (node.vectorTile) {
           const LAYER = this.imageLayer[node.id];
           LAYER
             ? (LAYER.show = true)
@@ -105,7 +110,7 @@ export default {
                   name: node.id,
                 })
               ));
-        } else {
+        } else if (node.url) {
           const LAYER = window.earth.scene.layers.find(node.id);
           if (!LAYER) {
             const PROMISE = window.earth.scene.addS3MTilesLayerByScp(node.url, {
@@ -131,11 +136,20 @@ export default {
               : Cesium.Cartesian3.fromDegrees(...node.camera)
           );
       } else {
-        const LAYER = node.vectorTile
-          ? this.imageLayer[node.id]
-          : window.earth.scene.layers.find(node.id);
-        LAYER &&
-          (node.vectorTile ? (LAYER.show = false) : (LAYER.visible = false));
+        if (node.componentKey) {
+          const eventNode = this.$refs.tree
+            .getCheckedNodes()
+            .filter((v) => v.componentKey);
+          this.$bus.$emit(node.busEvent, {
+            value: eventNode.length ? eventNode[0].componentKey : null,
+          });
+        } else {
+          const LAYER = node.vectorTile
+            ? this.imageLayer[node.id]
+            : window.earth.scene.layers.find(node.id);
+          LAYER &&
+            (node.vectorTile ? (LAYER.show = false) : (LAYER.visible = false));
+        }
       }
     },
     // 三维定位

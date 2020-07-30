@@ -1,13 +1,13 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-07-29 10:02:24
+ * @LastEditTime: 2020-07-30 19:19:52
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
 -->
 <template>
-  <div class="ThreeDContainer ThreeToTop" :style="{width:'200px'}">
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'125px'}">
     <div class="bimanalayse tframe">
       <el-form>
         <el-row>
@@ -27,7 +27,7 @@
                 </div>
                 <el-button slot="reference">图层选择</el-button>
               </el-popover>
-              <el-button class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
+              <el-button v-show="false" class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -39,7 +39,8 @@
 import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
-const LAYER_NAME = "F-03a_AS-9";
+const LAYER_NAME = "Block1";
+const DATASOURCE_NAME = "第一栋";
 export default {
   name: "BimAnalyse",
   data() {
@@ -121,22 +122,22 @@ export default {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
           layer.setQueryParameter({
             url: SCENE_DATA_URL,
-            dataSourceName: LAYER_NAME,
+            dataSourceName: DATASOURCE_NAME,
             isMerge: true,
           });
           const color = new Cesium.Color.fromCssColorString(
             "rgba(23,92,239,0.3)"
           );
           layer.selectedColor = color;
-          console.log(layer)
+          console.log(layer);
           layer.datasetInfo().then((result) => {
             this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
             this.BimTreeData[0].children.push({
-              id: LAYER_NAME,
-              label: LAYER_NAME,
+              id: DATASOURCE_NAME,
+              label: DATASOURCE_NAME,
               children: result.map((v, index) => {
                 return {
-                  id: `${LAYER_NAME}_${index}`,
+                  id: `${DATASOURCE_NAME}_${index}`,
                   label: v.datasetName,
                   startID: v.startID,
                   endID: v.endID,

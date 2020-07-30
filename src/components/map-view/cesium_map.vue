@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-07-30 11:20:26
+ * @LastEditTime: 2020-07-30 16:45:25
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -68,6 +68,7 @@ export default {
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
       this.$bus.$on("cesium-3d-event", ({ value }) => {
+        this.SetForceBimData([]);
         this.showSubFrame = value;
       });
       this.$bus.$off("cesium-3d-maptool");

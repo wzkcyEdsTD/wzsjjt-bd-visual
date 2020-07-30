@@ -1,13 +1,13 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 09:41:59
- * @LastEditTime: 2020-07-29 10:30:08
+ * @LastEditTime: 2020-07-30 16:43:27
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\StationTour.vue
 -->
 <template>
-  <div class="ThreeDContainer ThreeToTop" :style="{width:'640px'}">
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'565px'}">
     <div class="stationtour tframe">
       <el-form>
         <el-row>
@@ -31,7 +31,7 @@
               <el-button class="elformbtn" :disabled="!tourOn" @click="pauseStationTour">暂停漫游</el-button>
               <el-button class="elformbtn" :disabled="!tourOn" @click="stopStationTour">停止漫游</el-button>
               <el-button class="elformbtn" :disabled="!tourOn" @click="cameraMove">视角调整</el-button>
-              <el-button class="elformbtn" @click="closeStationTour">关闭</el-button>
+              <el-button class="elformbtn" v-show="false" @click="closeStationTour">关闭</el-button>
             </el-form-item>
           </el-col>
         </el-row>
