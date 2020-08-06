@@ -3,7 +3,7 @@
  * @Author: jiangbotao
  * @Date: 2019-12-09 23:17:48
  * @LastEditors: eds
- * @LastEditTime: 2020-07-16 15:30:58
+ * @LastEditTime: 2020-08-06 14:53:35
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\base_map.vue
  -->
 <template>

@@ -120,6 +120,25 @@
         </div>
       </div>
     </div>
+    <div
+      @mouseover="mapChildMouseover(0)"
+      @mouseout="mapChildMouseout(0)"
+      @click.stop
+      v-if="mapNew[selectIndex].children"
+      v-show="mapNew[selectIndex].childrenShow && centerShow"
+      class="item-child"
+      :class="collapse1?'collapse':''"
+      :style="{top:mapNew[selectIndex].top}"
+    >
+      <div>
+        <div :key="'b'+index2" v-for="(item2,index2) in mapNew[selectIndex].children">
+          <label :class="{'active':dituType===item2.value}" @click="changedituType(item2)">
+            <span></span>
+            {{item2.name}}
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -194,7 +213,7 @@ export default {
           name: "影像",
           abbrev: "影像",
           value: "changeMap",
-          top: "2.5rem",
+          top: "1.9rem",
           childrenShow: false,
           childrenFocus: false,
           children: [
@@ -820,7 +839,7 @@ export default {
 .item-child {
   transition: left 0.3s linear !important;
   position: fixed;
-  left: 4.44rem;
+  left: 5rem;
   color: #fff;
   z-index: 9999;
   &.collapse {

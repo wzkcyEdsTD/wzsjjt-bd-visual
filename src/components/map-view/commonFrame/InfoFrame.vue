@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 14:09:16
- * @LastEditTime: 2020-08-06 10:42:48
+ * @LastEditTime: 2020-08-06 16:05:47
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\commonFrame\InfoFrame.vue
@@ -12,6 +12,7 @@
       <i class="close" @click="closeBimFrame"></i>
       <el-tabs v-model="activeTab">
         <el-tab-pane label="详细信息" name="bim">
+          <button v-if="isMAX2012" @click="openRtmpVideo">查看监控</button>
           <table>
             <tbody>
               <tr v-for="(d,i) in fixedForceBimData" :key="i">
@@ -36,6 +37,7 @@
           </table>
         </el-tab-pane>
       </el-tabs>
+      <rtmpVideo v-if="isMAX2012 && isRtmpVideoOpen" />
     </div>
   </div>
 </template>
@@ -43,22 +45,29 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { FILTER_KEYS, HASH_KEYS } from "./filterKeys";
+import rtmpVideo from "./rtmpVideo";
 export default {
   name: "InfoFrame",
   data() {
-    return { activeTab: "bim" };
+    return { activeTab: "bim", isRtmpVideoOpen: false };
   },
+  components: { rtmpVideo },
   beforeDestroy() {
     this.closeBimFrame();
   },
   computed: {
     ...mapGetters("map", ["forceBimData", "forceRoomData", "forceBimIDS"]),
+    isMAX2012() {
+      return ~this.forceBimData.map((item) => item.k).indexOf("幢名");
+    },
     fixedForceBimData() {
-      return this.forceBimData
-        .filter(({ k, v }) => !~FILTER_KEYS.indexOf(k))
-        .map(({ k, v }) => {
-          return { k: HASH_KEYS[k] || k, v };
-        });
+      return [
+        ...this.forceBimData
+          .filter(({ k, v }) => !~FILTER_KEYS.indexOf(k))
+          .map(({ k, v }) => {
+            return { k: HASH_KEYS[k] || k, v };
+          }),
+      ];
     },
     fixedForceRoomData() {
       return this.forceRoomData
@@ -79,6 +88,9 @@ export default {
       "SetForceRoomData",
       "SetForceBimIDS",
     ]),
+    openRtmpVideo() {
+      this.isRtmpVideoOpen = true;
+    },
     openFloorStructure() {
       this.$bus.$emit("cesium-3d-floorDIS", true);
     },

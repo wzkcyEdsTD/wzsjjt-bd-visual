@@ -119,5 +119,7 @@ export const BimSourceURL = {
   STATION_SCENE_URL:
     "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace",
   STATION_DATA_URL:
-    "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data"
+    "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data",
+  UNDERGROUND_SCENE_URL:
+    "http://172.20.83.223:8098/iserver/services/3D-GSLINE/rest/realspace"
 };

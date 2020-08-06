@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-08-06 11:01:34
+ * @LastEditTime: 2020-08-06 11:16:31
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -121,7 +121,7 @@ export default {
     },
     //  相机移动
     cameraMove() {
-      this.viewer.scene.camera.setView({
+      window.earth.scene.camera.setView({
         destination: {
           x: -2875539.090787695,
           y: 4842735.556374235,

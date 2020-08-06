@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 09:41:59
- * @LastEditTime: 2020-08-06 11:07:46
+ * @LastEditTime: 2020-08-06 14:30:28
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\StationTour.vue
@@ -43,7 +43,7 @@
 import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
-const layerName = [
+const LAYER_NAME = [
   "顶板",
   "机场站-B1",
   "机场站-B2",
@@ -103,7 +103,7 @@ export default {
     //  相机移动
     cameraMove() {
       this.stopStationTour();
-      this.viewer.scene.camera.setView({
+      window.earth.scene.camera.setView({
         destination: {
           x: -2889836.1221072627,
           y: 4839196.223723019,
@@ -119,14 +119,14 @@ export default {
     //  初始化BIM场景
     initBimScene(fn) {
       this.viewer.scene.undergroundMode = true;
-      const _LAYER_ = this.viewer.scene.layers.find(layerName[0]);
+      const _LAYER_ = this.viewer.scene.layers.find(LAYER_NAME[0]);
       if (_LAYER_) {
-        layerName.map((d) => (this.viewer.scene.layers.find(d).visible = true));
+        LAYER_NAME.map((d) => (this.viewer.scene.layers.find(d).visible = true));
       } else {
         const { STATION_SCENE_URL, STATION_DATA_URL } = BimSourceURL;
         const promise = this.viewer.scene.open(STATION_SCENE_URL);
         Cesium.when(promise, async (layers) => {
-          layerName.map((d, index) => {
+          LAYER_NAME.map((d, index) => {
             if (index > 2) return undefined;
             const layer = this.viewer.scene.layers.find(d);
             layer.setQueryParameter({
@@ -191,7 +191,7 @@ export default {
     clearStationTour() {
       this.stopStationTour();
       this.flyManager && (this.flyManager = undefined);
-      layerName.map((d) => (this.viewer.scene.layers.find(d).visible = false));
+      LAYER_NAME.map((d) => (this.viewer.scene.layers.find(d).visible = false));
     },
   },
 };

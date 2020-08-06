@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-28 11:19:46
- * @LastEditTime: 2020-08-06 10:24:33
+ * @LastEditTime: 2020-08-06 11:58:17
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyseFloorSection.js
@@ -15,12 +15,13 @@ const DATA_SETS = "结构框架@结构柱@楼板@墙@平台@梯段"
 
 /**
  * async SQL query
- * @param {*} datasets
+ * @param {*} datasetNames
+ * @param {*} bimHash
+ * @param {*} selectedFloors_number
  */
 const do_SQL_QUERY = (datasetNames, bimHash, selectedFloors_number) => {
   const key = datasetNames[0].split(":")[1];
   const hash = bimHash[key];
-  console.log(key, hash);
   return new Promise((resolve, reject) => {
     var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
     getFeatureParam = new SuperMap.REST.FilterParameter({
@@ -69,13 +70,12 @@ const do_SQL_QUERY = (datasetNames, bimHash, selectedFloors_number) => {
  * @param {*} context
  * @param {*} selectedFloors_number
  * @param {*} bimHash
- * @param {*} layer
+ * @param {*} layer (none)
  */
 export const queryFloorByBottom = (
   context,
   selectedFloors_number,
   bimHash,
-  layer
 ) => {
   const PROMISES = [];
   DATA_SETS.map(async v => {
