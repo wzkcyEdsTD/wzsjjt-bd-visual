@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-08-06 09:05:35
+ * @LastEditTime: 2020-08-06 11:01:34
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -50,6 +50,7 @@ export default {
       keys: [],
       BimTreeData: [{ id: "all", label: "图层控制", children: [] }],
       BimHash: {},
+      endID: 0,
       //  floor IDS
       IDS: [],
       FLOOR_ON: false,
@@ -58,6 +59,9 @@ export default {
       handler: undefined,
       lastHouseEntity: undefined,
     };
+  },
+  computed: {
+    ...mapGetters("map", ["forceBimIDS"]),
   },
   watch: {
     BimTreeData: {
@@ -90,6 +94,21 @@ export default {
     //  事件绑定
     eventRegsiter() {
       const that = this;
+      this.$bus.$off("cesium-3d-floorDIS");
+      this.$bus.$on("cesium-3d-floorDIS", (value) => {
+        const layer = this.viewer.scene.layers.find(LAYER_NAME);
+        if (value) {
+          layer.setObjsVisible(this.forceBimIDS, true);
+        } else {
+          const IDS = [];
+          const endID = this.endID;
+          for (let i = 0; i < endID + 1; i++) {
+            IDS.push(i);
+          }
+          layer.setObjsVisible(IDS, true);
+        }
+      });
+
       that.handler.setInputAction((e) => {
         let position = that.viewer.scene.pickPosition(e.position);
         !position && (position = Cesium.Cartesian3.fromDegrees(0, 0, 0));
@@ -140,12 +159,14 @@ export default {
           layer.selectedColor = color;
           layer.datasetInfo().then((result) => {
             const bimHash = {};
+            let endID = 0;
             this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
             this.BimTreeData[0].children.push({
               id: DATASOURCE_NAME,
               label: DATASOURCE_NAME,
               children: result.map((v, index) => {
                 bimHash[v.datasetName] = v.startID;
+                endID = endID <= v.endID ? v.endID : endID;
                 return {
                   id: `${DATASOURCE_NAME}_${index}`,
                   label: v.datasetName,
@@ -154,6 +175,7 @@ export default {
                 };
               }),
             });
+            this.endID = endID;
             this.bimHash = bimHash;
           });
         });

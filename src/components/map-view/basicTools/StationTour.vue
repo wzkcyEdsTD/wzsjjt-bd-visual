@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 09:41:59
- * @LastEditTime: 2020-07-30 16:43:27
+ * @LastEditTime: 2020-08-06 11:07:46
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\StationTour.vue
@@ -102,6 +102,7 @@ export default {
     },
     //  相机移动
     cameraMove() {
+      this.stopStationTour();
       this.viewer.scene.camera.setView({
         destination: {
           x: -2889836.1221072627,
@@ -117,6 +118,7 @@ export default {
     },
     //  初始化BIM场景
     initBimScene(fn) {
+      this.viewer.scene.undergroundMode = true;
       const _LAYER_ = this.viewer.scene.layers.find(layerName[0]);
       if (_LAYER_) {
         layerName.map((d) => (this.viewer.scene.layers.find(d).visible = true));
@@ -137,7 +139,6 @@ export default {
             );
             layer.selectedColor = color;
             layer.datasetInfo().then((result) => {
-              console.log(result);
               this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
               this.StationTreeData[0].children.push({
                 id: d,
@@ -168,7 +169,6 @@ export default {
             obj[v.k].push(i);
           }
         });
-      console.log(obj);
       Object.keys(obj).map((v) => {
         const layer = this.viewer.scene.layers.find(v);
         layer.setObjsVisible(obj[v], true);

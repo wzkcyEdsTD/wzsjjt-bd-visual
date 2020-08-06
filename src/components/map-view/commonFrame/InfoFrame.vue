@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 14:09:16
- * @LastEditTime: 2020-08-05 16:31:47
+ * @LastEditTime: 2020-08-06 10:42:48
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\commonFrame\InfoFrame.vue
@@ -22,7 +22,7 @@
           </table>
         </el-tab-pane>
         <el-tab-pane label="房间信息" name="room" v-if="fixedForceRoomData.length">
-          <div v-if="forceRoomIDS.length">
+          <div v-if="forceBimIDS.length">
             <button @click="openFloorStructure">查看楼层结构</button>
             <button @click="closeFloorStructure">关闭楼层结构</button>
           </div>
@@ -52,7 +52,7 @@ export default {
     this.closeBimFrame();
   },
   computed: {
-    ...mapGetters("map", ["forceBimData", "forceRoomData", "forceRoomIDS"]),
+    ...mapGetters("map", ["forceBimData", "forceRoomData", "forceBimIDS"]),
     fixedForceBimData() {
       return this.forceBimData
         .filter(({ k, v }) => !~FILTER_KEYS.indexOf(k))
@@ -79,9 +79,14 @@ export default {
       "SetForceRoomData",
       "SetForceBimIDS",
     ]),
-    openFloorStructure() {},
-    closeFloorStructure() {},
+    openFloorStructure() {
+      this.$bus.$emit("cesium-3d-floorDIS", true);
+    },
+    closeFloorStructure() {
+      this.$bus.$emit("cesium-3d-floorDIS", false);
+    },
     closeBimFrame() {
+      this.closeFloorStructure();
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
       this.SetForceBimIDS([]);

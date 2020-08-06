@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-28 11:19:46
- * @LastEditTime: 2020-08-05 15:39:40
+ * @LastEditTime: 2020-08-06 10:24:33
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyseFloorSection.js
@@ -82,13 +82,10 @@ export const queryFloorByBottom = (
     PROMISES.push(do_SQL_QUERY([v], bimHash, selectedFloors_number));
   });
   Promise.all(PROMISES).then(values => {
-    console.log(values);
     let IDS = [];
     values.map(({key,value})=>{
       key && (IDS = IDS.concat(value))
     })
-    console.log(IDS);
     context.SetForceBimIDS(IDS);
-    layer.setObjsVisible(IDS, true);
   });
 };
