@@ -1,5 +1,9 @@
 import * as types from "./mutation-types";
 import router from "../../../router/index";
+// 设置bim单层物体id
+export const SetForceBimIDS = function({ commit }, data) {
+  commit(types.SET_FORCE_BIM_IDS, data);
+};
 // 设置bim详细数据
 export const SetForceBimData = function({ commit }, data) {
   commit(types.SET_FORCE_BIM_DATA, data);

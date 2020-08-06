@@ -11,7 +11,7 @@
     "id": 30,
     "label": "2012精模",
     "url": "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2012/config",
-    "dataurl": "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data",
+    "dataurl": "http://172.20.83.223:8098/iserver/services/data-ChengShiJingMo/rest/data",
     "bgcolor": "",
     "legendImg": "",
     "legendStatus": false
@@ -20,7 +20,7 @@
     "id": 31,
     "label": "2017精模",
     "url": "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2017/config",
-    "dataurl": "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest",
+    "dataurl": "http://172.20.83.223:8098/iserver/services/data-ChengShiJingMo/rest/data",
     "bgcolor": "",
     "legendImg": "",
     "legendStatus": false

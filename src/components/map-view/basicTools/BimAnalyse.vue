@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-07-30 19:19:52
+ * @LastEditTime: 2020-08-06 09:05:35
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -37,6 +37,7 @@
 </template>
 <script>
 import { BimSourceURL } from "config/server/mapConfig";
+import { queryFloorByBottom } from "./BimAnalyseFloorSection";
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
 const LAYER_NAME = "Block1";
@@ -48,7 +49,11 @@ export default {
       shallTree: false,
       keys: [],
       BimTreeData: [{ id: "all", label: "图层控制", children: [] }],
-      // cesium Object
+      BimHash: {},
+      //  floor IDS
+      IDS: [],
+      FLOOR_ON: false,
+      //  cesium Object
       viewer: undefined,
       handler: undefined,
       lastHouseEntity: undefined,
@@ -77,7 +82,11 @@ export default {
     this.viewer = undefined;
   },
   methods: {
-    ...mapActions("map", ["SetForceBimData", "SetForceRoomData"]),
+    ...mapActions("map", [
+      "SetForceBimData",
+      "SetForceRoomData",
+      "SetForceBimIDS",
+    ]),
     //  事件绑定
     eventRegsiter() {
       const that = this;
@@ -95,13 +104,13 @@ export default {
     cameraMove() {
       this.viewer.scene.camera.setView({
         destination: {
-          x: -2875652.7880414873,
-          y: 4843023.435651329,
-          z: 2993391.653376218,
+          x: -2875539.090787695,
+          y: 4842735.556374235,
+          z: 2993566.8100139066,
         },
         orientation: {
-          heading: 0,
-          pitch: -0.5655775824490981,
+          heading: 0.00000410168472608774,
+          pitch: -0.5655332606839059,
           roll: 0,
         },
       });
@@ -129,13 +138,14 @@ export default {
             "rgba(23,92,239,0.3)"
           );
           layer.selectedColor = color;
-          console.log(layer);
           layer.datasetInfo().then((result) => {
+            const bimHash = {};
             this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
             this.BimTreeData[0].children.push({
               id: DATASOURCE_NAME,
               label: DATASOURCE_NAME,
               children: result.map((v, index) => {
+                bimHash[v.datasetName] = v.startID;
                 return {
                   id: `${DATASOURCE_NAME}_${index}`,
                   label: v.datasetName,
@@ -144,6 +154,7 @@ export default {
                 };
               }),
             });
+            this.bimHash = bimHash;
           });
         });
       }
@@ -176,6 +187,7 @@ export default {
     },
     //  楼层贴皮
     onQueryComplete(features, height) {
+      const layer = this.viewer.scene.layers.find(LAYER_NAME);
       if (this.lastHouseEntity) {
         this.viewer.entities.remove(this.lastHouseEntity);
         this.lastHouseEntity = null;
@@ -207,6 +219,13 @@ export default {
       var extrudeHeight = Number(
         selectedFeature.fieldValues[selectedFeature.fieldNames.indexOf("LSG")]
       ); // 层高（拉伸高度）
+      //  获取该楼层所有ids
+      queryFloorByBottom(
+        this,
+        Math.floor(bottomHeight / extrudeHeight) + "F",
+        this.bimHash,
+        layer
+      );
       Cesium.GroundPrimitive.bottomAltitude = bottomHeight;
       Cesium.GroundPrimitive.extrudeHeight = extrudeHeight;
       var points3D = [];
@@ -238,6 +257,7 @@ export default {
           }
         });
       const layer = this.viewer.scene.layers.find(LAYER_NAME);
+      console.log(array);
       layer.setObjsVisible(array, true);
     },
     //  关闭BIM分析模块
@@ -253,6 +273,7 @@ export default {
     closeBimFrame() {
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
+      this.SetForceBimIDS([]);
     },
   },
 };

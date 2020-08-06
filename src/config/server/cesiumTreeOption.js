@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-07-30 15:56:06
+ * @LastEditTime: 2020-08-05 14:09:59
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\config\server\cesiumTreeOption.js
@@ -17,9 +17,9 @@ const TOP_LEVEL_OPTION = [
     url:
       "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2012/config",
     dataurl:
-      "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data",
+      "http://172.20.83.223:8098/iserver/services/data-ChengShiJingMo/rest/data",
     dataBind: {
-      dataSourceName: "172.20.83.196_swdata",
+      dataSourceName: "精模_市区",
       dataSetName: "max_2012"
     },
     camera: {
@@ -34,9 +34,9 @@ const TOP_LEVEL_OPTION = [
     url:
       "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2017/config",
     dataurl:
-      "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data",
+      "http://172.20.83.223:8098/iserver/services/data-ChengShiJingMo/rest/data",
     dataBind: {
-      dataSourceName: "172.20.83.196_swdata",
+      dataSourceName: "精模_市区",
       dataSetName: "max_2017"
     },
     camera: {

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 14:09:16
- * @LastEditTime: 2020-07-29 15:03:07
+ * @LastEditTime: 2020-08-05 16:31:47
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\commonFrame\InfoFrame.vue
@@ -22,6 +22,10 @@
           </table>
         </el-tab-pane>
         <el-tab-pane label="房间信息" name="room" v-if="fixedForceRoomData.length">
+          <div v-if="forceRoomIDS.length">
+            <button @click="openFloorStructure">查看楼层结构</button>
+            <button @click="closeFloorStructure">关闭楼层结构</button>
+          </div>
           <table>
             <tbody>
               <tr v-for="(d,i) in fixedForceRoomData" :key="i">
@@ -44,8 +48,11 @@ export default {
   data() {
     return { activeTab: "bim" };
   },
+  beforeDestroy() {
+    this.closeBimFrame();
+  },
   computed: {
-    ...mapGetters("map", ["forceBimData", "forceRoomData"]),
+    ...mapGetters("map", ["forceBimData", "forceRoomData", "forceRoomIDS"]),
     fixedForceBimData() {
       return this.forceBimData
         .filter(({ k, v }) => !~FILTER_KEYS.indexOf(k))
@@ -67,10 +74,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions("map", ["SetForceBimData", "SetForceRoomData"]),
+    ...mapActions("map", [
+      "SetForceBimData",
+      "SetForceRoomData",
+      "SetForceBimIDS",
+    ]),
+    openFloorStructure() {},
+    closeFloorStructure() {},
     closeBimFrame() {
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
+      this.SetForceBimIDS([]);
     },
   },
 };
