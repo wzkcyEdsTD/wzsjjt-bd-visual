@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-08-06 11:16:31
+ * @LastEditTime: 2020-08-06 18:59:44
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -184,14 +184,14 @@ export default {
     //  属性表SQL查询（三维每）
     bindDataSQL({ x, y, z }) {
       const that = this;
-      const { SCENE_SQL_URL } = BimSourceURL;
+      const { SCENE_DATA_URL } = BimSourceURL;
       $.ajax({
         type: "post",
-        url: SCENE_SQL_URL,
+        url: SCENE_DATA_URL + '/featureResults.rjson?returnContent=true',
         data: JSON.stringify({
           getFeatureMode: "SPATIAL",
           spatialQueryMode: "INTERSECT",
-          datasetNames: ["172.20.83.196_swdata:Block_2D"],
+          datasetNames: ["Block_2D:Block_2D"],
           geometry: {
             id: 0,
             parts: [1],
