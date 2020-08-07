@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-08-06 18:59:44
+ * @LastEditTime: 2020-08-07 09:12:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -58,6 +58,9 @@ export default {
       viewer: undefined,
       handler: undefined,
       lastHouseEntity: undefined,
+      //  节流
+      count: 0,
+      fnScroll: () => {},
     };
   },
   computed: {
@@ -91,6 +94,26 @@ export default {
       "SetForceRoomData",
       "SetForceBimIDS",
     ]),
+    fnThrottle(fn, delay, atleast) {
+      //节流函数
+      let timer = null;
+      let previous = null;
+      return function () {
+        let now = +new Date();
+        if (!previous) previous = now;
+        if (atleast && now - previous > atleast) {
+          fn();
+          previous = now;
+          clearTimeout(timer);
+        } else {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            fn();
+            previous = null;
+          }, delay);
+        }
+      };
+    },
     //  事件绑定
     eventRegsiter() {
       const that = this;
@@ -187,7 +210,7 @@ export default {
       const { SCENE_DATA_URL } = BimSourceURL;
       $.ajax({
         type: "post",
-        url: SCENE_DATA_URL + '/featureResults.rjson?returnContent=true',
+        url: SCENE_DATA_URL + "/featureResults.rjson?returnContent=true",
         data: JSON.stringify({
           getFeatureMode: "SPATIAL",
           spatialQueryMode: "INTERSECT",
@@ -279,8 +302,7 @@ export default {
           }
         });
       const layer = this.viewer.scene.layers.find(LAYER_NAME);
-      console.log(array);
-      layer.setObjsVisible(array, true);
+      this.fnThrottle(layer.setObjsVisible(array, true), 1000);
     },
     //  关闭BIM分析模块
     closeBimAnalyse() {
