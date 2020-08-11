@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-28 11:19:46
- * @LastEditTime: 2020-08-06 11:58:17
+ * @LastEditTime: 2020-08-07 10:17:05
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyseFloorSection.js
@@ -72,20 +72,16 @@ const do_SQL_QUERY = (datasetNames, bimHash, selectedFloors_number) => {
  * @param {*} bimHash
  * @param {*} layer (none)
  */
-export const queryFloorByBottom = (
-  context,
-  selectedFloors_number,
-  bimHash,
-) => {
+export const queryFloorByBottom = (context, selectedFloors_number, bimHash) => {
   const PROMISES = [];
   DATA_SETS.map(async v => {
     PROMISES.push(do_SQL_QUERY([v], bimHash, selectedFloors_number));
   });
   Promise.all(PROMISES).then(values => {
     let IDS = [];
-    values.map(({key,value})=>{
-      key && (IDS = IDS.concat(value))
-    })
+    values.map(({ key, value }) => {
+      key && (IDS = IDS.concat(value));
+    });
     context.SetForceBimIDS(IDS);
   });
 };

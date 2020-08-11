@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:04
- * @LastEditTime: 2020-07-21 08:58:47
+ * @LastEditTime: 2020-08-11 09:01:32
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\config\index.js
@@ -19,7 +19,7 @@ module.exports = {
     assetsPublicPath: "/",
     proxyTable: {
       "/": {
-        target: "http://10.36.213.26:9000",
+        target: "http://172.20.83.195:9000",
         changeOrigin: true,
         pathRewrite: {
           "^/": ""
