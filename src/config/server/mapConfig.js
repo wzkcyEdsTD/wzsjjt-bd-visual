@@ -111,11 +111,11 @@ export const dataSourceUrl = {
 
 export const BimSourceURL = {
   SCENE_URL:
-    "http://172.20.83.223:8098/iserver/services/3D-Placement_house_0728/rest/realspace",
+    "http://172.20.83.223:8098/iserver/services/3D-Placement_house_onetable/rest/realspace",
   SCENE_DATA_URL:
-    "http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data",
+    "http://172.20.83.223:8098/iserver/services/data-Placement_house_onetable/rest/data",
   SCENE_SQL_URL:
-    "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data/featureResults.rjson?returnContent=true",
+    "http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data/featureResults.rjson?returnContent=true",
   STATION_SCENE_URL:
     "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace",
   STATION_DATA_URL:

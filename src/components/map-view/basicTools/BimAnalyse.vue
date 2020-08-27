@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-08-07 09:12:43
+ * @LastEditTime: 2020-08-27 16:06:34
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
@@ -121,6 +121,7 @@ export default {
       this.$bus.$on("cesium-3d-floorDIS", (value) => {
         const layer = this.viewer.scene.layers.find(LAYER_NAME);
         if (value) {
+          console.log(this.forceBimIDS);
           layer.setObjsVisible(this.forceBimIDS, true);
         } else {
           const IDS = [];
@@ -164,16 +165,16 @@ export default {
         _LAYER_.visible = true;
       } else {
         const { SCENE_URL, SCENE_DATA_URL } = BimSourceURL;
-        // const promise = this.viewer.scene.open(SCENE_URL);
-        const promise = this.viewer.scene.addS3MTilesLayerByScp(
-          `${SCENE_URL}/datas/${LAYER_NAME}/config`,
-          { name: LAYER_NAME }
-        );
+        const promise = this.viewer.scene.open(SCENE_URL);
+        // const promise = this.viewer.scene.addS3MTilesLayerByScp(
+        //   `${SCENE_URL}/datas/${LAYER_NAME}/config`,
+        //   { name: LAYER_NAME }
+        // );
         Cesium.when(promise, async (layers) => {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
           layer.setQueryParameter({
             url: SCENE_DATA_URL,
-            dataSourceName: DATASOURCE_NAME,
+            dataSourceName: "第一栋",
             isMerge: true,
           });
           const color = new Cesium.Color.fromCssColorString(
@@ -200,6 +201,7 @@ export default {
             });
             this.endID = endID;
             this.bimHash = bimHash;
+            console.log(bimHash);
           });
         });
       }
@@ -207,10 +209,10 @@ export default {
     //  属性表SQL查询（三维每）
     bindDataSQL({ x, y, z }) {
       const that = this;
-      const { SCENE_DATA_URL } = BimSourceURL;
+      const { SCENE_SQL_URL } = BimSourceURL;
       $.ajax({
         type: "post",
-        url: SCENE_DATA_URL + "/featureResults.rjson?returnContent=true",
+        url: SCENE_SQL_URL,
         data: JSON.stringify({
           getFeatureMode: "SPATIAL",
           spatialQueryMode: "INTERSECT",
@@ -267,7 +269,8 @@ export default {
       //  获取该楼层所有ids
       queryFloorByBottom(
         this,
-        Math.floor(bottomHeight / extrudeHeight) + "F",
+        // Math.floor(bottomHeight / extrudeHeight) + "F",
+        "7F",
         this.bimHash,
         layer
       );
