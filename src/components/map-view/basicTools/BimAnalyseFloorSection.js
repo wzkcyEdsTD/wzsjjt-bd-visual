@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-28 11:19:46
- * @LastEditTime: 2020-08-27 15:26:10
+ * @LastEditTime: 2020-08-27 16:27:02
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyseFloorSection.js
@@ -20,8 +20,6 @@ const DATA_SETS = "门@窗@墙@楼板@结构柱@结构框架@梯段@平台"
  * @param {*} selectedFloors_number
  */
 const do_SQL_QUERY = (bimHash, selectedFloors_number) => {
-  const hash = bimHash;
-  const IDS = [];
   return new Promise((resolve, reject) => {
     var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
     getFeatureParam = new SuperMap.REST.FilterParameter({
@@ -37,11 +35,12 @@ const do_SQL_QUERY = (bimHash, selectedFloors_number) => {
       {
         eventListeners: {
           processCompleted: queryEventArgs => {
+            const IDS = [];
             const selectedFeatures = queryEventArgs.originResult.features;
-            for (var i = 0; i < selectedFeatures.length; i++) {
-              var CategoryName = selectedFeatures[i].fieldValues["8"];
-              var value = selectedFeatures[i].fieldValues["0"]; //获取SMID值
-              IDS.push(parseInt(value) + hash[CategoryName] - 1);
+            for (let i = 0; i < selectedFeatures.length; i++) {
+              const CategoryName = selectedFeatures[i].fieldValues["8"];
+              const value = selectedFeatures[i].fieldValues["0"]; //获取SMID值
+              IDS.push(parseInt(value) + bimHash[CategoryName] - 1);
             }
             resolve(IDS);
           },
@@ -68,7 +67,6 @@ export const queryFloorByBottom = async (
   bimHash
 ) => {
   const IDS = await do_SQL_QUERY(bimHash, selectedFloors_number);
-  console.log(IDS);
   context.SetForceBimIDS(IDS);
   // const PROMISES = [];
   // DATA_SETS.map(async v => {
