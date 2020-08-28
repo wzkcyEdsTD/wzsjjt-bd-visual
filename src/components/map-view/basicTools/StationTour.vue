@@ -103,7 +103,7 @@ export default {
     //  相机移动
     cameraMove() {
       this.stopStationTour();
-      window.earth.scene.camera.setView({
+      this.viewer.scene.camera.setView({
         destination: {
           x: -2889836.1221072627,
           y: 4839196.223723019,

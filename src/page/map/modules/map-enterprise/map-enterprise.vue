@@ -216,10 +216,17 @@ export default {
       return res
     },
     initData() {
+      //console.log("aaa",this.$root.fwdata);
       const me = this
       this.activeName = 'card0'
       this.activeIndex = 0
-      getTableData(this.data.smid, this.data.table_name).then(data => {
+      if(me.$root.fwdata[5] == null){
+         var Fieldsorder = "";
+      }else{
+        var Fieldsorder = me.$root.fwdata[5].replace(/,/g, '%2C');
+      }
+      console.log("测试",Fieldsorder);
+      getTableData(this.data.smid, this.data.table_name,Fieldsorder).then(data => {
         const resData = []
         data.forEach((item) => {
           if (item.columnInfos instanceof Array) {

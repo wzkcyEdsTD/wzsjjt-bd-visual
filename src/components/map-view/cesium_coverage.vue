@@ -85,7 +85,6 @@ export default {
       xxxhandler: null, // 永嘉溪下乡绑定事件
       stzlayer: null, // 永嘉沙头镇
       stzhandler: null, // 永嘉沙头镇绑定事件
-
       xzzlayer: null, // 永嘉巽宅镇
       xzzhandler: null, // 永嘉巽宅镇绑定事件
       ytzlayer: null, // 永嘉岩头镇

@@ -46,13 +46,15 @@ const TOP_LEVEL_OPTION = [
     },
     cameraDone: true
   },
-  {
+/*   {
     label: "山区村落自然灾害易发区",
     url:
       "http://10.36.234.83:8090/iserver/services/map-FXFX_DATA/rest/maps/FXFX_YJ_ComprehensiveScore",
     vectorTile: true
-  }
+  } */
 ];
+//这里用于添加BIM的图层勾选
+//componentKey 是用于来绑定btn按钮的值
 const BIM_GRAPHIS_OPTION = [
   {
     label: "安置房BIM分析",
@@ -63,7 +65,13 @@ const BIM_GRAPHIS_OPTION = [
     label: "机场BIM场景",
     busEvent: "cesium-3d-event",
     componentKey: "3d3"
-  }
+  },
+ /*  {
+    label: "安置房单层场景分析",
+    busEvent: "cesium-3d-event",
+    componentKey: "3d2",
+    url:"http://172.20.83.223:8098/iserver/services/3D-Placement_house_onetable/rest/realspace",
+  } */
 ];
 const LEAN_GRAPHIS_OPTION = [
   {
@@ -225,7 +233,7 @@ const LEAN_GRAPHIS_OPTION = [
     },
     cameraDone: true
   },
-  {
+  /* {
     label: "永嘉鹤盛镇",
     url:
       "http://10.36.234.83:8098/iserver/services/3D-SW_YJ_QX/rest/realspace/datas/QINGXIE_YJ_HESHENGZ/config",
@@ -322,7 +330,7 @@ const LEAN_GRAPHIS_OPTION = [
       "http://10.36.234.83:8098/iserver/services/3D-SW_YJ_QX/rest/realspace/datas/QINGXIE_YJ_QIAOTOUZ/config",
     dataurl: "http://10.36.234.83:8098/iserver/services/data-SW_Data/rest/data",
     camera: [120.7601745, 28.19577031, 459.1559]
-  }
+  } */
 ];
 
 export const CESIUM_TREE_OPTION = [

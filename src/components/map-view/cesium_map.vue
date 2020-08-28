@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-11 14:28:20
+ * @LastEditTime: 2020-08-06 14:12:52
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -18,7 +18,10 @@
       <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
       <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
+      <sightline ref="sightline" v-if="showSubTool =='3t4'" />
+      <ShadowQuery ref="ShadowQuery" v-if="showSubTool=='3t5'" />
       <InfoFrame ref="infoframe" />
+      <!--注意这边是两个 "==" 而不是一个 ↑-->
     </div>
   </div>
 </template>
@@ -35,6 +38,8 @@ import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
+import Sightline from "@/components/map-view/basicTools/Sightline";
+import ShadowQuery from "@/components/map-view/basicTools/ShadowQuery";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -56,6 +61,8 @@ export default {
     SectionAnalyse,
     CesiumMapTool,
     InfoFrame,
+    Sightline,
+    ShadowQuery,
   },
   mounted() {
     this.init3DMap(() => {

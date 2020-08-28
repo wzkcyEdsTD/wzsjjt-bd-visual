@@ -1,10 +1,10 @@
 export const ServiceUrl = {
   // 矢量底图服务
   vectorMap:
-    "http://10.36.245.203:8090/iserver/services/map-agscachev2-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
+    "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
   // 大数据底图服务
   bigDataMap:
-    "http://10.36.245.203:8090/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000",
+    "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000",
   // 影像底图服务
   image2019Map:
     "http://10.36.245.203:8090/iserver/services/map-agscachev2-YJYX2019CGCS2000/rest/maps/YJ_YX_2019_CGCS2000",
@@ -55,16 +55,16 @@ export const ServiceUrl = {
     "http://10.36.234.83:8090/iserver/services/map-kljcz_6/rest/maps/klj06",
   // 永嘉县范围层
   YJMap: "http://10.36.234.83:8090/iserver/services/map-XZQH/rest/maps/yjx",
-  // 温州地形
+  // 温州地形全市域dem
   WZDem:
-    "http://10.36.234.83:8090/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
+    "http://172.20.83.223:8098/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
   // 温州白模
   WZBaimo:
     "http://10.36.234.83:8098/iserver/services/3D-SW_YJ/rest/realspace/datas/RES_YJ_Z_EraseMax_Model@Baimo/config",
-  // 三维影像地图
+  // 三维影像地图2019
   // SWImage: 'http://10.36.234.83:8098/iserver/services/3D-YX_2019_SW/rest/realspace/datas/YX_2019_SW',
   SWImage:
-    "http://172.20.83.223:8090/iserver/services/3D-YX_2019_SW/rest/realspace/datas/YX_2019_SW",
+    "http://172.20.83.223:8098/iserver/services/3D-YX_2019_SW/rest/realspace/datas/YX_2019_SW",
   // 瑞安影像
   RAImage:
     "http://10.36.245.203:8090/iserver/services/map-agscachev2-YJYX2019CGCS2000/rest/maps/YJ_YX_2019_CGCS2000",
@@ -83,16 +83,16 @@ export const ServiceUrl = {
   // 永嘉dem
   YJDem:
     "http://172.20.83.223:8098/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
-  // YJDem:
   //   "http://10.36.234.83:8098/iserver/services/3D-DEM_YJ/rest/realspace/datas/DEM_YJ@2018dem",
 
   // 标准版地图
   YJBZMap:
-    "http://10.36.245.203:8090/iserver/services/map-agscache-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
+    //"http://10.36.245.203:8090/iserver/services/map-agscache-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
+    "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
   // mvt矢量服务
-  // YJMVT:
-  //   "http://10.36.234.83:8098/iserver/services/map-mvt-XZQHYJ/restjsr/v1/vectortile/maps/XZQH_YJ"
+ 
   YJMVT:
+   //   "http://10.36.234.83:8098/iserver/services/map-mvt-XZQHYJ/restjsr/v1/vectortile/maps/XZQH_YJ"
     "http://172.20.83.223:8098/iserver/services/map-mvt-SummaryPOI/restjsr/v1/vectortile/maps/Summary_POI"
 };
 
@@ -111,10 +111,13 @@ export const dataSourceUrl = {
 
 export const BimSourceURL = {
   SCENE_URL:
+    //"http://172.20.83.223:8098/iserver/services/3D-Placement_house_0728/rest/realspace",
     "http://172.20.83.223:8098/iserver/services/3D-Placement_house_onetable/rest/realspace",
   SCENE_DATA_URL:
+    //"http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data",
     "http://172.20.83.223:8098/iserver/services/data-Placement_house_onetable/rest/data",
   SCENE_SQL_URL:
+    //"http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data/featureResults.rjson?returnContent=true",
     "http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data/featureResults.rjson?returnContent=true",
   STATION_SCENE_URL:
     "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace",

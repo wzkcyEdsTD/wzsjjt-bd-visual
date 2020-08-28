@@ -172,14 +172,16 @@ export default {
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
-        // { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
-        // { name: "BI机场", value: "3d3", abbrev: "BIM机场" },
+        { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
+        // { name: "BIM机场", value: "3d3", abbrev: "BIM机场" },
         { name: "地下管线", value: "3d4", abbrev: "地下管线" },
       ],
       map3DTool: [
         { name: "测量工具", value: "3t1", abbrev: "测量工具" },
         { name: "可视分析", value: "3t2", abbrev: "可视分析" },
         { name: "剖面分析", value: "3t3", abbrev: "剖面分析" },
+        { name: "通视分析", value: "3t4", abbrev: "通视分析" },
+        { name: "阴影分析", value: "3t5", abbrev: "阴影分析" },
       ],
       mapBtn: [
         { name: "测距离", value: "line_string", abbrev: "测距" },
@@ -187,13 +189,14 @@ export default {
         { name: "空间查询", value: "spatialQuery", abbrev: "空间查询" },
         { name: "分屏管理", value: "split_screen", abbrev: "分屏" },
         { name: "一键清空", value: "clearMapFeature", abbrev: "清空" },
+        /* { name: "车辆轨迹", value: "cheliangguiji", abbrev: "车辆轨迹" }, */
       ],
       mapNew: [
         {
           name: "矢量",
           abbrev: "矢量",
           value: "changeMap",
-          top: "2.05rem",
+          top: "1.5rem",
           childrenShow: false,
           childrenFocus: false,
           children: [
@@ -224,6 +227,26 @@ export default {
             { name: "2019影像", value: "2019YX", inputName: "dituType" },
           ],
         },
+/*         {
+          name: "点聚合",
+          abbrev: "点聚合",
+          value: "changeMap",
+          top: "2.05rem",
+          childrenShow: false,
+          childrenFocus: false,
+          children: [
+            {
+              name: "点聚合",
+              value: "djh",
+              inputName: "dituType",
+            },
+            {
+              name: "车辆轨迹",
+              value: "clgj",
+              inputName: "dituType",
+            },
+          ],
+        }, */
       ],
       isPointSearch: false,
       isSetOpacity: false,
@@ -448,7 +471,7 @@ export default {
   cursor: pointer;
   overflow: hidden;
   &.active {
-    height: 3.1rem;
+    height: 1.5rem;
     > i {
       .bg-image("images/draw_type-act");
       background-size: 0.34rem;

@@ -24,6 +24,8 @@ import VueBus from 'vue-bus'
 // require('../mock')
 // }
 
+
+
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
@@ -33,11 +35,13 @@ Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
 })

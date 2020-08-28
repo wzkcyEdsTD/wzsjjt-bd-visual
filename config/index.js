@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:04
- * @LastEditTime: 2020-08-11 09:01:32
+ * @LastEditTime: 2020-07-21 08:58:47
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\config\index.js

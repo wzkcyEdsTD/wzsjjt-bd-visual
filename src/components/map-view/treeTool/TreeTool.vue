@@ -94,7 +94,7 @@ export default {
     checkChange(node, checked, c) {
       if (checked) {
         if (node.componentKey) {
-          ["安置房BIM分析", "机场BIM场景"].filter(
+          ["安置房BIM分析", "机场BIM场景","安置房单层场景分析"].filter(
             (v) => v != node.id && this.$refs.tree.setChecked(v, false)
           );
           this.$bus.$emit(node.busEvent, { value: node.componentKey });

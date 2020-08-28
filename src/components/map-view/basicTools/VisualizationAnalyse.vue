@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-const Cesium = window.Cesium;
+const Cesiums = window.Cesium;
 const viewModel = {
   direction: 1.0,
   pitch: 1.0,
@@ -45,15 +45,16 @@ export default {
   },
   created() {
     this.viewer = window.earth;
-    this.pointHandler = new Cesium.DrawHandler(
+    this.pointHandler = new Cesiums.DrawHandler(
       this.viewer,
-      Cesium.DrawMode.Point
+      Cesiums.DrawMode.Point
     );
-    this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-    this.viewshed3D = new Cesium.ViewShed3D(this.viewer.scene);
+    this.handler = new Cesiums.ScreenSpaceEventHandler(this.viewer.scene.canvas);
+    this.viewshed3D = new Cesiums.ViewShed3D(this.viewer.scene);
   },
   mounted() {
     this.eventRegsiter();
+    //console.log(Cesium);
   },
   beforeDestroy() {
     this.pointHandler = undefined;
@@ -76,33 +77,34 @@ export default {
           const position = e.endPosition;
           const last = that.viewer.scene.pickPosition(position);
           //计算该点与视口位置点坐标的距离
-          const distance = Cesium.Cartesian3.distance(that.viewPosition, last);
+          const distance = Cesiums.Cartesian3.distance(that.viewPosition, last);
           if (distance > 0) {
             // 将鼠标当前点坐标转化成经纬度
-            const cartographic = Cesium.Cartographic.fromCartesian(last);
-            const longitude = Cesium.Math.toDegrees(cartographic.longitude);
-            const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            const cartographic = Cesiums.Cartographic.fromCartesian(last);
+            const longitude = Cesiums.Math.toDegrees(cartographic.longitude);
+            const latitude = Cesiums.Math.toDegrees(cartographic.latitude);
             const height = cartographic.height;
             // 通过该点设置可视域分析对象的距离及方向
             that.viewshed3D.setDistDirByPoint([longitude, latitude, height]);
           }
         }
-      }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+      }, Cesiums.ScreenSpaceEventType.MOUSE_MOVE);
       that.handler.setInputAction(function (e) {
         //鼠标右键事件回调，不再执行鼠标移动事件中对可视域的操作
         that.viewer.scene.viewFlag = true;
-      }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+      }, Cesiums.ScreenSpaceEventType.RIGHT_CLICK);
+      
       that.pointHandler.drawEvt.addEventListener(function (result) {
         const point = result.object;
         const position = point.position;
         that.viewPosition = position;
 
         // 将获取的点的位置转化成经纬度
-        const cartographic = Cesium.Cartographic.fromCartesian(position);
-        const longitude = Cesium.Math.toDegrees(cartographic.longitude);
-        const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+        const cartographic = Cesiums.Cartographic.fromCartesian(position);
+        const longitude = Cesiums.Math.toDegrees(cartographic.longitude);
+        const latitude = Cesiums.Math.toDegrees(cartographic.latitude);
         const height = cartographic.height + 1.8;
-        point.position = Cesium.Cartesian3.fromDegrees(
+        point.position = Cesiums.Cartesian3.fromDegrees(
           longitude,
           latitude,
           height
@@ -118,6 +120,7 @@ export default {
     },
     //  可视域分析
     startVisualize() {
+      
       if (this.pointHandler.active) return;
       //先清除之前的可视域分析
       this.viewer.entities.removeAll();

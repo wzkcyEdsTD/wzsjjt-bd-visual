@@ -3676,8 +3676,8 @@ export default {
         var html = `<div class="pop-tip">
                       <p class="">${feature.properties[mapPopField[0]]}</p>
                       ${str}
-                      <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
-                      <span class="pop-tip-analyse" onclick="showAround()">周边分析</span>
+                      <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                       <!--<span class="pop-tip-analyse" onclick="showAround()">周边分析</span>-->
                   </div>`;
         // 删除别的提示框
         var tipElArr = document.getElementsByClassName('mapboxgl-popup-close-button');
