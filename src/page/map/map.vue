@@ -15,6 +15,7 @@
           class="is-print cover-map"
           ref="baseMap"
           :getDistrict="exactQuery"
+          :getScreen ="exactScreen"
           :isCloseSpace="isCloseSpace"
           :kmAround="kmAround"
           :data="treeChecked"
@@ -154,18 +155,19 @@ export default {
       onePoint: {}, // 一个企业的数据
       exactQuery: { key: "", value: "" }, // 表格精确查询
       exactBarQuery: { key: "", value: "" }, // 表格精确查询
+      exactScreen:{ key: "",value:""},
       spaceDataValue: [], // 空间查询的数据
       aroundDataValue: [], // 周边分析的数据
       kmAround: { km: 1000, data: "all" }, // 周边分析的选择框
       isCloseSpace: {
         data: true,
-        t: "0"
+        t: "0",
       },
       timer: true,
       currentBaseMapType: "",
       isShowTableBtn: false, // 是否显示详细表格
       firstShowLoading: true, // 第一次显示loading
-      isShowSearch: true
+      isShowSearch: true,
     };
   },
   // mixins: [loading],
@@ -177,8 +179,8 @@ export default {
       "typeIndex", // 页签下标
       "collapse1", // 是否折叠
       "collapse2", // 是否折叠
-      "currentOnePoint"
-    ])
+      "currentOnePoint",
+    ]),
   },
   mounted() {
     window.onresize = () => {
@@ -227,7 +229,7 @@ export default {
     closeSpace(data) {
       this.isCloseSpace = {
         data: data,
-        t: uuid()
+        t: uuid(),
       };
     },
     // 空间查询的数据
@@ -242,6 +244,12 @@ export default {
       this.$refs.tableSearch.clear();
     },
     echartBarClick(data) {
+      if (data.key == "district") {
+        this.exactQuery = data; //主要控制遮盖面的显示
+      }else{
+        this.exactScreen = data;//除筛选区域外设施点的显示
+        this.exactQuery = data;
+      }
       this.exactBarQuery = data;
       this.$refs.tableSearch.clear();
     },
@@ -359,7 +367,7 @@ export default {
       }
       // if (this.treeCheckedList[index] && !this.treeCheckedList[index].allCheckData) {
       var allData = this.$refs.tree.getTreeCheckNodes();
-      allData = allData.filter(item => item.level - 0 === 3);
+      allData = allData.filter((item) => item.level - 0 === 3);
       const dtreeCheckedList = JSON.parse(
         JSON.stringify(this.treeCheckedList[index])
       );
@@ -373,11 +381,11 @@ export default {
       this.tableSearchValue = "";
       this.exactQuery = {
         key: "",
-        value: ""
+        value: "",
       };
       this.exactbarQuery = {
         key: "",
-        value: ""
+        value: "",
       };
     },
     quchong(arr1, arr2) {
@@ -412,11 +420,11 @@ export default {
       var allData = this.$refs.tree.getTreeCheckNodes();
       const keyArr = [data.key];
       if (data.children) {
-        data.children.forEach(item => {
+        data.children.forEach((item) => {
           keyArr.push(item.key);
         });
       }
-      allData = allData.filter(item => {
+      allData = allData.filter((item) => {
         return item.level - 0 >= 3 && keyArr.indexOf(item.key) === -1;
       });
       this.$refs.tree.setCheckedNodes(allData);
@@ -449,9 +457,9 @@ export default {
       "SetCollapse2",
       "SetTreeCheckedList",
       "DeleteTreeCheckedList",
-      "SetTypeIndex"
+      "SetTypeIndex",
     ]),
-    ...mapActions(["SetResize"])
+    ...mapActions(["SetResize"]),
   },
   components: {
     MapCenterBtn,
@@ -467,7 +475,7 @@ export default {
     Around,
     Space,
     MapTableFull,
-    CesiumMap
+    CesiumMap,
   },
   watch: {
     currentOnePoint() {
@@ -528,12 +536,12 @@ export default {
           this.timer = !this.timer;
           this.SetResize({
             width: document.body.offsetWidth,
-            height: document.body.offsetHeight
+            height: document.body.offsetHeight,
           });
         }, 300);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="less">
@@ -703,7 +711,7 @@ export default {
 /deep/ .mapboxgl-popup {
   top: -0.14rem;
   min-width: 1.5rem;
-  max-width: 6rem !important;
+  max-width: 3.5rem !important;
 }
 /deep/ .mapboxgl-popup-close-button {
   right: 0.05rem;

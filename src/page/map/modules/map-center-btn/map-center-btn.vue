@@ -165,6 +165,7 @@ export default {
       mapType: [
         { name: "二维", value: "sandian" },
         { name: "三维", value: "cesiumMap" },
+      /*   { name: "物联网", value: "fourColorMap"}, */
       ],
       selectIndex: 0,
       toolShow: false,
@@ -227,26 +228,6 @@ export default {
             { name: "2019影像", value: "2019YX", inputName: "dituType" },
           ],
         },
-/*         {
-          name: "点聚合",
-          abbrev: "点聚合",
-          value: "changeMap",
-          top: "2.05rem",
-          childrenShow: false,
-          childrenFocus: false,
-          children: [
-            {
-              name: "点聚合",
-              value: "djh",
-              inputName: "dituType",
-            },
-            {
-              name: "车辆轨迹",
-              value: "clgj",
-              inputName: "dituType",
-            },
-          ],
-        }, */
       ],
       isPointSearch: false,
       isSetOpacity: false,
@@ -471,7 +452,7 @@ export default {
   cursor: pointer;
   overflow: hidden;
   &.active {
-    height: 1.5rem;
+    height: auto;
     > i {
       .bg-image("images/draw_type-act");
       background-size: 0.34rem;
@@ -589,7 +570,7 @@ export default {
   }
 }
 .map-toolbar-box-map.active {
-  height: 4rem;
+  height: auto;
 }
 .toCenter.moveRight1 {
   left: 0.8rem !important;

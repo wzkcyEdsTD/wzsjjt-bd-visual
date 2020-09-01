@@ -8,7 +8,7 @@
     <ItemTitle
       v-drag
       draggable="false"
-      :title="this.currentOnePoint?this.currentOnePoint.name:''"
+      :title="this.currentOnePoint?this.currentOnePoint.name+'（'+querydata+')':''"
       color="#67c23a"
       placeholder="名称搜索"
       @search="tableSearch"
@@ -90,6 +90,7 @@ export default {
       pageSize: 20, // 每页条数
       tableData: [], // 后台传入的数据
       collmns: [],
+      querydata:[],//搜索总数
       value: "",
       count: 0,
       isSmall: false,
@@ -195,21 +196,21 @@ export default {
         //截取数据集
         var sjjs = this.currentOnePoint.datasetname.lastIndexOf("\:");
         var sjj =this.currentOnePoint.datasetname.substring(sjjs+1,this.currentOnePoint.datasetname.length);
-         /*  if(this.currentOnePoint.allCheckData == undefined){
-          this.currentOnePoint.allCheckData=[];
-          console.log("this.alllCheckData",this.currentOnePoint.allCheckData);
-          //this.currentOnePoint.allCheckData[0].showField = [];
-          //this.currentOnePoint.allCheckData[0].showHeader = [];
-        } */
-
         this.$root.fwdata = [
           this.currentOnePoint.datasetname,
           this.currentOnePoint.geotype,
           sjj,
           this.currentOnePoint.mapPopField,
           this.currentOnePoint.mapPopName,
-          this.currentOnePoint.Fieldsorder
+          this.currentOnePoint.Fieldsorder,
+          this.currentOnePoint.url,
+          this.currentOnePoint.alias,
+          this.currentOnePoint.icon,
+          this.currentOnePoint.datasetname,
+          this.currentOnePoint.sql,
+          this.currentOnePoint.geotype,
         ];
+         
         const showFileds = [...this.currentOnePoint.showField];
         if (this.userInfo.district && this.userInfo.district.length > 4) {
           const index1 = showFileds.indexOf("DISTRICT");
@@ -244,6 +245,7 @@ export default {
           const newData = data.values;
           this.count = data.values.length;
           this.collmns = data.collmns;
+          this.querydata = data.totalcount;
           if (newData.length) {
             for (var i = 0; i < newData.length; i++) {
               newData[i].index = this.pageNo + i;

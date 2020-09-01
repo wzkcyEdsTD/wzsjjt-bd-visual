@@ -203,6 +203,12 @@ export default {
         return {};
       },
     },
+    getScreen:{
+      type:Object,
+      defaule(){
+        return {};
+      }
+    },
     isCloseSpace: {
       type: Object,
       defaule() {
@@ -280,6 +286,19 @@ export default {
         this.selectedDistrict = data.value;
         this.setDistrictLayer(this.selectedDistrict, true);
       }
+    },
+    getScreen(data){
+      if(!data.refresh){
+        return;
+      }
+      if(data.key!=""){
+        var newsql = data.key +"="+"'"+data.value+"'";
+        console.log("newsql",newsql);
+        this.setScreen(newsql);
+      }else{
+        this.setScreen(this.$root.fwdata[10]);
+      }
+
     },
     isCloseSpace(data) {
       if (data.data === true) {
@@ -2460,6 +2479,7 @@ export default {
         });
       }
     },
+    //遮盖面效果
     setDistrictLayer(selectedDistrict, isClick) {
       if (selectedDistrict === "") {
         this.removeLayer("basemapDistrict_layer");
@@ -2568,6 +2588,14 @@ export default {
           },
         });
       }
+    },
+    setScreen(data){
+      if(this.map.getLayer("basemapDistrict_layer")||this.map.getLayer("districtBoundary_layer")){
+         this.removeLayer("basemapDistrict_layer");
+        this.removeLayer("districtBoundary_layer");
+      }
+      this.removeLayer(this.$root.fwdata[7]+"_layer");
+      this.addScatterLayerFromServer(this.$root.fwdata[6],this.$root.fwdata[7],this.$root.fwdata[8],this.$root.fwdata[9],data,this.$root.fwdata[11]);
     },
     createFourColorLayer(layerFeatures, alias) {
       this.clearHeatPoints();
@@ -3416,6 +3444,10 @@ export default {
       });
       //地图点击实现
       this.map.on("click", function (e) {
+        __this.map.on("load", function () {
+      
+          console.log("底图数据",__this.map.style._layers);
+        })
         // console.log('e: ' + CircularJSON.stringify(e));
         var lngLat = e.lngLat;
         //console.log('lngLat: ' + CircularJSON.stringify(lngLat));
@@ -5547,7 +5579,7 @@ export default {
             __this.map.on("zoomend", function (e) {
               var zoomLevel = __this.map.getZoom();
               // 15级及以上，显示注记图层
-              if (zoomLevel && zoomLevel >= 15) {
+              if (zoomLevel && zoomLevel >= 13) {
                 // 如果图层不存在，则直接返回
                 if (!__this.map.getLayer(alias + "_layer")) {
                   return;

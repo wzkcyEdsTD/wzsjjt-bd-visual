@@ -152,7 +152,7 @@ export const clickme = function({ commit, state }, data) {
   if (data === undefined) {
     data = "";
   }
-  console.log(state.nameList.indexOf(data));
+  console.log("跳转",state.nameList.indexOf(data));
   if (state.nameList.indexOf(data) > -1) {
     commit(types.SET_SPECAL_TREE_NAME, data);
     commit(types.SET_COLLAPSE1, false);
