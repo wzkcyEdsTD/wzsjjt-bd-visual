@@ -66,12 +66,11 @@ const BIM_GRAPHIS_OPTION = [
     busEvent: "cesium-3d-event",
     componentKey: "3d3"
   },
- /*  {
-    label: "安置房单层场景分析",
+  {
+    label: "S1线轨道BIM场景",
     busEvent: "cesium-3d-event",
-    componentKey: "3d2",
-    url:"http://172.20.83.223:8098/iserver/services/3D-Placement_house_onetable/rest/realspace",
-  } */
+    componentKey: "3d5",
+  }
 ];
 const LEAN_GRAPHIS_OPTION = [
   {

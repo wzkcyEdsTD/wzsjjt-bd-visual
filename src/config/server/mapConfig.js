@@ -110,19 +110,27 @@ export const dataSourceUrl = {
 };
 
 export const BimSourceURL = {
+  //安置房三维服务
   SCENE_URL:
     //"http://172.20.83.223:8098/iserver/services/3D-Placement_house_0728/rest/realspace",
     "http://172.20.83.223:8098/iserver/services/3D-Placement_house_onetable/rest/realspace",
+  //安置房数据服务  
   SCENE_DATA_URL:
     //"http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data",
     "http://172.20.83.223:8098/iserver/services/data-Placement_house_onetable/rest/data",
+  //安置房sql查询  
   SCENE_SQL_URL:
     //"http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data/featureResults.rjson?returnContent=true",
     "http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data/featureResults.rjson?returnContent=true",
+  //机场三维数据  
   STATION_SCENE_URL:
     "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace",
+  //机场数据服务    
   STATION_DATA_URL:
     "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data",
   UNDERGROUND_SCENE_URL:
-    "http://172.20.83.223:8098/iserver/services/3D-GSLINE/rest/realspace"
+    "http://172.20.83.223:8098/iserver/services/3D-GSLINE/rest/realspace",
+  //S1线轨道三维服务  
+  track_URL:
+    "http://172.20.83.223:8098/iserver/services/3D-GuiDaoS1Xian/rest/realspace",
 };

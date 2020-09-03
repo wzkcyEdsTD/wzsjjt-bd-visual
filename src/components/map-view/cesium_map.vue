@@ -14,6 +14,7 @@
       <RegionSimulateFlood ref="regionsimulateflood" v-if="showSubFrame == '3d1'" />
       <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
       <StationTour ref="stationtour" v-if="showSubFrame == '3d3'" />
+      <trackBIM ref="trackbim" v-if="showSubFrame == '3d5'"/>
       <UnderGround ref="underground" v-if="showSubFrame == '3d4'" />
       <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
@@ -33,6 +34,7 @@ import Coverage from "./treeTool/TreeTool";
 import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
 import BimAnalyse from "./basicTools/BimAnalyse";
 import StationTour from "./basicTools/StationTour";
+import trackBIM from "./basicTools/trackBIM";
 import UnderGround from "./basicTools/UnderGround";
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
@@ -56,6 +58,7 @@ export default {
     RegionSimulateFlood,
     BimAnalyse,
     StationTour,
+    trackBIM,
     UnderGround,
     VisualizationAnalyse,
     SectionAnalyse,

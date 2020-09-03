@@ -20,6 +20,7 @@ export default {
       var data, option;
       var URL =
         "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000";
+      // " http://172.20.83.223:8091/iserver/services/map-agscachev2-DSJZG/rest/maps/DSJ_ZG";
 
       var map = new mapboxgl.Map({
         container: "map", // container id
@@ -40,14 +41,14 @@ export default {
               type: "raster",
               source: "raster-tiles",
               minzoom: 8.8,
-              maxzoom: 22,
+              maxzoom: 24,
             },
           ],
         },
         crs: "EPSG:4490",
         center: [120.662287, 27.9],
         minZoom: 8.8,
-        maxZoom: 18,
+        maxZoom: 24,
       });
       map.addControl(new mapboxgl.NavigationControl(), "top-left");
       var uploadedDataURL = "../../static/yjjson/Bus.json";

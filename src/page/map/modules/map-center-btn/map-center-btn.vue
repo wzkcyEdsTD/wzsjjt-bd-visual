@@ -173,7 +173,7 @@ export default {
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
-        { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
+        // { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
         // { name: "BIM机场", value: "3d3", abbrev: "BIM机场" },
         { name: "地下管线", value: "3d4", abbrev: "地下管线" },
       ],
