@@ -189,7 +189,6 @@ export default {
             }
             //DataPie[14]={"count":c,"key":"其他"};
           }
-          console.log("datapie", DataPie);
           var scaleData = [];
           var scaleData2 = [];
           var scaleData3 = [];

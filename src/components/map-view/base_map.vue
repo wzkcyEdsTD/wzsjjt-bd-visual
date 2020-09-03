@@ -973,113 +973,6 @@ export default {
           this.analysisType = data.value;
           // 画点操作
           document.getElementsByClassName("mapbox-gl-draw_point")[0].click();
-        } else if (data.value === "cheliangguiji") {
-          //车辆轨迹
-          var maps, myChart;
-          console.log("图层",document);
-          var ddd = document.getElementById("app");
-          myChart = this.$echarts.init(ddd);
-            var szRoad = {
-        success: true,
-        errorCode: 0,
-        errorMsg: "成功",
-        data: [
-            {ROAD_LINE: "104.096113,30.615077;104.098278,30.615873;104.098292,30.615875;104.098818,30.615953;104.098848,30.616028;104.098870,30.616195;104.098732,30.617522;104.098509,30.620377;104.098505,30.620469;104.097949,30.622939;104.097576,30.623194;104.097317,30.623492;104.094637,30.625320;104.094115,30.625740;104.094119,30.625785;104.094477,30.627981;104.094801,30.629104;104.094954,30.629733;104.094943,30.630138;104.094949,30.630221;104.094774,30.630891;104.094425,30.631573;104.093507,30.633908;104.092901,30.635783;104.092741,30.636169;104.090898,30.639007;104.088691,30.641360;104.085363,30.642658;104.083635,30.643239;104.081910,30.643978;104.081657,30.644021;104.080126,30.644908;104.078022,30.645938;104.074251,30.646484;104.070599,30.646582;104.067798,30.647174;104.066191,30.648032;104.066197,30.648432;104.066192,30.648534;104.066108,30.651254;104.066112,30.651402;104.066099,30.651729;104.066094,30.651789;104.066055,30.651950;104.065885,30.651965;104.065885,30.651965"},
-]
-    };
-
-    var taxiRoutes = [];
-    var data = szRoad.data;
-    var hStep = 300 / (data.length - 1);
-
-    var i = 0;
-    for (var x in data) {
-        var line = data[x];
-        var pointString = line.ROAD_LINE;
-        var pointArr = pointString.split(';');
-        var lnglats = [];
-        for (var j in pointArr) {
-            lnglats.push(pointArr[j].split(','))
-        }
-        taxiRoutes.push({
-            coords: lnglats,
-            lineStyle: {}
-        })
-    }
-    myChart.setOption({
-        mapbox: {
-            center: [104.091, 30.639],
-            zoom: 13.5,
-            pitch: 30,
-            bearing: -10,
-            altitudeScale: 2,
-            style: {
-                "version": 8,
-                "sources": {
-                    "raster-tiles": {
-                        "attribution": "",
-                        "type": "raster",
-                        "tiles": [],
-                        "tileSize": 256
-                    }
-                },
-                "layers": [{
-                    "id": "simple-tiles",
-                    "type": "raster",
-                    "source": "raster-tiles",
-                }]
-            },
-            postEffect: {
-                enable: true,
-                screenSpaceAmbientOcclusion: {
-                    enable: true,
-                    intensity: 1.2,
-                    radius: 6,
-                    quality: 'low'
-                },
-                screenSpaceReflection: {
-                    enable: true
-                }
-            },
-            light: {
-                main: {
-                    intensity: 1,
-                    shadow: true,
-                    shadowQuality: 'low'
-                },
-                ambient: {
-                    intensity: 0.
-                },
-                ambientCubemap: {
-                    texture: '',
-                    exposure: 1,
-                    diffuseIntensity: 0.5,
-                    specularIntensity: 2
-                }
-            }
-        },
-        series: [{
-            type: 'lines3D',
-            coordinateSystem: 'mapbox',
-            effect: {
-                show: true,
-                constantSpeed: 5,
-                trailWidth: 2,
-                trailLength: 0.4,
-                trailOpacity: 1,
-                spotIntensity: 10
-            },
-            blendMode: 'lighter',
-            polyline: true,
-            lineStyle: {
-                width: 0.1,
-                color: 'rgb(200, 40, 0)',
-                opacity: 0.
-            },
-            data: taxiRoutes
-        }]
-    });
-    myChart.getModel().getComponent('mapbox3D').getMapbox().addControl(new mapboxgl.NavigationControl(), 'top-left');
         } else if (data.value === "clearMapFeature") {
           // // 一键清空
           // this.measureMsg = "";
@@ -2985,6 +2878,9 @@ export default {
       var tiles = {};
       var basemapSourcesTiles = MAP_CONFIG.basemapSourcesTiles;
       var WWW_MAP = document.location.protocol + "//" + window.location.host;
+      if ("fourColorMap" === this.currentMapType) {
+          this.basemapTiles = "bigdata-raster";
+        }
       if (
         WWW_MAP.indexOf("http://pshyz.f3322.net:9000") < 0 &&
         WWW_MAP.indexOf("http://localhost") < 0

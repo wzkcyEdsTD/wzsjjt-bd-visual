@@ -2,7 +2,7 @@
   <div class="wrapper map-tools">
     <div
       class="map-toolbar-box map-toolbar-spc"
-      :class="currentMapType == 'cesiumMap' || this.collapse1?'collapse':''"
+      :class="currentMapType != 'sandian' || this.collapse1?'collapse':''"
     >
       <div class="map-type">
         <div
@@ -18,7 +18,7 @@
     <div
       class="toCenter1"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="全图"
+      title="全图" v-if="currentMapType!='internetthings'"
     >
       <i
         style="width: 100%;height: 0.42rem;"
@@ -28,7 +28,7 @@
     <div
       class="toCenter"
       :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: centerShow,moveRight1:currentMapType == 'cesiumMap'}"
-      title="底图"
+      title="底图"  v-if="currentMapType!='internetthings'"
     >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
       <!-- 3d地图工具 -->
@@ -66,7 +66,7 @@
     </div>
     <div
       class="map-toolbar-box-map"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"  v-if="currentMapType!='internetthings'"
     >
       <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
         <i style="width: 32px;height: 32px;" @click="mapTool"></i>
@@ -165,7 +165,7 @@ export default {
       mapType: [
         { name: "二维", value: "sandian" },
         { name: "三维", value: "cesiumMap" },
-      /*   { name: "物联网", value: "fourColorMap"}, */
+        { name: "物联网", value: "internetthings"}, 
       ],
       selectIndex: 0,
       toolShow: false,
@@ -190,7 +190,6 @@ export default {
         { name: "空间查询", value: "spatialQuery", abbrev: "空间查询" },
         { name: "分屏管理", value: "split_screen", abbrev: "分屏" },
         { name: "一键清空", value: "clearMapFeature", abbrev: "清空" },
-        /* { name: "车辆轨迹", value: "cheliangguiji", abbrev: "车辆轨迹" }, */
       ],
       mapNew: [
         {
