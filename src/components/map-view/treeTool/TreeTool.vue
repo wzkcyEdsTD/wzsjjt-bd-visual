@@ -94,7 +94,7 @@ export default {
     checkChange(node, checked, c) {
       if (checked) {
         if (node.componentKey) {
-          ["安置房BIM分析", "机场BIM场景","S1线轨道BIM场景"].filter(
+          ["安置房BIM分析", "机场BIM场景", "S1线轨道BIM场景"].filter(
             (v) => v != node.id && this.$refs.tree.setChecked(v, false)
           );
           this.$bus.$emit(node.busEvent, { value: node.componentKey });
@@ -117,6 +117,16 @@ export default {
               name: node.id,
             });
             Cesium.when(PROMISE, async (layers) => {
+              if(node.id=="白模"){
+                const bm = window.earth.scene.layers.find("白模")
+                var style = bm.style3D;
+                var colors = Cesium.Color.CYAN;
+                var style3D = new Cesium.Style3D();
+                var color = new Cesium.Color(colors);
+                style3D.fillForeColor = color;
+                bm.style3D = style3D;
+                bm.refresh();
+              }
               const _LAYER_ = window.earth.scene.layers.find(node.id);
               node.dataBind &&
                 _LAYER_.setQueryParameter({

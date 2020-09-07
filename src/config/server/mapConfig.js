@@ -128,8 +128,9 @@ export const BimSourceURL = {
   //机场数据服务    
   STATION_DATA_URL:
     "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data",
+  //地下管线  
   UNDERGROUND_SCENE_URL:
-    "http://172.20.83.223:8098/iserver/services/3D-GSLINE/rest/realspace",
+    "http://172.20.83.223:8098/iserver/services/3D-ResultNetWork_JSLINE/rest/realspace",
   //S1线轨道三维服务  
   track_URL:
     "http://172.20.83.223:8098/iserver/services/3D-GuiDaoS1Xian/rest/realspace",

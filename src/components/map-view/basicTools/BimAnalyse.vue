@@ -164,7 +164,6 @@ export default {
         _LAYER_.visible = true;
       } else {
         const { SCENE_URL, SCENE_DATA_URL } = BimSourceURL;
-        // const promise = this.viewer.scene.open(SCENE_URL);
         const promise = this.viewer.scene.addS3MTilesLayerByScp(
           `${SCENE_URL}/datas/${LAYER_NAME}/config`,
           { name: LAYER_NAME }

@@ -10,7 +10,8 @@ const TOP_LEVEL_OPTION = [
   {
     label: "白模",
     url:
-      "http://172.20.83.223:8098/iserver/services/3D-CM_LC/rest/realspace/datas/RES_LC_EraseMAX_Z_Model@baimo/config"
+      //"http://172.20.83.223:8098/iserver/services/3D-CM_LC/rest/realspace/datas/RES_LC_EraseMAX_Z_Model@baimo/config"
+      "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config"
   },
   {
     label: "2012精模",
@@ -46,12 +47,12 @@ const TOP_LEVEL_OPTION = [
     },
     cameraDone: true
   },
-/*   {
-    label: "山区村落自然灾害易发区",
-    url:
-      "http://10.36.234.83:8090/iserver/services/map-FXFX_DATA/rest/maps/FXFX_YJ_ComprehensiveScore",
-    vectorTile: true
-  } */
+  /*   {
+      label: "山区村落自然灾害易发区",
+      url:
+        "http://10.36.234.83:8090/iserver/services/map-FXFX_DATA/rest/maps/FXFX_YJ_ComprehensiveScore",
+      vectorTile: true
+    } */
 ];
 //这里用于添加BIM的图层勾选
 //componentKey 是用于来绑定btn按钮的值
@@ -72,7 +73,447 @@ const BIM_GRAPHIS_OPTION = [
     componentKey: "3d5",
   }
 ];
+//永嘉
+const LEAN_GRAPHIS_OPTION_YJ_HT = [
+  {
+    label: "埭下村",
+    url:"",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+const LEAN_GRAPHIS_OPTION_YJ_JX = [
+  {
+    label: "黄山村",
+    url:"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_HuangShanCun",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+const LEAN_GRAPHIS_OPTION_YJ_DC = [
+  {
+    label: "林村",
+    url:"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LinCun",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+const LEAN_GRAPHIS_OPTION_YJ_FL = [
+  {
+    label: "外垟村",
+    url:"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_WaiYangCun",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+const LEAN_GRAPHIS_OPTION_YJ_YT = [
+  {
+    label: "西塘村",
+    url:"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_XiTangCun",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+//文成
+const LEAN_GRAPHIS_OPTION_WC_NT = [
+  {
+    label: "西塘村",
+    url:"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_XiTangCun",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+const LEAN_GRAPHIS_OPTION_WC_TL = [
+  {
+    label: "西塘村",
+    url:"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_XiTangCun",
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  }
+];
+//瑞安 
+const LEAN_GRAPHIS_OPTION_RA_FY = [];
+const LEAN_GRAPHIS_OPTION_RA_GL = [];
+const LEAN_GRAPHIS_OPTION_RA_XJ = [];
+const LEAN_GRAPHIS_OPTION_RA_TX = [];
+const LEAN_GRAPHIS_OPTION_RA_MY = [];
+const LEAN_GRAPHIS_OPTION_RA_TS = [];
+//平阳
+const LEAN_GRAPHIS_OPTION_PY_NC = [];
+const LEAN_GRAPHIS_OPTION_PY_SM = [];
+const LEAN_GRAPHIS_OPTION_PY_AJ = [];
+//瓯海
+const LEAN_GRAPHIS_OPTION_OH_SY = [];
+const LEAN_GRAPHIS_OPTION_OH_LQ = [];
+const LEAN_GRAPHIS_OPTION_OH_NB = [];
+const LEAN_GRAPHIS_OPTION_OH_ZY = [];
+const LEAN_GRAPHIS_OPTION_OH_TT = [];
+const LEAN_GRAPHIS_OPTION_OH_PQ = [];
+const LEAN_GRAPHIS_OPTION_OH_GX = [];
+//龙湾
+const LEAN_GRAPHIS_OPTION_LW_YX = [];
+const LEAN_GRAPHIS_OPTION_LW_PZ = [];
+const LEAN_GRAPHIS_OPTION_LW_ZY = [];
+//乐清
+const LEAN_GRAPHIS_OPTION_YQ_HQ = [];
+const LEAN_GRAPHIS_OPTION_YQ_LS = [];
+const LEAN_GRAPHIS_OPTION_YQ_BB = [];
+const LEAN_GRAPHIS_OPTION_YQ_FR = [];
+//洞头
+const LEAN_GRAPHIS_OPTION_DT_DP = [];
+//苍南
+const LEAN_GRAPHIS_OPTION_CN_LX = [];
+const LEAN_GRAPHIS_OPTION_CN_QK = [];
+const LEAN_GRAPHIS_OPTION_CN_LP = [];
+const LEAN_GRAPHIS_OPTION_YJ = [
+  {
+    id: "黄田街道",
+    label: "黄田街道",
+    children: LEAN_GRAPHIS_OPTION_YJ_HT.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "金溪镇",
+    label: "金溪镇",
+    children: LEAN_GRAPHIS_OPTION_YJ_JX.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "东城街道",
+    label: "东城街道",
+    children: LEAN_GRAPHIS_OPTION_YJ_DC.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "枫林镇",
+    label: "枫林镇",
+    children: LEAN_GRAPHIS_OPTION_YJ_FL.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "岩坦镇",
+    label: "岩坦镇",
+    children: LEAN_GRAPHIS_OPTION_YJ_YT.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_WC = [
+  {
+    id: "南田镇",
+    label: "南田镇",
+    children: LEAN_GRAPHIS_OPTION_WC_NT.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "铜铃山镇",
+    label: "铜铃山镇",
+    children: LEAN_GRAPHIS_OPTION_WC_TL.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_RA = [
+  {
+    id: "飞云街道",
+    label: "飞云街道",
+    children: LEAN_GRAPHIS_OPTION_RA_FY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "高楼镇",
+    label: "高楼镇",
+    children: LEAN_GRAPHIS_OPTION_RA_GL.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "仙降街道",
+    label: "仙降街道",
+    children: LEAN_GRAPHIS_OPTION_RA_XJ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "塘下镇",
+    label: "塘下镇",
+    children: LEAN_GRAPHIS_OPTION_RA_TX.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "马屿镇",
+    label: "马屿镇",
+    children: LEAN_GRAPHIS_OPTION_RA_MY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "陶山镇",
+    label: "陶山镇",
+    children: LEAN_GRAPHIS_OPTION_RA_TS.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_PY = [
+  {
+    id: "闹村乡",
+    label: "闹村乡",
+    children: LEAN_GRAPHIS_OPTION_PY_NC.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "山门镇",
+    label: "山门镇",
+    children: LEAN_GRAPHIS_OPTION_PY_SM.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "鳌江镇",
+    label: "鳌江镇",
+    children: LEAN_GRAPHIS_OPTION_PY_AJ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH = [
+  {
+    id: "三垟街道",
+    label: "三垟街道",
+    children: LEAN_GRAPHIS_OPTION_OH_SY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "娄桥街道",
+    label: "娄桥街道",
+    children: LEAN_GRAPHIS_OPTION_OH_LQ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "南白象街道",
+    label: "南白象街道",
+    children: LEAN_GRAPHIS_OPTION_OH_NB.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "泽雅镇",
+    label: "泽雅镇",
+    children: LEAN_GRAPHIS_OPTION_OH_ZY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "梧田街道",
+    label: "梧田街道",
+    children: LEAN_GRAPHIS_OPTION_OH_TT.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "潘桥街道",
+    label: "潘桥街道",
+    children: LEAN_GRAPHIS_OPTION_OH_PQ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "郭溪街道",
+    label: "郭溪街道",
+    children: LEAN_GRAPHIS_OPTION_OH_GX.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_LW = [
+  {
+    id: "瑶溪街道",
+    label: "瑶溪街道",
+    children: LEAN_GRAPHIS_OPTION_LW_YX.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "蒲州街道",
+    label: "蒲州街道",
+    children: LEAN_GRAPHIS_OPTION_LW_PZ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "状元街道",
+    label: "状元街道",
+    children: LEAN_GRAPHIS_OPTION_LW_ZY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_YQ = [
+  {
+    id: "虹桥镇",
+    label: "虹桥镇",
+    children: LEAN_GRAPHIS_OPTION_YQ_HQ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "柳市镇",
+    label: "柳市镇",
+    children: LEAN_GRAPHIS_OPTION_YQ_LS.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "北白象镇",
+    label: "北白象镇",
+    children: LEAN_GRAPHIS_OPTION_YQ_BB.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "芙蓉镇",
+    label: "芙蓉镇",
+    children: LEAN_GRAPHIS_OPTION_YQ_FR.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_DT = [
+  {
+    id: "东屏街道",
+    label: "东屏街道",
+    children: LEAN_GRAPHIS_OPTION_DT_DP.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+const LEAN_GRAPHIS_OPTION_CN = [
+  {
+    id: "灵溪镇",
+    label: "灵溪镇",
+    children: LEAN_GRAPHIS_OPTION_CN_LX.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "钱库镇",
+    label: "钱库镇",
+    children: LEAN_GRAPHIS_OPTION_CN_QK.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "沿浦镇",
+    label: "沿浦镇",
+    children: LEAN_GRAPHIS_OPTION_CN_LP.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+
 const LEAN_GRAPHIS_OPTION = [
+  {
+    id: "永嘉县",
+    label: "永嘉县",
+    children: LEAN_GRAPHIS_OPTION_YJ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "文成县",
+    label: "文成县",
+    children: LEAN_GRAPHIS_OPTION_WC.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "瑞安市",
+    label: "瑞安市",
+    children: LEAN_GRAPHIS_OPTION_RA.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "平阳县",
+    label: "平阳县",
+    children: LEAN_GRAPHIS_OPTION_PY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "瓯海区",
+    label: "瓯海区",
+    children: LEAN_GRAPHIS_OPTION_OH.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "龙湾区",
+    label: "龙湾区",
+    children: LEAN_GRAPHIS_OPTION_LW.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "乐清市",
+    label: "乐清市",
+    children: LEAN_GRAPHIS_OPTION_YQ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "洞头区",
+    label: "洞头区",
+    children: LEAN_GRAPHIS_OPTION_DT.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "苍南县",
+    label: "苍南县",
+    children: LEAN_GRAPHIS_OPTION_CN.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
   {
     label: "横渎村",
     url:
@@ -331,7 +772,6 @@ const LEAN_GRAPHIS_OPTION = [
     camera: [120.7601745, 28.19577031, 459.1559]
   } */
 ];
-
 export const CESIUM_TREE_OPTION = [
   ...TOP_LEVEL_OPTION.map(v => {
     return { ...v, id: v.label };

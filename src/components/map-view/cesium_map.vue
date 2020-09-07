@@ -14,7 +14,7 @@
       <RegionSimulateFlood ref="regionsimulateflood" v-if="showSubFrame == '3d1'" />
       <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
       <StationTour ref="stationtour" v-if="showSubFrame == '3d3'" />
-      <trackBIM ref="trackbim" v-if="showSubFrame == '3d5'"/>
+      <trackBIM ref="trackbim" v-if="showSubFrame == '3d5'" />
       <UnderGround ref="underground" v-if="showSubFrame == '3d4'" />
       <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
@@ -140,12 +140,23 @@ export default {
           window.alert(error);
         });
       // 叠加mvt图层
-      viewer.scene.addVectorTilesMap({
+      var mvtmap = viewer.scene.addVectorTilesMap({
         url: ServiceUrl.YJMVT,
         canvasWidth: 512,
         name: "testMVT",
         viewer: viewer,
       });
+      var styles = new Cesium.Style3D();
+      styles.bottomAltitude = 50;
+      mvtmap.style3D = styles;
+      mvtmap.refresh();
+      console.log("mvt图层", mvtmap); 
+      
+  /*     var mapboxStyle = mvtmap.mapboxStyle.layers;
+      console.log("temp", mapboxStyle); */
+      //var temp = mvtmap.mapboxStyle;
+      // var selectLayer = temp.layers[26];
+      //mvtmap.setLayoutProperty(selectLayer.id, 'visibility', 'none');
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.camera.setView({
