@@ -16,6 +16,16 @@
       </div>
     </div>
     <div
+      class="toCenter2"
+      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
+      title="物联网" v-if="currentMapType!='internetthings'"
+    >
+      <i
+        style="width: 100%;height: 0.42rem;"
+        @click="changeMapType({ name: '物联网', value: 'internetthings'})"
+      ></i>
+    </div>
+    <div
       class="toCenter1"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
       title="全图" v-if="currentMapType!='internetthings'"
@@ -165,7 +175,6 @@ export default {
       mapType: [
         { name: "二维", value: "sandian" },
         { name: "三维", value: "cesiumMap" },
-        { name: "物联网", value: "internetthings"}, 
       ],
       selectIndex: 0,
       toolShow: false,
@@ -560,6 +569,62 @@ export default {
   }
   > i:hover {
     .bg-image("images/earth-act");
+    background-size: 0.34rem;
+    color: #0d6aad;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+  }
+  &.collapse {
+    left: 0.16rem;
+  }
+}
+.toCenter2 {
+  width: 0.5rem;
+  height: 0.46rem;
+  display: block;
+  background: #03315a !important;
+  position: absolute;
+  transition: all 0.3s linear;
+  top: 0.5rem;
+  border-radius: 6px;
+  left: 5.9rem;
+  border: 1px #5ab0e5 solid !important;
+  cursor: pointer;
+  overflow: hidden;
+  &.active {
+    height: 1.4rem;
+    > i {
+      .bg-image("images/draw_type-act");
+      background-size: 0.34rem;
+      color: #0d6aad;
+      background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+  }
+  .center-item {
+    width: 0.32rem;
+    height: 0.46rem;
+    margin-left: 7px;
+    text-align: center;
+    line-height: 0.46rem;
+    color: #fff;
+  }
+  .center-item:hover {
+    color: #00baff;
+  }
+  .center-item.active {
+    color: #00baff;
+  }
+  > i {
+    width: 0.16rem;
+    height: 0.16rem;
+    display: block;
+    .bg-image("images/wlw");
+    background-size: 0.34rem;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  > i:hover {
+    .bg-image("images/wlw-act");
     background-size: 0.34rem;
     color: #0d6aad;
     background-color: rgba(0, 0, 0, 0.4) !important;

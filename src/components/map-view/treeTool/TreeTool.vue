@@ -123,80 +123,129 @@ export default {
               mvtMap.setLayoutProperty(layers[j].id, "visibility", "visible"); //显示某个图层
             }
           }
-        } else if (node.id) {
+        } else if (node.fwmurl) {
+          //倾斜摄影+覆盖面
+          const LAYERS = window.earth.scene.layers.find(node.id);
+          if (!LAYERS) {
+            const PROMISES = window.earth.scene.addS3MTilesLayerByScp(
+              node.url,
+              {
+                name: node.id,
+              }
+            );
+            var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
+            var names = node.label.split("(")[0];
+            getFeatureParam = new SuperMap.REST.FilterParameter({
+              attributeFilter: "NAME like '%" + names + "%'",
+            });
+            getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters(
+              {
+                queryParameter: getFeatureParam,
+                toIndex: -1,
+                datasetNames: ["172.20.83.196_ersjdata:" + "QXSY"],
+              }
+            );
+            getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(
+              node.fwmurl,
+              {
+                eventListeners: {
+                  processCompleted: onQueryComplete,
+                  processFailed: processFailed,
+                },
+              }
+            );
+            getFeatureBySQLService.processAsync(getFeatureBySQLParams);
+            function onQueryComplete(queryEventArgs) {
+              var selectedFeatures = queryEventArgs.originResult.features;
+              for (var i = 0; i < selectedFeatures.length; i++) {
+                addFeature(selectedFeatures[i]);
+              }
+            }
+            function processFailed(queryEventArgs) {
+              alert("查询失败！");
+            }
+            function getLonLatArray(points) {
+              var point3D = [];
+              points.forEach(function (point) {
+                point3D.push(point.x);
+                point3D.push(point.y);
+              });
+              return point3D;
+            }
+            function addFeature(feature) {
+              var lonLatArr = getLonLatArray(feature.geometry.points);
+              window.earth.entities.add({
+                id: node.label + feature.ID,
+                name: node.label + feature.ID,
+                polyline: {
+                  positions: Cesium.Cartesian3.fromDegreesArray(lonLatArr),
+                  width: 5,
+                  material: new Cesium.Color(0 / 255, 255 / 255, 0, 1),
+                  classificationType: Cesium.ClassificationType.S3M_TILE, //矢量线贴对象
+                },
+              });
+            }
+            Cesium.when(PROMISES, async (layers) => {
+              const _LAYERSW_ = window.earth.scene.layers.find(node.id);
+              node.dataBind &&
+                _LAYERSW_.setQueryParameter({
+                  ...node.dataBind,
+                  url: node.dataurl,
+                  isMerge: true,
+                });
+            });
+          } else {
+            LAYERS.visible = true;
+            var fwms = window.earth.entities._entities._array;
+            for (let c = 0; c < fwms.length; c++) {
+              if (fwms[c]._id.indexOf(node.label) != -1) {
+                window.earth.entities._entities._array[c].show = true;
+              }
+            }
+          }
+        } else if (node.fgmurl) {//精模+小区范围线
+          const LAYERJM = window.earth.scene.layers.find(node.id);
+          if (!LAYERJM) {
+            const PROMISEJM = window.earth.scene.addS3MTilesLayerByScp(
+              node.url,
+              {
+                name: node.id,
+              }
+            );
+            const FGM = window.earth.scene.addVectorTilesMap({
+              url: node.fgmurl,
+              canvasWidth: 512,
+              name: "fgm" + node.id,
+            });
+            Cesium.when(PROMISEJM, async (layers) => {
+              const _LAYERJM_ = window.earth.scene.layers.find(node.id);
+              _LAYERJM_.coverImageryLayer = FGM
+              node.dataBind &&
+                _LAYERJM_.setQueryParameter({
+                  ...node.dataBind,
+                  url: node.dataurl,
+                  isMerge: true,
+                });
+            });
+          } else {
+            LAYERJM.visible = true;
+            var layerlengths = window.earth.scene.imageryLayers._layers;
+            for (let g = 0; g < layerlengths.length; g++) {
+              if (layerlengths[g].imageryProvider._url == node.fgmurl) {
+                window.earth.scene.imageryLayers._layers[g].show = true;
+              }
+            }
+          }
+        } else if (node.url) {
           const LAYER = window.earth.scene.layers.find(node.id);
           if (!LAYER) {
             const PROMISE = window.earth.scene.addS3MTilesLayerByScp(node.url, {
               name: node.id,
             });
-            //判断是否有覆盖面
-            if (node.fwmurl) {
-              var getFeatureParam,
-                getFeatureBySQLService,
-                getFeatureBySQLParams;
-              var names = node.label.split('(')[0];
-              getFeatureParam = new SuperMap.REST.FilterParameter({
-                attributeFilter: "NAME like '%" + names + "%'",
-              });
-              getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters(
-                {
-                  queryParameter: getFeatureParam,
-                  toIndex: -1,
-                  datasetNames: ["172.20.83.196_ersjdata:" + "QXSY"],
-                }
-              );
-              getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(
-                node.fwmurl,
-                {
-                  eventListeners: {
-                    processCompleted: onQueryComplete,
-                    processFailed: processFailed,
-                  },
-                }
-              );
-              getFeatureBySQLService.processAsync(getFeatureBySQLParams);
-              function onQueryComplete(queryEventArgs) {
-                var selectedFeatures = queryEventArgs.originResult.features;
-                for (var i = 0; i < selectedFeatures.length; i++) {
-                  addFeature(selectedFeatures[i]);
-                }
-              }
-              function processFailed(queryEventArgs) {
-                alert("查询失败！");
-              }
-              function getLonLatArray(points) {
-                var point3D = [];
-                points.forEach(function (point) {
-                  point3D.push(point.x);
-                  point3D.push(point.y);
-                });
-                return point3D;
-              }
-              function addFeature(feature) {
-                var lonLatArr = getLonLatArray(feature.geometry.points);
-                window.earth.entities.add({
-                  id:node.label + feature.ID,
-                  name: node.label + feature.ID,
-                  polyline: {
-                    positions: Cesium.Cartesian3.fromDegreesArray(lonLatArr),
-                    width: 5,
-                    material: new Cesium.Color(0 / 255, 255 / 255, 0, 1),
-                    classificationType: Cesium.ClassificationType.S3M_TILE, //矢量线贴对象
-                  },
-                });
-              }
-            } else if (node.id.indexOf("精模")) {
-              const FGM = window.earth.scene.addVectorTilesMap({
-                url: node.fgmurl,
-                canvasWidth: 512,
-                name: "fgm" + node.id,
-              });
-              PROMISE.then(function (layer) {
-                layer.coverImageryLayer = FGM;
-              });
-            }
             Cesium.when(PROMISE, async (layers) => {
-              if (node.id == "白模") {
+              console.log(node.label);
+              if (node.label == "白模") {
+                console.log("白模");
                 const bm = window.earth.scene.layers.find("白模");
                 var style = bm.style3D;
                 var colors = Cesium.Color.CYAN;
@@ -216,21 +265,6 @@ export default {
             });
           } else {
             LAYER.visible = true;
-            if (node.fwmurl) {
-              var fwms = window.earth.entities._entities._array;
-              for (let c = 0; c < fwms.length; c++) {
-                if (fwms[c]._id.indexOf(node.label)!=-1) {
-                  window.earth.entities._entities._array[c].show = true;
-                }
-              }
-            } else if (node.id.indexOf("精模")) {
-              var layerlengths = window.earth.scene.imageryLayers._layers;
-              for (let g = 0; g < layerlengths.length; g++) {
-                if (layerlengths[g].imageryProvider._url == node.fgmurl) {
-                  window.earth.scene.imageryLayers._layers[g].show = true;
-                }
-              }
-            }
           }
         }
         node.camera &&
@@ -278,7 +312,7 @@ export default {
             console.log("相机参数2", window.earth.scene.camera.healing);
             console.log("相机参数3", window.earth.scene.camera.pitch);
             for (let a = 0; a < fwm.length; a++) {
-              if (fwm[a]._id.indexOf(node.label)!=-1) {
+              if (fwm[a]._id.indexOf(node.label) != -1) {
                 window.earth.entities._entities._array[a].show = false;
               }
             }

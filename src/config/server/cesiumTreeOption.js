@@ -77,6 +77,8 @@ const TOP_LEVEL_OPTION = [
       "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2017/config",
     dataurl:
       "http://172.20.83.223:8098/iserver/services/data-ChengShiJingMo/rest/data",
+    fgmurl:
+      "http://172.20.83.223:8098/iserver/services/map-mvt-XiaoQuLvDi/restjsr/v1/vectortile/maps/%E5%B0%8F%E5%8C%BA%E7%BB%BF%E5%9C%B0",
     dataBind: {
       dataSourceName: "精模_市区",
       dataSetName: "max_2017"
