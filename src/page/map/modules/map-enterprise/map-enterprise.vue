@@ -283,9 +283,6 @@ export default {
       }
       if (res.value != "") {
         imgdatas = res.value.split(",");
-        for (let j = 0; j < imgdatas.length; j++) {
-          imgsdata[j] = "../../static/image/" + imgdatas[j];
-        }
       }
 
       return imgdatas;
@@ -313,7 +310,7 @@ export default {
       activeName: "card0",
       isShow: false,
       activeIndex: 0,
-      pdfUrl: "'../../static/image/",
+      pdfUrl: "http://172.20.83.195:9000/file/",
       isShowBigImg: false,
       videoStyle: {},
       currentIndex: 1,
@@ -717,9 +714,9 @@ img {
 }
 .imgdata {
   position: absolute;
-  top: 350px;
+  top: 365px;
   float: left;
-  font-size: 40px;
+  font-size: 30px;
   font-family: PingFangSC-Semibold, PingFang SC;
   color: rgba(255, 255, 255, 1);
 }

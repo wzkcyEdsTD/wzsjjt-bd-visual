@@ -6,7 +6,45 @@
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\config\server\cesiumTreeOption.js
  */
+//设施分类
+const TOP_LEVEL_OPTION_SSFL = [
+  {
+    label: "养老设施",
+    ids:"成果汇总_设施点@成果#1_养老设施",
+  },
+  {
+    label: "医疗设施",
+    ids:"成果汇总_设施点@成果#1_医疗设施",
+  },
+  {
+    label: "商业设施",
+    ids:"成果汇总_设施点@成果#1_商业设施",
+  },
+  {
+    label: "教育设施",
+    ids:"成果汇总_设施点@成果#1_教育设施",
+  },
+  {
+    label: "体育设施",
+    ids:"成果汇总_设施点@成果#1_体育设施",
+  },
+  {
+    label: "文化设施",
+    ids:"成果汇总_设施点@成果#1_文化设施",
+  },
+  {
+    label: "绿化设施",
+    ids:"成果汇总_设施点@成果#1_绿化设施",
+  },
+];
 const TOP_LEVEL_OPTION = [
+  {
+    id: "设施分类",
+    label: "设施分类",
+    children: TOP_LEVEL_OPTION_SSFL.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
   {
     label: "白模",
     url:
@@ -17,8 +55,11 @@ const TOP_LEVEL_OPTION = [
     label: "2012精模",
     url:
       "http://172.20.83.223:8098/iserver/services/3D-MAX_LuCheng/rest/realspace/datas/%E5%B8%82%E5%8C%BA_2012/config",
+      //"http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LongChuan/config",
     dataurl:
       "http://172.20.83.223:8098/iserver/services/data-ChengShiJingMo/rest/data",
+    fgmurl:
+      "http://172.20.83.223:8098/iserver/services/map-mvt-XiaoQuLvDi/restjsr/v1/vectortile/maps/%E5%B0%8F%E5%8C%BA%E7%BB%BF%E5%9C%B0",
     dataBind: {
       dataSourceName: "精模_市区",
       dataSetName: "max_2012"
@@ -73,7 +114,7 @@ const BIM_GRAPHIS_OPTION = [
     componentKey: "3d5",
   }
 ];
-//永嘉
+//永嘉二级
 const LEAN_GRAPHIS_OPTION_YJ_HT = [
   {
     label: "埭下村",
@@ -134,7 +175,7 @@ const LEAN_GRAPHIS_OPTION_YJ_YT = [
     cameraDone: true
   }
 ];
-//文成
+//文成二级
 const LEAN_GRAPHIS_OPTION_WC_NT = [
   {
     label: "西塘村",
@@ -159,40 +200,568 @@ const LEAN_GRAPHIS_OPTION_WC_TL = [
     cameraDone: true
   }
 ];
-//瑞安 
+//瑞安二级
 const LEAN_GRAPHIS_OPTION_RA_FY = [];
 const LEAN_GRAPHIS_OPTION_RA_GL = [];
 const LEAN_GRAPHIS_OPTION_RA_XJ = [];
 const LEAN_GRAPHIS_OPTION_RA_TX = [];
 const LEAN_GRAPHIS_OPTION_RA_MY = [];
 const LEAN_GRAPHIS_OPTION_RA_TS = [];
-//平阳
+//平阳二级
 const LEAN_GRAPHIS_OPTION_PY_NC = [];
 const LEAN_GRAPHIS_OPTION_PY_SM = [];
 const LEAN_GRAPHIS_OPTION_PY_AJ = [];
-//瓯海
-const LEAN_GRAPHIS_OPTION_OH_SY = [];
-const LEAN_GRAPHIS_OPTION_OH_LQ = [];
-const LEAN_GRAPHIS_OPTION_OH_NB = [];
-const LEAN_GRAPHIS_OPTION_OH_ZY = [];
-const LEAN_GRAPHIS_OPTION_OH_TT = [];
-const LEAN_GRAPHIS_OPTION_OH_PQ = [];
-const LEAN_GRAPHIS_OPTION_OH_GX = [];
-//龙湾
-const LEAN_GRAPHIS_OPTION_LW_YX = [];
+//瓯海二级
+const LEAN_GRAPHIS_OPTION_OH_SY = [
+  {
+    label: "沙河丹东村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ShaHeDanDongCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2877352.20531456,
+      y: 4843909.64217383,
+      z: 2990353.3137743706
+    },
+    cameraDone: true
+  },
+  {
+    label: "上垟村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_ShangYang/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2880299.714666278,
+      y: 4844586.066833377,
+      z: 2989184.3888692223
+    },
+    cameraDone: true
+  },
+  {
+    label: "池底村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ChiDiCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2877180.2891030647,
+      y: 4845180.748142598,
+      z: 2988424.125020722
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH_LQ = [
+  {
+    label: "东风村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_DongFengCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2870750.288029349,
+      y: 4847999.546336255,
+      z: 2990484.7058189246
+    },
+    cameraDone: true
+  },
+  {
+    label: "吕家降村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_LvJiaJiang_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2868014.459160964,
+      y: 4849187.252250286,
+      z: 2990898.067874922
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH_NB = [
+  {
+    label: "横港头村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_HengGangTou/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2875538.9140962446,
+      y: 4845432.857616331,
+      z: 2989770.3141943887
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH_CS = [
+  {
+    label: "山根(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_ShanGen/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2877091.9260217217,
+      y: 4847924.183468532,
+      z: 2985101.8926076433
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH_TT = [
+  {
+    label: "老殿后村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LaoDianHouCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2875964.872470631,
+      y: 4844972.574680709,
+      z: 2990372.458596976
+    },
+    cameraDone: true
+  },
+  {
+    label: "林村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LinCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2875626.45247481,
+      y: 4844209.730257807,
+      z: 2991551.7828711476
+    },
+    cameraDone: true
+  },
+  {
+    label: "西塘村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_XiTangCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2874504.1889599315,
+      y: 4845234.248616295,
+      z: 2991234.636043631
+
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH_JS = [
+  {
+    label: "净水新桥将军桥村",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_JinShui/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2873992.17612299,
+      y: 4848140.3617488,
+      z: 2990778.0554434992
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_OH_GX = [
+  {
+    label: "梅屿村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_MeiYuCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2868183.2822279595,
+      y: 4849508.153741011,
+      z: 2992274.2206691625
+    },
+    cameraDone: true
+  },
+];
+//龙湾二级
+const LEAN_GRAPHIS_OPTION_LW_YX = [
+  {
+    label: "黄山村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_HuangShanCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2888499.4709190894,
+      y: 4838769.525295092,
+      z: 2988786.058268524
+    },
+    cameraDone: true
+  },
+  {
+    label: "龙东村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LongDongCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2887069.567825718,
+      y: 4839223.949873874,
+      z: 2989988.8910403643
+    },
+    cameraDone: true
+  },
+];
 const LEAN_GRAPHIS_OPTION_LW_PZ = [];
-const LEAN_GRAPHIS_OPTION_LW_ZY = [];
-//乐清
+const LEAN_GRAPHIS_OPTION_LW_ZY = [
+  {
+    label: "三郎桥村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_SanLangQiaoCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2880982.606426352,
+      y: 4843783.907221606,
+      z: 2988913.8839962063
+    },
+    cameraDone: true
+  },
+];
+//乐清二级
+const LEAN_GRAPHIS_OPTION_YQ_LC = [
+  {
+    label: "江前村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_JiangQainCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2892993.5928656766,
+      y: 4825120.741512467,
+      z: 3010483.0521930517
+    },
+    cameraDone: true
+  },
+];
 const LEAN_GRAPHIS_OPTION_YQ_HQ = [];
 const LEAN_GRAPHIS_OPTION_YQ_LS = [];
 const LEAN_GRAPHIS_OPTION_YQ_BB = [];
 const LEAN_GRAPHIS_OPTION_YQ_FR = [];
-//洞头
+//洞头二级
 const LEAN_GRAPHIS_OPTION_DT_DP = [];
-//苍南
+//苍南二级
 const LEAN_GRAPHIS_OPTION_CN_LX = [];
 const LEAN_GRAPHIS_OPTION_CN_QK = [];
 const LEAN_GRAPHIS_OPTION_CN_LP = [];
+//鹿城二级
+const LEAN_GRAPHIS_OPTION_LC_BJ = [
+  {
+    label: "黎二村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_LiErCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2874373.9409043617,
+      y: 4842755.802654327,
+      z: 2995543.9623425514
+    },
+    cameraDone: true
+  },
+  {
+    label: "蒲州村(2016)",
+    url:
+       "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_PuZhouCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2878334.593677301,
+      y: 4841573.940842317,
+      z: 2993703.022134084
+    },
+    cameraDone: true
+  },
+  {
+    label: "山下村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ShanXiaCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2875802.2412011586,
+      y: 4842351.036691747,
+      z: 2994482.8810546356
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_GH = [
+  {
+    label: "双桥村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ShuangQiaoCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2869584.1739701116,
+      y: 4846417.852837862,
+      z: 2994454.2980063935
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_NH = [
+  {
+    label: "横渎村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_HengDuCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2875396.824866244,
+      y: 4843322.049050793,
+      z: 2993500.7331779394
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_NJ = [
+  {
+    label: "龙方村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_DongFengCun_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2871268.2924297373,
+      y: 4848061.367879729,
+      z: 2990359.8037505765
+    },
+    cameraDone: true
+  },
+  {
+    label: "牛桥底村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_NiuQiaoDi_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2872544.4231165173,
+      y: 4846110.714556757,
+      z: 2991545.058873369
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_PX = [
+  {
+    label: "龟湖水乡(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_GuiHuShuiXiang/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2873136.49087782,
+      y: 4844106.552984252,
+      z: 2994646.884211555
+    },
+    cameraDone: true
+  },
+  {
+    label: "蒋家桥村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_JiangJiaQiao_2016/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2873982.181581846,
+      y: 4843195.448322195,
+      z: 2994654.422960708
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_SY = [
+  {
+    label: "牛岭村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_NiuLingCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2868428.5588743063,
+      y: 4847216.127112101,
+      z: 2995808.9185623475
+    },
+    cameraDone: true
+  },
+  {
+    label: "欧浦垟村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_OuPuYangCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2869233.368994665,
+      y: 4846147.573573825,
+      z: 2996309.5702228774
+    },
+    cameraDone: true
+  },
+  {
+    label: "中央涂村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ZhongYangTu_2016_2/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2868406.778311407,
+      y: 4845735.803338195,
+      z: 2996063.3154144934
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_ST = [
+  {
+    label: "河通桥村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_HeTongQiaoCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2870734.148235354,
+      y: 4845114.862540317,
+      z: 2995258.213560419
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_TQ = [
+  {
+    label: "外垟村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_WaiYangCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2861947.585081498,
+      y: 4844949.216878983,
+      z: 3003271.4570451006
+    },
+    cameraDone: true
+  },
+  {
+    label: "北岸村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_BeiAnCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2858145.507425709,
+      y: 4849576.3850830365,
+      z: 3000545.9347486235
+    },
+    cameraDone: true
+  },
+  {
+    label: "方隆村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_FangLongCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2860770.774568575,
+      y: 4847830.049761502,
+      z: 3001539.5318095055
+    },
+    cameraDone: true
+  }
+];
+const LEAN_GRAPHIS_OPTION_LC_WM = [
+  {
+    label: "公园路65号(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_GongYuanLu/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2871467.348951032,
+      y: 4843704.12433426,
+      z: 2995835.1479741903
+    },
+    cameraDone: true
+  },
+];
+const LEAN_GRAPHIS_OPTION_LC_YY = [
+  {
+    label: "太山渡、前京、十里(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_TaiShanDu/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2865699.3123852406,
+      y: 4845450.716355758,
+      z: 2999983.550635863
+    },
+    cameraDone: true
+  },
+  {
+    label: "渔渡村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_YuDuCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2863870.9220196246,
+      y: 4843889.363407535,
+      z: 3003379.9692362007
+    },
+    cameraDone: true
+  },
+  {
+    label: "林里村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LinLiCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2862798.0001200936,
+      y: 4849166.798534856,
+      z: 2997609.134170661
+    },
+    cameraDone: true
+  },
+  {
+    label: "馒头驻村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_ManTouZhuCun/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2865000.1989481887,
+      y: 4850883.836363642,
+      z: 2998034.7423373056
+    },
+    cameraDone: true
+  },
+  {
+    label: "龙川、澄沙桥村(2016)",
+    url:
+      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016_2/rest/realspace/datas/QX_LC_LongChuan/config",
+    fwmurl:
+      "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data",  
+    camera: {
+      x: -2863843.282001079,
+      y: 4846326.173704938,
+      z: 2999882.491025732
+    },
+    cameraDone: true
+  },
+];
+//永嘉一级
 const LEAN_GRAPHIS_OPTION_YJ = [
   {
     id: "黄田街道",
@@ -230,6 +799,7 @@ const LEAN_GRAPHIS_OPTION_YJ = [
     })
   },
 ];
+//文成一级
 const LEAN_GRAPHIS_OPTION_WC = [
   {
     id: "南田镇",
@@ -246,6 +816,7 @@ const LEAN_GRAPHIS_OPTION_WC = [
     })
   },
 ];
+//瑞安一级
 const LEAN_GRAPHIS_OPTION_RA = [
   {
     id: "飞云街道",
@@ -290,6 +861,7 @@ const LEAN_GRAPHIS_OPTION_RA = [
     })
   },
 ];
+//平阳一级
 const LEAN_GRAPHIS_OPTION_PY = [
   {
     id: "闹村乡",
@@ -313,6 +885,80 @@ const LEAN_GRAPHIS_OPTION_PY = [
     })
   },
 ];
+//鹿城一级
+const LEAN_GRAPHIS_OPTION_LC = [
+  {
+    id: "滨江街道",
+    label: "滨江街道",
+    children: LEAN_GRAPHIS_OPTION_LC_BJ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "广化街道",
+    label: "广化街道",
+    children: LEAN_GRAPHIS_OPTION_LC_GH.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "南汇街道",
+    label: "南汇街道",
+    children: LEAN_GRAPHIS_OPTION_LC_NH.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "南郊街道",
+    label: "南郊街道",
+    children: LEAN_GRAPHIS_OPTION_LC_NJ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "蒲鞋市街道",
+    label: "蒲鞋市街道",
+    children: LEAN_GRAPHIS_OPTION_LC_PX.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "双屿街道",
+    label: "双屿街道",
+    children: LEAN_GRAPHIS_OPTION_LC_SY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "松台街道",
+    label: "松台街道",
+    children: LEAN_GRAPHIS_OPTION_LC_ST.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "藤桥镇",
+    label: "藤桥镇",
+    children: LEAN_GRAPHIS_OPTION_LC_TQ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "五马街道",
+    label: "五马街道",
+    children: LEAN_GRAPHIS_OPTION_LC_WM.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "仰义街道",
+    label: "仰义街道",
+    children: LEAN_GRAPHIS_OPTION_LC_YY.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+];
+//瓯海一级
 const LEAN_GRAPHIS_OPTION_OH = [
   {
     id: "三垟街道",
@@ -336,9 +982,9 @@ const LEAN_GRAPHIS_OPTION_OH = [
     })
   },
   {
-    id: "泽雅镇",
-    label: "泽雅镇",
-    children: LEAN_GRAPHIS_OPTION_OH_ZY.map(v => {
+    id: "茶山街道",
+    label: "茶山街道",
+    children: LEAN_GRAPHIS_OPTION_OH_CS.map(v => {
       return { ...v, id: v.label };
     })
   },
@@ -350,9 +996,9 @@ const LEAN_GRAPHIS_OPTION_OH = [
     })
   },
   {
-    id: "潘桥街道",
-    label: "潘桥街道",
-    children: LEAN_GRAPHIS_OPTION_OH_PQ.map(v => {
+    id: "景山街道",
+    label: "景山街道",
+    children: LEAN_GRAPHIS_OPTION_OH_JS.map(v => {
       return { ...v, id: v.label };
     })
   },
@@ -364,6 +1010,7 @@ const LEAN_GRAPHIS_OPTION_OH = [
     })
   },
 ];
+//龙湾一级
 const LEAN_GRAPHIS_OPTION_LW = [
   {
     id: "瑶溪街道",
@@ -372,13 +1019,13 @@ const LEAN_GRAPHIS_OPTION_LW = [
       return { ...v, id: v.label };
     })
   },
-  {
+/*   {
     id: "蒲州街道",
     label: "蒲州街道",
     children: LEAN_GRAPHIS_OPTION_LW_PZ.map(v => {
       return { ...v, id: v.label };
     })
-  },
+  }, */
   {
     id: "状元街道",
     label: "状元街道",
@@ -387,8 +1034,16 @@ const LEAN_GRAPHIS_OPTION_LW = [
     })
   },
 ];
+//乐清一级
 const LEAN_GRAPHIS_OPTION_YQ = [
   {
+    id: "乐成街道",
+    label: "乐成街道",
+    children: LEAN_GRAPHIS_OPTION_YQ_LC.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+ /*  {
     id: "虹桥镇",
     label: "虹桥镇",
     children: LEAN_GRAPHIS_OPTION_YQ_HQ.map(v => {
@@ -415,8 +1070,9 @@ const LEAN_GRAPHIS_OPTION_YQ = [
     children: LEAN_GRAPHIS_OPTION_YQ_FR.map(v => {
       return { ...v, id: v.label };
     })
-  },
+  }, */
 ];
+//洞头一级
 const LEAN_GRAPHIS_OPTION_DT = [
   {
     id: "东屏街道",
@@ -426,6 +1082,7 @@ const LEAN_GRAPHIS_OPTION_DT = [
     })
   },
 ];
+//苍南一级
 const LEAN_GRAPHIS_OPTION_CN = [
   {
     id: "灵溪镇",
@@ -451,6 +1108,41 @@ const LEAN_GRAPHIS_OPTION_CN = [
 ];
 
 const LEAN_GRAPHIS_OPTION = [
+  {
+    id: "鹿城区",
+    label: "鹿城区",
+    children: LEAN_GRAPHIS_OPTION_LC.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "瓯海区",
+    label: "瓯海区",
+    children: LEAN_GRAPHIS_OPTION_OH.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "龙湾区",
+    label: "龙湾区",
+    children: LEAN_GRAPHIS_OPTION_LW.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  {
+    id: "乐清市",
+    label: "乐清市",
+    children: LEAN_GRAPHIS_OPTION_YQ.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
+  /* {
+    id: "洞头区",
+    label: "洞头区",
+    children: LEAN_GRAPHIS_OPTION_DT.map(v => {
+      return { ...v, id: v.label };
+    })
+  },
   {
     id: "永嘉县",
     label: "永嘉县",
@@ -480,107 +1172,13 @@ const LEAN_GRAPHIS_OPTION = [
     })
   },
   {
-    id: "瓯海区",
-    label: "瓯海区",
-    children: LEAN_GRAPHIS_OPTION_OH.map(v => {
-      return { ...v, id: v.label };
-    })
-  },
-  {
-    id: "龙湾区",
-    label: "龙湾区",
-    children: LEAN_GRAPHIS_OPTION_LW.map(v => {
-      return { ...v, id: v.label };
-    })
-  },
-  {
-    id: "乐清市",
-    label: "乐清市",
-    children: LEAN_GRAPHIS_OPTION_YQ.map(v => {
-      return { ...v, id: v.label };
-    })
-  },
-  {
-    id: "洞头区",
-    label: "洞头区",
-    children: LEAN_GRAPHIS_OPTION_DT.map(v => {
-      return { ...v, id: v.label };
-    })
-  },
-  {
     id: "苍南县",
     label: "苍南县",
     children: LEAN_GRAPHIS_OPTION_CN.map(v => {
       return { ...v, id: v.label };
     })
-  },
-  {
-    label: "横渎村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_HengDuCun_2016/config",
-    camera: {
-      x: -2875396.824866244,
-      y: 4843322.049050793,
-      z: 2993500.7331779394
-    },
-    cameraDone: true
-  },
-  {
-    label: "龙方村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_DongFengCun_2016/config",
-    camera: {
-      x: -2871268.2924297373,
-      y: 4848061.367879729,
-      z: 2990359.8037505765
-    },
-    cameraDone: true
-  },
-  {
-    label: "双桥村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ShuangQiaoCun_2016/config",
-    camera: {
-      x: -2869584.1739701116,
-      y: 4846417.852837862,
-      z: 2994454.2980063935
-    },
-    cameraDone: true
-  },
-  {
-    label: "牛桥底村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_NiuQiaoDi_2016/config",
-    camera: {
-      x: -2872544.4231165173,
-      y: 4846110.714556757,
-      z: 2991545.058873369
-    },
-    cameraDone: true
-  },
-  {
-    label: "黎二村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_LiErCun_2016/config",
-    camera: {
-      x: -2874373.9409043617,
-      y: 4842755.802654327,
-      z: 2995543.9623425514
-    },
-    cameraDone: true
-  },
-  {
-    label: "山下村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ShanXiaCun_2016/config",
-    camera: {
-      x: -2875802.2412011586,
-      y: 4842351.036691747,
-      z: 2994482.8810546356
-    },
-    cameraDone: true
-  },
-  {
+  }, */
+/*   {
     label: "中央涂村",
     url:
       "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ZhongYangTu_2016_1/config",
@@ -590,89 +1188,7 @@ const LEAN_GRAPHIS_OPTION = [
       z: 2996299.072267176
     },
     cameraDone: true
-  },
-  {
-    label: "中央涂村2",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ZhongYangTu_2016_2/config",
-    camera: {
-      x: -2868406.778311407,
-      y: 4845735.803338195,
-      z: 2996063.3154144934
-    },
-    cameraDone: true
-  },
-  {
-    label: "蒲州村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_PuZhouCun_2016/config",
-    camera: {
-      x: -2878334.593677301,
-      y: 4841573.940842317,
-      z: 2993703.022134084
-    },
-    cameraDone: true
-  },
-  {
-    label: "江前村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_JiangQainCun_2016/config"
-  },
-  {
-    label: "蒋家桥村拆迁遗留",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_JiangJiaQiao_2016/config",
-    camera: {
-      x: -2873982.181581846,
-      y: 4843195.448322195,
-      z: 2994654.422960708
-    },
-    cameraDone: true
-  },
-  {
-    label: "池底村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ChiDiCun_2016/config",
-    camera: {
-      x: -2877180.2891030647,
-      y: 4845180.748142598,
-      z: 2988424.125020722
-    },
-    cameraDone: true
-  },
-  {
-    label: "东风村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_DongFengCun_2016/config",
-    camera: {
-      x: -2870750.288029349,
-      y: 4847999.546336255,
-      z: 2990484.7058189246
-    },
-    cameraDone: true
-  },
-  {
-    label: "吕家降村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_LvJiaJiang_2016/config",
-    camera: {
-      x: -2868014.459160964,
-      y: 4849187.252250286,
-      z: 2990898.067874922
-    },
-    cameraDone: true
-  },
-  {
-    label: "沙河丹东村",
-    url:
-      "http://172.20.83.223:8098/iserver/services/3D-QX_LC_2016/rest/realspace/datas/QX_LC_ShaHeDanDongCun_2016/config",
-    camera: {
-      x: -2877352.20531456,
-      y: 4843909.64217383,
-      z: 2990353.3137743706
-    },
-    cameraDone: true
-  },
+  }, */
   /* {
     label: "永嘉鹤盛镇",
     url:

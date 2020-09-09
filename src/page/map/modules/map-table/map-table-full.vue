@@ -209,6 +209,7 @@ export default {
           this.currentOnePoint.datasetname,
           this.currentOnePoint.sql,
           this.currentOnePoint.geotype,
+          "",
         ];
          
         const showFileds = [...this.currentOnePoint.showField];

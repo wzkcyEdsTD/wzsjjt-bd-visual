@@ -140,7 +140,7 @@ export default {
           window.alert(error);
         });
       // 叠加mvt图层
-      var mvtmap = viewer.scene.addVectorTilesMap({
+      var mvtMap = viewer.scene.addVectorTilesMap({
         url: ServiceUrl.YJMVT,
         canvasWidth: 512,
         name: "testMVT",
@@ -148,15 +148,9 @@ export default {
       });
       var styles = new Cesium.Style3D();
       styles.bottomAltitude = 50;
-      mvtmap.style3D = styles;
-      mvtmap.refresh();
-      console.log("mvt图层", mvtmap); 
-      
-  /*     var mapboxStyle = mvtmap.mapboxStyle.layers;
-      console.log("temp", mapboxStyle); */
-      //var temp = mvtmap.mapboxStyle;
-      // var selectLayer = temp.layers[26];
-      //mvtmap.setLayoutProperty(selectLayer.id, 'visibility', 'none');
+      mvtMap.style3D = styles;
+      mvtMap.refresh();
+      this.$root.fwdata[12] = mvtMap;
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.camera.setView({
