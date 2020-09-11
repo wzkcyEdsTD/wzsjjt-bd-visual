@@ -22,3 +22,8 @@ export const specalTreeName = state => state.specalTreeName;
 export const forceBimIDS = state => state.forceBimIDS;
 export const forceBimData = state => state.forceBimData;
 export const forceRoomData = state => state.forceRoomData;
+export const isInfoFrame = state => state.isInfoFrame;
+export const rtmpList = state => state.rtmpList;
+export const medicalList = state => state.medicalList;
+export const medicalListWithGeometry = state => state.medicalListWithGeometry;
+export const hospitalList = state => state.hospitalList;

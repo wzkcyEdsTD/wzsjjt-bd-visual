@@ -281,8 +281,10 @@ export default {
           res = obj.columnInfos[i];
         }
       }
-      if (res.value != "") {
-        imgdatas = res.value.split(",");
+      if (res.value != null) {
+        if (res.value.length > 0) {
+          imgdatas = res.value.split(",");
+        }
       }
 
       return imgdatas;
@@ -422,7 +424,6 @@ export default {
       } else {
         var Fieldsorder = me.$root.fwdata[5].replace(/,/g, "%2C");
       }
-      console.log("测试", Fieldsorder);
       getTableData(this.data.smid, this.data.table_name, Fieldsorder).then(
         (data) => {
           const resData = [];
@@ -714,9 +715,9 @@ img {
 }
 .imgdata {
   position: absolute;
-  top: 365px;
+  top: 4px;
   float: left;
-  font-size: 30px;
+  font-size: 24px;
   font-family: PingFangSC-Semibold, PingFang SC;
   color: rgba(255, 255, 255, 1);
 }

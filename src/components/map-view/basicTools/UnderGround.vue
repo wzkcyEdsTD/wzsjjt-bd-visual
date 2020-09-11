@@ -127,7 +127,7 @@ export default {
         that.handlerPolygon.movingEvt.addEventListener(function (
           windowPosition
         ) {
-          if (windowPosition.x < 500 && windowPosition.y < 550) {
+          if (windowPosition.x < 2000 && windowPosition.y < 2000) {
             //this.tooltip.setVisible(false);
             return;
           }

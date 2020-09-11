@@ -61,6 +61,7 @@ export default {
   },
   async mounted() {
     this.initBimScene();
+    this.cameraMove()
   },
   beforeDestroy() {
     this.clearStationTour();

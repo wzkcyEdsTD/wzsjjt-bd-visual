@@ -16,16 +16,6 @@
       </div>
     </div>
     <div
-      class="toCenter2"
-      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="物联网" v-if="currentMapType!='internetthings'"
-    >
-      <i
-        style="width: 100%;height: 0.42rem;"
-        @click="changeMapType({ name: '物联网', value: 'internetthings'})"
-      ></i>
-    </div>
-    <div
       class="toCenter1"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
       title="全图" v-if="currentMapType!='internetthings'"
@@ -33,6 +23,16 @@
       <i
         style="width: 100%;height: 0.42rem;"
         @click="changeMapTollBar({ name: '地图居中', value: 'map_init' })"
+      ></i>
+    </div>
+        <div
+      class="toCenter2"
+      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
+      title="物联网" v-if="currentMapType!='internetthings'"
+    >
+      <i
+        style="width: 100%;height: 0.42rem;"
+        @click="changeMapType({ name: '物联网', value: 'internetthings'})"
       ></i>
     </div>
     <div
