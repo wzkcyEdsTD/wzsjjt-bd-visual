@@ -20,16 +20,16 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './IntersectionTests-397d9494', './Plane-8390418f', './VertexFormat-fe4db402', './EllipsoidTangentPlane-605dc181', './EllipsoidRhumbLine-f161e674', './earcut-2.2.1-b404d9e6', './PolygonPipeline-62047934', './EllipsoidGeodesic-84507801', './PolylinePipeline-a9f32196', './WallGeometryLibrary-398a350f'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, VertexFormat, EllipsoidTangentPlane, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, EllipsoidGeodesic, PolylinePipeline, WallGeometryLibrary) { 'use strict';
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './VertexFormat-7f136973', './EllipsoidTangentPlane-b778e576', './EllipsoidRhumbLine-c9b776a6', './earcut-2.2.1-b404d9e6', './PolygonPipeline-7df0d8c5', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca', './WallGeometryLibrary-66de3851'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, VertexFormat, EllipsoidTangentPlane, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, EllipsoidGeodesic, PolylinePipeline, WallGeometryLibrary) { 'use strict';
 
-    var scratchCartesian3Position1 = new Cartographic.Cartesian3();
-        var scratchCartesian3Position2 = new Cartographic.Cartesian3();
-        var scratchCartesian3Position3 = new Cartographic.Cartesian3();
-        var scratchCartesian3Position4 = new Cartographic.Cartesian3();
-        var scratchCartesian3Position5 = new Cartographic.Cartesian3();
-        var scratchBitangent = new Cartographic.Cartesian3();
-        var scratchTangent = new Cartographic.Cartesian3();
-        var scratchNormal = new Cartographic.Cartesian3();
+    var scratchCartesian3Position1 = new Cartesian2.Cartesian3();
+        var scratchCartesian3Position2 = new Cartesian2.Cartesian3();
+        var scratchCartesian3Position3 = new Cartesian2.Cartesian3();
+        var scratchCartesian3Position4 = new Cartesian2.Cartesian3();
+        var scratchCartesian3Position5 = new Cartesian2.Cartesian3();
+        var scratchBitangent = new Cartesian2.Cartesian3();
+        var scratchTangent = new Cartesian2.Cartesian3();
+        var scratchNormal = new Cartesian2.Cartesian3();
 
         /**
          * A description of a wall, which is similar to a KML line string. A wall is defined by a series of points,
@@ -99,10 +99,9 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             this._vertexFormat = VertexFormat.VertexFormat.clone(vertexFormat);
             this._granularity = granularity;
             this._ellipsoid = Cartesian2.Ellipsoid.clone(ellipsoid);
-            this._enuCenter = options.enuCenter;
             this._workerName = 'createWallGeometry';
 
-            var numComponents = 1 + wallPositions.length * Cartographic.Cartesian3.packedLength + 2;
+            var numComponents = 1 + wallPositions.length * Cartesian2.Cartesian3.packedLength + 2;
             if (when.defined(minimumHeights)) {
                 numComponents += minimumHeights.length;
             }
@@ -115,9 +114,6 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
              * @type {Number}
              */
             this.packedLength = numComponents + Cartesian2.Ellipsoid.packedLength + VertexFormat.VertexFormat.packedLength + 1;
-            if(when.defined(this._enuCenter)){
-                this.packedLength += Cartographic.Cartesian3.packedLength;
-            }
         }
 
         /**
@@ -147,8 +143,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = positions.length;
             array[startingIndex++] = length;
 
-            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                Cartographic.Cartesian3.pack(positions[i], array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                Cartesian2.Cartesian3.pack(positions[i], array, startingIndex);
             }
 
             var minimumHeights = value._minimumHeights;
@@ -177,11 +173,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             VertexFormat.VertexFormat.pack(value._vertexFormat, array, startingIndex);
             startingIndex += VertexFormat.VertexFormat.packedLength;
 
-            array[startingIndex++] = value._granularity;
-
-            if(when.defined(value._enuCenter)){
-                Cartographic.Cartesian3.pack(value._enuCenter, array, startingIndex);
-            }
+            array[startingIndex] = value._granularity;
 
             return array;
         };
@@ -194,8 +186,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             maximumHeights : undefined,
             ellipsoid : scratchEllipsoid,
             vertexFormat : scratchVertexFormat,
-            granularity : undefined,
-            enuCenter : undefined
+            granularity : undefined
         };
 
         /**
@@ -220,8 +211,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = array[startingIndex++];
             var positions = new Array(length);
 
-            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                positions[i] = Cartographic.Cartesian3.unpack(array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                positions[i] = Cartesian2.Cartesian3.unpack(array, startingIndex);
             }
 
             length = array[startingIndex++];
@@ -250,18 +241,13 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var vertexFormat = VertexFormat.VertexFormat.unpack(array, startingIndex, scratchVertexFormat);
             startingIndex += VertexFormat.VertexFormat.packedLength;
 
-            var granularity = array[startingIndex++];
-            var enuCenter = Cartographic.Cartesian3.unpack(array, startingIndex);
-            if(!when.defined(enuCenter.x)) {
-                enuCenter = undefined;
-            }
+            var granularity = array[startingIndex];
 
             if (!when.defined(result)) {
                 scratchOptions.positions = positions;
                 scratchOptions.minimumHeights = minimumHeights;
                 scratchOptions.maximumHeights = maximumHeights;
                 scratchOptions.granularity = granularity;
-                scratchOptions.enuCenter = enuCenter;
                 return new WallGeometry(scratchOptions);
             }
 
@@ -271,7 +257,6 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             result._ellipsoid = Cartesian2.Ellipsoid.clone(ellipsoid, result._ellipsoid);
             result._vertexFormat = VertexFormat.VertexFormat.clone(vertexFormat, result._vertexFormat);
             result._granularity = granularity;
-            result._enuCenter = enuCenter;
 
             return result;
         };
@@ -365,16 +350,15 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var vertexFormat = wallGeometry._vertexFormat;
             var granularity = wallGeometry._granularity;
             var ellipsoid = wallGeometry._ellipsoid;
-            var enuCenter = wallGeometry._enuCenter;
 
-            var posObj = WallGeometryLibrary.WallGeometryLibrary.computePositions(ellipsoid, wallPositions, maximumHeights, minimumHeights, granularity, true, enuCenter);
-            if (!when.defined(posObj.pos)) {
+            var pos = WallGeometryLibrary.WallGeometryLibrary.computePositions(ellipsoid, wallPositions, maximumHeights, minimumHeights, granularity, true);
+            if (!when.defined(pos)) {
                 return;
             }
 
-            var bottomPositions = posObj.pos.bottomPositions;
-            var topPositions = posObj.pos.topPositions;
-            var numCorners = posObj.pos.numCorners;
+            var bottomPositions = pos.bottomPositions;
+            var topPositions = pos.topPositions;
+            var numCorners = pos.numCorners;
 
             var length = topPositions.length;
             var size = length * 2;
@@ -403,8 +387,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var ds = 1/(length - wallPositions.length + 1);
             for (i = 0; i < length; ++i) {
                 var i3 = i * 3;
-                var topPosition = Cartographic.Cartesian3.fromArray(topPositions, i3, scratchCartesian3Position1);
-                var bottomPosition = Cartographic.Cartesian3.fromArray(bottomPositions, i3, scratchCartesian3Position2);
+                var topPosition = Cartesian2.Cartesian3.fromArray(topPositions, i3, scratchCartesian3Position1);
+                var bottomPosition = Cartesian2.Cartesian3.fromArray(bottomPositions, i3, scratchCartesian3Position2);
                 if (vertexFormat.position) {
                     // insert the lower point
                     positions[positionIndex++] = bottomPosition.x;
@@ -427,29 +411,29 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
                 if (vertexFormat.normal || vertexFormat.tangent || vertexFormat.bitangent) {
                     var nextPosition;
-                    var nextTop = Cartographic.Cartesian3.clone(Cartographic.Cartesian3.ZERO, scratchCartesian3Position5);
-                    var groundPosition = ellipsoid.scaleToGeodeticSurface(Cartographic.Cartesian3.fromArray(topPositions, i3, scratchCartesian3Position2), scratchCartesian3Position2);
+                    var nextTop = Cartesian2.Cartesian3.clone(Cartesian2.Cartesian3.ZERO, scratchCartesian3Position5);
+                    var groundPosition = ellipsoid.scaleToGeodeticSurface(Cartesian2.Cartesian3.fromArray(topPositions, i3, scratchCartesian3Position2), scratchCartesian3Position2);
                     if (i + 1 < length) {
-                        nextPosition = ellipsoid.scaleToGeodeticSurface(Cartographic.Cartesian3.fromArray(topPositions, i3 + 3, scratchCartesian3Position3), scratchCartesian3Position3);
-                        nextTop = Cartographic.Cartesian3.fromArray(topPositions, i3 + 3, scratchCartesian3Position5);
+                        nextPosition = ellipsoid.scaleToGeodeticSurface(Cartesian2.Cartesian3.fromArray(topPositions, i3 + 3, scratchCartesian3Position3), scratchCartesian3Position3);
+                        nextTop = Cartesian2.Cartesian3.fromArray(topPositions, i3 + 3, scratchCartesian3Position5);
                     }
 
                     if (recomputeNormal) {
-                        var scalednextPosition = Cartographic.Cartesian3.subtract(nextTop, topPosition, scratchCartesian3Position4);
-                        var scaledGroundPosition = Cartographic.Cartesian3.subtract(groundPosition, topPosition, scratchCartesian3Position1);
-                        normal = Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.cross(scaledGroundPosition, scalednextPosition, normal), normal);
+                        var scalednextPosition = Cartesian2.Cartesian3.subtract(nextTop, topPosition, scratchCartesian3Position4);
+                        var scaledGroundPosition = Cartesian2.Cartesian3.subtract(groundPosition, topPosition, scratchCartesian3Position1);
+                        normal = Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.cross(scaledGroundPosition, scalednextPosition, normal), normal);
                         recomputeNormal = false;
                     }
 
-                    if (Cartographic.Cartesian3.equalsEpsilon(nextPosition, groundPosition, _Math.CesiumMath.EPSILON10)) {
+                    if (Cartesian2.Cartesian3.equalsEpsilon(nextPosition, groundPosition, _Math.CesiumMath.EPSILON10)) {
                         recomputeNormal = true;
                     } else {
                         s += ds;
                         if (vertexFormat.tangent) {
-                            tangent = Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.subtract(nextPosition, groundPosition, tangent), tangent);
+                            tangent = Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.subtract(nextPosition, groundPosition, tangent), tangent);
                         }
                         if (vertexFormat.bitangent) {
-                            bitangent = Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.cross(normal, tangent, bitangent), bitangent);
+                            bitangent = Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.cross(normal, tangent, bitangent), bitangent);
                         }
                     }
 
@@ -549,9 +533,9 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             for (i = 0; i < numVertices - 2; i += 2) {
                 var LL = i;
                 var LR = i + 2;
-                var pl = Cartographic.Cartesian3.fromArray(positions, LL * 3, scratchCartesian3Position1);
-                var pr = Cartographic.Cartesian3.fromArray(positions, LR * 3, scratchCartesian3Position2);
-                if (Cartographic.Cartesian3.equalsEpsilon(pl, pr, _Math.CesiumMath.EPSILON10)) {
+                var pl = Cartesian2.Cartesian3.fromArray(positions, LL * 3, scratchCartesian3Position1);
+                var pr = Cartesian2.Cartesian3.fromArray(positions, LR * 3, scratchCartesian3Position2);
+                if (Cartesian2.Cartesian3.equalsEpsilon(pl, pr, _Math.CesiumMath.EPSILON10)) {
                     continue;
                 }
                 var UL = i + 1;
@@ -565,19 +549,12 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 indices[edgeIndex++] = LR;
             }
 
-            var geometry = new GeometryAttribute.Geometry({
+            return new GeometryAttribute.Geometry({
                 attributes : attributes,
                 indices : indices,
                 primitiveType : PrimitiveType.PrimitiveType.TRIANGLES,
                 boundingSphere : new BoundingSphere.BoundingSphere.fromVertices(positions)
             });
-
-            if(when.defined(wallGeometry._enuCenter)) {
-                geometry.attributes.position.values.set(posObj.localPos.topPositions, 0);
-                geometry.attributes.position.values.set(posObj.localPos.bottomPositions, geometry.attributes.position.values.length / 2);
-                geometry.attributes.position.componentDatatype = ComponentDatatype.ComponentDatatype.FLOAT;
-            }
-            return geometry;
         };
 
     function createWallGeometry(wallGeometry, offset) {

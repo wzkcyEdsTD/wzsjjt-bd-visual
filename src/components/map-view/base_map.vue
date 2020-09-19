@@ -3,7 +3,7 @@
  * @Author: jiangbotao
  * @Date: 2019-12-09 23:17:48
  * @LastEditors: eds
- * @LastEditTime: 2020-08-06 14:53:35
+ * @LastEditTime: 2020-07-16 15:30:58
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\base_map.vue
  -->
 <template>
@@ -64,7 +64,7 @@ import {
   QueryByBoundsParameters,
   QueryService,
   FeatureService,
-  MeasureService,
+  MeasureService
 } from "@supermap/iclient-mapboxgl";
 import CircularJSON from "circular-json";
 import InputSearch from "components/map-view/input_search";
@@ -80,13 +80,12 @@ import getStreetData from "./wenzhou_street.json";
 import standardVectortile from "../../../static/standard_vectortile.json";
 import wenzhou_xz from "../../../static/wenzhou_xz.json";
 import {
-  getTableData,
   getCategoryByPid,
   getPointTreeList,
   getSearchNameList,
   getTypeDetail,
   getPictureDistrictTypeNum,
-  getNearAnalysisList,
+  getNearAnalysisList
 } from "api/map/map";
 
 import {
@@ -96,7 +95,7 @@ import {
   bboxPolygon,
   booleanPointInPolygon,
   polygon,
-  pointsWithinPolygon,
+  pointsWithinPolygon
 } from "@turf/turf";
 import MAP_CONFIG from "./mapconfig";
 import BaseMapMenu from "./basemap_menu.vue";
@@ -191,7 +190,7 @@ const colorAry = [
   "#dbedf6",
   "#f5242e",
   "#f4ebec",
-  "#f1f3f1",
+  "#f1f3f1"
 ];
 
 export default {
@@ -201,53 +200,47 @@ export default {
       type: Object,
       defaule() {
         return {};
-      },
-    },
-    getScreen:{
-      type:Object,
-      defaule(){
-        return {};
       }
     },
     isCloseSpace: {
       type: Object,
       defaule() {
         return {};
-      },
+      }
     },
     kmAround: {
       type: Object,
       default() {
         return {
           km: 1000,
-          data: "all",
+          data: "all"
         };
-      },
+      }
     },
     data: {
       type: Object,
       defaule() {
         return {};
-      },
+      }
     },
     onePoint: {
       type: Object,
       defaule() {
         return {};
-      },
+      }
     },
     rClickMenu: {
       type: Object,
       defaule() {
         return {};
-      },
+      }
     },
     mapTollBar: {
       type: Object,
       defaule() {
         return {};
-      },
-    },
+      }
+    }
   },
   components: {
     InputSearch,
@@ -255,7 +248,7 @@ export default {
     Legend,
     Legend2,
     BaseMapMenu,
-    SwitchBtn,
+    SwitchBtn
   },
   computed: {
     ...mapGetters("map", [
@@ -265,9 +258,9 @@ export default {
       "collapse1",
       "collapse2",
       "collapse3",
-      "splitScreen",
+      "splitScreen"
     ]),
-    ...mapGetters(["userInfo"]),
+    ...mapGetters(["userInfo"])
   },
   watch: {
     isCoverToolbarShow(bool) {
@@ -286,19 +279,6 @@ export default {
         this.selectedDistrict = data.value;
         this.setDistrictLayer(this.selectedDistrict, true);
       }
-    },
-    getScreen(data){
-      if(!data.refresh){
-        return;
-      }
-      if(data.key!=""){
-        var newsql = data.key +"="+"'"+data.value+"'";
-        console.log("newsql",newsql);
-        this.setScreen(newsql);
-      }else{
-        this.setScreen(this.$root.fwdata[10]);
-      }
-
     },
     isCloseSpace(data) {
       if (data.data === true) {
@@ -329,7 +309,7 @@ export default {
           this.map.setZoom(10);
         }
         this.map.flyTo({
-          center: this.showAroundRequestParam.center,
+          center: this.showAroundRequestParam.center
         });
         var queryCoordinates = circle.geometry.coordinates;
         this.queryAround(
@@ -384,57 +364,56 @@ export default {
       const latitude = data.latitude;
       const lngLat = { lng: Number(longitude), lat: Number(latitude) };
       const lngLatAry = [Number(longitude), Number(latitude)];
-
       // 拼接地图气泡
       var str = "";
       for (var i = 1; i < data._mappopfield.length; i++) {
         str += `<div class='pop-body'>
-                  <span>${data._mappopname[i]}：
-                  ${
+                  <span>${data._mappopname[i]}：</span>
+                  <p>${
                     data[data._mappopfield[i].toLowerCase()] !== undefined &&
                     data[data._mappopfield[i].toLowerCase()] !== null &&
                     (data[data._mappopfield[i].toLowerCase()] + "").trim() !==
                       ""
                       ? data[data._mappopfield[i].toLowerCase()]
                       : "暂无数据"
-                  }</span>
+                  }</p>
                 </div>`;
       }
       this.showAroundRequestParam = { center: lngLatAry, distance: "1000" };
       this.areaQueryCenterCoordinates = lngLatAry;
       if (data.guid != "" && data.guid != null) {
         var html = `<div class="pop-tip">
-            <p class="" style="font-size: 17px;font-weight: bold;line-height: 32px">${
+            <p class="">${
               data[data._mappopfield[0].toLowerCase()] !== undefined &&
               data[data._mappopfield[0].toLowerCase()] !== null &&
               (data[data._mappopfield[0].toLowerCase()] + "").trim() !== ""
                 ? data[data._mappopfield[0].toLowerCase()]
                 : "暂无数据"
-            }&nbsp&nbsp</p>
+            }</p>
             ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-            <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+            <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+            <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
             <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
           </div>`;
       } else {
         var html = `<div class="pop-tip">
-            <p class="" style="font-size: 17px;font-weight: bold;line-height: 32px">${
+            <p class="">${
               data[data._mappopfield[0].toLowerCase()] !== undefined &&
               data[data._mappopfield[0].toLowerCase()] !== null &&
               (data[data._mappopfield[0].toLowerCase()] + "").trim() !== ""
                 ? data[data._mappopfield[0].toLowerCase()]
                 : "暂无数据"
-            }&nbsp&nbsp</p>
+            }</p>
             ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-            <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+            <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+            <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
           </div>`;
       }
 
       var popup = new mapboxgl.Popup({
-        closeOnClick: false,
+        closeOnClick: false
       });
       // 删除别的提示框
       $(".mapboxgl-popup-close-button").off("click");
@@ -444,43 +423,13 @@ export default {
       for (var i = 0; i < tipElArr.length; i++) {
         tipElArr[i].click();
       }
-      popup.setLngLat(lngLat).setHTML(html).addTo(this.map);
+      popup
+        .setLngLat(lngLat)
+        .setHTML(html)
+        .addTo(this.map);
       var mapCenter = this.map.getCenter().toArray();
       mapCenter[0] = Number(longitude);
       mapCenter[1] = Number(latitude);
-      if (this.$root.fwdata[1] != "point") {
-        var idsParam = new SuperMap.GetFeaturesByIDsParameters({
-          IDs: [data.smid],
-          datasetNames: [this.$root.fwdata[0]],
-        });
-        var facehigh = this.map;
-        var service = new mapboxgl.supermap.FeatureService(
-          "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data"
-        );
-        service.getFeaturesByIDs(idsParam, function (serviceResult) {
-          //清空高亮图层
-          if (facehigh.getLayer("queryDatas")) {
-            facehigh.removeLayer("queryDatas");
-          }
-          if (facehigh.getSource("queryDatas")) {
-            facehigh.removeSource("queryDatas");
-          }
-          //获取数据绘制高亮图层
-          facehigh.addSource("queryDatas", {
-            type: "geojson",
-            data: serviceResult.result.features,
-          });
-          facehigh.addLayer({
-            id: "queryDatas",
-            type: "line",
-            source: "queryDatas",
-            paint: {
-              "line-color": "red" /* 填充的颜色 */,
-              "line-width": 4 /* 边框 */,
-            },
-          });
-        });
-      }
       //如果是滑坡、崩塌、泥石流，则对地图进行放大到18级
       if (
         data.type === "滑坡" ||
@@ -492,7 +441,7 @@ export default {
         this.map.setZoom(15);
       }
       this.map.flyTo({
-        center: mapCenter,
+        center: mapCenter
       });
       $(".mapboxgl-popup-close-button").on("click", () => {
         this.$emit("clearCurrentTableRow");
@@ -511,12 +460,10 @@ export default {
       if (userDistrict === "3303") {
         this.removeLayer("basemapDistrict_layer");
         this.removeLayer("districtBoundary_layer");
-        this.removeLayer("queryDatas");
         this.isCoverToolbarShow = false;
       } else {
         this.removeLayer("basemapStreet_layer");
         this.removeLayer("streetBoundary_layer");
-        this.removeLayer("queryDatas");
       }
 
       //删除highlight_layer
@@ -893,8 +840,7 @@ export default {
       for (var i = 0; i < checkedMenu.length; i++) {
         if (
           "point" === checkedMenu[i].geotype &&
-          "" !== checkedMenu[i].icon.trim() &&
-          checkedMenu[i].icon !== null
+          "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
         ) {
           this.scatterLayerAliasAry.push(checkedMenu[i].alias);
         }
@@ -904,8 +850,7 @@ export default {
             var childrenData = checkedMenu[i].children[j];
             if (
               "point" === childrenData.geotype &&
-              "" !== childrenData.icon.trim() &&
-              childrenData.icon !== null
+              "" !== childrenData.icon.trim() && childrenData.icon !== null
             ) {
               this.scatterLayerAliasAry.push(childrenData.alias);
             }
@@ -927,8 +872,7 @@ export default {
         data.value === "2014YX" ||
         data.value === "2017YX" ||
         data.value === "2018YX" ||
-        data.value === "2019YX" ||
-        data.value === "djh"
+        data.value === "2019YX"
       ) {
         this.checkValue(data.value);
       } else {
@@ -1017,8 +961,8 @@ export default {
                   type: "raster",
                   tiles: [tiles],
                   tileSize: 256,
-                  rasterSource: "iserver",
-                },
+                  rasterSource: "iserver"
+                }
               },
               layers: [
                 {
@@ -1026,9 +970,9 @@ export default {
                   type: "raster",
                   source: "baselayer-source",
                   minzoom: 8.8,
-                  maxzoom: 21,
-                },
-              ],
+                  maxzoom: 21
+                }
+              ]
             });
           }
           if ("bigdata-raster" === this.basemapTiles) {
@@ -1053,7 +997,7 @@ export default {
             // 地图居中
             this.map.setZoom(8.8);
             this.map.flyTo({
-              center: [120.662287, 27.9],
+              center: [120.662287, 27.9]
             });
           } else {
             // this.map.setZoom(10);
@@ -1086,7 +1030,7 @@ export default {
                 districtName === getDistrictData.features[i].properties.NAME
               ) {
                 this.map.flyTo({
-                  center: getDistrictData.features[i].geometry.coordinates,
+                  center: getDistrictData.features[i].geometry.coordinates
                 });
                 break;
               }
@@ -1103,7 +1047,7 @@ export default {
           }
         }
       }
-    },
+    }
   },
   data() {
     return {
@@ -1166,7 +1110,7 @@ export default {
       areaQueryCenterCoordinates: [],
       currentTowns: [],
       sliderValue: 0.8,
-      isCoverToolbarShow: false,
+      isCoverToolbarShow: false
     };
   },
   mounted() {
@@ -1176,13 +1120,13 @@ export default {
     this.createBaseMapAndLayer();
 
     var me = this;
-    window.showInfo = function () {
+    window.showInfo = function() {
       me.$emit("showInfo", true);
     };
-    window.showInfoCamera = function () {
+    window.showInfoCamera = function() {
       me.$emit("showInfo2", true);
     };
-    window.showAround = function () {
+    window.showAround = function() {
       // 画缓冲区
       var circle = me.createCircle(
         me.showAroundRequestParam.center,
@@ -1191,7 +1135,7 @@ export default {
       // 查询
       me.map.setZoom(14);
       me.map.flyTo({
-        center: me.showAroundRequestParam.center,
+        center: me.showAroundRequestParam.center
       });
       me.$emit("clearAround");
       var queryCoordinates = circle.geometry.coordinates;
@@ -1204,10 +1148,10 @@ export default {
       // 弹框切换到周边分析
       me.$parent.$refs.around.tabClick(0);
     };
-    window.showNearby = function () {
+    window.showNearby = function() {
       //平移
       me.map.flyTo({
-        center: me.areaQueryCenterCoordinates,
+        center: me.areaQueryCenterCoordinates
       });
       //清除周边、就近分析图层
       for (var i = 0; i < me.aroundAliasAry.length; i++) {
@@ -1231,7 +1175,7 @@ export default {
       //查询
       var userDistrict = me.userInfo.district;
       if (me.nearAnalysisList === [] || me.nearAnalysisList.length === 0) {
-        getNearAnalysisList().then((res) => {
+        getNearAnalysisList().then(res => {
           if (res === null) {
             return;
           }
@@ -1261,14 +1205,14 @@ export default {
             type: "Feature",
             properties: { NAME: "搜索经纬度的点" },
             geometry: { type: "Point", coordinates: coordinatesAry },
-            id: "0001",
-          },
-        ],
+            id: "0001"
+          }
+        ]
       };
       if (!this.map.getSource("searchObj_source")) {
         this.map.addSource("searchObj_source", {
           type: "geojson",
-          data: dataJson,
+          data: dataJson
         });
       } else {
         this.map.getSource("searchObj_source").setData(dataJson);
@@ -1284,8 +1228,8 @@ export default {
           layout: {
             "icon-image": "searchObj_Point",
             "icon-size": 0.8,
-            "icon-allow-overlap": true,
-          },
+            "icon-allow-overlap": true
+          }
         },
         "wz_boundary_layer"
       );
@@ -1293,7 +1237,7 @@ export default {
       this.map.flyTo({
         center: coordinatesAry,
         zoom: 12,
-        speed: 1.6,
+        speed: 1.6
       });
     },
     changeSliderValue(val) {
@@ -1333,12 +1277,11 @@ export default {
       for (var i = 0; i < checkedMenu.length; i++) {
         if (
           "point" === checkedMenu[i].geotype &&
-          "" !== checkedMenu[i].icon.trim() &&
-          checkedMenu[i].icon !== null
+          "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
         ) {
           legendAry.push({
             icon: checkedMenu[i].icon,
-            des: checkedMenu[i].name,
+            des: checkedMenu[i].name
           });
         }
         // 有子菜单的情况
@@ -1347,12 +1290,11 @@ export default {
             var childrenData = checkedMenu[i].children[j];
             if (
               "point" === childrenData.geotype &&
-              "" !== childrenData.icon.trim() &&
-              childrenData.icon !== null
+              "" !== childrenData.icon.trim() && childrenData.icon !== null
             ) {
               legendAry.push({
                 icon: childrenData.icon,
-                des: childrenData.name,
+                des: childrenData.name
               });
             }
           }
@@ -1364,19 +1306,19 @@ export default {
       var legendAry = [];
       legendAry.push({
         icon: "../../../static/image/level1.png",
-        des: "一级(" + this.fourColorLevel1.length + ")",
+        des: "一级(" + this.fourColorLevel1.length + ")"
       });
       legendAry.push({
         icon: "../../../static/image/level2.png",
-        des: "二级(" + this.fourColorLevel2.length + ")",
+        des: "二级(" + this.fourColorLevel2.length + ")"
       });
       legendAry.push({
         icon: "../../../static/image/level3.png",
-        des: "三级(" + this.fourColorLevel3.length + ")",
+        des: "三级(" + this.fourColorLevel3.length + ")"
       });
       legendAry.push({
         icon: "../../../static/image/level4.png",
-        des: "四级(" + this.fourColorLevel4.length + ")",
+        des: "四级(" + this.fourColorLevel4.length + ")"
       });
       this.legendMsg = { legendAry: legendAry };
     },
@@ -1391,12 +1333,11 @@ export default {
         if (
           ("line" === checkedMenu[i].geotype ||
             "polygon" === checkedMenu[i].geotype) &&
-          "" !== checkedMenu[i].icon.trim() &&
-          checkedMenu[i].icon !== null
+          "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
         ) {
           legendAry.push({
             icon: checkedMenu[i].icon,
-            des: checkedMenu[i].name,
+            des: checkedMenu[i].name
           });
         }
         // 有子菜单的情况
@@ -1406,12 +1347,11 @@ export default {
             if (
               ("line" === childrenData.geotype ||
                 "polygon" === childrenData.geotype) &&
-              "" !== childrenData.icon.trim() &&
-              childrenData.icon !== null
+              "" !== childrenData.icon.trim() && childrenData.icon !== null
             ) {
               legendAry.push({
                 icon: childrenData.icon,
-                des: childrenData.name,
+                des: childrenData.name
               });
             }
           }
@@ -1522,7 +1462,7 @@ export default {
     },
     setMapList(data, type) {
       var url = "";
-      data.forEach((val) => {
+      data.forEach(val => {
         if (val.name === type) {
           url = val.tiles;
         }
@@ -1548,11 +1488,11 @@ export default {
           credit: new Cesium.Credit("天地图全球影像服务"),
           subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
           maximumLevel: 18,
-          show: false,
+          show: false
         });
         // 创建三维球
         this.rightMap = new Cesium.Viewer("rightMap", {
-          imageryProvider: image_Source,
+          imageryProvider: image_Source
         });
         // this.rightMap.imageryLayers.removeAll();//移除所有底图
         $(".cesium-widget-credits").hide(); //去除logo（jquery写法，也可以按类名找到元素隐藏即可）
@@ -1581,8 +1521,8 @@ export default {
                 type: "raster",
                 tiles: [url],
                 tileSize: 256,
-                rasterSource: "iserver",
-              },
+                rasterSource: "iserver"
+              }
             },
             layers: [
               {
@@ -1590,14 +1530,14 @@ export default {
                 type: "raster",
                 source: "rightlayer-source",
                 minzoom: 8,
-                maxzoom: 19,
-              },
-            ],
+                maxzoom: 19
+              }
+            ]
           },
           crs: "EPSG:4490",
           zoom: 8.8,
           minZoom: 8.8,
-          maxZoom: 18,
+          maxZoom: 18
         });
         this.rightMap.setCenter(this.map.getCenter());
         this.rightMap.setZoom(this.map.getZoom());
@@ -1665,15 +1605,15 @@ export default {
         orientation: {
           heading: Cesium.Math.toRadians(0, 0), // // 指向
           pitch: Cesium.Math.toRadians(pitch), // 视角
-          roll: 0,
-        },
+          roll: 0
+        }
       });
     },
     setRightMap() {
       var __this = this;
       // 左侧操作右侧
       // 平移
-      this.map.on("drag", function (e) {
+      this.map.on("drag", function(e) {
         if (__this.rightMapType === "globe_3D") {
           if (e.originalEvent) {
             __this.set3DView(e);
@@ -1684,7 +1624,7 @@ export default {
         }
       });
       // 缩放
-      this.map.on("zoom", function (e) {
+      this.map.on("zoom", function(e) {
         if (__this.rightMapType === "globe_3D") {
           if (e.originalEvent) {
             __this.set3DView(e);
@@ -1695,7 +1635,7 @@ export default {
         }
       });
       // 调整视角
-      this.map.on("pitch", function (e) {
+      this.map.on("pitch", function(e) {
         if (__this.rightMapType === "globe_3D") {
           __this.set3DView(e);
         } else {
@@ -1705,7 +1645,7 @@ export default {
 
       // 右侧操作左侧
       if (this.rightMapType === "globe_3D") {
-        __this.rightMap.screenSpaceEventHandler.setInputAction(function () {
+        __this.rightMap.screenSpaceEventHandler.setInputAction(function() {
           var tilesToRender =
             __this.rightMap.scene.globe._surface._tilesToRender;
           var leftzoom;
@@ -1716,7 +1656,7 @@ export default {
           var extent = __this.getCurrentExtent();
           var box = [
             [extent.xmin, extent.ymin],
-            [extent.xmax, extent.ymax],
+            [extent.xmax, extent.ymax]
           ];
           __this.map.fitBounds(box);
         }, Cesium.ScreenSpaceEventType.LEFT_UP);
@@ -1724,11 +1664,11 @@ export default {
         var handler = new Cesium.ScreenSpaceEventHandler(
           __this.rightMap.scene.canvas
         );
-        handler.setInputAction(function (movement) {
+        handler.setInputAction(function(movement) {
           var extent = __this.getCurrentExtent();
           var box = [
             [extent.xmin, extent.ymin],
-            [extent.xmax, extent.ymax],
+            [extent.xmax, extent.ymax]
           ];
           __this.map.fitBounds(box);
         }, Cesium.ScreenSpaceEventType.WHEEL);
@@ -1745,7 +1685,7 @@ export default {
         var handler = new Cesium.ScreenSpaceEventHandler(
           __this.rightMap.scene.canvas
         );
-        handler.setInputAction(function (movement) {
+        handler.setInputAction(function(movement) {
           // var pitch1 = Cesium.Math.toDegrees(__this.rightMap.camera.pitch).toFixed(2);
           // console.log(pitch1)
           // if(pitch1 > -60) {
@@ -1768,11 +1708,11 @@ export default {
         //     __this.map.fitBounds(box);
         // });
       } else {
-        this.rightMap.on("drag", function (e) {
+        this.rightMap.on("drag", function(e) {
           __this.map.setCenter(__this.rightMap.getCenter());
           __this.map.setZoom(__this.rightMap.getZoom());
         });
-        this.rightMap.on("zoom", function (e) {
+        this.rightMap.on("zoom", function(e) {
           __this.map.setCenter(__this.rightMap.getCenter());
           __this.map.setZoom(__this.rightMap.getZoom());
         });
@@ -1802,8 +1742,8 @@ export default {
                 type: "raster",
                 tiles: [tiles],
                 tileSize: 256,
-                rasterSource: "iserver",
-              },
+                rasterSource: "iserver"
+              }
             },
             layers: [
               {
@@ -1811,15 +1751,15 @@ export default {
                 type: "raster",
                 source: "baselayer-source",
                 minzoom: 8.8,
-                maxzoom: 19,
-              },
-            ],
+                maxzoom: 19
+              }
+            ]
           },
           crs: "EPSG:4490",
           center: [120.662287, 27.9],
           zoom: 8.8,
           minZoom: 8.8,
-          maxZoom: 18,
+          maxZoom: 18
         });
         this.rightMap.setCenter(this.map.getCenter());
         this.rightMap.setZoom(this.map.getZoom());
@@ -1829,19 +1769,19 @@ export default {
     },
     set2DView() {
       var __this = this;
-      this.map.on("dragend", function (e) {
+      this.map.on("dragend", function(e) {
         __this.rightMap.setCenter(__this.map.getCenter());
         __this.rightMap.setZoom(__this.map.getZoom());
       });
-      this.map.on("zoomend", function (e) {
+      this.map.on("zoomend", function(e) {
         __this.rightMap.setCenter(__this.map.getCenter());
         __this.rightMap.setZoom(__this.map.getZoom());
       });
-      this.rightMap.on("dragend", function (e) {
+      this.rightMap.on("dragend", function(e) {
         __this.map.setCenter(__this.rightMap.getCenter());
         __this.map.setZoom(__this.rightMap.getZoom());
       });
-      this.rightMap.on("zoomend", function (e) {
+      this.rightMap.on("zoomend", function(e) {
         __this.map.setCenter(__this.rightMap.getCenter());
         __this.map.setZoom(__this.rightMap.getZoom());
       });
@@ -1860,281 +1800,123 @@ export default {
       }
     },
     checkValue(data) {
-      if (data == "djh") {
-        var host = "https://iserver.supermap.io";
-        $.get("https://iclient.supermap.io/examples/data/chinaEarthquake.csv", function (response) {
-          var dataObj = Papa.parse(response, {
-            skipEmptyLines: true,
-            header: true,
-          });
-
-          var data = dataObj.data;
-
-          var geojson = {
-            type: "FeatureCollection",
-            features: [],
-          };
-
-          for (var i = 0; i < data.length; i++) {
-            var item = data[i];
-            var date = new Date(item.date);
-            var year = date.getFullYear();
-
-            //2w+地震数据
-            if (year > 2000 && year < 2015) {
-              var feature = {
-                type: "feature",
-                geometry: {
-                  type: "Point",
-                  coordinates: [],
-                },
-                properties: {
-                  value: parseFloat(item.level),
-                },
-              };
-              feature.geometry.coordinates = [
-                parseFloat(item.X),
-                parseFloat(item.Y),
-              ];
-
-              geojson.features.push(feature);
-            }
-          }
-          mapa = new mapboxgl.Map({
-            container: "map",
-            style: {
-              version: 8,
-              glyphs:
-                host +
-                "/iserver/services/map-china400/rest/maps/China/tileFeature/sdffonts/{fontstack}/{range}.pbf",
-              sources: {
-                "raster-tiles": {
-                  type: "raster",
-                  tiles: [
-                    host +
-                      "/iserver/services/map-china400/rest/maps/China/zxyTileImage.png?z={z}&x={x}&y={y}",
-                  ],
-                  tileSize: 256,
-                },
-              },
-
-              layers: [
-                {
-                  id: "simple-tiles",
-                  type: "raster",
-                  source: "raster-tiles",
-                  minzoom: 0,
-                  maxzoom: 22,
-                },
-              ],
-            },
-            center: [112, 37.94],
-            zoom: 3,
-          });
-          map.on("load", function () {
-            map.addSource("earthquakes", {
-              type: "geojson",
-              data: geojson,
-              cluster: true,
-              clusterMaxZoom: 14,
-              clusterRadius: 100,
-            });
-
-            map.addLayer({
-              id: "clusters",
-              type: "circle",
-              source: "earthquakes",
-              filter: ["has", "point_count"],
-              paint: {
-                "circle-color": [
-                  "step",
-                  ["get", "point_count"],
-                  "#51bbd6",
-                  100,
-                  "#f1f075",
-                  750,
-                  "#f28cb1",
-                ],
-                "circle-radius": [
-                  "step",
-                  ["get", "point_count"],
-                  20,
-                  100,
-                  30,
-                  750,
-                  40,
-                ],
-              },
-            });
-
-            map.addLayer({
-              id: "cluster-count",
-              type: "symbol",
-              source: "earthquakes",
-              filter: ["has", "point_count"],
-              layout: {
-                "text-field": "{point_count_abbreviated}",
-                "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-                "text-size": 12,
-              },
-            });
-
-            map.addLayer({
-              id: "unclustered-point",
-              type: "circle",
-              source: "earthquakes",
-              filter: ["!", ["has", "point_count"]],
-              paint: {
-                "circle-color": "#11b4da",
-                "circle-radius": 4,
-                "circle-stroke-width": 1,
-                "circle-stroke-color": "#fff",
-              },
-            });
-
-            map.on("click", "clusters", function (e) {
-              var features = map.queryRenderedFeatures(e.point, {
-                layers: ["clusters"],
-              });
-              var clusterId = features[0].properties.cluster_id;
-              map
-                .getSource("earthquakes")
-                .getClusterExpansionZoom(clusterId, function (err, zoom) {
-                  if (err) return;
-                  map.easeTo({
-                    center: features[0].geometry.coordinates,
-                    zoom: zoom,
-                  });
-                });
-            });
-
-            map.on("mouseenter", "clusters", function () {
-              map.getCanvas().style.cursor = "pointer";
-            });
-            map.on("mouseleave", "clusters", function () {
-              map.getCanvas().style.cursor = "";
-            });
-          });
-        });
-      } else {
-        this.basemapTiles = data;
-        var tiles = "";
-        var basemapSourcesTiles = MAP_CONFIG.basemapSourcesTiles;
-        for (var i = 0; i < basemapSourcesTiles.length; i++) {
-          if (basemapSourcesTiles[i].name === this.basemapTiles) {
-            tiles = basemapSourcesTiles[i].tiles;
-            break;
-          }
+      this.basemapTiles = data;
+      var tiles = "";
+      var basemapSourcesTiles = MAP_CONFIG.basemapSourcesTiles;
+      for (var i = 0; i < basemapSourcesTiles.length; i++) {
+        if (basemapSourcesTiles[i].name === this.basemapTiles) {
+          tiles = basemapSourcesTiles[i].tiles;
+          break;
         }
-        //矢量
-        if (this.basemapTiles.indexOf("vectortile") >= 0) {
-          this.map.setStyle(tiles);
-        }
-        //栅格
-        else {
-          if ("2019YX" === this.basemapTiles) {
-            var zjTiles = "";
-            for (var i = 0; i < basemapSourcesTiles.length; i++) {
-              if (basemapSourcesTiles[i].name === "2019YXZJ") {
-                zjTiles = basemapSourcesTiles[i].tiles;
-                break;
-              }
-            }
-            this.map.setStyle({
-              version: 8,
-              sources: {
-                "baselayer-source": {
-                  type: "raster",
-                  tiles: [tiles],
-                  tileSize: 256,
-                  rasterSource: "iserver",
-                },
-              },
-              layers: [
-                {
-                  id: "base-layer",
-                  type: "raster",
-                  source: "baselayer-source",
-                  minzoom: 8.8,
-                  maxzoom: 21,
-                },
-              ],
-            });
-
-            if (this.map.getLayer("2019YXZJ_layer")) {
-              this.map.removeLayer("2019YXZJ_layer");
-            }
-            if (this.map.getSource("2019YXZJ_source")) {
-              this.map.removeSource("2019YXZJ_source");
-            }
-            this.map.addSource("2019YXZJ_source", {
-              type: "raster",
-              tiles: [zjTiles],
-              tileSize: 256,
-              rasterSource: "iserver",
-            });
-            this.map.addLayer({
-              id: "2019YXZJ_layer",
-              type: "raster",
-              source: "2019YXZJ_source",
-            });
-          } else {
-            if (this.map.getLayer("2019YXZJ_layer")) {
-              this.map.removeLayer("2019YXZJ_layer");
-            }
-            this.map.setStyle({
-              version: 8,
-              sources: {
-                "baselayer-source": {
-                  type: "raster",
-                  tiles: [tiles],
-                  tileSize: 256,
-                  rasterSource: "iserver",
-                },
-              },
-              layers: [
-                {
-                  id: "base-layer",
-                  type: "raster",
-                  source: "baselayer-source",
-                  minzoom: 8.8,
-                  maxzoom: 21,
-                },
-              ],
-            });
-          }
-
-          if (
-            "2012YX" === this.basemapTiles ||
-            "2014YX" === this.basemapTiles ||
-            "2017YX" === this.basemapTiles ||
-            "2018YX" === this.basemapTiles ||
-            "2019YX" === this.basemapTiles
-          ) {
-            this.map.setMaxZoom(18);
-          } else if ("standard-raster" === this.basemapTiles) {
-            this.map.setMaxZoom(19);
-          } else if ("bigdata-raster" === this.basemapTiles) {
-            this.map.setMaxZoom(18);
-          }
-        }
-        //加载边界线
-        var WWW_MAP = document.location.protocol + "//" + window.location.host;
-        var userDistrict = this.userInfo.district;
-        if (userDistrict === "3303") {
-          this.setBoundryAndCover(false);
-        } else {
-          this.setBoundryAndCover(true);
-        }
-        //设置比例尺
-        this.map.removeControl(this.scaleControl);
-        this.scaleControl = new mapboxgl.ScaleControl({});
-        this.map.addControl(this.scaleControl);
-        //底图加载完毕
-        this.isMapLoaded = true;
-        //加载图层
-        this.addMenuData();
       }
+      //矢量
+      if (this.basemapTiles.indexOf("vectortile") >= 0) {
+        this.map.setStyle(tiles);
+      }
+      //栅格
+      else {
+        if ("2019YX" === this.basemapTiles) {
+          var zjTiles = "";
+          for (var i = 0; i < basemapSourcesTiles.length; i++) {
+            if (basemapSourcesTiles[i].name === "2019YXZJ") {
+              zjTiles = basemapSourcesTiles[i].tiles;
+              break;
+            }
+          }
+          this.map.setStyle({
+            version: 8,
+            sources: {
+              "baselayer-source": {
+                type: "raster",
+                tiles: [tiles],
+                tileSize: 256,
+                rasterSource: "iserver"
+              }
+            },
+            layers: [
+              {
+                id: "base-layer",
+                type: "raster",
+                source: "baselayer-source",
+                minzoom: 8.8,
+                maxzoom: 21
+              }
+            ]
+          });
+
+          if (this.map.getLayer("2019YXZJ_layer")) {
+            this.map.removeLayer("2019YXZJ_layer");
+          }
+          if (this.map.getSource("2019YXZJ_source")) {
+            this.map.removeSource("2019YXZJ_source");
+          }
+          this.map.addSource("2019YXZJ_source", {
+            type: "raster",
+            tiles: [zjTiles],
+            tileSize: 256,
+            rasterSource: "iserver"
+          });
+          this.map.addLayer({
+            id: "2019YXZJ_layer",
+            type: "raster",
+            source: "2019YXZJ_source"
+          });
+        } else {
+          if (this.map.getLayer("2019YXZJ_layer")) {
+            this.map.removeLayer("2019YXZJ_layer");
+          }
+          this.map.setStyle({
+            version: 8,
+            sources: {
+              "baselayer-source": {
+                type: "raster",
+                tiles: [tiles],
+                tileSize: 256,
+                rasterSource: "iserver"
+              }
+            },
+            layers: [
+              {
+                id: "base-layer",
+                type: "raster",
+                source: "baselayer-source",
+                minzoom: 8.8,
+                maxzoom: 21
+              }
+            ]
+          });
+        }
+
+        if (
+          "2012YX" === this.basemapTiles ||
+          "2014YX" === this.basemapTiles ||
+          "2017YX" === this.basemapTiles ||
+          "2018YX" === this.basemapTiles ||
+          "2019YX" === this.basemapTiles
+        ) {
+          this.map.setMaxZoom(18);
+        } else if ("standard-raster" === this.basemapTiles) {
+          this.map.setMaxZoom(19);
+        } else if ("bigdata-raster" === this.basemapTiles) {
+          this.map.setMaxZoom(18);
+        }
+      }
+      //加载边界线
+      var WWW_MAP = document.location.protocol + "//" + window.location.host;
+      var userDistrict = this.userInfo.district;
+      if (userDistrict === "3303") {
+        this.setBoundryAndCover(false);
+      } else {
+        this.setBoundryAndCover(true);
+      }
+      //设置比例尺
+      this.map.removeControl(this.scaleControl);
+      this.scaleControl = new mapboxgl.ScaleControl({});
+      this.map.addControl(this.scaleControl);
+      //底图加载完毕
+      this.isMapLoaded = true;
+      //加载图层
+      this.addMenuData();
     },
     addMenuData() {
       var __this = this;
@@ -2303,7 +2085,7 @@ export default {
             centerAry[0] = wenzhou_xz.features[i].properties.x;
             centerAry[1] = wenzhou_xz.features[i].properties.y;
             this.map.flyTo({
-              center: centerAry,
+              center: centerAry
             });
             break;
           }
@@ -2327,13 +2109,13 @@ export default {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: otherStreetAry,
-            },
+              features: otherStreetAry
+            }
           });
         } else {
           this.map.getSource("basemapStreet_source").setData({
             type: "FeatureCollection",
-            features: otherStreetAry,
+            features: otherStreetAry
           });
         }
         this.removeLayer("basemapStreet_layer");
@@ -2343,21 +2125,21 @@ export default {
           source: "basemapStreet_source",
           paint: {
             "fill-color": "rgba(147,162,193," + this.sliderValue + ")",
-            "fill-outline-color": "rgba(240, 240, 0, 0.3)",
-          },
+            "fill-outline-color": "rgba(240, 240, 0, 0.3)"
+          }
         });
         if (!this.map.getSource("streetBoundary_source")) {
           this.map.addSource("streetBoundary_source", {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: currentStreetAry,
-            },
+              features: currentStreetAry
+            }
           });
         } else {
           this.map.getSource("streetBoundary_source").setData({
             type: "FeatureCollection",
-            features: currentStreetAry,
+            features: currentStreetAry
           });
         }
         this.removeLayer("streetBoundary_layer");
@@ -2367,12 +2149,11 @@ export default {
           source: "streetBoundary_source",
           paint: {
             "line-color": "rgba(0,169,230,0.5)",
-            "line-width": 4,
-          },
+            "line-width": 4
+          }
         });
       }
     },
-    //遮盖面效果
     setDistrictLayer(selectedDistrict, isClick) {
       if (selectedDistrict === "") {
         this.removeLayer("basemapDistrict_layer");
@@ -2410,7 +2191,7 @@ export default {
             selectedDistrict === getDistrictData.features[i].properties.NAME
           ) {
             this.map.flyTo({
-              center: getDistrictData.features[i].geometry.coordinates,
+              center: getDistrictData.features[i].geometry.coordinates
             });
             break;
           }
@@ -2437,13 +2218,13 @@ export default {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: otherDistrictAry,
-            },
+              features: otherDistrictAry
+            }
           });
         } else {
           this.map.getSource("basemapDistrict_source").setData({
             type: "FeatureCollection",
-            features: otherDistrictAry,
+            features: otherDistrictAry
           });
         }
         this.removeLayer("basemapDistrict_layer");
@@ -2453,21 +2234,21 @@ export default {
           source: "basemapDistrict_source",
           paint: {
             "fill-color": "rgba(147,162,193," + this.sliderValue + ")",
-            "fill-outline-color": "rgba(240, 240, 0, 0.3)",
-          },
+            "fill-outline-color": "rgba(240, 240, 0, 0.3)"
+          }
         });
         if (!this.map.getSource("districtBoundary_source")) {
           this.map.addSource("districtBoundary_source", {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: currentDistrictAry,
-            },
+              features: currentDistrictAry
+            }
           });
         } else {
           this.map.getSource("districtBoundary_source").setData({
             type: "FeatureCollection",
-            features: currentDistrictAry,
+            features: currentDistrictAry
           });
         }
         this.removeLayer("districtBoundary_layer");
@@ -2477,23 +2258,15 @@ export default {
           source: "districtBoundary_source",
           paint: {
             "line-color": "rgba(0,169,230,0.5)",
-            "line-width": 4,
-          },
+            "line-width": 4
+          }
         });
       }
-    },
-    setScreen(data){
-      if(this.map.getLayer("basemapDistrict_layer")||this.map.getLayer("districtBoundary_layer")){
-         this.removeLayer("basemapDistrict_layer");
-        this.removeLayer("districtBoundary_layer");
-      }
-      this.removeLayer(this.$root.fwdata[7]+"_layer");
-      this.addScatterLayerFromServer(this.$root.fwdata[6],this.$root.fwdata[7],this.$root.fwdata[8],this.$root.fwdata[9],data,this.$root.fwdata[11]);
     },
     createFourColorLayer(layerFeatures, alias) {
       this.clearHeatPoints();
       this.clearFourColorLayer();
-      var phvals = layerFeatures.features.map((f) => f.properties.SMID);
+      var phvals = layerFeatures.features.map(f => f.properties.SMID);
       var min = Math.min(...phvals);
       var max = Math.max(...phvals);
       var range = max - min;
@@ -2506,35 +2279,35 @@ export default {
           start: min,
           end: start2,
           style: {
-            color: "#00FF00",
-          },
+            color: "#00FF00"
+          }
         },
         {
           start: start2,
           end: start3,
           style: {
-            color: "#FFFF00",
-          },
+            color: "#FFFF00"
+          }
         },
         {
           start: start3,
           end: start4,
           style: {
-            color: "#FFA500",
-          },
+            color: "#FFA500"
+          }
         },
         {
           start: start4,
           end: max + 1,
           style: {
-            color: "#FF0000",
-          },
-        },
+            color: "#FF0000"
+          }
+        }
       ];
       if (!this.map.getSource(alias + "_source")) {
         this.map.addSource(alias + "_source", {
           type: "geojson",
-          data: layerFeatures,
+          data: layerFeatures
         });
       } else {
         this.map.getSource(alias + "_source").setData(layerFeatures);
@@ -2557,32 +2330,31 @@ export default {
         spatialQueryMode: "INTERSECT",
         fromIndex: 0,
         toIndex: 99999,
-        maxFeatures: 100000,
+        maxFeatures: 100000
       });
-      new FeatureService(dataUrl).getFeaturesByGeometry(
-        geometryParam,
-        function (serviceResult) {
-          if (!this.map.getSource(alias + "_areaSource")) {
-            this.map.addSource(alias + "_areaSource", {
-              type: "geojson",
-              data: serviceResult.result.features,
-            });
-          } else {
-            this.map
-              .getSource(alias + "_areaSource")
-              .setData(serviceResult.result.features);
-          }
-          map.addLayer({
-            id: "polygonQueryLayer",
-            type: "fill",
-            source: alias + "_areaSource",
-            paint: {
-              "fill-color": "#FF3300",
-              "fill-opacity": 0.6,
-            },
+      new FeatureService(dataUrl).getFeaturesByGeometry(geometryParam, function(
+        serviceResult
+      ) {
+        if (!this.map.getSource(alias + "_areaSource")) {
+          this.map.addSource(alias + "_areaSource", {
+            type: "geojson",
+            data: serviceResult.result.features
           });
+        } else {
+          this.map
+            .getSource(alias + "_areaSource")
+            .setData(serviceResult.result.features);
         }
-      );
+        map.addLayer({
+          id: "polygonQueryLayer",
+          type: "fill",
+          source: alias + "_areaSource",
+          paint: {
+            "fill-color": "#FF3300",
+            "fill-opacity": 0.6
+          }
+        });
+      });
     },
     clearPloygonQueryLayer() {
       if (this.map.getLayer("polygonQueryLayer")) {
@@ -2591,7 +2363,7 @@ export default {
     },
     searchFeatureNames(e) {
       var __this = this;
-      getPointTreeList().then((res) => {
+      getPointTreeList().then(res => {
         // console.log('res: ' + CircularJSON.stringify(res));
         if (res === null) {
           return;
@@ -2628,7 +2400,7 @@ export default {
           __this.searchFeatureCount,
           50,
           tablenames
-        ).then((data) => {
+        ).then(data => {
           // console.log('data: ' + CircularJSON.stringify(data));
           // console.log('数据条数：' + data.length);
           var eachAliasBlurNames = { blurNames: [] };
@@ -2654,7 +2426,7 @@ export default {
       var smid = value[1];
 
       if (value[0] === "D_DMDZ") {
-        getTypeDetail(smid, "D_DMDZ").then((data) => {
+        getTypeDetail(smid, "D_DMDZ").then(data => {
           // console.log('data:' + CircularJSON.stringify(data));
           // 1.传数据
           __this.$emit("setonePoint", data);
@@ -2667,16 +2439,16 @@ export default {
                 properties: data,
                 geometry: {
                   type: "Point",
-                  coordinates: [data.CENTERX, data.CENTERY],
+                  coordinates: [data.CENTERX, data.CENTERY]
                 },
-                id: data.smid,
-              },
-            ],
+                id: data.smid
+              }
+            ]
           };
           if (!__this.map.getSource("searchObj_source")) {
             __this.map.addSource("searchObj_source", {
               type: "geojson",
-              data: dataJson,
+              data: dataJson
             });
           } else {
             __this.map.getSource("searchObj_source").setData(dataJson);
@@ -2692,8 +2464,8 @@ export default {
               layout: {
                 "icon-image": "searchObj_Point",
                 "icon-size": 0.8,
-                "icon-allow-overlap": true,
-              },
+                "icon-allow-overlap": true
+              }
             },
             "wz_boundary_layer"
           );
@@ -2705,7 +2477,7 @@ export default {
           }
           var lngLat = [data.CENTERX, data.CENTERY];
           __this.map.flyTo({
-            center: lngLat,
+            center: lngLat
           });
           // 4.弹框
           var str = "";
@@ -2718,20 +2490,20 @@ export default {
           __this.areaQueryCenterCoordinates = lngLat;
           if (data.GUID != "" && data.GUID != null) {
             var html = `<div class="pop-tip">
-                              <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px" >${data.NAME}</p>
+                              <p class="">${data.NAME}</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                              <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                              <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                              <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                               <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
           } else {
             var html = `<div class="pop-tip">
-                              <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${data.NAME}</p>
+                              <p class="">${data.NAME}</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                              <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                              <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                              <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
           }
           var tipElArr = document.getElementsByClassName(
@@ -2741,9 +2513,12 @@ export default {
             tipElArr[i].click();
           }
           var popup = new mapboxgl.Popup({
-            closeOnClick: true,
+            closeOnClick: true
           });
-          popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+          popup
+            .setLngLat(lngLat)
+            .setHTML(html)
+            .addTo(__this.map);
         });
       } else {
         var mapPopName = [];
@@ -2758,14 +2533,14 @@ export default {
         }
         var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
-            attributeFilter: "SMID=" + smid,
+            attributeFilter: "SMID=" + smid
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
-        new FeatureService(__this.dataUrl).getFeaturesBySQL(sqlParam, function (
+        new FeatureService(__this.dataUrl).getFeaturesBySQL(sqlParam, function(
           serviceResult
         ) {
           if (serviceResult && serviceResult.result) {
@@ -2777,7 +2552,7 @@ export default {
             if (!__this.map.getSource("searchObj_source")) {
               __this.map.addSource("searchObj_source", {
                 type: "geojson",
-                data: features,
+                data: features
               });
             } else {
               __this.map.getSource("searchObj_source").setData(features);
@@ -2793,8 +2568,8 @@ export default {
                 layout: {
                   "icon-image": "searchObj_Point",
                   "icon-size": 0.8,
-                  "icon-allow-overlap": true,
-                },
+                  "icon-allow-overlap": true
+                }
               },
               "wz_boundary_layer"
             );
@@ -2806,7 +2581,7 @@ export default {
             }
             var lngLat = features.features[0].geometry.coordinates;
             __this.map.flyTo({
-              center: lngLat,
+              center: lngLat
             });
             // 4.弹框
             var feature = features.features[0];
@@ -2826,7 +2601,7 @@ export default {
             }
             __this.showAroundRequestParam = {
               center: feature.geometry.coordinates,
-              distance: "1000",
+              distance: "1000"
             };
             __this.areaQueryCenterCoordinates = feature.geometry.coordinates;
 
@@ -2835,28 +2610,28 @@ export default {
               feature.properties.GUID != null
             ) {
               var html = `<div class="pop-tip">
-                                <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px" >${
+                                <p class="">${
                                   feature.properties[mapPopField[0]]
                                     ? feature.properties[mapPopField[0]]
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                               <!-- <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                                <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                                <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                                 <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
             } else {
               var html = `<div class="pop-tip">
-                                <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${
+                                <p class="">${
                                   feature.properties[mapPopField[0]]
                                     ? feature.properties[mapPopField[0]]
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                                <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                                <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
             }
             var tipElArr = document.getElementsByClassName(
@@ -2866,9 +2641,12 @@ export default {
               tipElArr[i].click();
             }
             var popup = new mapboxgl.Popup({
-              closeOnClick: true,
+              closeOnClick: true
             });
-            popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+            popup
+              .setLngLat(lngLat)
+              .setHTML(html)
+              .addTo(__this.map);
           }
         });
       }
@@ -2878,9 +2656,6 @@ export default {
       var tiles = {};
       var basemapSourcesTiles = MAP_CONFIG.basemapSourcesTiles;
       var WWW_MAP = document.location.protocol + "//" + window.location.host;
-      if ("fourColorMap" === this.currentMapType) {
-          this.basemapTiles = "bigdata-raster";
-        }
       if (
         WWW_MAP.indexOf("http://pshyz.f3322.net:9000") < 0 &&
         WWW_MAP.indexOf("http://localhost") < 0
@@ -2906,7 +2681,7 @@ export default {
       }
       var bounds = [
         [119.43, 27.1],
-        [121.43, 28.62],
+        [121.43, 28.62]
       ];
       if (this.basemapTiles.indexOf("vectortile") >= 0) {
         var attribution =
@@ -2920,7 +2695,7 @@ export default {
           zoom: 8.8,
           minZoom: 8.8,
           maxZoom: 18,
-          crs: "EPSG:4490",
+          crs: "EPSG:4490"
           // scrollZoom: false
         });
       } else if (
@@ -2939,8 +2714,8 @@ export default {
                 type: "raster",
                 tiles: [tiles],
                 tileSize: 256,
-                rasterSource: "iserver",
-              },
+                rasterSource: "iserver"
+              }
             },
             layers: [
               {
@@ -2948,16 +2723,16 @@ export default {
                 type: "raster",
                 source: "baselayer-source",
                 minzoom: 8.8,
-                maxzoom: 19,
-              },
-            ],
+                maxzoom: 19
+              }
+            ]
           },
           crs: "EPSG:4490",
           // scrollZoom: false,
           center: [120.662287, 27.9],
           zoom: 8.8,
           minZoom: 8.8,
-          maxZoom: 18,
+          maxZoom: 18
         });
       } else if (
         "standard-raster" === this.basemapTiles ||
@@ -2972,8 +2747,8 @@ export default {
                 type: "raster",
                 tiles: [tiles],
                 tileSize: 256,
-                rasterSource: "iserver",
-              },
+                rasterSource: "iserver"
+              }
             },
             layers: [
               {
@@ -2981,15 +2756,15 @@ export default {
                 type: "raster",
                 source: "baselayer-source",
                 minzoom: 8.8,
-                maxzoom: 21,
-              },
-            ],
+                maxzoom: 21
+              }
+            ]
           },
           crs: "EPSG:4490",
           // scrollZoom: false,
           center: [120.662287, 27.9],
           zoom: 8.8,
-          minZoom: 8.8,
+          minZoom: 8.8
         });
         if ("standard-raster" === this.basemapTiles) {
           this.map.setMaxZoom(19);
@@ -3005,8 +2780,8 @@ export default {
               "baselayer-source": {
                 type: "raster",
                 tiles: [tiles],
-                tileSize: 256,
-              },
+                tileSize: 256
+              }
             },
             layers: [
               {
@@ -3014,15 +2789,15 @@ export default {
                 type: "raster",
                 source: "baselayer-source",
                 minzoom: 8.8,
-                maxzoom: 19,
-              },
-            ],
+                maxzoom: 19
+              }
+            ]
           },
           crs: "EPSG:3857",
           center: [120.662287, 27.9],
           zoom: 8.8,
           minZoom: 8.8,
-          maxZoom: 18,
+          maxZoom: 18
         });
       }
 
@@ -3031,7 +2806,7 @@ export default {
       //   __this.map.setZoom(__this.map.getZoom() + Math.sign(wheelDelta));
       // });
       // 加载行政区划区域、边界
-      this.map.on("load", function () {
+      this.map.on("load", function() {
         var userDistrict = __this.userInfo.district;
         if (userDistrict === "3303") {
           var districtDataServer = MAP_CONFIG.districtDataServer;
@@ -3082,7 +2857,7 @@ export default {
         for (var i = 0; i < getDistrictData.features.length; i++) {
           if (districtName === getDistrictData.features[i].properties.NAME) {
             this.map.flyTo({
-              center: getDistrictData.features[i].geometry.coordinates,
+              center: getDistrictData.features[i].geometry.coordinates
             });
             break;
           }
@@ -3095,14 +2870,14 @@ export default {
         controls: {
           line_string: true,
           polygon: true,
-          trash: true,
-        },
+          trash: true
+        }
       });
       this.map.addControl(Draw, "top-left");
       this.map.on("draw.create", this.measure);
 
       var __this = this;
-      this.map.loadImage("./static/image/level1.png", function (error, image) {
+      this.map.loadImage("./static/image/level1.png", function(error, image) {
         if (error) {
           console.log("error: " + error);
         }
@@ -3110,7 +2885,7 @@ export default {
           __this.map.addImage("level1_Point", image);
         }
       });
-      this.map.loadImage("./static/image/level2.png", function (error, image) {
+      this.map.loadImage("./static/image/level2.png", function(error, image) {
         if (error) {
           console.log("error: " + error);
         }
@@ -3118,7 +2893,7 @@ export default {
           __this.map.addImage("level2_Point", image);
         }
       });
-      this.map.loadImage("./static/image/level3.png", function (error, image) {
+      this.map.loadImage("./static/image/level3.png", function(error, image) {
         if (error) {
           console.log("error: " + error);
         }
@@ -3126,7 +2901,7 @@ export default {
           __this.map.addImage("level3_Point", image);
         }
       });
-      this.map.loadImage("./static/image/level4.png", function (error, image) {
+      this.map.loadImage("./static/image/level4.png", function(error, image) {
         if (error) {
           console.log("error: " + error);
         }
@@ -3134,18 +2909,18 @@ export default {
           __this.map.addImage("level4_Point", image);
         }
       });
-      this.map.loadImage(
-        "./static/gitimage/ditusousuo/searchObj.png",
-        function (error, image) {
-          if (error) {
-            console.log("error: " + error);
-          }
-          if (!__this.map.hasImage("searchObj_Point")) {
-            __this.map.addImage("searchObj_Point", image);
-          }
+      this.map.loadImage("./static/gitimage/ditusousuo/searchObj.png", function(
+        error,
+        image
+      ) {
+        if (error) {
+          console.log("error: " + error);
         }
-      );
-      this.map.loadImage("./static/gitimage/other/gaoliang.png", function (
+        if (!__this.map.hasImage("searchObj_Point")) {
+          __this.map.addImage("searchObj_Point", image);
+        }
+      });
+      this.map.loadImage("./static/gitimage/other/gaoliang.png", function(
         error,
         image
       ) {
@@ -3158,7 +2933,7 @@ export default {
       });
       this.map.loadImage(
         "./static/gitimage/shantangshuiku/shantang_1.png",
-        function (error, image) {
+        function(error, image) {
           if (error) {
             console.log("error: " + error);
           }
@@ -3169,7 +2944,7 @@ export default {
       );
       this.map.loadImage(
         "./static/gitimage/shantangshuiku/shuiku_1.png",
-        function (error, image) {
+        function(error, image) {
           if (error) {
             console.log("error: " + error);
           }
@@ -3180,7 +2955,7 @@ export default {
       );
       this.map.loadImage(
         "./static/gitimage/cityjichu/jishuidian_1.png",
-        function (error, image) {
+        function(error, image) {
           if (error) {
             console.log("error: " + error);
           }
@@ -3191,7 +2966,7 @@ export default {
       );
       this.map.loadImage(
         "./static/gitimage/yingjiduiwu/guganjiuyuanduiwu_1.png",
-        function (error, image) {
+        function(error, image) {
           if (error) {
             console.log("error: " + error);
           }
@@ -3200,7 +2975,7 @@ export default {
           }
         }
       );
-      this.map.loadImage("./static/gitimage/ziranzaihai/huapo_1.png", function (
+      this.map.loadImage("./static/gitimage/ziranzaihai/huapo_1.png", function(
         error,
         image
       ) {
@@ -3212,7 +2987,7 @@ export default {
         }
       });
 
-      this.map.on("click", "searchObj_layer", function (e) {
+      this.map.on("click", "searchObj_layer", function(e) {
         // console.log('e:' + CircularJSON.stringify(e));
         // 详细信息处理
         e.features[0].properties.refresh = false;
@@ -3242,20 +3017,20 @@ export default {
             feature.properties.GUID != null
           ) {
             var html = `<div class="pop-tip">
-                            <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${feature.properties.NAME}</p>
+                            <p class="">${feature.properties.NAME}</p>
                             ${str}
-                            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                             <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                            <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                            <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                             <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                           </div>`;
           } else {
             var html = `<div class="pop-tip">
-                            <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${feature.properties.NAME}</p>
+                            <p class="">${feature.properties.NAME}</p>
                             ${str}
-                            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                             <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                            <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                            <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                           </div>`;
           }
 
@@ -3266,9 +3041,12 @@ export default {
             tipElArr[i].click();
           }
           var popup = new mapboxgl.Popup({
-            closeOnClick: true,
+            closeOnClick: true
           });
-          popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+          popup
+            .setLngLat(lngLat)
+            .setHTML(html)
+            .addTo(__this.map);
         } else {
           //获取弹框字段
           var mapPopName = [];
@@ -3302,28 +3080,28 @@ export default {
             feature.properties.GUID != null
           ) {
             var html = `<div class="pop-tip">
-                              <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${
+                              <p class="">${
                                 feature.properties[mapPopField[0]]
                                   ? feature.properties[mapPopField[0]]
                                   : "暂无数据"
                               }</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                               <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                              <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                              <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                               <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                           </div>`;
           } else {
             var html = `<div class="pop-tip">
-                              <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${
+                              <p class="">${
                                 feature.properties[mapPopField[0]]
                                   ? feature.properties[mapPopField[0]]
                                   : "暂无数据"
                               }</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                               <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                              <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                              <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                              <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                           </div>`;
           }
           var tipElArr = document.getElementsByClassName(
@@ -3333,231 +3111,59 @@ export default {
             tipElArr[i].click();
           }
           var popup = new mapboxgl.Popup({
-            closeOnClick: true,
+            closeOnClick: true
           });
-          popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+          popup
+            .setLngLat(lngLat)
+            .setHTML(html)
+            .addTo(__this.map);
         }
       });
-      //地图点击实现
-      this.map.on("click", function (e) {
-        __this.map.on("load", function () {
-      
-          console.log("底图数据",__this.map.style._layers);
-        })
+      this.map.on("click", function(e) {
         // console.log('e: ' + CircularJSON.stringify(e));
         var lngLat = e.lngLat;
-        //console.log('lngLat: ' + CircularJSON.stringify(lngLat));
+        // console.log('lngLat: ' + CircularJSON.stringify(lngLat));
         var coordinatesAry = [];
         coordinatesAry[0] = lngLat.lng;
         coordinatesAry[1] = lngLat.lat;
         var checkedMenu = __this.data.allCheckData;
-        var queryPolygonGeometrys = new SuperMap.Geometry.Point(
-          coordinatesAry[0],
-          coordinatesAry[1]
-        );
-        //判断是否为面或者线服务
-        if (__this.$root.fwdata[1] != "point") {
-          var getFeaturesByGeometryParameters, getFeaturesByGeometryService;
-          getFeaturesByGeometryParameters = new SuperMap.REST.GetFeaturesByGeometryParameters(
-            {
-              datasetNames: [__this.$root.fwdata[0]],
-              toIndex: -1,
-              spatialQueryMode: SuperMap.REST.SpatialQueryMode.WITHIN,
-              geometry: queryPolygonGeometrys,
-            }
-          );
-          var url =
-            "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data";
-          getFeaturesByGeometryService = new SuperMap.REST.GetFeaturesByGeometryService(
-            url,
-            {
-              eventListeners: {
-                processCompleted: (...arg) => {
-                  FaceHighlight(arg); //面的高亮
-                  qp(arg);
-                },
-                processFailed: (...err) => {
-                  console.error("error", err);
-                },
-              },
-            }
-          );
-          getFeaturesByGeometryService.processAsync(
-            getFeaturesByGeometryParameters
-          );
-          function FaceHighlight(data) {
-            var idsParam = new SuperMap.GetFeaturesByIDsParameters({
-              IDs: [data[0].result.features[0].fid],
-              datasetNames: [__this.$root.fwdata[0]],
-            });
-            var service = new mapboxgl.supermap.FeatureService(url);
-            service.getFeaturesByIDs(idsParam, function (serviceResult) {
-              //清空高亮图层
-              if (__this.map.getLayer("queryDatas")) {
-                __this.map.removeLayer("queryDatas");
-              }
-              if (__this.map.getSource("queryDatas")) {
-                __this.map.removeSource("queryDatas");
-              }
-              //获取数据绘制高亮图层
-              __this.map.addSource("queryDatas", {
-                type: "geojson",
-                data: serviceResult.result.features,
-              });
-              __this.map.addLayer({
-                id: "queryDatas",
-                type: "line",
-                source: "queryDatas",
-                paint: {
-                  "line-color": "red" /* 填充的颜色 */,
-                  "line-width": 4 /* 边框 */,
-                },
-              });
-            });
-          }
-          function qp(data) {
-            data = data[0].result.features[0].data;
-            data.longitude = data.LONGITUDE;
-            data.latitude = data.LATITUDE;
-            data._mappopfield = __this.$root.fwdata[3];
-            data._mappopname = __this.$root.fwdata[4];
-            const obj = {};
-            for (const i in data) {
-              obj[i.toLowerCase()] = data[i];
-            }
-            obj.goToCenter = true;
-            data = obj;
-            __this.$emit("setonePoint", data);
-            if (
-              data.refresh === false ||
-              data.goToCenter !== true ||
-              !data.latitude
-            ) {
-              return;
-            }
-            const longitude = data.longitude;
-            const latitude = data.latitude;
-            const lngLat = { lng: Number(longitude), lat: Number(latitude) };
-            const lngLatAry = [Number(longitude), Number(latitude)];
-
-            // 拼接地图气泡
-            var str = "";
-            for (var i = 1; i < data._mappopfield.length; i++) {
-              str += `<div class='pop-body'>
-                  <span>${data._mappopname[i]}：
-                  ${
-                    data[data._mappopfield[i].toLowerCase()] !== undefined &&
-                    data[data._mappopfield[i].toLowerCase()] !== null &&
-                    (data[data._mappopfield[i].toLowerCase()] + "").trim() !==
-                      ""
-                      ? data[data._mappopfield[i].toLowerCase()]
-                      : "暂无数据"
-                  }</span>
-                </div>`;
-            }
-            __this.showAroundRequestParam = {
-              center: lngLatAry,
-              distance: "1000",
-            };
-            __this.areaQueryCenterCoordinates = lngLatAry;
-            if (data.guid != "" && data.guid != null) {
-              var html = `<div class="pop-tip">
-            <p class="" style="font-size: 17px;font-weight: bold;line-height: 32px">${
-              data[data._mappopfield[0].toLowerCase()] !== undefined &&
-              data[data._mappopfield[0].toLowerCase()] !== null &&
-              (data[data._mappopfield[0].toLowerCase()] + "").trim() !== ""
-                ? data[data._mappopfield[0].toLowerCase()]
-                : "暂无数据"
-            }</p>
-            ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-            <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
-            <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
-          </div>`;
-            } else {
-              var html = `<div class="pop-tip">
-            <p class="" style="font-size: 17px;font-weight: bold;line-height: 32px">${
-              data[data._mappopfield[0].toLowerCase()] !== undefined &&
-              data[data._mappopfield[0].toLowerCase()] !== null &&
-              (data[data._mappopfield[0].toLowerCase()] + "").trim() !== ""
-                ? data[data._mappopfield[0].toLowerCase()]
-                : "暂无数据"
-            }&nbsp&nbsp</p>
-            ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-            <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-            <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
-          </div>`;
-            }
-
-            var popup = new mapboxgl.Popup({
-              closeOnClick: false,
-            });
-            // 删除别的提示框
-            $(".mapboxgl-popup-close-button").off("click");
-            var tipElArr = document.getElementsByClassName(
-              "mapboxgl-popup-close-button"
+        if (!checkedMenu) {
+          return;
+        }
+        for (var i = 0; i < checkedMenu.length; i++) {
+          if (checkedMenu[i].geotype === "polygon") {
+            __this.queryPolygonDataServer(
+              coordinatesAry,
+              checkedMenu[i].url,
+              checkedMenu[i].alias,
+              checkedMenu[i].icon,
+              checkedMenu[i].datasetname,
+              checkedMenu[i].sql,
+              checkedMenu[i].mapPopName,
+              checkedMenu[i].mapPopField
             );
-            for (var i = 0; i < tipElArr.length; i++) {
-              tipElArr[i].click();
-            }
-            popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
-            var mapCenter = __this.map.getCenter().toArray();
-            mapCenter[0] = Number(longitude);
-            mapCenter[1] = Number(latitude);
-            //如果是滑坡、崩塌、泥石流，则对地图进行放大到18级
-            if (
-              data.type === "滑坡" ||
-              data.type === "崩塌" ||
-              data.type === "泥石流"
-            ) {
-              __this.map.setZoom(18);
-            } else {
-              __this.map.setZoom(15);
-            }
-            __this.map.flyTo({
-              center: mapCenter,
-            });
-            $(".mapboxgl-popup-close-button").on("click", () => {
-              __this.$emit("clearCurrentTableRow");
-            });
           }
-        } else {
-          for (var i = 0; i < checkedMenu.length; i++) {
-            if (checkedMenu[i].geotype === "polygon") {
-              __this.queryPolygonDataServer(
-                coordinatesAry,
-                checkedMenu[i].url,
-                checkedMenu[i].alias,
-                checkedMenu[i].icon,
-                checkedMenu[i].datasetname,
-                checkedMenu[i].sql,
-                checkedMenu[i].mapPopName,
-                checkedMenu[i].mapPopField
-              );
-            }
-            if (checkedMenu[i].children && checkedMenu[i].children.length > 0) {
-              for (var j = 0; j < checkedMenu[i].children.length; j++) {
-                var childrenData = checkedMenu[i].children[j];
-                if (childrenData.geotype === "polygon") {
-                  __this.queryPolygonDataServer(
-                    coordinatesAry,
-                    childrenData.url,
-                    childrenData.alias,
-                    childrenData.icon,
-                    childrenData.datasetname,
-                    childrenData.sql,
-                    childrenData.mapPopName,
-                    childrenData.mapPopField
-                  );
-                }
+          if (checkedMenu[i].children && checkedMenu[i].children.length > 0) {
+            for (var j = 0; j < checkedMenu[i].children.length; j++) {
+              var childrenData = checkedMenu[i].children[j];
+              if (childrenData.geotype === "polygon") {
+                __this.queryPolygonDataServer(
+                  coordinatesAry,
+                  childrenData.url,
+                  childrenData.alias,
+                  childrenData.icon,
+                  childrenData.datasetname,
+                  childrenData.sql,
+                  childrenData.mapPopName,
+                  childrenData.mapPopField
+                );
               }
             }
           }
         }
       });
-      this.map.on("zoomend", function (e) {
+
+      this.map.on("zoomend", function(e) {
         if ("juhe" === __this.currentMapType) {
           var zoomLevel = __this.map.getZoom();
           // 6-11级，显示区县地图
@@ -3617,7 +3223,7 @@ export default {
           __this.IsJuheScatterLayer = true;
         }
       });
-      this.map.on("mouseenter", "district_layer", function (e) {
+      this.map.on("mouseenter", "district_layer", function(e) {
         var currentDistrict = e.features[0].properties.NAME;
         var checkedMenu = __this.data.allCheckData;
         var juheDetail = [];
@@ -3638,7 +3244,7 @@ export default {
             juheDetail.push({
               featurename: featurename,
               count: count,
-              featureunit: featureunit,
+              featureunit: featureunit
             });
           }
         }
@@ -3672,23 +3278,26 @@ export default {
         }
         // 弹出提示框
         var popup = new mapboxgl.Popup({
-          closeOnClick: true,
+          closeOnClick: true
         });
         // console.log('lngLat: ' + CircularJSON.stringify(lngLat));
-        popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+        popup
+          .setLngLat(lngLat)
+          .setHTML(html)
+          .addTo(__this.map);
         $(".mapboxgl-popup-content .mapboxgl-popup-close-button").hide();
         // 删除事件
         var popupDiv = document.getElementsByClassName(
           "mapboxgl-popup mapboxgl-popup-anchor-bottom"
         )[0];
-        popupDiv.addEventListener("mouseleave", function () {
+        popupDiv.addEventListener("mouseleave", function() {
           var tipEl = document.getElementsByClassName(
             "mapboxgl-popup-close-button"
           )[0];
           tipEl.click();
         });
       });
-      this.map.on("mouseenter", "street_layer", function (e) {
+      this.map.on("mouseenter", "street_layer", function(e) {
         // console.log("e: " + CircularJSON.stringify(e.features));
         var currentStreet = e.features[0].properties.NAME;
         var checkedMenu = __this.data.allCheckData;
@@ -3709,7 +3318,7 @@ export default {
             juheDetail.push({
               featurename: featurename,
               count: count,
-              featureunit: featureunit,
+              featureunit: featureunit
             });
           }
         }
@@ -3729,7 +3338,7 @@ export default {
           }
         }
         var html = `<div class="pop-tip-juhe">
-                        <p class="" style="font-size: 17px;font-weight: bold;line-height: 32px">${currentStreet}</p>
+                        <p class="">${currentStreet}</p>
                         <div class="pop-top-box">${str}</div>
                     </div>`;
         // 删除别的提示框
@@ -3741,22 +3350,25 @@ export default {
         }
         // 弹出提示框
         var popup = new mapboxgl.Popup({
-          closeOnClick: true,
+          closeOnClick: true
         });
-        popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+        popup
+          .setLngLat(lngLat)
+          .setHTML(html)
+          .addTo(__this.map);
         $(".mapboxgl-popup-content .mapboxgl-popup-close-button").hide();
         // 删除事件
         var popupDiv = document.getElementsByClassName(
           "mapboxgl-popup mapboxgl-popup-anchor-bottom"
         )[0];
-        popupDiv.addEventListener("mouseleave", function () {
+        popupDiv.addEventListener("mouseleave", function() {
           var tipEl = document.getElementsByClassName(
             "mapboxgl-popup-close-button"
           )[0];
           tipEl.click();
         });
       });
-      this.map.on("mousemove", function (e) {
+      this.map.on("mousemove", function(e) {
         // console.log('e: ' + CircularJSON.stringify(e));
         $(".mapboxgl-ctrl-lngLat").remove();
         // var lngLat = e.lngLat;
@@ -3781,15 +3393,15 @@ export default {
           reject("failed");
         });
         // 创建底图
-        var p1 = p.then(function (value) {
+        var p1 = p.then(function(value) {
           console.log("value: " + value);
           __this.isMapLoaded = false;
           __this.createBaseMap();
           __this.lastMapType = __this.currentMapType;
         });
         // 告诉前端底图加载完毕
-        var p2 = p1.then(function (value) {
-          __this.map.on("load", function () {
+        var p2 = p1.then(function(value) {
+          __this.map.on("load", function() {
             __this.SetMapLoaded(true);
             __this.isMapLoaded = true;
             __this.$store.dispatch("changeLoad", false);
@@ -3817,15 +3429,15 @@ export default {
               reject("failed");
             });
             // 创建底图
-            var p1 = p.then(function (value) {
+            var p1 = p.then(function(value) {
               console.log("value: " + value);
               __this.isMapLoaded = false;
               __this.createBaseMap();
               __this.lastMapType = __this.currentMapType;
             });
             // 告诉前端底图加载完毕
-            var p2 = p1.then(function (value) {
-              __this.map.on("load", function () {
+            var p2 = p1.then(function(value) {
+              __this.map.on("load", function() {
                 __this.SetMapLoaded(true);
                 __this.isMapLoaded = true;
                 __this.$store.dispatch("changeLoad", false);
@@ -3873,13 +3485,13 @@ export default {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: otherDistrictAry,
-            },
+              features: otherDistrictAry
+            }
           });
         } else {
           this.map.getSource("basemapDistrict_source").setData({
             type: "FeatureCollection",
-            features: otherDistrictAry,
+            features: otherDistrictAry
           });
         }
         this.removeLayer("basemapDistrict_layer");
@@ -3888,8 +3500,8 @@ export default {
           type: "fill",
           source: "basemapDistrict_source",
           paint: {
-            "fill-color": "rgba(32,79,119," + this.sliderValue + ")",
-          },
+            "fill-color": "rgba(32,79,119," + this.sliderValue + ")"
+          }
         });
 
         //增加乡镇街道分界线
@@ -3904,13 +3516,13 @@ export default {
           type: "raster",
           tiles: [xzqhxzjd],
           tileSize: 256,
-          rasterSource: "iserver",
+          rasterSource: "iserver"
         });
         this.map.addLayer(
           {
             id: "wz_boundary_layer",
             type: "raster",
-            source: "qx_boundary_source",
+            source: "qx_boundary_source"
           },
           "basemapDistrict_layer"
         );
@@ -3928,12 +3540,12 @@ export default {
           type: "raster",
           tiles: [xzqhxzjd],
           tileSize: 256,
-          rasterSource: "iserver",
+          rasterSource: "iserver"
         });
         this.map.addLayer({
           id: "qx_boundary_layer",
           type: "raster",
-          source: "qx_boundary_source",
+          source: "qx_boundary_source"
         });
 
         //增加区县分界线
@@ -3948,13 +3560,13 @@ export default {
           type: "raster",
           tiles: [xzqhxs],
           tileSize: 256,
-          rasterSource: "iserver",
+          rasterSource: "iserver"
         });
         this.map.addLayer(
           {
             id: "wz_boundary_layer",
             type: "raster",
-            source: "wz_boundary_source",
+            source: "wz_boundary_source"
           },
           "qx_boundary_layer"
         );
@@ -3984,7 +3596,7 @@ export default {
         if ("point" === checkedMenu[i].geotype) {
           layerList.push({
             datasetname: checkedMenu[i].datasetname,
-            datatype: checkedMenu[i].sql,
+            datatype: checkedMenu[i].sql
           });
           requestUrl = checkedMenu[i].url;
         }
@@ -4019,7 +3631,7 @@ export default {
 
         var __this = this;
         queryType = "district";
-        getPictureDistrictTypeNum(layerList, queryType).then((data) => {
+        getPictureDistrictTypeNum(layerList, queryType).then(data => {
           // console.log('data: ' + CircularJSON.stringify(data));
           __this.districtFeaturesAry = data;
           // 添加数据源
@@ -4059,7 +3671,7 @@ export default {
           if (!__this.map.getSource("district_source")) {
             __this.map.addSource("district_source", {
               type: "geojson",
-              data: __this.districtData,
+              data: __this.districtData
             });
           } else {
             __this.map
@@ -4081,13 +3693,13 @@ export default {
                 "text-field": "{FEATURECOUNT}",
                 "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
                 "text-size": 15,
-                "text-allow-overlap": true,
+                "text-allow-overlap": true
               },
               paint: {
                 "text-color": "#ffbe32",
                 "text-halo-width": 2,
-                "text-halo-color": "rgba(0, 0, 0, 0.5)",
-              },
+                "text-halo-color": "rgba(0, 0, 0, 0.5)"
+              }
             },
             "wz_boundary_layer"
           );
@@ -4106,7 +3718,7 @@ export default {
 
         var __this = this;
         queryType = "street";
-        getPictureDistrictTypeNum(layerList, queryType).then((data) => {
+        getPictureDistrictTypeNum(layerList, queryType).then(data => {
           // console.log('data: ' + CircularJSON.stringify(data));
           __this.streetFeaturesAry = data;
           // 添加数据源
@@ -4146,7 +3758,7 @@ export default {
           if (!__this.map.getSource("street_source")) {
             __this.map.addSource("street_source", {
               type: "geojson",
-              data: __this.streetData,
+              data: __this.streetData
             });
           } else {
             __this.map.getSource("street_source").setData(__this.streetData);
@@ -4165,13 +3777,13 @@ export default {
                 "text-field": "{FEATURECOUNT}",
                 "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
                 "text-size": 15,
-                "text-allow-overlap": true,
+                "text-allow-overlap": true
               },
               paint: {
                 "text-color": "#ffbe32" /* 文本颜色 */,
                 "text-halo-width": 2 /* 字体光晕宽度 */,
-                "text-halo-color": "rgba(0, 0, 0, 0.5)" /* 字体光晕颜色 */,
-              },
+                "text-halo-color": "rgba(0, 0, 0, 0.5)" /* 字体光晕颜色 */
+              }
             },
             "wz_boundary_layer"
           );
@@ -4225,14 +3837,13 @@ export default {
         // 设置几何查询范围
         var queryPolygonGeometry = {
           type: "Polygon",
-          coordinates: coordinatesAry,
+          coordinates: coordinatesAry
         };
         var userDistrict = this.userInfo.district;
         for (var i = 0; i < checkedMenu.length; i++) {
           if (
             "point" === checkedMenu[i].geotype &&
-            "" !== checkedMenu[i].icon.trim() &&
-            checkedMenu[i].icon !== null
+            "" !== checkedMenu[i].icon.trim() && checkedMenu[i].icon !== null
           ) {
             this.addSpatialQueryResultSet(
               queryPolygonGeometry,
@@ -4250,7 +3861,7 @@ export default {
               if (
                 "point" === checkedMenu[i].children[j].geotype &&
                 "" !== checkedMenu[i].children[j].icon.trim() &&
-                checkedMenu[i].children[j].icon !== null
+                  checkedMenu[i].children[j].icon !== null
               ) {
                 this.addSpatialQueryResultSet(
                   queryPolygonGeometry,
@@ -4281,7 +3892,7 @@ export default {
           var __this = this;
           new MeasureService(MAP_CONFIG.measureurl).measureDistance(
             param,
-            (serviceResult) => {
+            serviceResult => {
               var distance = serviceResult.result.distance;
               var unit = serviceResult.result.unit;
               if (distance > 10000) {
@@ -4324,22 +3935,25 @@ export default {
                 }
                 // 弹出提示框
                 var popup = new mapboxgl.Popup({
-                  closeOnClick: true,
+                  closeOnClick: true
                 });
-                popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+                popup
+                  .setLngLat(lngLat)
+                  .setHTML(html)
+                  .addTo(__this.map);
                 this.map.setCenter([x, y]);
                 $(".mapboxgl-popup").css({
                   "min-width": "1rem",
                   width: "1.2rem",
-                  height: "0.6rem",
+                  height: "0.6rem"
                 });
                 $(".pop-measure").css({
                   "padding-bottom": "0rem",
-                  "line-height": "0.25rem",
+                  "line-height": "0.25rem"
                 });
                 $(".mapboxgl-popup-content").css({
                   "background-color": "rgba(0,47,87,0.9)",
-                  "box-shadow": "rgb(46, 208, 255,0.4) 0px 0px 18px inset",
+                  "box-shadow": "rgb(46, 208, 255,0.4) 0px 0px 18px inset"
                 });
               }
               // console.log("distance: " + distance);
@@ -4355,7 +3969,7 @@ export default {
           var __this = this;
           new MeasureService(MAP_CONFIG.measureurl).measureArea(
             param,
-            (serviceResult) => {
+            serviceResult => {
               // console.log(serviceResult)
               var area = serviceResult.result.area;
               var unit = serviceResult.result.unit;
@@ -4407,22 +4021,25 @@ export default {
                 }
                 // 弹出提示框
                 var popup = new mapboxgl.Popup({
-                  closeOnClick: true,
+                  closeOnClick: true
                 });
-                popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+                popup
+                  .setLngLat(lngLat)
+                  .setHTML(html)
+                  .addTo(__this.map);
                 this.map.setCenter([x, y]);
                 $(".mapboxgl-popup").css({
                   "min-width": "1rem",
                   width: "1.2rem",
-                  height: "0.6rem",
+                  height: "0.6rem"
                 });
                 $(".pop-measure").css({
                   "padding-bottom": "0rem",
-                  "line-height": "0.25rem",
+                  "line-height": "0.25rem"
                 });
                 $(".mapboxgl-popup-content").css({
                   "background-color": "rgba(0,47,87,0.9)",
-                  "box-shadow": "rgb(46, 208, 255,0.4) 0px 0px 18px inset",
+                  "box-shadow": "rgb(46, 208, 255,0.4) 0px 0px 18px inset"
                 });
               }
               __this.previousDrawEvents = e;
@@ -4435,7 +4052,7 @@ export default {
             // __this.showAroundRequestParam.center = centerCoordinates;
             this.showAroundRequestParam = {
               center: centerCoordinates,
-              distance: "1000",
+              distance: "1000"
             };
             // console.log("centerCoordinates: " + CircularJSON.stringify(centerCoordinates));
             // 创建圆
@@ -4443,7 +4060,7 @@ export default {
             // 查询
             this.map.setZoom(14);
             this.map.flyTo({
-              center: centerCoordinates,
+              center: centerCoordinates
             });
             var queryCoordinates = circle.geometry.coordinates;
             this.queryAround(circle, centerCoordinates, queryCoordinates, 1000);
@@ -4454,7 +4071,7 @@ export default {
             var centerCoordinates = e.features[0].geometry.coordinates;
             this.areaQueryCenterCoordinates = centerCoordinates;
             this.map.flyTo({
-              center: this.areaQueryCenterCoordinates,
+              center: this.areaQueryCenterCoordinates
             });
             if (this.map.getLayer("showAround_layer")) {
               this.map.removeLayer("showAround_layer");
@@ -4467,7 +4084,7 @@ export default {
               this.nearAnalysisList.length === 0
             ) {
               var __this = this;
-              getNearAnalysisList().then((res) => {
+              getNearAnalysisList().then(res => {
                 if (res === null) {
                   return;
                 }
@@ -4533,7 +4150,7 @@ export default {
       }
       if (centerCoordinates === null || centerCoordinates.length === 0) {
         this.map.flyTo({
-          center: this.areaQueryCenterCoordinates,
+          center: this.areaQueryCenterCoordinates
         });
         //查询
         // console.log('centerCoordinates: ' + CircularJSON.stringify(this.areaQueryCenterCoordinates));
@@ -4543,7 +4160,7 @@ export default {
           this.nearAnalysisList.length === 0
         ) {
           var __this = this;
-          getNearAnalysisList().then((res) => {
+          getNearAnalysisList().then(res => {
             if (res === null) {
               return;
             }
@@ -4567,7 +4184,7 @@ export default {
         }
       } else {
         this.map.flyTo({
-          center: centerCoordinates,
+          center: centerCoordinates
         });
         //查询
         // console.log('centerCoordinates: ' + CircularJSON.stringify(centerCoordinates));
@@ -4577,7 +4194,7 @@ export default {
           this.nearAnalysisList.length === 0
         ) {
           var __this = this;
-          getNearAnalysisList().then((res) => {
+          getNearAnalysisList().then(res => {
             if (res === null) {
               return;
             }
@@ -4621,7 +4238,7 @@ export default {
       if (!this.map.getSource("showAround_source")) {
         this.map.addSource("showAround_source", {
           type: "geojson",
-          data: circle,
+          data: circle
         });
       } else {
         this.map.getSource("showAround_source").setData(circle);
@@ -4633,8 +4250,8 @@ export default {
         source: "showAround_source",
         paint: {
           "fill-outline-color": "#00fff2",
-          "fill-color": "rgba(0, 53, 53, 0.2)",
-        },
+          "fill-color": "rgba(0, 53, 53, 0.2)"
+        }
       });
     },
     addNearAnalysisResultSet(
@@ -4650,12 +4267,12 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: nearAnalysisLayer.alias,
-            attributeFilter: "SHARED is null AND " + nearAnalysisLayer.sqlText,
+            attributeFilter: "SHARED is null AND " + nearAnalysisLayer.sqlText
           },
           datasetNames: [nearAnalysisLayer.datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       } else {
         var attributeFilterSql =
@@ -4667,12 +4284,12 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: nearAnalysisLayer.alias,
-            attributeFilter: attributeFilterSql,
+            attributeFilter: attributeFilterSql
           },
           datasetNames: [nearAnalysisLayer.datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       }
 
@@ -4680,7 +4297,7 @@ export default {
       // 创建任意几何范围查询实例
       new FeatureService(nearAnalysisLayer.url).getFeaturesBySQL(
         sqlParam,
-        function (serviceResult) {
+        function(serviceResult) {
           if (serviceResult && serviceResult.result) {
             //获取服务器返回的结果
             var features = serviceResult.result.features;
@@ -4690,7 +4307,7 @@ export default {
             ) {
               __this.map.addSource(nearAnalysisLayer.alias + "_all_source", {
                 type: "geojson",
-                data: features,
+                data: features
               });
             } else {
               __this.map
@@ -4753,7 +4370,7 @@ export default {
             if (!__this.map.getSource(nearAnalysisLayer.alias + "_source")) {
               __this.map.addSource(nearAnalysisLayer.alias + "_source", {
                 type: "geojson",
-                data: features2,
+                data: features2
               });
             } else {
               __this.map
@@ -4790,8 +4407,8 @@ export default {
                   layout: {
                     "icon-image": nearAnalysisLayer.alias + "_Point",
                     "icon-size": 0.8,
-                    "icon-allow-overlap": true,
-                  },
+                    "icon-allow-overlap": true
+                  }
                 },
                 "wz_boundary_layer"
               );
@@ -4803,8 +4420,8 @@ export default {
                   layout: {
                     "icon-image": "gaoliang_Point",
                     "icon-size": 0.8,
-                    "icon-allow-overlap": true,
-                  },
+                    "icon-allow-overlap": true
+                  }
                 },
                 "wz_boundary_layer"
               );
@@ -4814,7 +4431,7 @@ export default {
             } else {
               __this.loadedLayer.push(nearAnalysisLayer.alias + "_layer");
 
-              __this.map.loadImage(nearAnalysisLayer.iconUrl, function (
+              __this.map.loadImage(nearAnalysisLayer.iconUrl, function(
                 error,
                 image
               ) {
@@ -4847,8 +4464,8 @@ export default {
                     layout: {
                       "icon-image": nearAnalysisLayer.alias + "_Point",
                       "icon-size": 0.8,
-                      "icon-allow-overlap": true,
-                    },
+                      "icon-allow-overlap": true
+                    }
                   },
                   "wz_boundary_layer"
                 );
@@ -4860,8 +4477,8 @@ export default {
                     layout: {
                       "icon-image": "gaoliang_Point",
                       "icon-size": 0.8,
-                      "icon-allow-overlap": true,
-                    },
+                      "icon-allow-overlap": true
+                    }
                   },
                   "wz_boundary_layer"
                 );
@@ -4872,7 +4489,7 @@ export default {
               __this.map.on(
                 "click",
                 nearAnalysisLayer.alias + "_layer",
-                function (e) {
+                function(e) {
                   // 详细信息处理
                   e.features[0].properties.refresh = false;
                   __this.$emit("setonePoint", e.features[0].properties);
@@ -4884,7 +4501,7 @@ export default {
                   var latitude = feature.geometry.coordinates[1];
                   var lngLat = {
                     lng: Number(longitude),
-                    lat: Number(latitude),
+                    lat: Number(latitude)
                   };
                   //处理大小写情况
                   for (var i = 0; i < mapPopField.length; i++) {
@@ -4908,28 +4525,28 @@ export default {
                     feature.properties.GUID != null
                   ) {
                     var html = `<div class="pop-tip">
-                                    <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${
+                                    <p class="">${
                                       feature.properties[mapPopField[0]]
                                         ? feature.properties[mapPopField[0]]
                                         : "暂无数据"
                                     }</p>
                                     ${str}
-                                    <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                                     <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                                    <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                                    <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                                     <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                                 </div>`;
                   } else {
                     var html = `<div class="pop-tip">
-                                    <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${
+                                    <p class="">${
                                       feature.properties[mapPopField[0]]
                                         ? feature.properties[mapPopField[0]]
                                         : "暂无数据"
                                     }</p>
                                     ${str}
-                                    <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
-                                     <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                    <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                                    <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                                 </div>`;
                   }
                   // 删除别的提示框
@@ -4941,9 +4558,12 @@ export default {
                   }
                   // 弹出提示框
                   var popup = new mapboxgl.Popup({
-                    closeOnClick: true,
+                    closeOnClick: true
                   });
-                  popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+                  popup
+                    .setLngLat(lngLat)
+                    .setHTML(html)
+                    .addTo(__this.map);
                 }
               );
             }
@@ -4969,12 +4589,12 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: alias,
-            attributeFilter: "SHARED is null AND " + sql,
+            attributeFilter: "SHARED is null AND " + sql
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       } else {
         var attributeFilterSql =
@@ -4991,18 +4611,18 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: alias,
-            attributeFilter: attributeFilterSql,
+            attributeFilter: attributeFilterSql
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       }
 
       var __this = this;
       // 创建任意几何范围查询实例
-      new FeatureService(this.dataUrl).getFeaturesBySQL(sqlParam, function (
+      new FeatureService(this.dataUrl).getFeaturesBySQL(sqlParam, function(
         serviceResult
       ) {
         if (serviceResult && serviceResult.result) {
@@ -5039,13 +4659,13 @@ export default {
         type: "Feature",
         geometry: {
           type: "LineString",
-          coordinates: coordinatesAry,
-        },
+          coordinates: coordinatesAry
+        }
       };
       if (!this.map.getSource("drawLine_source")) {
         this.map.addSource("drawLine_source", {
           type: "geojson",
-          data: dataFeature,
+          data: dataFeature
         });
       } else {
         this.map.getSource("drawLine_source").setData(dataFeature);
@@ -5057,12 +4677,12 @@ export default {
         source: "drawLine_source",
         layout: {
           "line-cap": "round",
-          "line-join": "round",
+          "line-join": "round"
         },
         paint: {
           "line-color": "#0066e1",
-          "line-width": 3,
-        },
+          "line-width": 3
+        }
       });
     },
     addDrawPolygonLayer(coordinatesAry) {
@@ -5071,13 +4691,13 @@ export default {
         type: "Feature",
         geometry: {
           type: "Polygon",
-          coordinates: coordinatesAry,
-        },
+          coordinates: coordinatesAry
+        }
       };
       if (!this.map.getSource("drawPolygon_source")) {
         this.map.addSource("drawPolygon_source", {
           type: "geojson",
-          data: dataFeature,
+          data: dataFeature
         });
       } else {
         this.map.getSource("drawPolygon_source").setData(dataFeature);
@@ -5092,12 +4712,12 @@ export default {
         // }
         layout: {
           "line-cap": "round",
-          "line-join": "round",
+          "line-join": "round"
         },
         paint: {
           "line-color": "#0066e1",
-          "line-width": 3,
-        },
+          "line-width": 3
+        }
       });
     },
     addDistrictStreetFromServer(url, alias, datasetname, sql) {
@@ -5107,28 +4727,28 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: alias,
-            attributeFilter: sql,
+            attributeFilter: sql
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 999,
-          maxFeatures: 1000,
+          maxFeatures: 1000
         });
       } else if (alias === "street") {
         var userDistrict = this.userInfo.district;
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: alias,
-            attributeFilter: sql + " AND DISTRICT_CODE='" + userDistrict + "'",
+            attributeFilter: sql + " AND DISTRICT_CODE='" + userDistrict + "'"
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 999,
-          maxFeatures: 1000,
+          maxFeatures: 1000
         });
       }
 
-      new FeatureService(url).getFeaturesBySQL(sqlParam, function (
+      new FeatureService(url).getFeaturesBySQL(sqlParam, function(
         serviceResult
       ) {
         if (serviceResult && serviceResult.result) {
@@ -5160,12 +4780,12 @@ export default {
           sqlParam = new SuperMap.GetFeaturesBySQLParameters({
             queryParameter: {
               name: alias,
-              attributeFilter: "SHARED is null AND " + sql,
+              attributeFilter: "SHARED is null AND " + sql
             },
             datasetNames: [datasetname],
             fromIndex: 0,
             toIndex: 99999,
-            maxFeatures: 100000,
+            maxFeatures: 100000
           });
         } else {
           var attributeFilterSql = "";
@@ -5178,16 +4798,16 @@ export default {
           sqlParam = new SuperMap.GetFeaturesBySQLParameters({
             queryParameter: {
               name: alias,
-              attributeFilter: attributeFilterSql,
+              attributeFilter: attributeFilterSql
             },
             datasetNames: [datasetname],
             fromIndex: 0,
             toIndex: 99999,
-            maxFeatures: 100000,
+            maxFeatures: 100000
           });
         }
 
-        new FeatureService(url).getFeaturesBySQL(sqlParam, function (
+        new FeatureService(url).getFeaturesBySQL(sqlParam, function(
           serviceResult
         ) {
           // console.log("serviceResult: " + CircularJSON.stringify(serviceResult));
@@ -5198,7 +4818,7 @@ export default {
             if (!__this.map.getSource(alias + "_source")) {
               __this.map.addSource(alias + "_source", {
                 type: "geojson",
-                data: features,
+                data: features
                 // cluster: true,
                 // clusterMaxZoom: 8, // Max zoom to cluster points on
                 // clusterRadius: 50
@@ -5219,8 +4839,8 @@ export default {
                   layout: {
                     "icon-image": alias + "_Point",
                     "icon-size": 0.6,
-                    "icon-allow-overlap": true,
-                  },
+                    "icon-allow-overlap": true
+                  }
                 },
                 "wz_boundary_layer"
               );
@@ -5259,7 +4879,7 @@ export default {
             } else {
               __this.loadedLayer.push(alias + "_layer");
 
-              __this.map.loadImage(icon, function (error, image) {
+              __this.map.loadImage(icon, function(error, image) {
                 if (error) {
                   console.log("error: " + error);
                 }
@@ -5277,8 +4897,8 @@ export default {
                     layout: {
                       "icon-image": alias + "_Point",
                       "icon-size": 0.6,
-                      "icon-allow-overlap": true,
-                    },
+                      "icon-allow-overlap": true
+                    }
                   },
                   "wz_boundary_layer"
                 );
@@ -5318,7 +4938,7 @@ export default {
                   __this.removeLayer(alias + "_layer");
                 }
               });
-              __this.map.on("click", alias + "_layer", function (e) {
+              __this.map.on("click", alias + "_layer", function(e) {
                 // console.log('alias: ' + alias);
                 // 详细信息处理
                 e.features[0].properties.refresh = false;
@@ -5338,7 +4958,7 @@ export default {
                   if (!__this.map.getSource(alias + "_source_1")) {
                     __this.map.addSource(alias + "_source_1", {
                       type: "geojson",
-                      data: feature,
+                      data: feature
                     });
                   } else {
                     __this.map.getSource(alias + "_source_1").setData(feature);
@@ -5353,8 +4973,8 @@ export default {
                     layout: {
                       "icon-image": alias + "_Point_1",
                       "icon-size": 0.8,
-                      "icon-allow-overlap": true,
-                    },
+                      "icon-allow-overlap": true
+                    }
                   });
                 }
 
@@ -5366,7 +4986,7 @@ export default {
                   if (
                     "point" === checkedMenu[i].geotype &&
                     "" !== checkedMenu[i].icon.trim() &&
-                    checkedMenu[i].icon !== null
+                      checkedMenu[i].icon !== null
                   ) {
                     if (layname === checkedMenu[i].alias) {
                       showField = checkedMenu[i].showField;
@@ -5385,7 +5005,7 @@ export default {
                       if (
                         "point" === childrenData.geotype &&
                         "" !== childrenData.icon.trim() &&
-                        childrenData.icon !== null
+                          childrenData.icon !== null
                       ) {
                         if (layname === childrenData.alias) {
                           showField = childrenData.showField;
@@ -5413,48 +5033,48 @@ export default {
                       mapPopField[i]
                     ].replace(/\//g, "-");
                   }
-                  str += `<div class='pop-body'><span>${mapPopName[i]}：${
+                  str += `<div><span>${mapPopName[i]}：</span><p>${
                     feature.properties[mapPopField[i]] != undefined &&
                     feature.properties[mapPopField[i]].trim() != ""
                       ? feature.properties[mapPopField[i]]
                       : "暂无数据"
-                  }</span></div>`;
+                  }</p></div>`;
                 }
 
                 __this.showAroundRequestParam = {
                   center: feature.geometry.coordinates,
-                  distance: "1000",
+                  distance: "1000"
                 };
                 __this.areaQueryCenterCoordinates =
                   feature.geometry.coordinates;
-                //地图设施点点击气泡
+
                 if (
                   e.features[0].properties.GUID != "" &&
                   e.features[0].properties.GUID != null
                 ) {
                   var html = `<div class="pop-tip">
-                                <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${
+                                <p class="">${
                                   feature.properties[mapPopField[0]]
                                     ? feature.properties[mapPopField[0]]
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情 </span>
-                                 <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                                <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                                <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                                 <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
                 } else {
                   var html = `<div class="pop-tip">
-                                <p class="" style="font-size: 17px;font-weight: bold;line-height: 32px" >${
+                                <p class="">${
                                   feature.properties[mapPopField[0]]
                                     ? feature.properties[mapPopField[0]]
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情 </span>
-                                 <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
+                                <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
                 }
                 // 删除别的提示框
@@ -5466,16 +5086,19 @@ export default {
                 }
                 // 弹出提示框
                 var popup = new mapboxgl.Popup({
-                  closeOnClick: true,
+                  closeOnClick: true
                 });
-                popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+                popup
+                  .setLngLat(lngLat)
+                  .setHTML(html)
+                  .addTo(__this.map);
               });
             }
 
-            __this.map.on("zoomend", function (e) {
+            __this.map.on("zoomend", function(e) {
               var zoomLevel = __this.map.getZoom();
               // 15级及以上，显示注记图层
-              if (zoomLevel && zoomLevel >= 13) {
+              if (zoomLevel && zoomLevel >= 15) {
                 // 如果图层不存在，则直接返回
                 if (!__this.map.getLayer(alias + "_layer")) {
                   return;
@@ -5484,7 +5107,7 @@ export default {
                 if (!__this.map.getSource(alias + "_notesource")) {
                   __this.map.addSource(alias + "_notesource", {
                     type: "geojson",
-                    data: features,
+                    data: features
                   });
                 } else {
                   __this.map.getSource(alias + "_notesource").setData(features);
@@ -5502,17 +5125,17 @@ export default {
                         "text-field": "{NAME}",
                         "text-font": [
                           "DIN Offc Pro Bold",
-                          "Arial Unicode MS Bold",
+                          "Arial Unicode MS Bold"
                         ],
                         "text-offset": [0, 2],
                         "text-size": 15,
-                        "text-max-width": 18,
+                        "text-max-width": 18
                       },
                       paint: {
                         "text-color": "#00d8ff",
                         "text-halo-width": 1,
-                        "text-halo-color": "rgba(0, 0, 0, 1)",
-                      },
+                        "text-halo-color": "rgba(0, 0, 0, 1)"
+                      }
                     });
                     break;
                   case "bigdata-vectortile":
@@ -5524,18 +5147,18 @@ export default {
                         "text-field": "{NAME}",
                         "text-font": [
                           "DIN Offc Pro Bold",
-                          "Arial Unicode MS Bold",
+                          "Arial Unicode MS Bold"
                         ],
                         "text-offset": [0, 2],
                         "text-size": 15,
-                        "text-max-width": 18,
+                        "text-max-width": 18
                       },
                       paint: {
                         // "text-color": "#FFFAFA"
                         "text-color": "#00d8ff",
                         "text-halo-width": 1,
-                        "text-halo-color": "rgba(0, 0, 0, 1)",
-                      },
+                        "text-halo-color": "rgba(0, 0, 0, 1)"
+                      }
                     });
                     break;
                   default:
@@ -5547,17 +5170,17 @@ export default {
                         "text-field": "{NAME}",
                         "text-font": [
                           "DIN Offc Pro Bold",
-                          "Arial Unicode MS Bold",
+                          "Arial Unicode MS Bold"
                         ],
                         "text-offset": [0, 2],
                         "text-size": 15,
-                        "text-max-width": 18,
+                        "text-max-width": 18
                       },
                       paint: {
                         "text-color": "#00d8ff",
                         "text-halo-width": 1,
-                        "text-halo-color": "rgba(0, 0, 0, 1)",
-                      },
+                        "text-halo-color": "rgba(0, 0, 0, 1)"
+                      }
                     });
                     break;
                 }
@@ -5589,12 +5212,12 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: alias,
-            attributeFilter: sql,
+            attributeFilter: sql
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       } else {
         var attributeFilterSql = "";
@@ -5607,16 +5230,16 @@ export default {
         sqlParam = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
             name: alias,
-            attributeFilter: attributeFilterSql,
+            attributeFilter: attributeFilterSql
           },
           datasetNames: [datasetname],
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       }
 
-      new FeatureService(this.dataUrl).getFeaturesBySQL(sqlParam, function (
+      new FeatureService(this.dataUrl).getFeaturesBySQL(sqlParam, function(
         serviceResult
       ) {
         // console.log("serviceResult: " + CircularJSON.stringify(serviceResult));
@@ -5658,37 +5281,38 @@ export default {
                     mapPopField[j]
                   ].replace(/\//g, "-");
                 }
-                str += `<div class='pop-body' >
-                        <span>${mapPopName[j]}：${
+                str += `<div><span>${mapPopName[j]}：</span><p>${
                   feature.properties[mapPopField[j]] != undefined &&
                   feature.properties[mapPopField[j]].trim() != ""
                     ? feature.properties[mapPopField[j]]
                     : "暂无数据"
-                }</span></div>`;
+                }</p></div>`;
               }
 
               __this.showAroundRequestParam = {
                 center: [longitude, latitude],
-                distance: "1000",
+                distance: "1000"
               };
               __this.areaQueryCenterCoordinates = [longitude, latitude];
-
               var html = `<div class="pop-tip">
-                                <p class=""  >${
+                                <p class="">${
                                   feature.properties[mapPopField[0]]
                                     ? feature.properties[mapPopField[0]]
                                     : "暂无数据"
-                                }&nbsp&nbsp</p>
+                                }</p>
                                 ${str}
                                 <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
-                                 <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                                <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                                <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                             </div>`;
               // 弹出提示框
               var popup = new mapboxgl.Popup({
-                closeOnClick: true,
+                closeOnClick: true
               });
-              popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+              popup
+                .setLngLat(lngLat)
+                .setHTML(html)
+                .addTo(__this.map);
             }
           }
         }
@@ -5706,13 +5330,13 @@ export default {
         type: "raster",
         tiles: [url],
         tileSize: 256,
-        rasterSource: "iserver",
+        rasterSource: "iserver"
       });
       this.map.addLayer(
         {
           id: alias + "_layer",
           type: "raster",
-          source: alias + "_source",
+          source: alias + "_source"
         },
         "wz_boundary_layer"
       );
@@ -5730,14 +5354,14 @@ export default {
       var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
         queryParameter: {
           name: alias,
-          attributeFilter: sql,
+          attributeFilter: sql
         },
         datasetNames: [datasetname],
         fromIndex: 0,
         toIndex: 99999,
-        maxFeatures: 100000,
+        maxFeatures: 100000
       });
-      new FeatureService(url).getFeaturesBySQL(sqlParam, function (
+      new FeatureService(url).getFeaturesBySQL(sqlParam, function(
         serviceResult
       ) {
         if (serviceResult && serviceResult.result) {
@@ -5848,7 +5472,7 @@ export default {
     // 图层添加弹框
     addAroundPopUp(layername) {
       var __this = this;
-      this.map.on("click", layername, function (e) {
+      this.map.on("click", layername, function(e) {
         // 详细信息处理
         e.features[0].properties.refresh = false;
         __this.$emit("setonePoint", e.features[0].properties);
@@ -5870,34 +5494,34 @@ export default {
         }
         __this.showAroundRequestParam = {
           center: feature.geometry.coordinates,
-          distance: "1000",
+          distance: "1000"
         };
         __this.areaQueryCenterCoordinates = feature.geometry.coordinates;
-        //地图点击气泡
+
         if (feature.properties.GUID != "" && feature.properties.GUID != null) {
           var html = `<div class="pop-tip">
-                        <p class=""  >${
+                        <p class="">${
                           feature.properties[mapPopField[0]]
                             ? feature.properties[mapPopField[0]]
                             : "暂无数据"
                         }</p>
                         ${str}
                         <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
-                         <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                        <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                         <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                        <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                        <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                     </div>`;
         } else {
           var html = `<div class="pop-tip">
-                        <p class=""  >${
+                        <p class="">${
                           feature.properties[mapPopField[0]]
                             ? feature.properties[mapPopField[0]]
                             : "暂无数据"
                         }</p>
                         ${str}
                         <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
-                         <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                        <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                        <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                        <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                     </div>`;
         }
         // 删除别的提示框
@@ -5909,9 +5533,12 @@ export default {
         }
         // 弹出提示框
         var popup = new mapboxgl.Popup({
-          closeOnClick: true,
+          closeOnClick: true
         });
-        popup.setLngLat(lngLat).setHTML(html).addTo(__this.map);
+        popup
+          .setLngLat(lngLat)
+          .setHTML(html)
+          .addTo(__this.map);
       });
     },
     addFourcolorLayerPopup(feature) {
@@ -5961,7 +5588,7 @@ export default {
       }
       this.showAroundRequestParam = {
         center: feature.geometry.coordinates,
-        distance: "1000",
+        distance: "1000"
       };
       this.areaQueryCenterCoordinates = feature.geometry.coordinates;
 
@@ -5974,9 +5601,9 @@ export default {
                     }</p>
                     ${str}
                     <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
-                     <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
+                    <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                     <span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                 </div>`;
       } else {
         var html = `<div class="pop-tip">
@@ -5987,8 +5614,8 @@ export default {
                     }</p>
                     ${str}
                     <span class="pop-tip-more" onclick="showInfo()">信息详情 >></span>
-                     <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
-                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
+                    <span class="pop-tip-around" onclick="showAround()">周边分析</span>
+                    <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>
                 </div>`;
       }
       // 删除别的提示框
@@ -6000,9 +5627,12 @@ export default {
       }
       // 弹出提示框
       var popup = new mapboxgl.Popup({
-        closeOnClick: true,
+        closeOnClick: true
       });
-      popup.setLngLat(lngLat).setHTML(html).addTo(this.map);
+      popup
+        .setLngLat(lngLat)
+        .setHTML(html)
+        .addTo(this.map);
     },
     queryAround(circle, centerCoordinates, queryCoordinates, distc) {
       //清空就近分析的图层
@@ -6021,7 +5651,7 @@ export default {
       if (!this.map.getSource("showAround_source")) {
         this.map.addSource("showAround_source", {
           type: "geojson",
-          data: circle,
+          data: circle
         });
       } else {
         this.map.getSource("showAround_source").setData(circle);
@@ -6033,19 +5663,19 @@ export default {
         source: "showAround_source",
         paint: {
           "fill-outline-color": "#00fff2",
-          "fill-color": "rgba(0, 53, 53, 0.2)",
-        },
+          "fill-color": "rgba(0, 53, 53, 0.2)"
+        }
       });
       // 设置几何查询范围
       var queryPolygonGeometry = {
         type: "Polygon",
-        coordinates: queryCoordinates,
+        coordinates: queryCoordinates
       };
       // 账号
       var userDistrict = this.userInfo.district;
       // 设置缓冲区查询参数
       // var datasetnames = ["pg_wzyjdb:market_mall", "pg_wzyjdb:school"];
-      getCategoryByPid().then((res) => {
+      getCategoryByPid().then(res => {
         var datasetnames = [];
         var aliasArr = [];
         var iconsArr = [];
@@ -6098,7 +5728,7 @@ export default {
           spatialQueryMode: "INTERSECT", // 相交空间查询模式
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       } else {
         geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
@@ -6109,7 +5739,7 @@ export default {
           spatialQueryMode: "INTERSECT", // 相交空间查询模式
           fromIndex: 0,
           toIndex: 99999,
-          maxFeatures: 100000,
+          maxFeatures: 100000
         });
       }
 
@@ -6117,7 +5747,7 @@ export default {
       var __this = this;
       new FeatureService(this.dataUrl).getFeaturesByGeometry(
         geometryParam,
-        function (serviceResult) {
+        function(serviceResult) {
           const result = serviceResult && serviceResult.result;
           if (result) {
             // 传递的值
@@ -6149,13 +5779,13 @@ export default {
             if (!__this.map.getSource(alias + "_source")) {
               __this.map.addSource(alias + "_source", {
                 type: "geojson",
-                data: features,
+                data: features
               });
             } else {
               __this.map.getSource(alias + "_source").setData(features);
             }
             // 添加图层
-            __this.map.loadImage(icon, function (error, image) {
+            __this.map.loadImage(icon, function(error, image) {
               if (error) {
                 console.log("error: " + error);
               }
@@ -6172,8 +5802,8 @@ export default {
                 layout: {
                   "icon-image": alias + "_point",
                   "icon-size": 0.6,
-                  "icon-allow-overlap": true,
-                },
+                  "icon-allow-overlap": true
+                }
               });
             });
 
@@ -6193,8 +5823,8 @@ export default {
         layout: {
           "icon-image": alias + "_point",
           "icon-size": 0.6,
-          "icon-allow-overlap": true,
-        },
+          "icon-allow-overlap": true
+        }
       });
       this.addAroundPopUp(alias + "_layer");
     },
@@ -6206,28 +5836,28 @@ export default {
         if ("3303" === userDistrict) {
           sqlParam = new SuperMap.GetFeaturesBySQLParameters({
             queryParameter: {
-              attributeFilter: "SHARED is null AND " + sqls,
+              attributeFilter: "SHARED is null AND " + sqls
             },
             datasetNames: [datasetname],
             fromIndex: 0,
             toIndex: 99999,
-            maxFeatures: 100000,
+            maxFeatures: 100000
           });
         } else {
           sqlParam = new SuperMap.GetFeaturesBySQLParameters({
             queryParameter: {
               attributeFilter:
-                "DISTRICT_CODE='" + userDistrict + "' AND (" + sqls + ")",
+                "DISTRICT_CODE='" + userDistrict + "' AND (" + sqls + ")"
             },
             datasetNames: [datasetname],
             fromIndex: 0,
             toIndex: 99999,
-            maxFeatures: 100000,
+            maxFeatures: 100000
           });
         }
 
         var __this = this;
-        new FeatureService(url).getFeaturesBySQL(sqlParam, function (
+        new FeatureService(url).getFeaturesBySQL(sqlParam, function(
           serviceResult
         ) {
           if (serviceResult && serviceResult.result) {
@@ -6271,13 +5901,13 @@ export default {
                 type: "geojson",
                 data: {
                   type: "FeatureCollection",
-                  features: levelAry1,
-                },
+                  features: levelAry1
+                }
               });
             } else {
               __this.map.getSource(alias + "_level1" + "_source").setData({
                 type: "FeatureCollection",
-                features: levelAry1,
+                features: levelAry1
               });
             }
             if (!__this.map.getSource(alias + "_level2" + "_source")) {
@@ -6285,13 +5915,13 @@ export default {
                 type: "geojson",
                 data: {
                   type: "FeatureCollection",
-                  features: levelAry2,
-                },
+                  features: levelAry2
+                }
               });
             } else {
               __this.map.getSource(alias + "_level2" + "_source").setData({
                 type: "FeatureCollection",
-                features: levelAry2,
+                features: levelAry2
               });
             }
             if (!__this.map.getSource(alias + "_level3" + "_source")) {
@@ -6299,13 +5929,13 @@ export default {
                 type: "geojson",
                 data: {
                   type: "FeatureCollection",
-                  features: levelAry3,
-                },
+                  features: levelAry3
+                }
               });
             } else {
               __this.map.getSource(alias + "_level3" + "_source").setData({
                 type: "FeatureCollection",
-                features: levelAry3,
+                features: levelAry3
               });
             }
             if (!__this.map.getSource(alias + "_level4" + "_source")) {
@@ -6313,13 +5943,13 @@ export default {
                 type: "geojson",
                 data: {
                   type: "FeatureCollection",
-                  features: levelAry4,
-                },
+                  features: levelAry4
+                }
               });
             } else {
               __this.map.getSource(alias + "_level4" + "_source").setData({
                 type: "FeatureCollection",
-                features: levelAry4,
+                features: levelAry4
               });
             }
 
@@ -6335,8 +5965,8 @@ export default {
                 layout: {
                   "icon-image": "level1" + "_Point",
                   "icon-size": 0.6,
-                  "icon-allow-overlap": true,
-                },
+                  "icon-allow-overlap": true
+                }
               },
               "wz_boundary_layer"
             );
@@ -6351,8 +5981,8 @@ export default {
                 layout: {
                   "icon-image": "level2" + "_Point",
                   "icon-size": 0.6,
-                  "icon-allow-overlap": true,
-                },
+                  "icon-allow-overlap": true
+                }
               },
               "wz_boundary_layer"
             );
@@ -6367,8 +5997,8 @@ export default {
                 layout: {
                   "icon-image": "level3" + "_Point",
                   "icon-size": 0.6,
-                  "icon-allow-overlap": true,
-                },
+                  "icon-allow-overlap": true
+                }
               },
               "wz_boundary_layer"
             );
@@ -6383,8 +6013,8 @@ export default {
                 layout: {
                   "icon-image": "level4" + "_Point",
                   "icon-size": 0.6,
-                  "icon-allow-overlap": true,
-                },
+                  "icon-allow-overlap": true
+                }
               },
               "wz_boundary_layer"
             );
@@ -6393,9 +6023,7 @@ export default {
             if (__this.loadedLayer.indexOf(alias + "_level1" + "_layer") < 0) {
               __this.loadedLayer.push(alias + "_level1" + "_layer");
 
-              __this.map.on("click", alias + "_level1" + "_layer", function (
-                e
-              ) {
+              __this.map.on("click", alias + "_level1" + "_layer", function(e) {
                 // 详细信息处理
                 e.features[0].properties.refresh = false;
                 __this.$emit("setonePoint", e.features[0].properties);
@@ -6407,9 +6035,7 @@ export default {
             if (__this.loadedLayer.indexOf(alias + "_level2" + "_layer") < 0) {
               __this.loadedLayer.push(alias + "_level2" + "_layer");
 
-              __this.map.on("click", alias + "_level2" + "_layer", function (
-                e
-              ) {
+              __this.map.on("click", alias + "_level2" + "_layer", function(e) {
                 // 详细信息处理
                 e.features[0].properties.refresh = false;
                 __this.$emit("setonePoint", e.features[0].properties);
@@ -6421,9 +6047,7 @@ export default {
             if (__this.loadedLayer.indexOf(alias + "_level3" + "_layer") < 0) {
               __this.loadedLayer.push(alias + "_level3" + "_layer");
 
-              __this.map.on("click", alias + "_level3" + "_layer", function (
-                e
-              ) {
+              __this.map.on("click", alias + "_level3" + "_layer", function(e) {
                 // 详细信息处理
                 e.features[0].properties.refresh = false;
                 __this.$emit("setonePoint", e.features[0].properties);
@@ -6435,9 +6059,7 @@ export default {
             if (__this.loadedLayer.indexOf(alias + "_level4" + "_layer") < 0) {
               __this.loadedLayer.push(alias + "_level4" + "_layer");
 
-              __this.map.on("click", alias + "_level4" + "_layer", function (
-                e
-              ) {
+              __this.map.on("click", alias + "_level4" + "_layer", function(e) {
                 // 详细信息处理
                 e.features[0].properties.refresh = false;
                 __this.$emit("setonePoint", e.features[0].properties);
@@ -6466,7 +6088,7 @@ export default {
         height: "100%",
         width: "100%",
         border: "0",
-        wmode: "Opaque",
+        wmode: "Opaque"
       });
       frameWindow.style.position = "fixed";
       frameWindow.style.top = "0";
@@ -6483,14 +6105,14 @@ export default {
       return new Promise((resolve, reject) => {
         __this
           .printFrame(frameWindow, span.innerHTML, options)
-          .then(function () {
+          .then(function() {
             // Success
-            setTimeout(function () {
+            setTimeout(function() {
               frameWindow.remove();
             }, 1000);
             resolve();
           })
-          .catch((err) => {
+          .catch(err => {
             console.log("print error!");
             reject(err);
           });
@@ -6511,7 +6133,7 @@ export default {
           wdoc.write(content);
           wdoc.close();
           var printed = false,
-            callPrint = function () {
+            callPrint = function() {
               if (printed) {
                 resolve();
                 return;
@@ -6540,13 +6162,13 @@ export default {
           reject(err);
         }
       });
-    },
+    }
   },
   beforeDestroy() {
     // this.map.on('load', () => {
     //   this.map.remove()
     // })
-  },
+  }
 };
 </script>
 <style lang="less">

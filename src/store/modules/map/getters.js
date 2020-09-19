@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-06 10:45:18
+ * @LastEditTime: 2020-07-28 14:15:34
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\getters.js
@@ -19,11 +19,6 @@ export const typeIndex = state => state.typeIndex;
 export const currentOnePoint = state => state.currentOnePoint;
 export const mapLoaded = state => state.mapLoaded;
 export const specalTreeName = state => state.specalTreeName;
-export const forceBimIDS = state => state.forceBimIDS;
+
 export const forceBimData = state => state.forceBimData;
 export const forceRoomData = state => state.forceRoomData;
-export const isInfoFrame = state => state.isInfoFrame;
-export const rtmpList = state => state.rtmpList;
-export const medicalList = state => state.medicalList;
-export const medicalListWithGeometry = state => state.medicalListWithGeometry;
-export const hospitalList = state => state.hospitalList;

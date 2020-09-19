@@ -1,33 +1,30 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
- * @LastEditTime: 2020-08-27 16:21:51
+ * @LastEditTime: 2020-07-28 20:12:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
 -->
 <template>
-  <div class="ThreeDContainer ThreeToTop" :style="{width:'125px'}">
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'200px'}">
     <div class="bimanalayse tframe">
       <el-form>
         <el-row>
           <el-col :span="24">
             <el-form-item class="elformbtns">
               <el-popover placement="top" title="图层选择" width="300" trigger="click">
-                <div class="bim-analyse-tree" v-if="shallTree">
+                <div class="bim-analyse-tree">
                   <el-tree
                     :data="BimTreeData"
                     show-checkbox
                     node-key="id"
-                    ref="tree"
-                    :default-expanded-keys="['all']"
-                    :default-checked-keys="['all']"
                     @check-change="checkChange"
                   />
                 </div>
                 <el-button slot="reference">图层选择</el-button>
               </el-popover>
-              <el-button v-show="false" class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
+              <el-button class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -37,42 +34,19 @@
 </template>
 <script>
 import { BimSourceURL } from "config/server/mapConfig";
-import { queryFloorByBottom } from "./BimAnalyseFloorSection";
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
-const LAYER_NAME = "Block1";
-const DATASOURCE_NAME = "第一栋";
+const LAYER_NAME = "Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge";
 export default {
   name: "BimAnalyse",
   data() {
     return {
-      shallTree: false,
-      keys: [],
-      BimTreeData: [{ id: "all", label: "图层控制", children: [] }],
-      BimHash: {},
-      endID: 0,
-      //  floor IDS
-      IDS: [],
-      FLOOR_ON: false,
-      //  cesium Object
+      BimTreeData: [],
+      // cesium Object
       viewer: undefined,
       handler: undefined,
       lastHouseEntity: undefined,
-      //  节流
-      count: 0,
-      fnScroll: () => {},
     };
-  },
-  computed: {
-    ...mapGetters("map", ["forceBimIDS"]),
-  },
-  watch: {
-    BimTreeData: {
-      handler(n, o) {
-        n[0].children.length == 1 && (this.shallTree = true);
-      },
-      deep: true,
-    },
   },
   created() {
     this.viewer = window.earth;
@@ -85,53 +59,14 @@ export default {
   },
   beforeDestroy() {
     this.clearBimAnalyse();
-    this.handler.destroy();
+    this.handler = undefined;
     this.viewer = undefined;
   },
   methods: {
-    ...mapActions("map", [
-      "SetForceBimData",
-      "SetForceRoomData",
-      "SetForceBimIDS",
-    ]),
-    fnThrottle(fn, delay, atleast) {
-      //节流函数
-      let timer = null;
-      let previous = null;
-      return function () {
-        let now = +new Date();
-        if (!previous) previous = now;
-        if (atleast && now - previous > atleast) {
-          fn();
-          previous = now;
-          clearTimeout(timer);
-        } else {
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            fn();
-            previous = null;
-          }, delay);
-        }
-      };
-    },
+    ...mapActions("map", ["SetForceBimData", "SetForceRoomData"]),
     //  事件绑定
     eventRegsiter() {
       const that = this;
-      this.$bus.$off("cesium-3d-floorDIS");
-      this.$bus.$on("cesium-3d-floorDIS", (value) => {
-        const layer = this.viewer.scene.layers.find(LAYER_NAME);
-        if (value) {
-          layer.setObjsVisible(this.forceBimIDS, true);
-        } else {
-          const IDS = [];
-          const endID = this.endID;
-          for (let i = 0; i < endID + 1; i++) {
-            IDS.push(i);
-          }
-          layer.setObjsVisible(IDS, true);
-        }
-      });
-
       that.handler.setInputAction((e) => {
         let position = that.viewer.scene.pickPosition(e.position);
         !position && (position = Cesium.Cartesian3.fromDegrees(0, 0, 0));
@@ -144,15 +79,15 @@ export default {
     },
     //  相机移动
     cameraMove() {
-      window.earth.scene.camera.setView({
+      this.viewer.scene.camera.setView({
         destination: {
-          x: -2875539.090787695,
-          y: 4842735.556374235,
-          z: 2993566.8100139066,
+          x: -2875652.7880414873,
+          y: 4843023.435651329,
+          z: 2993391.653376218,
         },
         orientation: {
-          heading: 0.00000410168472608774,
-          pitch: -0.5655332606839059,
+          heading: 0,
+          pitch: -0.5655775824490981,
           roll: 0,
         },
       });
@@ -164,43 +99,27 @@ export default {
         _LAYER_.visible = true;
       } else {
         const { SCENE_URL, SCENE_DATA_URL } = BimSourceURL;
+        // const promise = this.viewer.scene.open(SCENE_URL);
         const promise = this.viewer.scene.addS3MTilesLayerByScp(
-          `${SCENE_URL}/datas/${LAYER_NAME}/config`,
-          { name: LAYER_NAME }
+          "http://172.20.83.223:8090/iserver/services/3D-Placement_house_merge/rest/realspace/datas/Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge/config",
+          {
+            name: LAYER_NAME,
+          }
         );
+        console.log("start loading...");
         Cesium.when(promise, async (layers) => {
+          console.log("end loading...");
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
           layer.setQueryParameter({
             url: SCENE_DATA_URL,
-            dataSourceName: "第一栋",
+            dataSourceName: "F-03a_AS-9_merge",
+            dataSetName: "Merge_F_03a_AS_9__2018_1",
             isMerge: true,
           });
           const color = new Cesium.Color.fromCssColorString(
             "rgba(23,92,239,0.3)"
           );
           layer.selectedColor = color;
-          layer.datasetInfo().then((result) => {
-            const bimHash = {};
-            let endID = 0;
-            this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
-            this.BimTreeData[0].children.push({
-              id: DATASOURCE_NAME,
-              label: DATASOURCE_NAME,
-              children: result.map((v, index) => {
-                bimHash[v.datasetName] = v.startID;
-                endID = endID <= v.endID ? v.endID : endID;
-                return {
-                  id: `${DATASOURCE_NAME}_${index}`,
-                  label: v.datasetName,
-                  startID: v.startID,
-                  endID: v.endID,
-                };
-              }),
-            });
-            this.endID = endID;
-            this.bimHash = bimHash;
-            console.log(bimHash);
-          });
         });
       }
     },
@@ -214,7 +133,7 @@ export default {
         data: JSON.stringify({
           getFeatureMode: "SPATIAL",
           spatialQueryMode: "INTERSECT",
-          datasetNames: ["Block_2D:Block_2D"],
+          datasetNames: ["172.20.83.196_swdata:Block_2D"],
           geometry: {
             id: 0,
             parts: [1],
@@ -232,7 +151,6 @@ export default {
     },
     //  楼层贴皮
     onQueryComplete(features, height) {
-      const layer = this.viewer.scene.layers.find(LAYER_NAME);
       if (this.lastHouseEntity) {
         this.viewer.entities.remove(this.lastHouseEntity);
         this.lastHouseEntity = null;
@@ -264,14 +182,6 @@ export default {
       var extrudeHeight = Number(
         selectedFeature.fieldValues[selectedFeature.fieldNames.indexOf("LSG")]
       ); // 层高（拉伸高度）
-      //  获取该楼层所有ids
-      queryFloorByBottom(
-        this,
-        Math.floor(bottomHeight / extrudeHeight) + "F",
-        // "7F",
-        this.bimHash,
-        layer
-      );
       Cesium.GroundPrimitive.bottomAltitude = bottomHeight;
       Cesium.GroundPrimitive.extrudeHeight = extrudeHeight;
       var points3D = [];
@@ -293,17 +203,7 @@ export default {
     },
     //  树结构改变
     checkChange(...params) {
-      const array = [];
-      const nodes = this.$refs.tree
-        .getCheckedNodes()
-        .filter((v) => !v.children)
-        .map((v) => {
-          for (let i = v.startID; i < v.endID + 1; i++) {
-            array.push(i);
-          }
-        });
-      const layer = this.viewer.scene.layers.find(LAYER_NAME);
-      this.fnThrottle(layer.setObjsVisible(array, true), 1000);
+      console.log(params);
     },
     //  关闭BIM分析模块
     closeBimAnalyse() {
@@ -318,7 +218,6 @@ export default {
     closeBimFrame() {
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
-      this.SetForceBimIDS([]);
     },
   },
 };

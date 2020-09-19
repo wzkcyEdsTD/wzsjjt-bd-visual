@@ -1,11 +1,5 @@
 import * as types from "./mutation-types";
 import router from "../../../router/index";
-import { getMedicalList } from "api/layerServerAPI";
-
-// 设置bim单层物体id
-export const SetForceBimIDS = function({ commit }, data) {
-  commit(types.SET_FORCE_BIM_IDS, data);
-};
 // 设置bim详细数据
 export const SetForceBimData = function({ commit }, data) {
   commit(types.SET_FORCE_BIM_DATA, data);
@@ -154,40 +148,10 @@ export const clickme = function({ commit, state }, data) {
   if (data === undefined) {
     data = "";
   }
-  console.log("跳转",state.nameList.indexOf(data));
+  console.log(state.nameList.indexOf(data));
   if (state.nameList.indexOf(data) > -1) {
     commit(types.SET_SPECAL_TREE_NAME, data);
     commit(types.SET_COLLAPSE1, false);
     router.push({ path: "/map" });
   }
-};
-
-//  设置医院数据
-export const SetHospitalList = ({ commit }, data) => {
-  commit(types.SET_HOSPITAL_LIST, data);
-};
-
-/**
- * 设置带空间参数的医院信息
- * @param {*} param0
- * @param {*} data
- */
-export const setMedicalListWithGeometry = ({ commit }, data) => {
-  commit(types.SET_MEDICAL_LIST_WITH_GEOMETRY, data);
-};
-
-//  设置发热数据
-export const fetchMedicalList = async ({ commit }) => {
-  const result = await getMedicalList();
-  const res = result.result;
-  commit(types.SET_MEDICAL_LIST, res);
-};
-
-//  设置监控视频
-export const SetRtmpList = ({ commit }, data) => {
-  commit(types.SET_RTMP_LIST, data);
-};
-//  设置弹窗显隐
-export const SetIsInfoFrame = ({ commit }, data) => {
-  commit(types.SET_IS_INFO_FRAME, data);
 };

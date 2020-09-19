@@ -2,7 +2,7 @@
   <div class="wrapper map-tools">
     <div
       class="map-toolbar-box map-toolbar-spc"
-      :class="currentMapType != 'sandian' || this.collapse1?'collapse':''"
+      :class="currentMapType == 'cesiumMap' || this.collapse1?'collapse':''"
     >
       <div class="map-type">
         <div
@@ -18,27 +18,17 @@
     <div
       class="toCenter1"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="全图" v-if="currentMapType!='internetthings'"
+      title="全图"
     >
       <i
         style="width: 100%;height: 0.42rem;"
         @click="changeMapTollBar({ name: '地图居中', value: 'map_init' })"
       ></i>
     </div>
-        <div
-      class="toCenter2"
-      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="物联网" v-if="currentMapType!='internetthings'"
-    >
-      <i
-        style="width: 100%;height: 0.42rem;"
-        @click="changeMapType({ name: '物联网', value: 'internetthings'})"
-      ></i>
-    </div>
     <div
       class="toCenter"
       :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: centerShow,moveRight1:currentMapType == 'cesiumMap'}"
-      title="底图"  v-if="currentMapType!='internetthings'"
+      title="底图"
     >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
       <!-- 3d地图工具 -->
@@ -50,7 +40,7 @@
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
-            :class="'btn'+(index+1)"
+            :class="'btn'+(index)"
             :key="index"
             :title="item.name"
             v-for="(item, index) in map3DBtn"
@@ -76,7 +66,7 @@
     </div>
     <div
       class="map-toolbar-box-map"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"  v-if="currentMapType!='internetthings'"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"
     >
       <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
         <i style="width: 32px;height: 32px;" @click="mapTool"></i>
@@ -108,10 +98,10 @@
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
+            v-for="(item, index) in mapBtn"
             :class="'btn'+(index+1)"
             :key="index"
             :title="item.name"
-            v-for="(item, index) in mapBtn"
             @click="changeMapTollBar(item, index)"
           >{{item.abbrev}}</div>
           <div
@@ -127,25 +117,6 @@
         </div>
         <div ref="longitudeSearch" class="children_point" v-show="isPointSearch">
           <LongitudeSearch></LongitudeSearch>
-        </div>
-      </div>
-    </div>
-    <div
-      @mouseover="mapChildMouseover(0)"
-      @mouseout="mapChildMouseout(0)"
-      @click.stop
-      v-if="mapNew[selectIndex].children"
-      v-show="mapNew[selectIndex].childrenShow && centerShow"
-      class="item-child"
-      :class="collapse1?'collapse':''"
-      :style="{top:mapNew[selectIndex].top}"
-    >
-      <div>
-        <div :key="'b'+index2" v-for="(item2,index2) in mapNew[selectIndex].children">
-          <label :class="{'active':dituType===item2.value}" @click="changedituType(item2)">
-            <span></span>
-            {{item2.name}}
-          </label>
         </div>
       </div>
     </div>
@@ -182,16 +153,16 @@ export default {
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
-        // { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
-        // { name: "BIM机场", value: "3d3", abbrev: "BIM机场" },
+        { name: "BIM分析",  value: "3d2", abbrev: "BIM分析"  },
+        { name: "BIM车站",  value: "3d3", abbrev: "BIM车站"  },
         { name: "地下管线", value: "3d4", abbrev: "地下管线" },
       ],
       map3DTool: [
         { name: "测量工具", value: "3t1", abbrev: "测量工具" },
         { name: "可视分析", value: "3t2", abbrev: "可视分析" },
         { name: "剖面分析", value: "3t3", abbrev: "剖面分析" },
-        { name: "通视分析", value: "3t4", abbrev: "通视分析" },
-        { name: "阴影分析", value: "3t5", abbrev: "阴影分析" },
+        { name: "通视分析", value: "3t4", addrev: "通视分析" },
+        { name: "阴影分析", value: "3t5", addrev: "阴影分析" }, 
       ],
       mapBtn: [
         { name: "测距离", value: "line_string", abbrev: "测距" },
@@ -205,7 +176,7 @@ export default {
           name: "矢量",
           abbrev: "矢量",
           value: "changeMap",
-          top: "1.5rem",
+          top: "2.05rem",
           childrenShow: false,
           childrenFocus: false,
           children: [
@@ -225,7 +196,7 @@ export default {
           name: "影像",
           abbrev: "影像",
           value: "changeMap",
-          top: "1.9rem",
+          top: "2.5rem",
           childrenShow: false,
           childrenFocus: false,
           children: [
@@ -435,7 +406,7 @@ export default {
   components: {
     LongitudeSearch,
     Slider,
-  },
+  }
 };
 </script>
 
@@ -460,7 +431,7 @@ export default {
   cursor: pointer;
   overflow: hidden;
   &.active {
-    height: auto;
+    height: 3.1rem;
     > i {
       .bg-image("images/draw_type-act");
       background-size: 0.34rem;
@@ -577,64 +548,8 @@ export default {
     left: 0.16rem;
   }
 }
-.toCenter2 {
-  width: 0.5rem;
-  height: 0.46rem;
-  display: block;
-  background: #03315a !important;
-  position: absolute;
-  transition: all 0.3s linear;
-  top: 0.5rem;
-  border-radius: 6px;
-  left: 5.9rem;
-  border: 1px #5ab0e5 solid !important;
-  cursor: pointer;
-  overflow: hidden;
-  &.active {
-    height: 1.4rem;
-    > i {
-      .bg-image("images/draw_type-act");
-      background-size: 0.34rem;
-      color: #0d6aad;
-      background-color: rgba(0, 0, 0, 0.4) !important;
-    }
-  }
-  .center-item {
-    width: 0.32rem;
-    height: 0.46rem;
-    margin-left: 7px;
-    text-align: center;
-    line-height: 0.46rem;
-    color: #fff;
-  }
-  .center-item:hover {
-    color: #00baff;
-  }
-  .center-item.active {
-    color: #00baff;
-  }
-  > i {
-    width: 0.16rem;
-    height: 0.16rem;
-    display: block;
-    .bg-image("images/wlw");
-    background-size: 0.34rem;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-  > i:hover {
-    .bg-image("images/wlw-act");
-    background-size: 0.34rem;
-    color: #0d6aad;
-    background-color: rgba(0, 0, 0, 0.4) !important;
-  }
-  &.collapse {
-    left: 0.16rem;
-  }
-}
 .map-toolbar-box-map.active {
-  height: auto;
+  height: 4rem;
 }
 .toCenter.moveRight1 {
   left: 0.8rem !important;
@@ -749,9 +664,19 @@ export default {
       }
     }
   }
+  // :::after解决了添加3dMapTool时不显示文字的问题 
+  .btn4::after
+  {
+    content:"通视分析"!important;
+    
+  }
+  .btn5::after{
+    content:"阴影分析"!important;
+    margin-top: 35px;
+  }
   .map-type {
     .item {
-      width: 0.34rem;
+      // width: 0.34rem;
       margin-left: 8px;
       cursor: pointer;
       border-radius: 2px;
@@ -907,7 +832,7 @@ export default {
 .item-child {
   transition: left 0.3s linear !important;
   position: fixed;
-  left: 5rem;
+  left: 4.44rem;
   color: #fff;
   z-index: 9999;
   &.collapse {
