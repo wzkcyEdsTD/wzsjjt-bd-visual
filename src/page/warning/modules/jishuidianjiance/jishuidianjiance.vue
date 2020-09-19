@@ -11,17 +11,17 @@
         <img v-if="dotIndex[index]===0" src="../item-title/images/dot_white.png"/>
           <img v-if="dotIndex[index]===1" src="../item-title/images/dot_blue.png"/>
       </span>
-<!--      <div class="btns">-->
-<!--        <span class="item" @click="changeActiveIndex(0)">-->
-<!--          <img v-if="activeIndex===0" src="../item-title/images/pic_blue.png"/>-->
-<!--          <img v-else src="../item-title/images/pic_white.png"/>-->
-<!--        </span>-->
-<!--        <i class="line"></i>-->
-<!--        <span class="item" @click="changeActiveIndex(1)">-->
-<!--          <img v-if="activeIndex===1" src="../item-title/images/table_blue.png"/>-->
-<!--          <img v-else src="../item-title/images/table_white.png"/>-->
-<!--        </span>-->
-<!--      </div>-->
+      <!--      <div class="btns">-->
+      <!--        <span class="item" @click="changeActiveIndex(0)">-->
+      <!--          <img v-if="activeIndex===0" src="../item-title/images/pic_blue.png"/>-->
+      <!--          <img v-else src="../item-title/images/pic_white.png"/>-->
+      <!--        </span>-->
+      <!--        <i class="line"></i>-->
+      <!--        <span class="item" @click="changeActiveIndex(1)">-->
+      <!--          <img v-if="activeIndex===1" src="../item-title/images/table_blue.png"/>-->
+      <!--          <img v-else src="../item-title/images/table_white.png"/>-->
+      <!--        </span>-->
+      <!--      </div>-->
       <span class="add-spc">
         <b
           @click="changeBtnIndex(index)"
@@ -31,11 +31,25 @@
       </span>
     </div>
     <div class="flex-1 relative">
-      <Echart01 @refresh="initData" :isShow="!isKong1 && activeIndex===0 && btnIndex === 0" :data="listData1"></Echart01>
-      <List @refresh="initData" :isShow="!isKong1 && activeIndex===1 && btnIndex === 0" :data="listData1" :fild="listFild"></List>
-      <Echart01 @refresh="initData2" :isShow="!isKong2 && activeIndex===0 && btnIndex === 1" :data="listData2"></Echart01>
-      <List @refresh="initData2" :isShow="!isKong2 && activeIndex===1 && btnIndex === 1" :data="listData2" :fild="listFild2"></List>
-      <Kong v-show="(isKong1 && activeIndex===0) || (isKong2 && activeIndex===1)"></Kong>
+      <Echart01
+        @refresh="initData"
+        :isShow="!isKong1 && activeIndex===0 && btnIndex === 0"
+        :data="listData1"></Echart01>
+      <List
+        @refresh="initData"
+        :isShow="!isKong1 && activeIndex===1 && btnIndex === 0"
+        :data="listData1"
+        :fild="listFild"></List>
+      <Echart01
+        @refresh="initData2"
+        :isShow="!isKong2 && activeIndex===0 && btnIndex === 1"
+        :data="listData2"></Echart01>
+      <List
+        @refresh="initData2"
+        :isShow="!isKong2 && activeIndex===1 && btnIndex === 1"
+        :data="listData2"
+        :fild="listFild2"></List>
+      <Kong v-show="(isKong1 && btnIndex===0) || (isKong2 && btnIndex===1)"></Kong>
       <!-- <Kong v-show="isKong2"></Kong> -->
     </div>
   </div>
@@ -89,6 +103,7 @@ export default {
     }
     this.initData()
     this.initData2()
+    console.log(this.btnIndex)
   },
   methods: {
     changeDot() {
@@ -121,6 +136,7 @@ export default {
         this.listData1 = data.details
         this.total1 = data.total
         this.setTotal()
+        console.log((this.isKong1 && this.activeIndex === 0) || (this.isKong2 && this.activeIndex === 1))
       })
     },
     setTotal() {
@@ -132,6 +148,7 @@ export default {
     },
     initData2() {
       getPondingMainByUser(1).then((data) => {
+        console.log(data)
         if (data && data.details.length) {
           this.isKong2 = false
         } else {
@@ -140,6 +157,7 @@ export default {
         this.listData2 = data.details
         this.total2 = data.total
         this.setTotal()
+        console.log((this.isKong2 && this.activeIndex === 1))
       })
     },
     changeActiveIndex(num) {

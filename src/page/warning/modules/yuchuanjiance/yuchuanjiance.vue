@@ -12,7 +12,7 @@
       </span>
     </div>
     <div class="flex-1">
-      <List @refresh="initData" :isShow="0===0" :data="showList" :fild="listFild"></List>
+      <List ref="list1" @refresh="initData" @next='next' :isShow="0===0" :data="showList" :fild="listFild"></List>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@
 <script>
 import ItemTitle from '../item-title/item-title'
 import List from '../list/list'
-import { getFishBoatInfo } from 'api/warning/warning'
+import { getFishBoatInfo, getFishBoatInfoOJK } from 'api/warning/warning'
 import { monitorTypeMixin } from 'common/js/mixin'
 import { mapGetters } from 'vuex'
 
@@ -39,7 +39,8 @@ export default {
       ],
       point: 'yuchuanjiance',
       searchContent: '',
-      showList: []
+      showList: [],
+      index: 1
     }
   },
   computed: {
@@ -49,9 +50,12 @@ export default {
   },
   mounted() {
     this.initData()
-    this.timer = setInterval(() => {
-      this.initData()
-    }, 300000)
+    if (this.$store.state.userInfo.districtName === '瓯江口') {
+      this.point = 'ojkyuchuanjiance'
+    }
+    // this.timer = setInterval(() => {
+    //   this.initData()
+    // }, 30 * 1000)
   },
   methods: {
     // 查询过滤
@@ -61,15 +65,65 @@ export default {
       })
       console.log(this.showList)
     },
+    next() {
+      // console.log('next')
+      // console.log(this.showList)
+      // console.log(this.showList.length < this.listData.length)
+      if (this.searchContent) {
+        this.$refs.list1.isAll = true
+        return
+      }
+      if (this.listData.length > 0 && this.showList.length < this.listData.length) {
+        this.index += 1
+        this.showList = [...this.showList, ...this.listData.slice(10 * (this.index - 1), 10 * this.index)]
+      } else {
+        this.$refs.list1.isAll = true
+      }
+    },
     initData() {
-      getFishBoatInfo().then((data) => {
-        this.listData = data
-        this.showList = this.listData.filter(val => {
-          return val.name.indexOf(this.searchContent) > -1 || val.reportTime.indexOf(this.searchContent) > -1
+      // console.log(this.listData.length > 0 && this.showList.length < this.listData.length)
+      // if (this.listData.length > 0 && this.showList.length < this.listData.length) {
+      //   this.index += 1
+      //   this.showList = [...this.showList, ...this.listData.slice(10 * (this.index - 1), 10 * this.index)]
+      // } else {
+      console.log('加载')
+
+      if (this.userInfo.districtName === '瓯江口') {
+        getFishBoatInfoOJK(this.searchContent).then((data) => {
+          this.listData = data
+          this.index = 1
+          this.$refs.list1.isAll = false
+          if (!this.searchContent) {
+            this.showList = this.listData.slice(0, 10 * this.index)
+            // this.showList = this.listData
+          } else {
+            this.$refs.list1.isAll = true
+            this.showList = this.listData.filter(val => {
+              return val.name.indexOf(this.searchContent) > -1 || val.reportTime.indexOf(this.searchContent) > -1
+            })
+            console.log(this.showList)
+          }
+          this.total = '总数' + data.length
         })
-        console.log(this.showList)
-        this.total = '总数' + data.length
-      })
+      } else {
+        getFishBoatInfo(this.searchContent).then((data) => {
+          this.listData = data
+          this.index = 1
+          this.$refs.list1.isAll = false
+          if (!this.searchContent) {
+            this.showList = this.listData.slice(0, 10 * this.index)
+            // this.showList = this.listData
+          } else {
+            this.$refs.list1.isAll = true
+            this.showList = this.listData.filter(val => {
+              return val.name.indexOf(this.searchContent) > -1 || val.reportTime.indexOf(this.searchContent) > -1
+            })
+            console.log(this.showList)
+          }
+          this.total = '总数' + data.length
+        })
+      }
+      // }
     }
   },
   beforeDestroy() {
@@ -84,12 +138,12 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .el-input.el-input--prefix{
+  .el-input.el-input--prefix {
     width: unset;
   }
   .wrapper {
     position: relative;
-    padding:0.05rem 0;
+    padding: 0.05rem 0;
     .title-btn-group {
       position: absolute;
       top: 0;
@@ -108,7 +162,7 @@ export default {
           display: block;
           width: 0.12rem;
           height: 0.19rem;
-          margin-top: 0.08rem;
+          margin-top: 0.14rem;
         }
       }
     }

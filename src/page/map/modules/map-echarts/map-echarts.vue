@@ -189,7 +189,6 @@ export default {
             }
             //DataPie[14]={"count":c,"key":"其他"};
           }
-          console.log("datapie", DataPie);
           var scaleData = [];
           var scaleData2 = [];
           var scaleData3 = [];
@@ -418,18 +417,17 @@ export default {
       ) {
         trueName = "street";
       }
-      this.$emit("itemBarClick", {
-        key: trueName,
-        value: name && option.series[0].data[index].selected ? name : "",
-        refresh: true,
-      });
       this.$parent.$parent.$refs.checkItem.isLoading = true;
       if (!bool) {
         const bar = this.$refs.bar;
-        if (bar.activeIndex !== -1) {
-          bar.jump(bar.myData[bar.activeIndex], bar.activeIndex, true);
+        if (name != "") {
+          for(let i = 0 ; i < bar.myData.length;i++){
+            if(bar.myData[i].key == name){
+              bar.jump(bar.myData[i],i, true);
+            }
+          }
         }
-      }
+      } 
     },
     selectChange(value) {
       this.selectValue = value;

@@ -162,6 +162,11 @@ export default {
     this.timer = setInterval(() => {
       this.currentTime = this.getTime()
     }, 1000)
+    if (this.$store.state.userInfo.districtName === '温州市') {
+      this.btnIndex = 0
+    } else {
+      this.btnIndex = 1
+    }
     this.initData(this.btnIndex)
     // this.monitor = setInterval(() => {
     //   this.initData(this.btnIndex)
@@ -204,6 +209,8 @@ export default {
         obj.checked = true
         obj.from = this.point[index]
         this.SetCurrentMonitorType(obj)
+        // console.log('obj1: ' + JSON.stringify(obj))
+
         // let obj1 = {}
         // for (let i = 0; i < this.monitorType.length; i++) {
         //   if (this.monitorType[i].alias === this.point[1]) {
@@ -224,97 +231,117 @@ export default {
       }
     },
     initData0() {
-      getRainMonitorMainByUser(0, this.time === this.today ? 0 : 1, this.time).then((data) => {
+      getRainMonitorMainByUser(0, this.time === this.today ? 0 : 1, this.time).then(data => {
         // data = {
-        //   "totalCount": 783,
-        //   "districtDetail": [
-        //     { "name": "鹿城区", "value": 0E-20 },
-        //     { "name": "龙湾区", "value": 0E-20 },
-        //     { "name": "瓯海区", "value": 0E-20 },
-        //     { "name": "洞头区", "value": 0E-20 },
-        //     { "name": "乐清市", "value": 0E-20 },
-        //     { "name": "瑞安市", "value": 0E-20 },
-        //     { "name": "龙港市", "value": 0 },
-        //     { "name": "永嘉县", "value": 0E-20 },
-        //     { "name": "文成县", "value": 0E-20 },
-        //     { "name": "平阳县", "value": 0.00641025641025641026 },
-        //     { "name": "泰顺县", "value": 0E-20 },
-        //     { "name": "苍南县", "value": 0E-20 },
-        //     { "name": "经开区", "value": 0 },
-        //     { "name": "瓯江口", "value": 0 }
-        //   ],
-        //   "topDetail": [
+        //   'totalCount': 1104,
+        //   'districtDetail': [
+        //     { 'name': '鹿城区', 'value': 0.0 },
+        //     { 'name': '龙湾区', 'value': 0.0 },
+        //     { 'name': '瓯海区', 'value': 0.0 },
+        //     { 'name': '洞头区', 'value': 0.0 },
+        //     { 'name': '乐清市', 'value': 0.0 },
+        //     { 'name': '瑞安市', 'value': 0.0 },
+        //     { 'name': '龙港市', 'value': 0.0 },
+        //     { 'name': '永嘉县', 'value': 0.0 },
+        //     { 'name': '文成县', 'value': 0.0 },
+        //     { 'name': '平阳县', 'value': 0.0 },
+        //     { 'name': '泰顺县', 'value': 0.0 },
+        //     { 'name': '苍南县', 'value': 0.0 },
+        //     { 'name': '经开区', 'value': 0.0 },
+        //     { 'name': '瓯江口', 'value': 0.0 }],
+        //   'topDetail': [
         //     {
-        //       "name": "顺溪水位",
-        //       "value": 0.50000000000000000000,
-        //       "smid": "1424",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.19276,27.566472"
-        //     },
-        //     {
-        //       "name": "石干山水库",
-        //       "value": 0E-20,
-        //       "smid": "1772",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.7490555556,28.2386111111"
-        //     },
-        //     {
-        //       "name": "龙溪水库",
-        //       "value": 0E-20,
-        //       "smid": "1777",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.6768611111,28.0883888889"
-        //     },
-        //     {
-        //       "name": "郑坑底水库",
-        //       "value": 0E-20,
-        //       "smid": "1774",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.5240277778,28.2685555556"
-        //     },
-        //     {
-        //       "name": "大塘水库",
-        //       "value": 0E-20,
-        //       "smid": "1775",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.6709722222,28.1608611111"
-        //     },
-        //     {
-        //       "name": "龙潭坑水库",
-        //       "value": 0E-20,
-        //       "smid": "1776",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.7111666667,28.3301944444"
-        //     },
-        //     {
-        //       "name": "长源水库",
-        //       "value": 0E-20,
-        //       "smid": "1773",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.8153055556,28.1545833333"
-        //     },
-        //     {
-        //       "name": "东山塘水库",
-        //       "value": 0E-20,
-        //       "smid": "1778",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.7834166667,28.4160555556"
-        //     },
-        //     {
-        //       "name": "鹤翔水库",
-        //       "value": 0E-20,
-        //       "smid": "1779",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.8657777778,28.3943888889"
-        //     },
-        //     {
-        //       "name": "上寺水库",
-        //       "value": 0E-20,
-        //       "smid": "1771",
-        //       "alias": "shuiliyuqingjiance",
-        //       "location": "120.6549444444,28.1630555556"
-        //     }
-        //   ]
+        //       'name': '万排',
+        //       'value': 0.50,
+        //       'smid': '28',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '119.930000000,27.351500000',
+        //       'type': null
+        //     }, {
+        //       'name': '小坑雨量站',
+        //       'value': 0.50,
+        //       'smid': '11440',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '121.039021,28.4240070000001',
+        //       'type': null
+        //     }, {
+        //       'name': '柳垟雨量',
+        //       'value': 0.50,
+        //       'smid': '11001',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.334444,27.4669440000001',
+        //       'type': null
+        //     }, {
+        //       'name': '瓯北麻山水库',
+        //       'value': 0.50,
+        //       'smid': '268',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.648,28.075',
+        //       'type': null
+        //     }, {
+        //       'name': '鹤盛郑庄水库（新）',
+        //       'value': 0.50,
+        //       'smid': '304',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.88,28.4508',
+        //       'type': null
+        //     }, {
+        //       'name': '金溪朱坑垟水库',
+        //       'value': 0.50,
+        //       'smid': '349',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.536,28.228',
+        //       'type': null
+        //     }, {
+        //       'name': '驮垟水库',
+        //       'value': 0.50,
+        //       'smid': '10597',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '119.948978647,27.7900001250001',
+        //       'type': null
+        //     }, {
+        //       'name': '塘川',
+        //       'value': 0.50,
+        //       'smid': '10763',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.523442,27.6056610000001',
+        //       'type': null
+        //     }, {
+        //       'name': '岩头岭外站备用',
+        //       'value': 0.20,
+        //       'smid': '316',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.654,28.381',
+        //       'type': null
+        //     }, {
+        //       'name': '上塘sw',
+        //       'value': 0.20,
+        //       'smid': '376',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.705,28.155',
+        //       'type': null
+        //     }, {
+        //       'name': '上塘sw',
+        //       'value': 0.20,
+        //       'smid': '376',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.705,28.155',
+        //       'type': null
+        //     }, {
+        //       'name': '上塘sw',
+        //       'value': 0.20,
+        //       'smid': '376',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.705,28.155',
+        //       'type': null
+        //     }, {
+        //       'name': '上塘sw',
+        //       'value': 0.20,
+        //       'smid': '376',
+        //       'alias': 'shuiliyuqingjiance',
+        //       'location': '120.705,28.155',
+        //       'type': null
+        //     }]
         // }
         this.data1 = data.districtDetail
         this.data3 = data.topDetail.map(val => {
@@ -484,6 +511,7 @@ export default {
         obj.checked = Boolean(this.dotIndex[this.btnIndex])
         obj.from = this.point[this.btnIndex]
         this.SetCurrentMonitorType(obj)
+        // console.log('obj2: ' + JSON.stringify(obj))
       }
     },
     changeBtnIndex(index) {
@@ -581,7 +609,7 @@ export default {
           display: block;
           width: 0.12rem;
           height: 0.19rem;
-          margin-top: 0.08rem;
+          margin-top: 0.06rem;
         }
       }
       .add-spc {

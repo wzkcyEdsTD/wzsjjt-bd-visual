@@ -2,7 +2,8 @@
   <div class="wrapper map-tools">
     <div
       class="map-toolbar-box map-toolbar-spc"
-      :class="currentMapType == 'cesiumMap' || this.collapse1?'collapse':''"
+      :class="currentMapType != 'sandian' || this.collapse1?'collapse':''"
+      v-if="currentMapType!='internetthings'"
     >
       <div class="map-type">
         <div
@@ -18,17 +19,27 @@
     <div
       class="toCenter1"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="全图"
+      title="全图" v-if="currentMapType!='internetthings'"
     >
       <i
         style="width: 100%;height: 0.42rem;"
         @click="changeMapTollBar({ name: '地图居中', value: 'map_init' })"
       ></i>
     </div>
+        <div
+      class="toCenter2"
+      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
+      title="物联网" v-if="currentMapType!='internetthings'"
+    >
+      <i
+        style="width: 100%;height: 0.42rem;"
+        @click="changeMapType({ name: '物联网', value: 'internetthings'})"
+      ></i>
+    </div>
     <div
       class="toCenter"
       :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: centerShow,moveRight1:currentMapType == 'cesiumMap'}"
-      title="底图"
+      title="底图"  v-if="currentMapType!='internetthings'"
     >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
       <!-- 3d地图工具 -->
@@ -66,7 +77,7 @@
     </div>
     <div
       class="map-toolbar-box-map"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"  v-if="currentMapType!='internetthings'"
     >
       <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
         <i style="width: 32px;height: 32px;" @click="mapTool"></i>
@@ -165,7 +176,6 @@ export default {
       mapType: [
         { name: "二维", value: "sandian" },
         { name: "三维", value: "cesiumMap" },
-      /*   { name: "物联网", value: "fourColorMap"}, */
       ],
       selectIndex: 0,
       toolShow: false,
@@ -173,8 +183,6 @@ export default {
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
-        { name: "BIM分析", value: "3d2", abbrev: "BIM分析" },
-        // { name: "BIM机场", value: "3d3", abbrev: "BIM机场" },
         { name: "地下管线", value: "3d4", abbrev: "地下管线" },
       ],
       map3DTool: [
@@ -190,7 +198,6 @@ export default {
         { name: "空间查询", value: "spatialQuery", abbrev: "空间查询" },
         { name: "分屏管理", value: "split_screen", abbrev: "分屏" },
         { name: "一键清空", value: "clearMapFeature", abbrev: "清空" },
-        /* { name: "车辆轨迹", value: "cheliangguiji", abbrev: "车辆轨迹" }, */
       ],
       mapNew: [
         {
@@ -561,6 +568,62 @@ export default {
   }
   > i:hover {
     .bg-image("images/earth-act");
+    background-size: 0.34rem;
+    color: #0d6aad;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+  }
+  &.collapse {
+    left: 0.16rem;
+  }
+}
+.toCenter2 {
+  width: 0.5rem;
+  height: 0.46rem;
+  display: block;
+  background: #03315a !important;
+  position: absolute;
+  transition: all 0.3s linear;
+  top: 0.5rem;
+  border-radius: 6px;
+  left: 5.9rem;
+  border: 1px #5ab0e5 solid !important;
+  cursor: pointer;
+  overflow: hidden;
+  &.active {
+    height: 1.4rem;
+    > i {
+      .bg-image("images/draw_type-act");
+      background-size: 0.34rem;
+      color: #0d6aad;
+      background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+  }
+  .center-item {
+    width: 0.32rem;
+    height: 0.46rem;
+    margin-left: 7px;
+    text-align: center;
+    line-height: 0.46rem;
+    color: #fff;
+  }
+  .center-item:hover {
+    color: #00baff;
+  }
+  .center-item.active {
+    color: #00baff;
+  }
+  > i {
+    width: 0.16rem;
+    height: 0.16rem;
+    display: block;
+    .bg-image("images/wlw");
+    background-size: 0.34rem;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  > i:hover {
+    .bg-image("images/wlw-act");
     background-size: 0.34rem;
     color: #0d6aad;
     background-color: rgba(0, 0, 0, 0.4) !important;

@@ -1,5 +1,9 @@
 <template>
-  <div class="video-list" v-show="isShow">
+  <div class="video-list" :class="{'enlarge-type': isEnlarge}" v-show="isShow">
+    <div class="enlarge" @click="enlarge">
+      <img v-show="!isEnlarge" src="./images/enlarge.png">
+      <img v-show="isEnlarge" src="./images/narrow.png">
+    </div>
     <div class="close" @click="close">关闭</div>
     <div class="list-title">监控列表</div>
     <div class="menu">
@@ -34,14 +38,6 @@ import { getIndividualData } from 'api/warning/warning'
 export default {
   name: 'VideoList',
   props: {
-    // danbingList: {
-    //   type: Object,
-    //   default: () => ({
-    //     单兵设备: [],
-    //     无人机: [],
-    //     布控球: []
-    //   })
-    // },
     type: {
       type: String
     }
@@ -68,7 +64,8 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'name'
-      }
+      },
+      isEnlarge: false
     }
   },
   watch: {
@@ -137,10 +134,10 @@ export default {
               lat: val.info ? val.info.latitude : null,
               lon: val.info ? val.info.longitude : null,
               phoneInfo: {
-                deviceID: val.deviceInfo ? val.deviceInfo.deviceID : '',
-                domainID: val.deviceInfo ? val.deviceInfo.domainID : '',
-                nChn: val.deviceInfo ? val.deviceInfo.nChn : 0,
-                nSrc: val.deviceInfo ? val.deviceInfo.nSrc : 0
+                deviceID: val.deviceID,
+                domainID: val.domainID,
+                nChn: 0,
+                nSrc: 0
               }
             })
           } else if (val.type === '2') {
@@ -153,10 +150,10 @@ export default {
               lat: val.info ? val.info.latitude : null,
               lon: val.info ? val.info.longitude : null,
               phoneInfo: {
-                deviceID: val.deviceInfo ? val.deviceInfo.deviceID : '',
-                domainID: val.deviceInfo ? val.deviceInfo.domainID : '',
-                nChn: val.deviceInfo ? val.deviceInfo.nChn : 0,
-                nSrc: val.deviceInfo ? val.deviceInfo.nSrc : 0
+                deviceID: val.deviceID,
+                domainID: val.domainID,
+                nChn: 0,
+                nSrc: 0
               }
             })
           } else {
@@ -169,10 +166,10 @@ export default {
               lat: val.info ? val.info.latitude : null,
               lon: val.info ? val.info.longitude : null,
               phoneInfo: {
-                deviceID: val.deviceInfo ? val.deviceInfo.deviceID : '',
-                domainID: val.deviceInfo ? val.deviceInfo.domainID : '',
-                nChn: val.deviceInfo ? val.deviceInfo.nChn : 0,
-                nSrc: val.deviceInfo ? val.deviceInfo.nSrc : 0
+                deviceID: val.deviceID,
+                domainID: val.domainID,
+                nChn: 0,
+                nSrc: 0
               }
             })
           }
@@ -204,6 +201,10 @@ export default {
         }
         console.log(this.danbingList)
       })
+    },
+    // 放大缩小操作
+    enlarge() {
+      this.isEnlarge = !this.isEnlarge
     },
     // 处理单兵设备数据
     danbingManage(data) {
@@ -270,7 +271,7 @@ export default {
       this.$set(this.showList, this.index, {
         ...this.showList[this.index],
         ...{
-          dial: '拨号中'
+          dial: '通话中'
         }
       })
       // this.showList = this.showList.map()
@@ -310,6 +311,18 @@ export default {
   margin-bottom: 0.15rem;
 }
 .video-list{
+  &.enlarge-type{
+    width: 16rem;
+    left: 2rem;
+    height: 8.5rem;
+    .pop-tip-table{
+      width: calc(50% - 0.2rem);
+      height: 3.7rem;
+      iframe{
+        height: 3.4rem;
+      }
+    }
+  }
   width: 6rem;
   position: absolute;
   top: 0;
@@ -414,6 +427,16 @@ export default {
   right: 0.09rem;
   top: 0.05rem;
   cursor: pointer;
+}
+.enlarge{
+  position: absolute;
+  right: 0.5rem;
+  width: 0.2rem;
+  top: 0.05rem;
+  img{
+    width: 0.2rem;
+    cursor: pointer;
+  }
 }
 /deep/ .el-pagination button:disabled{
   background-color: rgba(0,0,0,0);

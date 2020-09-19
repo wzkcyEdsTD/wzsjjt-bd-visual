@@ -2,16 +2,33 @@
   <div class="wrapper flex flex-y">
     <ItemTitle title="气象信息"></ItemTitle>
     <div class="title-btn-group">
-      <span :key="index" v-for="(item,index) in titleList" @click="changeMap(index)">
+      <span
+        :class="{'active':index === titleActiveIndex}"
+        :key="index"
+        v-for="(item,index) in titleList"
+        @click="changeMap(index)">
         {{item.name}}
         <div v-if="index===0" class="weather_grid current">
           <el-radio-group v-model="radio">
             <el-radio :label="1" @click.native.prevent="clickitem(1)">未来1小时</el-radio>
             <el-radio :label="3" @click.native.prevent="clickitem(3)">未来3小时</el-radio>
             <el-radio :label="6" @click.native.prevent="clickitem(6)">未来6小时</el-radio>
+            <el-radio :label="0" @click.native.prevent="clickitem(0)">短时临近预报</el-radio>
           </el-radio-group>
           <!-- <div class="close" @click="close"></div> -->
         </div>
+        <!-- <div v-if="index===3" class="weather_grid current weather_grid_right"> -->
+        <!-- <el-radio-group v-model="radioRainfall">
+          <el-radio :label="1" @click.native.prevent="clickRainfall(1,'OneRain')">1小时</el-radio>
+          <el-radio :label="3" @click.native.prevent="clickRainfall(3,'ThreeRain')">3小时</el-radio>
+          <el-radio :label="6" @click.native.prevent="clickRainfall(6,'SixRain')">6小时</el-radio>
+          <el-radio :label="12" @click.native.prevent="clickRainfall(12,'TweleveRain')">12小时</el-radio>
+          <el-radio :label="24" @click.native.prevent="clickRainfall(24,'DayRain')">24小时</el-radio>
+          <el-radio :label="48" @click.native.prevent="clickRainfall(48,'TwoDayRain')">48小时</el-radio>
+          <el-radio :label="72" @click.native.prevent="clickRainfall(72,'ThreeDayRain')">72小时</el-radio>
+        </el-radio-group> -->
+        <!-- <div class="close" @click="close"></div> -->
+        <!-- </div> -->
       </span>
     </div>
     <div class="flex-1 flex flex-y">
@@ -26,7 +43,7 @@
       <div class="flex-1">
         <Weather :isShow="headListIndex===0"></Weather>
         <Warning ref="warning" :isShow="headListIndex===1"></Warning>
-        <Typhoon :isShow="headListIndex===2"></Typhoon>
+        <Typhoon ref="typhoon" :isShow="headListIndex===2"></Typhoon>
         <div :isShow="headListIndex===2"></div>
       </div>
     </div>
@@ -38,11 +55,13 @@ import ItemTitle from '../item-title/item-title'
 import Weather from './modules/weather'
 import Warning from './modules/warning'
 import Typhoon from './modules/typhoon'
+import { forwardAFileAll } from 'api/warning/warning'
 
 export default {
   name: 'MeteorologicalMonitor',
   data() {
     return {
+      titleActiveIndex: -1,
       titleList: [
         { name: '气象预测' },
         { name: '卫星云图' },
@@ -57,29 +76,180 @@ export default {
       headListIndex: 0,
       isHide: false,
       radio: '',
+      radioRainfall: '',
       clickTime1: 1
     }
+  },
+  mounted() {
+    this.$bus.on('clearTyphoon', _ => {
+      this.radioRainfall = ''
+    })
+    this.$bus.on('clearQixiangyuce', (val) => {
+      this.radio = ''
+    })
   },
   methods: {
     changeHeadListIndex(index) {
       this.headListIndex = index
     },
+    clearAll() {
+      if (this.radioRainfall !== '') {
+        this.radioRainfall = ''
+        this.$bus.emit('valueDeleteRain', {
+          img: '',
+          checked: this.radioRainfall !== ''
+        })
+      }
+      if (this.radio !== '') {
+        this.$bus.emit('valueDelete', this.radio)
+        this.radio = ''
+      }
+      // 清除降雨
+      // console.log('清除降雨')
+      this.$bus.emit('rainMap', [])
+      this.$bus.emit('valueDeleteRain', {
+        img: '',
+        checked: false
+      })
+      this.$bus.emit('clearYunTu')
+      this.titleActiveIndex = -1
+    },
     changeMap(index) {
-      this.$emit('weatherMap', index)
-      if (index === 0) {
+      console.log(index)
+      if (index === 1 || index === 2) {
+        if (this.radioRainfall !== '') {
+          this.radioRainfall = ''
+          this.$bus.emit('valueDeleteRain', {
+            img: '',
+            checked: this.radioRainfall !== ''
+          })
+        }
+        if (this.radio !== '') {
+          this.$bus.emit('valueDelete', this.radio)
+          this.radio = ''
+        }
+        if (this.titleActiveIndex === index) {
+          this.titleActiveIndex = -1
+        } else {
+          this.titleActiveIndex = index
+        }
+      }
+      if (index !== 3) {
+        this.$emit('weatherMap', [index, this.titleActiveIndex])
+      }
+      if (index === 0 || index === 3) {
         this.isHide = !this.isHide
+      }
+      // 降雨分布
+      if (index === 3) {
+        // console.log('this.titleActiveIndex: ' + this.titleActiveIndex)
+        if (this.titleActiveIndex === 3) {
+          // 清除图层
+          this.titleActiveIndex = -1
+          this.$bus.emit('rainMap', [])
+          this.$bus.emit('valueDeleteRain', {
+            img: '',
+            checked: false
+          })
+        } else {
+          this.titleActiveIndex = 3
+          this.$bus.emit('rainMap', [
+            {
+              num: 1,
+              value: 'OneRain'
+            },
+            {
+              num: 3,
+              value: 'ThreeRain'
+            },
+            {
+              num: 6,
+              value: 'SixRain'
+            },
+            {
+              num: 12,
+              value: 'TweleveRain'
+            },
+            {
+              num: 24,
+              value: 'DayRain'
+            },
+            {
+              num: 48,
+              value: 'TwoDayRain'
+            },
+            {
+              num: 72,
+              value: 'ThreeDayRain'
+            }
+          ])
+        }
+      } else if (index === 1 || index === 2) {
+        this.$bus.emit('rainMap', [])
+        this.$bus.emit('valueDeleteRain', {
+          img: '',
+          checked: false
+        })
       }
     },
     clickitem(e) {
+      this.$bus.emit('rainMap', [])
+      this.$bus.emit('valueDeleteRain', {
+        img: '',
+        checked: false
+      })
+      this.$bus.emit('clearYunTu')
+      if (this.radioRainfall !== '') {
+        this.radioRainfall = ''
+        this.$bus.emit('valueDeleteRain', {
+          img: '',
+          checked: this.radioRainfall !== ''
+        })
+      }
+      this.$bus.emit('clearTyphoon')
+      e === this.radio ? this.radio = '' : this.radio = e
+      if (this.radio !== '') {
+        this.titleActiveIndex = 0
+      } else {
+        this.titleActiveIndex = -1
+      }
+      this.$bus.emit('valueDelete', e)
       // console.log('this.radio: ' + this.radio)
       // console.log('e: ' + JSON.stringify(e))
-      e === this.radio ? this.radio = '' : this.radio = e
-      this.$bus.emit('valueDelete', e)
     },
-    // changeWeather(val) {
-    //   val === this.radio ? this.radio = '' : this.radio = val
-    //   this.$bus.emit('valueChanged', val)
-    // },
+    clickRainfall(e, value) {
+      // console.log('e: ' + e + ', value: ' + value)
+      this.$bus.emit('clearYunTu')
+      if (this.radio !== '') {
+        this.$bus.emit('valueDelete', this.radio)
+        this.radio = ''
+      }
+      // this.$bus.emit('clearTyphoon')
+      e === this.radioRainfall ? this.radioRainfall = '' : this.radioRainfall = e
+      if (this.radioRainfall !== '') {
+        this.titleActiveIndex = 3
+      } else {
+        this.titleActiveIndex = -1
+      }
+      const bigDate = new Date().getTime() - 60 * 1000 * 60
+      const date = new Date(bigDate)
+      const y = date.getFullYear().toString().slice(2)
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      let h = date.getHours()
+      m = m < 10 ? '0' + m : m
+      d = d < 10 ? '0' + d : d
+      h = h < 10 ? '0' + h : h
+      const dateStr = y + m + d + h
+      const imgUrl = 'http://ecapi.wztf121.com/product//area/zhejiang/wenzhou/image/' + value + '/' + dateStr + '/' + dateStr + '_opacite.png'
+      forwardAFileAll(imgUrl).then(data => {
+        const obj = {
+          img: 'data:image/png;base64,' + data,
+          checked: this.radioRainfall !== ''
+        }
+        this.$bus.emit('valueDeleteRain', obj)
+      })
+    },
     close() {
       this.isHide = false
       this.$bus.emit('close', -1)
@@ -113,6 +283,10 @@ export default {
     background-color: rgba(5, 18, 39, 0.9);
     box-shadow: rgba(8, 169, 221, 0.6) 0px 0px 10px inset;
     display: none;
+    &.weather_grid_right {
+      left: auto;
+      right: 0;
+    }
     .el-radio {
       color: #fff;
       margin: 0.05rem 0;
@@ -169,6 +343,9 @@ export default {
         }
         &:first-child:before {
           display: none;
+        }
+        &.active {
+          color: #0ed6f5;
         }
       }
     }

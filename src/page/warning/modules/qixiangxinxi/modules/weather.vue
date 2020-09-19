@@ -29,9 +29,13 @@
     <div class="content-rt flex-1">
       <div class="weather">
         <img
-          v-if="data.future24HourList[0] && data.future24HourList[0].wpName"
+          v-if="data.future24HourList && data.future24HourList[0] && data.future24HourList[0].wpName"
           :style="{left:timePer}"
           :src="'http://www.wz121.com/static/images/icon/s/'+ data.future24HourList[0].wpName +'.png'"/>
+        <img
+          v-if="data.twentyFourWeather && data.twentyFourWeather[0] && data.twentyFourWeather[0].wpname"
+          :style="{left:timePer}"
+          :src="'http://www.wz121.com/static/images/icon/s/'+ data.twentyFourWeather[0].wpname +'.png'"/>
       </div>
       <div class="round">
         <div>
@@ -52,8 +56,9 @@
 </template>
 
 <script>
-import { getWeatherReport } from 'api/warning/warning'
+import { getWeatherReport, forwardPost } from 'api/warning/warning'
 import Kong from 'components/noData/noData'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -88,7 +93,10 @@ export default {
       } else {
         return (current - start) / (end - start) * 100 + '%'
       }
-    }
+    },
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   mounted() {
     this.initData()
@@ -101,21 +109,76 @@ export default {
   },
   methods: {
     initData() {
-      getWeatherReport().then((data) => {
-        if (data && data.length) {
-          this.isKong = false
-        } else {
-          this.isKong = true
+      // getWeatherReport().then(data => {
+      //   if (data && data.length) {
+      //     this.isKong = false
+      //   } else {
+      //     this.isKong = true
+      //   }
+      //   this.data = data
+      // })
+      // return
+      const districtName = this.userInfo.districtName.slice(0, 2)
+      if (districtName === '洞头' || districtName === '永嘉' || districtName === '乐清' || districtName === '瑞安' || districtName === '文成' || districtName === '平阳' || districtName === '苍南' || districtName === '泰顺') {
+        let stationId = ''
+        switch (districtName) {
+          case '洞头':
+            stationId = 58760
+            break
+          case '永嘉':
+            stationId = 58658
+            break
+          case '乐清':
+            stationId = 58656
+            break
+          case '瑞安':
+            stationId = 58752
+            break
+          case '文成':
+            stationId = 58750
+            break
+          case '平阳':
+            stationId = 58751
+            break
+          case '苍南':
+            stationId = 58755
+            break
+          case '泰顺':
+            stationId = 58746
+            break
         }
-        this.data = data
-      })
+        forwardPost({
+          url: 'http://www.wz121.com/ts/chartweb/changeData',
+          state: 'city',
+          stationId
+        }).then(data => {
+          if (data && data.length) {
+            this.isKong = false
+          } else {
+            this.isKong = true
+          }
+          if (data.future3DayList) {
+            data.future3DayList[0].rain = data.future3DayList[0].rains || '0.0'
+          }
+          this.data = data
+        })
+      } else {
+        getWeatherReport().then(data => {
+          if (data && data.length) {
+            this.isKong = false
+          } else {
+            this.isKong = true
+          }
+          this.data = data
+        })
+      }
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-  .relative{
+  .relative {
     height: 100%;
   }
   .wrapper {
@@ -137,26 +200,26 @@ export default {
         width: 40%;
         position: relative;
         > img {
-         position: absolute;
-         top: 45%;
-         left: 50%;
-         -webkit-transform: translate(-50%, -50%);
-         transform: translate(-50%, -50%);
-         width: 0.42rem;
-         height: 1.85rem;
-         max-width: 100%;
-         max-height: 100%;
+          position: absolute;
+          top: 45%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          width: 0.42rem;
+          height: 1.85rem;
+          max-width: 100%;
+          max-height: 100%;
         }
       }
       .right-box {
         color: #fff;
         font-size: 0;
         .big {
-        height: 0.38rem;
-        font-size: 0.24rem;
-        padding-top: 0.1rem;
-        font-weight: 600;
-        line-height: 0.38rem;
+          height: 0.38rem;
+          font-size: 0.24rem;
+          padding-top: 0.1rem;
+          font-weight: 600;
+          line-height: 0.38rem;
         }
         > ul {
           width: 100%;
@@ -296,16 +359,16 @@ export default {
       }
     }
   }
-    @media screen and (max-height: 1000px) {
-    .wrapper .content-lf .left-box > img{
+  @media screen and (max-height: 1000px) {
+    .wrapper .content-lf .left-box > img {
       width: 0.4rem;
       height: 1.7rem;
     }
-    .wrapper .content-lf .right-box > ul{
-      padding-bottom:0.25rem;
+    .wrapper .content-lf .right-box > ul {
+      padding-bottom: 0.25rem;
     }
-    .wrapper .content-rt .weather{
-     margin: 0.4rem auto 0.1rem;
+    .wrapper .content-rt .weather {
+      margin: 0.4rem auto 0.1rem;
     }
   }
 

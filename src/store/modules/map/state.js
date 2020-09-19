@@ -26,6 +26,15 @@ const state = {
   //  bim
   forceBimIDS: [],
   forceBimData: [],
-  forceRoomData: []
+  forceRoomData: [],
+  //  详情
+  isInfoFrame: false,
+  //  视频列表
+  rtmpList: [],
+  //  医院数据
+  medicalList: {},
+  medicalListWithGeometry: [],
+  //  医院
+  hospitalList: [],
 };
 export default state;

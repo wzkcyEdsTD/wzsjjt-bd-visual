@@ -7,10 +7,10 @@
       <div v-show="!isSmall" class="panel-body text-center">
         <ul id="legendTip">
           <li v-for="(item, index) in legendMsg2.legendAry" :key='index'>
-            <span class="new">
+            <span class="new" :class="{'hidden': item.des === '降雨毫米'}">
               <img class="tu" :src="item.icon">
             </span>
-            <div class="new_01">{{item.des}}</div>
+            <div class="new_01" :class="{'center': item.des === '降雨毫米'}">{{item.des}}</div>
           </li>
         </ul>
       </div>
@@ -22,8 +22,6 @@
 
 <script>
 /* eslint-disable */
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
   name: 'Legend',
   props: {
@@ -42,28 +40,18 @@ export default {
       isSmall: false
     }
   },
-  computed: {
-    ...mapGetters('map', [
-      'collapse2',
-      'treeCheckedList'
-    ])
-  },
   methods: {
     show() {
       this.isShow = true
       this.isSmall = false
-      this.SetLegendShow(this.isShow)
     },
     hide() {
       this.isShow = false
-      this.SetLegendShow(this.isShow)
+      this.isSmall = true
     },
     small() {
       this.isSmall = !this.isSmall
-    },
-    ...mapActions('map', [
-      'SetLegendShow'
-    ]),
+    }
   },
   watch: {
     'legendMsg2': {
@@ -73,33 +61,45 @@ export default {
           $(".new").css({
             "display": "block",
             "float": "left",
-            "width": "24%",
+            "width": "48%",
             "height": "35px",
             "margin-top": "-2px"
           });
+          $(".hidden").css({
+            "display": "none"
+          });
           $(".tu").css({
-            "vertical-align": "middle",
-            "width": "30px"
+            "vertical-align": "middle"
           });
           $(".new_01").css({
             "float": "left",
-            "width": "76%",
+            "width": "50%",
             "height": "35px",
             "line-height": "35px",
             "font-size": "16px",
             "white-space": "nowrap",
             "overflow": "hidden",
             "text-overflow": "ellipsis"
-          });
-          this.show();
+          })
+          $(".center").css({
+            "float": "left",
+            "width": "100%",
+            "height": "35px",
+            "line-height": "35px",
+            "font-size": "16px",
+            "white-space": "nowrap",
+            "overflow": "hidden",
+            'text-align': 'center',
+            "text-overflow": "ellipsis"
+          })
+          this.show()
         } else {
-          this.hide();
+          this.hide()
         }
       }
     }
   }
 }
-/* eslint-disable */
 </script>
 
 <style scoped lang="less">
@@ -173,15 +173,18 @@ export default {
   .new {
     display: block;
     float: left;
-    width: 24%;
+    width: 48%;
     height: 0.35rem;
     line-height: 0.35rem;
     font-size: 0.16rem;
     margin-top: -2px;
+    &.hidden{
+      display: none;
+    }
   }
   .new_01 {
     float: left;
-    width: 76%;
+    width: 50%;
     height: 0.35rem;
     line-height: 0.35rem;
     font-size: 0.16rem;

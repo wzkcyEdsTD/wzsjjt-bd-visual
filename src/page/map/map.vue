@@ -9,7 +9,10 @@
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
       <CesiumMap />
     </div>
-    <div class="map" v-if="currentMapType != 'cesiumMap'">
+    <div class="InternetThings" v-if="currentMapType == 'internetthings'">
+     <Internet />
+    </div>
+    <div class="map" v-if="currentMapType == 'sandian'">
       <div :class="[this.collapse1?'collapse':'','cover-map']">
         <BaseMap
           class="is-print cover-map"
@@ -139,6 +142,8 @@ import CheckItem from "./modules/check-item/check-item";
 import Around from "./modules/around/around";
 import Space from "./modules/space/space";
 import CesiumMap from "components/map-view/cesium_map";
+//import Internet from  "components/map-view/internetThings";
+import Internet from "page/warning/warning-back";
 import { mapGetters, mapActions } from "vuex";
 import { uuid } from "common/js/util";
 
@@ -476,6 +481,7 @@ export default {
     Space,
     MapTableFull,
     CesiumMap,
+    Internet
   },
   watch: {
     currentOnePoint() {
@@ -591,6 +597,12 @@ export default {
     height: 100%;
     width: 100%;
     background-color: "#204f77";
+  }
+  .InternetThings{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: "#162445";
   }
   .box {
     z-index: 2;

@@ -4,7 +4,7 @@
       <span>{{time}}</span>
       实时人数/瞬时最大承载人数</h3>
     <div class="maquee" :id="myUuid" ref="wrapper">
-      <ul ref="ul">
+      <!-- <ul ref="ul">
         <li
           @click="jumpMap(item)"
           :key="index"
@@ -17,7 +17,34 @@
           </div>
           <div class="maquee_div3 maquee_public">{{item.value===null?0:item.value}}/{{item.instantCount}}</div>
         </li>
-      </ul>
+      </ul> -->
+      <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
+        <div class="custom-tree-node" slot-scope="{ data }" @click="jumpMap(data)">
+          <!-- <span>{{ data.instantCount }}</span> -->
+          <span v-show="!data.smid">{{data.name}}</span>
+          <div v-show="data.smid" class="maquee_div1 maquee_public">{{data.name}}</div>
+          <div v-show="data.smid" class="maquee_div2 maquee_public">
+            <span
+              :class="{'warning':data.value * 100 / data.instantCount>100}"
+              :style="{width:maxWidth(data)+'%', minWidth: data.value>0?'0.15rem':'auto'}"></span>
+          </div>
+          <div v-show="data.smid" class="maquee_div3 maquee_public">{{data.value===null?0:data.value}}/{{data.instantCount}}</div>
+          <!-- <span>
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => append(data)">
+              Append
+            </el-button>
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => remove(node, data)">
+              Delete
+            </el-button>
+          </span> -->
+        </div>
+      </el-tree>
       <Kong v-show="isKong"></Kong>
     </div>
   </div>
@@ -53,7 +80,11 @@ export default {
       myUuid: 'uuid' + uuid(),
       isKong: false,
       monitor: null,
-      monitorTime: 1000 * 60
+      monitorTime: 1000 * 60,
+      defaultProps: {
+        children: 'childs',
+        label: 'name'
+      }
     }
   },
   watch: {
@@ -67,36 +98,39 @@ export default {
     }
   },
   mounted() {
-    $('#' + this.myUuid).on({
-      mouseover: () => {
-        this.scrollDestroyHandler()
-      },
-      mouseout: () => {
-        this.scrollStartHandler()
-      },
-      scroll: () => {
-        if ($('#' + this.myUuid)[0]) {
-          this.scrollTop = $('#' + this.myUuid)[0].scrollTop
-        }
-      }
-    })
+    // $('#' + this.myUuid).on({
+    //   mouseover: () => {
+    //     this.scrollDestroyHandler()
+    //   },
+    //   mouseout: () => {
+    //     this.scrollStartHandler()
+    //   },
+    //   scroll: () => {
+    //     if ($('#' + this.myUuid)[0]) {
+    //       this.scrollTop = $('#' + this.myUuid)[0].scrollTop
+    //     }
+    //   }
+    // })
   },
   updated() {
-    if (this.isShow) {
-      this.initScroll()
-    } else {
-      this.scrollDestroyHandler()
-    }
-    const ul = parseInt(window.getComputedStyle(this.$refs.ul).height)
-    const wrapper = parseInt(window.getComputedStyle(this.$refs.wrapper).height)
-    if (ul <= wrapper) {
-      this.monitor = setTimeout(() => {
-        this.scrollTop = 0
-        this.$emit('refresh')
-      }, this.monitorTime)
-    }
+    // if (this.isShow) {
+    //   this.initScroll()
+    // } else {
+    //   this.scrollDestroyHandler()
+    // }
+    // const ul = parseInt(window.getComputedStyle(this.$refs.ul).height)
+    // const wrapper = parseInt(window.getComputedStyle(this.$refs.wrapper).height)
+    // if (ul <= wrapper) {
+    //   this.monitor = setTimeout(() => {
+    //     this.scrollTop = 0
+    //     this.$emit('refresh')
+    //   }, this.monitorTime)
+    // }
   },
   methods: {
+    handleNodeClick(data) {
+      console.log(data)
+    },
     maxWidth(item) {
       let w = item.value * 100 / item.instantCount
       if (w > 100) {
@@ -201,8 +235,8 @@ export default {
     float: left;
   }
   .maquee_div1 {
-    width: 24%;
-    text-align: right;
+    width: 40%;
+    text-align: left;
     color: #fff;
     overflow: hidden;
     white-space: nowrap;
@@ -210,13 +244,13 @@ export default {
     padding-right: 0.1rem;
   }
   .maquee_div2 {
-    width: 68%;
+    width: 55%;
     // border: #1cb4fe solid 0.01rem;
     background-color: rgba(73, 106, 169, 0.4);
     border: 1px solid rgba(0, 198, 255, 0.4);
     height: 0.15rem;
     border-radius: 0.075rem;
-    margin-top: 0.05rem;
+    margin-top: 0.07rem;
   }
   .maquee_div3 {
     color: #6fe2ff;
@@ -230,11 +264,17 @@ export default {
     border-radius: 0.065rem;
     float: left;
     background: linear-gradient(left, #05effc, #1b669b);
+    &.warning{
+      background: #ff8f07;
+    }
   }
   .maquee li.warning .maquee_div2 span {
     background: #ff8f07;
   }
   .maquee li.warning .maquee_div3 {
     color: #ffffff;
+  }
+  .custom-tree-node{
+    font-size: 0.14rem;
   }
 </style>

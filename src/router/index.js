@@ -27,6 +27,11 @@ export default new Router({
       path: "/map", // 风险一张图
       name: "Map",
       component: resolve => require(["page/map/map"], resolve)
+    },
+    {
+      path: '/warning', // 检测预警
+      name: 'Warning',
+      component: resolve => require(['page/warning/warning-back'], resolve)
     }
   ]
 });

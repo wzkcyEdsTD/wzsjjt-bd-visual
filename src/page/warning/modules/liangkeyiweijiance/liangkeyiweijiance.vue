@@ -1,8 +1,21 @@
 <template>
   <div class="wrapper flex flex-y">
-    <ItemTitle title="两客一危" :num="total">
-      <el-input placeholder="输入名称" v-model="searchContent" @change='searchList' class="input-with-select">
-        <el-button slot="append" icon="el-icon-search" @click="searchList"></el-button>
+    <ItemTitle title="两客一危" ref="itemTitle" :numOne="numOne" :numTwo="numTwo" @changeIndex="changeIndex">
+      <el-input
+        v-show="btnIndex===0"
+        placeholder="输入车牌号"
+        v-model="searchContent1"
+        @change='searchList1'
+        class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click="searchList1"></el-button>
+      </el-input>
+      <el-input
+        v-show="btnIndex===1"
+        placeholder="输入车牌号"
+        v-model="searchContent2"
+        @change='searchList2'
+        class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click="searchList2"></el-button>
       </el-input>
     </ItemTitle>
     <div class="title-btn-group">
@@ -12,13 +25,14 @@
       </span>
     </div>
     <div class="flex-1">
-      <List @refresh="initData" :isShow="0===0" :data="showList" :fild="listFild"></List>
+      <List ref="list1" @refresh="initData" @next='next' :isShow="this.btnIndex===0" :data="listData1" :fild="listFild1"></List>
+      <List ref="list2" @refresh="initData" @next='next' :isShow="this.btnIndex===1" :data="listData2" :fild="listFild2"></List>
     </div>
   </div>
 </template>
 
 <script>
-import ItemTitle from '../item-title/item-title'
+import ItemTitle from '../item-title/item-title-liangkeyiwei'
 import List from '../list/list'
 import { getEnterpriseMainByUser } from 'api/warning/warning'
 import { monitorTypeMixin } from 'common/js/mixin'
@@ -28,16 +42,26 @@ export default {
   mixins: [monitorTypeMixin],
   data() {
     return {
-      total: '',
-      listData: [],
+      btnIndex: 0,
+      numOne: '',
+      numTwo: '',
+      listData1: [],
+      listData2: [],
+      searchContent1: '',
+      searchContent2: '',
       timer: null,
-      listFild: [
+      listFild1: [
+        { name: '车牌号', fild: 'plate' },
+        { name: '公司名称', fild: 'companyName' }
+      ],
+      listFild2: [
         { name: '车牌号', fild: 'plate' },
         { name: '警报类型', fild: 'warnType' }
       ],
       point: 'liangkeyiweijiance',
-      searchContent: '',
-      showList: []
+      listDataO: [],
+      listDataT: [],
+      index: 1
     }
   },
   watch: {
@@ -54,26 +78,69 @@ export default {
     }
   },
   mounted() {
-    this.initData()
+    this.searchList1()
+    this.searchList2()
     this.timer = setInterval(() => {
-      this.initData()
+      this.searchList1()
+      this.searchList2()
     }, 300000)
   },
   methods: {
-    // 查询过滤
-    searchList() {
-      this.showList = this.listData.filter(val => {
-        console.log(val.plate.indexOf(this.searchContent) > -1 || val.warnType.indexOf(this.searchContent) > -1)
-        return val.plate.indexOf(this.searchContent) > -1 || val.warnType.indexOf(this.searchContent) > -1
-      })
+    changeIndex(index) {
+      this.btnIndex = index
     },
-    initData() {
-      getEnterpriseMainByUser().then((data) => {
-        this.listData = data.details
-        this.showList = this.listData.filter(val => {
-          return val.plate.indexOf(this.searchContent) > -1 || val.warnType.indexOf(this.searchContent) > -1
-        })
-        this.total = '接入数' + data.totalCount + '/报警数' + data.warnCount
+    searchList1() {
+      this.initData(0)
+    },
+    searchList2() {
+      this.initData(1)
+    },
+    // 加载其他数据
+    next() {
+      if (this.searchContent) {
+        this.$refs.list1.isAll = true
+        return
+      }
+      this.index += 1
+      if (this.btnIndex === 0) {
+        if (this.listDataO.length > 0 && this.listData1.length < this.listDataO.length) {
+          this.listData1 = [...this.listData1, ...this.listDataO.slice(10 * (this.index - 1), 10 * this.index)]
+        } else {
+          this.$refs.list1.isAll = true
+        }
+      } else if (this.btnIndex === 1) {
+        if (this.listDataT.length > 0 && this.listData2.length < this.listDataT.length) {
+          this.listData2 = [...this.listData2, ...this.listDataT.slice(10 * (this.index - 1), 10 * this.index)]
+        } else {
+          this.$refs.list2.isAll = true
+        }
+      }
+      // }
+    },
+    initData(num) {
+      console.log('刷新')
+      let type = this.btnIndex
+      if (typeof num === 'number') {
+        type = num
+      }
+      let search = this.searchContent1
+      if (type === 1) {
+        search = this.searchContent2
+      }
+      getEnterpriseMainByUser(type, search).then((data) => {
+        this.index = 1
+        this.$refs.list1.isAll = false
+        this.$refs.list2.isAll = false
+        console.log(data.details)
+        if (type === 0) {
+          this.listDataO = data.details.slice(0, 30)
+          this.listData1 = data.details.slice(10 * (this.index - 1), 10 * this.index)
+          this.numOne = '接入数' + data.totalCount
+        } else if (type === 1) {
+          this.listDataT = data.details
+          this.listData2 = data.details.slice(10 * (this.index - 1), 10 * this.index)
+          this.numTwo = '报警数' + data.totalCount
+        }
       })
     }
   },

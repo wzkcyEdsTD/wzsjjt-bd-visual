@@ -2,7 +2,9 @@
   <div class="wrapper" v-show="isShow">
     <div class="maquee" v-show="!isKong">
       <h3>
-        {{title1}}:{{data.total}}
+        <template v-if="data.total !== '0.00亿方' && $store.state.userInfo.districtName !== '洞头区'">
+          {{title1}}:{{data.total}}
+        </template>
         <span>{{title2}}(m)</span>
       </h3>
       <div class="box-wrapper" :id="myUuid" ref="wrapper">
@@ -17,12 +19,12 @@
               <div @click="jumpMap(item)">
                 <div class="perOne">
                   <span
-                    :class="{'active':item.kssw-0>item.xxsw-0&&item.xxsw-0!==0}"
+                    :class="{'active':item.kssw-0>=item.xxsw-0&&item.xxsw-0!==0}"
                     :style="{'width':widthPerOne(item.kssw,item.xxsw)}"></span>
                 </div>
                 <div class="perTwo">
                   <span
-                    :class="{'active':item.kssw-0>item.xxsw-0&&item.xxsw-0!==0}"
+                    :class="{'active':item.kssw-0>=item.xxsw-0&&item.xxsw-0!==0}"
                     :style="{'width':widthPerTwo(item.kssw,item.xxsw)}"></span>
                 </div>
               </div>
@@ -32,7 +34,7 @@
             <li
               :key="index"
               v-for="(item,index) in data.details"
-              :class="{'active':item.kssw-0>item.xxsw-0}">
+              :class="{'active':item.kssw-0>=item.xxsw-0}">
               <div @click="jumpMap(item)">{{item.kssw}}</div>
             </li>
           </ul>
@@ -40,7 +42,7 @@
             <li
               :key="index"
               v-for="(item,index) in data.details"
-              :class="{'active':item.kssw-0>item.xxsw-0}">
+              :class="{'active':item.kssw-0>=item.xxsw-0}">
               <div @click="jumpMap(item)">{{item.xxsw - 0 === 0 ? '-' : item.xxsw}}</div>
             </li>
           </ul>
@@ -62,7 +64,9 @@ export default {
     data: {
       type: Object,
       default() {
-        return {}
+        return {
+          total: '0.00亿方'
+        }
       }
     },
     isShow: {
@@ -113,7 +117,7 @@ export default {
     const wrapper = parseInt(window.getComputedStyle(this.$refs.wrapper).height)
     if (ul <= wrapper) {
       this.monitor = setTimeout(() => {
-        this.scrollTop = 0
+        // this.scrollTop = 0
         this.$emit('refresh')
       }, this.monitorTime)
     }
@@ -151,7 +155,7 @@ export default {
           this.scrollTop += 1
           dom.scrollTop = this.scrollTop
           if (dom.scrollTop >= dom.scrollHeight - dom.clientHeight) {
-            this.scrollTop = 0
+            // this.scrollTop = 0
             this.scrollDestroyHandler()
             this.$emit('refresh')
           }
@@ -192,7 +196,7 @@ export default {
   },
   watch: {
     'data.details'() {
-      this.scrollTop = 0
+      // this.scrollTop = 0
       if (!this.data.details.length) {
         this.isKong = true
       } else {

@@ -85,6 +85,15 @@ export function getEmergencyExpertsMainByUserLQS() {
 }
 
 /**
+ * 应急专家-永嘉县
+ * @returns {*}
+ */
+export function getEmergencyExpertsMainByUserYJX() {
+  const url = '/saveAbility/getEmergencyExpertsMainByUserYJX'
+  return get(url)
+}
+
+/**
  * 应急队伍
  * @returns {*}
  */
@@ -161,6 +170,15 @@ export function getPondingDetailBySmid(smid, type) {
 }
 
 /**
+ * 根据smid查询积水点折线图监测详情
+ * @returns {*}
+ */
+export function getPondingDetailBySmidNew(smid, type) {
+  const url = '/monitor/getPondingDetailBySmidNew'
+  return get(url, { smid, type })
+}
+
+/**
  * 根据smid查询渔船监测详情
  * @returns {*}
  */
@@ -194,4 +212,13 @@ export function getScenicDetailBySmid(smid) {
 export function getMaterialWarehouseStatistics() {
   const url = '/saveAbility/getMaterialWarehouseStatistics'
   return get(url)
+}
+
+/**
+ * 获取视频列表点位信息
+ * @returns {*}
+ */
+export function getVideoPictureInfo(id) {
+  const url = '/videoMonitor/getVideoPictureInfo'
+  return get(url, { id })
 }

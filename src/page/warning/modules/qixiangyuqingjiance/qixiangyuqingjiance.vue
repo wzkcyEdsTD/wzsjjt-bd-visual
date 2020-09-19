@@ -53,7 +53,8 @@ export default {
   mixins: [monitorTypeMixin],
   computed: {
     ...mapGetters('warning', [
-      'mapLoaded'
+      'mapLoaded',
+      'waterState'
     ]),
     ...mapGetters([
       'userInfo'
@@ -125,26 +126,38 @@ export default {
     addPoint() {
       if (this.mapLoaded) {
         // 主动勾选点
-        this.dotIndex = [1, 0]
+        let index = -1
+        let indexArr = [0, 0]
+        for (let i = 0; i < this.btns.length; i++) {
+          if (this.btns[i] === this.waterState) {
+            indexArr[i] = 1
+            index = i
+            break
+          }
+        }
+        if (this.$store.state.userInfo.district !== '3303') {
+          index = 1
+          indexArr = [0, 1]
+        }
+        if (index === -1) {
+          return
+        }
+        this.dotIndex = indexArr
         let obj = {}
         for (let i = 0; i < this.monitorType.length; i++) {
-          if (this.monitorType[i].alias === this.point[0]) {
+          if (this.monitorType[i].alias === this.point[index]) {
             obj = JSON.parse(JSON.stringify(this.monitorType[i]))
             i = this.monitorType.length
           }
         }
         obj.checked = true
-        obj.from = this.point[0]
+        obj.from = this.point[index]
         this.SetCurrentMonitorType(obj)
       }
     },
     initData1() {
       getRainMonitorMainByUser(1, this.time === this.today ? 0 : 1, this.time).then(res => {
-        console.log(1111)
-        console.log(res)
-        console.log(res.districtDetail)
         this.data2 = res.districtDetail
-        console.log(res.districtDetail)
         this.data4 = res.topDetail.map(val => {
           val.time = this.time
           val.timeType = this.time === this.today ? 0 : 1

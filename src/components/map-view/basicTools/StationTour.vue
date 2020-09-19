@@ -83,6 +83,7 @@ export default {
   async mounted() {
     this.initBimScene();
     this.eventRegsiter();
+    this.cameraMove();
   },
   beforeDestroy() {
     this.clearStationTour();

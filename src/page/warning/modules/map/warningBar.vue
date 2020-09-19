@@ -5,16 +5,17 @@
         <div class="icon" @click="showList">
           <div class="flip">
               <div class="flip-box">
-                  <a href="javascript:;" class="flip-item flip-item-front ">
+                  <a v-if="warningList.length!==0" href="javascript:;" class="flip-item flip-item-front ">
                     <img src="./images/light.png" alt=" ">
                   </a>
-                  <a href="javascript:;" class="flip-item flip-item-back ">
+                  <a v-if="warningList.length!==0" href="javascript:;" class="flip-item flip-item-back ">
                     <img src="./images/light.png" alt=" ">
                   </a>
+                  <img v-else src="./images/light-none.png" alt="">
               </div>
           </div>
         </div>
-        <div class="num" @click="showList">[{{warningList.length}}]</div>
+        <div class="num" :class="{grey: warningList.length===0}" @click="showList">[{{warningList.length}}]</div>
         <div class="title warning-title">
           <ul class="title-content">
             <li v-for="(item, index) in warningList" :key='"title" + index' @click="jumpMap(item)">{{item.name}}</li>
@@ -86,13 +87,13 @@
       </section>
       <ul class="warning-form">
         <!-- <li class="warning-list-item" v-for="(item, index) in warningDetailList" :key='index' @click="jumpMap(item)">{{item.name}}</li> -->
-        <li class="warning-list-item" v-for="(item, index) in warningDetailList" :key='index'>
+        <li class="warning-list-item" v-for="(item, index) in warningDetailList" :key='index'  @click="jumpMap(item)">
           <div class="warning-item">{{index + 1}}</div>
-          <div class="warning-item">{{item.name}}</div>
-          <div class="warning-item">{{item.district}}</div>
-          <div class="warning-item">{{item.warn_type}}</div>
-          <div class="warning-item">{{item.kssw}}</div>
-          <div class="warning-item">{{item.tm}}</div>
+          <div class="warning-item">{{item && item.name}}</div>
+          <div class="warning-item">{{item && item.district}}</div>
+          <div class="warning-item">{{item && item.warn_type}}</div>
+          <div class="warning-item">{{item && item.kssw}}</div>
+          <div class="warning-item">{{item && item.tm}}</div>
         </li>
       </ul>
     </div>
@@ -118,6 +119,18 @@ export default {
       }, {
         value: '河道报警',
         label: '河道报警'
+      }, {
+        value: '水利雨情',
+        label: '水利雨情'
+      }, {
+        value: '气象雨情',
+        label: '气象雨情'
+      }, {
+        value: '城市道路',
+        label: '城市道路'
+      }, {
+        value: '下穿路段',
+        label: '下穿路段'
       }],
       time: [],
       searchInfo: {
@@ -132,7 +145,6 @@ export default {
   methods: {
     // 下拉框变化
     selectChange(e) {
-      console.log(this.searchInfo.warn_type)
       this.search()
     },
     // 修改日期时间
@@ -147,6 +159,7 @@ export default {
       })
     },
     showList() {
+      if (this.warningList.length === 0) return
       this.isShow = !this.isShow
     },
     scrollStartHandler() {
@@ -205,14 +218,14 @@ export default {
 .warning-bar{
   position: absolute;
   top: 0;
-  left: 0;
+  left: 0.84rem;
   right: 0;
   color: #fff;
   width: 7rem;
   margin: 0 auto;
   margin-left:33.8%;
   // background: #aaa;
-  z-index: 900000;
+  z-index: 9000;
 }
 .warning-list{
   width: 9rem;
@@ -265,7 +278,7 @@ export default {
   }
   section>.header{
     background: #2A3F60;
-    widows: 100%;
+    width: 100%;
     display: flex;
     margin-top: 0.2rem;
     .header-item{
@@ -326,7 +339,6 @@ export default {
   height: 0.5rem;
   justify-content: space-around;
   .title{
-    width: 4rem;
     text-align: center;
     line-height: 0.5rem;
     font-size: 0.14rem;
@@ -340,13 +352,13 @@ export default {
   }
   .title-content{
     height: 0.3rem;
-    margin-top: 0.1rem;
+    margin-top: 0.13rem;
     overflow: scroll;
     position: relative;
     right: -5px;
     li{
-      height: 0.3rem;
-      line-height: 0.3rem;
+      height: 0.28rem;
+      line-height: 0.24rem;
       cursor: pointer;
     }
   }
@@ -370,6 +382,9 @@ export default {
     height: 0.2rem;
     margin-top: 0.15rem;
     margin-left: 10px;
+    &.grey{
+      color: #939393;
+    }
   }
 }
 .warning-list-item{
@@ -388,6 +403,12 @@ position:relative;
 width:110px;
 height:100%;
 overflow:hidden;
+&>img{
+  position: absolute;
+  width: 1rem;
+  top: -0.13rem;
+  left: -0.25rem;
+}
 }
 .flip-item {
 position:absolute;

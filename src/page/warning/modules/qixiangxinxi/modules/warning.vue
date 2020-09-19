@@ -7,20 +7,19 @@
     <div class="content-wrapper">
       <div class="box" :id="myUuid" ref="wrapper">
         <ul ref="ul">
-          <li :key="index" v-for="(item,index) in data">
-            <img :src="'http://www.wz121.com/static/images/warn_icon/eb/'+item.TYPENUM+item.LEAVELNUM+'.png'">
+          <li :key="index" v-for="(item,index) in data" @click="showItem(item)">
+            <img :src="item._img">
             <div>{{item.WARN_CONTENT}}</div>
           </li>
         </ul>
       </div>
     </div>
-    <!-- <div class="kong" v-show="flag && data.length === 0"></div> -->
     <Kong v-show="isKong"></Kong>
   </div>
 </template>
 
 <script>
-import { getWeatherWarn } from 'api/warning/warning'
+import { getWeatherWarn, forwardAFileAll } from 'api/warning/warning'
 import { uuid } from 'common/js/util'
 import Kong from 'components/noData/noData'
 import { mapActions } from 'vuex'
@@ -52,6 +51,7 @@ export default {
   updated() {
     if (this.isShow && this.data && this.data.length) {
       this.initScroll()
+      // this.changeDot()
     } else {
       this.scrollDestroyHandler()
     }
@@ -65,16 +65,13 @@ export default {
       }, this.monitorTime)
     }
   },
-  // watch: {
-  //   data() {
-  //     if (this.flag && this.data.length === 0) {
-  //       this.monitor = setTimeout(() => {
-  //         this.scrollTop = 0
-  //         this.initData()
-  //       }, this.monitorTime)
-  //     }
-  //   }
-  // },
+  watch: {
+    isShow() {
+      if (this.isShow) {
+        this.changeDot()
+      }
+    }
+  },
   mounted() {
     $('#' + this.myUuid).on({
       mouseover: () => {
@@ -93,8 +90,16 @@ export default {
   },
   methods: {
     ...mapActions('warning', [
-      'SetQixiangWarning'
+      'SetQixiangWarning',
+      'SetSpecalPoint'
     ]),
+    // 展示单个信息
+    showItem(item) {
+      item.alias = 'yujingxinxi'
+      item.smid = '0001'
+      item.location = item.LON + ',' + item.LAT
+      this.SetSpecalPoint(item)
+    },
     // 修改图层
     changeDot() {
       this.dot = !this.dot
@@ -104,7 +109,7 @@ export default {
         this.SetQixiangWarning([])
       }
     },
-    initData() {
+    initData(bool) {
       getWeatherWarn().then((data) => {
         if (data && data.length) {
           this.isKong = false
@@ -112,7 +117,31 @@ export default {
           this.isKong = true
         }
         this.flag = true
-        this.data = data || []
+
+        const newData = JSON.parse(JSON.stringify(data))
+        if (newData.length > 0) {
+          let forwardIndex = 0
+          for (let i = 0; i < newData.length; i++) {
+            // 已经转发
+            const url = 'http://www.wz121.com/static/images/warn_icon/eb/' + newData[i].TYPENUM + newData[i].LEAVELNUM + '.png'
+            forwardAFileAll(url, true).then(data => {
+              newData[i]._img = 'data:image/png;base64,' + data
+              forwardIndex++
+              if (forwardIndex === newData.length) {
+                this.data = newData.filter(val => {
+                  console.log(val.WARN_CONTENT.indexOf(this.$store.state.userInfo.districtName))
+                  if (val.WARN_CONTENT.indexOf(this.$store.state.userInfo.districtName) > 0 || this.$store.state.userInfo.districtName === '温州市') {
+                    return true
+                  }
+                  return false
+                })
+              }
+            })
+          }
+        } else {
+          this.data = []
+        }
+        if (bool) this.changeDot()
       })
     },
     scrollStartHandler() {
@@ -159,10 +188,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .dot-white{
+  .dot-white {
     text-align: right;
     padding-right: 0.15rem;
-    img{
+    img {
       cursor: pointer;
     }
   }
@@ -183,6 +212,7 @@ export default {
         position: relative;
         > ul {
           li {
+            cursor: pointer;
             position: relative;
             margin-top: 0.2rem;
             img {

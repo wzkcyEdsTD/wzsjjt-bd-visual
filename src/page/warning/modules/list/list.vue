@@ -8,7 +8,7 @@
         <div class="box" ref="wrapper" :id="myUuid">
           <ul ref="ul">
             <li @click="jumpMap(item)" class="flex" :key="'b'+index" v-for="(item,index) in data">
-              <span class="flex-1" :key="'c'+index2" v-for="(item2,index2) in fild">{{item[item2.fild]}}</span>
+              <span :class="{special: item[item2.fild] === '是'}" class="flex-1" :key="'c'+index2" v-for="(item2,index2) in fild">{{item[item2.fild]}}</span>
             </li>
           </ul>
           <Kong v-if="isKong"></Kong>
@@ -51,17 +51,24 @@ export default {
       myUuid: 'uuid' + uuid(),
       isKong: false,
       monitor: null,
-      monitorTime: 1000 * 60
+      monitorTime: 1000 * 60,
+      isAll: true
     }
   },
   watch: {
     data() {
-      this.scrollTop = 0
+      // console.log(this.data)
+      if (this.isAll) {
+        // this.scrollTop = 0
+        // $('#' + this.myUuid)[0].scrollTop = 0
+      }
       if (!this.data || !this.data.length) {
         this.isKong = true
       } else {
         this.isKong = false
       }
+      clearTimeout(this.monitor)
+      this.scrollDestroyHandler()
     }
   },
   mounted() {
@@ -75,6 +82,36 @@ export default {
       scroll: () => {
         if ($('#' + this.myUuid)[0]) {
           this.scrollTop = $('#' + this.myUuid)[0].scrollTop
+          const dom = $('#' + this.myUuid)[0]
+          if (!this.scrollFlag) {
+            // const dom = $('#' + this.myUuid)[0]
+            // this.scrollTop += 1
+            // dom.scrollTop = this.scrollTop
+            // console.log(this.data.length)
+            // console.log(dom.scrollTop + dom.clientHeight === dom.scrollHeight - 50)
+            if (dom.scrollTop + dom.clientHeight === dom.scrollHeight - 1) {
+              if (this.scrollTop !== 0) {
+                if (!this.isAll) this.$emit('next')
+              }
+            }
+            if (dom.scrollTop >= dom.scrollHeight - dom.clientHeight) {
+              // console.log(this.isAll)
+              if (this.scrollTop !== 0) {
+                this.$emit('next')
+              }
+              if (this.isAll) {
+                // this.scrollTop = 0
+                // dom.scrollTop = this.scrollTop
+                this.scrollDestroyHandler()
+                // console.log('refresh')
+                // this.$emit('refresh')
+              }
+              // console.log(this.scrollTop)
+            }
+          }
+          // if (dom.scrollTop + dom.clientHeight >= dom.scrollHeight - 50) {
+          //   this.$emit('next')
+          // }
         }
       }
     })
@@ -85,14 +122,18 @@ export default {
     } else {
       this.scrollDestroyHandler()
     }
-    const ul = parseInt(window.getComputedStyle(this.$refs.ul).height)
-    const wrapper = parseInt(window.getComputedStyle(this.$refs.wrapper).height)
-    if (ul <= wrapper) {
-      this.monitor = setTimeout(() => {
-        this.scrollTop = 0
-        this.$emit('refresh')
-      }, this.monitorTime)
-    }
+    // const ul = parseInt(window.getComputedStyle(this.$refs.ul).height)
+    // const wrapper = parseInt(window.getComputedStyle(this.$refs.wrapper).height)
+    // if (ul <= wrapper) {
+    //   this.monitor = setTimeout(() => {
+    //     this.scrollTop = 0
+    //     $('#' + this.myUuid)[0].scrollTop = 0
+    //     if (this.isAll) {
+    //       // console.log('refresh')
+    //       this.$emit('refresh')
+    //     }
+    //   }, this.monitorTime)
+    // }
   },
   methods: {
     scrollStartHandler() {
@@ -101,11 +142,29 @@ export default {
           const dom = $('#' + this.myUuid)[0]
           this.scrollTop += 1
           dom.scrollTop = this.scrollTop
-          if (dom.scrollTop >= dom.scrollHeight - dom.clientHeight) {
-            this.scrollTop = 0
-            this.scrollDestroyHandler()
-            this.$emit('refresh')
+          // console.log(dom.scrollTop + dom.clientHeight === dom.scrollHeight - 50)
+          if (dom.scrollTop + dom.clientHeight === dom.scrollHeight - 1) {
+            if (this.scrollTop !== 0) {
+              this.$emit('next')
+            }
           }
+          if (this.scrollTop === dom.scrollHeight - dom.clientHeight) {
+            console.log(this.isAll)
+            // if (this.scrollTop !== 0) {
+            //   this.$emit('next')
+            // }
+            if (this.isAll) {
+              // this.scrollTop = 0
+              // dom.scrollTop = this.scrollTop
+              this.scrollDestroyHandler()
+              // this.$emit('refresh')
+            }
+            console.log(this.scrollTop)
+          }
+          // if (this.scrollTop > dom.scrollHeight - dom.clientHeight) {
+          //   this.scrollTop = 0
+          //   dom.scrollTop = this.scrollTop
+          // }
         }, 100)
       }
     },
@@ -130,7 +189,14 @@ export default {
       })
     },
     jumpMap(item) {
-      this.SetSpecalPoint(item)
+      if (item.phoneInfo || item.isatphone_tel) {
+        this.$emit('itemClick', item)
+      } else {
+        this.SetSpecalPoint(item)
+        if (this.$parent.dotIndex === 0) {
+          this.$parent.changeDot()
+        }
+      }
     },
     ...mapActions('warning', [
       'SetSpecalPoint'
@@ -151,6 +217,9 @@ export default {
     height: 100%;
     font-size: 0;
     padding: 0.15rem 0;
+    .special {
+      color: #0ED2F1;
+    }
     .content {
       width: 85%;
       margin: auto;

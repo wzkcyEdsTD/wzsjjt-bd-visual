@@ -38,6 +38,7 @@ export default {
     getUserInfo().then(data => {
       if (data.districtName !== this.userInfo.districtName) {
         this.$router.push("/map");
+          //window.location.reload()
       }
       this.SetUserInfo(data);
       document.getElementsByTagName("title")[0].innerText =

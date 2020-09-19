@@ -9,11 +9,11 @@
           <ul ref="ul">
             <li @click="jumpMap(item)" class="flex" :key="'b'+index" v-for="(item,index) in data">
               <span
-                :class="{'specal':item2.fildBool&&item.lat&&item[item2.fild]}"
+                :class="{'specal':item2.fildBool&&(item.lat || item.latitude)&&item[item2.fild]}"
                 class="flex-1"
                 :key="'c'+index2"
                 v-for="(item2,index2) in fild">
-                {{item2.fildBool?(item.lat?(item[item2.fild]?'是':'否'):'-'):item[item2.fild]}}
+                {{item2.fildBool?((item.lat || item.latitude)?(item[item2.fild]?'是':'否'):'-'):item[item2.fild]}}
               </span>
             </li>
           </ul>
@@ -139,9 +139,18 @@ export default {
       })
     },
     jumpMap(item) {
-      console.log(item)
       if (item.tablename) {
         this.$parent.$parent.$parent.$parent.showDiZai(item)
+        this.SetSpecalPoint(item)
+      }
+      if (item.upz) {
+        this.SetSpecalPoint(item)
+        // 专门给水闸模块用的 别的模块不能加isIframe
+        if (this.$parent.$parent.isIframe) {
+          this.$parent.$parent.dotIndex = 1
+        } else {
+          this.$parent.$parent.$parent.$parent.$refs.shuizhajiance.dotIndex = 1
+        }
       }
       if (!item.lat && !item.latitude) return
       this.$emit('itemClick', item)
@@ -218,7 +227,7 @@ export default {
   .specal {
     color: #0ED2F1;
   }
-  li>span{
+  li > span {
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;

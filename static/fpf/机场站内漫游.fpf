@@ -9,7 +9,7 @@
 <bottomAltitude>0.00</bottomAltitude>
 </geostyle3d>
 </style>
-<routestop name="Stop1" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop1" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84405014695228</longitude>
 <latitude>27.910120679592747</latitude>
@@ -35,7 +35,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop2" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop2" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84403269729599</longitude>
 <latitude>27.910090160780555</latitude>
@@ -61,7 +61,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop7" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop7" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84402073474223</longitude>
 <latitude>27.91007472030962</latitude>
@@ -87,7 +87,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop3" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop3" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84397664469257</longitude>
 <latitude>27.909999944937901</latitude>
@@ -113,7 +113,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop4" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop4" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.8439647126857</longitude>
 <latitude>27.909978887476143</latitude>
@@ -139,7 +139,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop5" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop5" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84393252402968</longitude>
 <latitude>27.909923247697648</latitude>
@@ -165,7 +165,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop27" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop27" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84393909780015</longitude>
 <latitude>27.909898269629792</latitude>
@@ -191,7 +191,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop6" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop6" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84366688812601</longitude>
 <latitude>27.910011940437567</latitude>
@@ -217,7 +217,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop9" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop9" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84365821556497</longitude>
 <latitude>27.910047745294722</latitude>
@@ -243,7 +243,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop10" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop10" speed="5.555556" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84342988219571</longitude>
 <latitude>27.909708554690251</latitude>
@@ -269,7 +269,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop11" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop11" speed="4.166667" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84342038925425</longitude>
 <latitude>27.909694351727534</latitude>
@@ -295,7 +295,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop12" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop12" speed="1.388889" excluded="False" viewType="camera">
 <camera>
 <longitude>120.8433114809788</longitude>
 <latitude>27.90966532912924</latitude>
@@ -321,7 +321,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop15" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop15" speed="2.777778" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84331069736444</longitude>
 <latitude>27.909655420124526</latitude>
@@ -347,7 +347,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop16" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop16" speed="2.777778" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84332183514516</longitude>
 <latitude>27.909701149762355</latitude>
@@ -373,7 +373,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop17" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop17" speed="2.777778" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84328248770834</longitude>
 <latitude>27.909755378964547</latitude>
@@ -399,7 +399,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop13" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop13" speed="2.777778" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84327084131321</longitude>
 <latitude>27.909776885984339</latitude>
@@ -425,7 +425,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop14" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop14" speed="2.777778" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84325855497046</longitude>
 <latitude>27.909780491605371</latitude>
@@ -451,7 +451,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop18" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop18" speed="1.388889" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84329772824209</longitude>
 <latitude>27.909862810334534</latitude>
@@ -477,7 +477,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop19" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop19" speed="1.388889" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84331098043474</longitude>
 <latitude>27.909892373390477</latitude>
@@ -503,7 +503,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop20" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop20" speed="1.388889" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84326536299821</longitude>
 <latitude>27.909912461809576</latitude>
@@ -529,7 +529,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop21" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop21" speed="1.388889" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84322467046613</longitude>
 <latitude>27.90991679791648</latitude>
@@ -581,7 +581,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop26" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop26" speed="4.166667" excluded="False" viewType="camera">
 <camera>
 <longitude>120.8431928628485</longitude>
 <latitude>27.909870937428558</latitude>
@@ -607,7 +607,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop24" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop24" speed="4.166667" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84314337091028</longitude>
 <latitude>27.909785350084544</latitude>
@@ -633,7 +633,7 @@
 <angularSpeed>1</angularSpeed>
 </setting>
 </routestop>
-<routestop name="Stop23" speed="0" excluded="False" viewType="camera">
+<routestop name="Stop23" speed="2.777778" excluded="False" viewType="camera">
 <camera>
 <longitude>120.84313552503973</longitude>
 <latitude>27.909773274886138</latitude>

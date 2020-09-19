@@ -85,7 +85,8 @@ export default {
   mixins: [monitorTypeMixin],
   computed: {
     ...mapGetters('warning', [
-      'mapLoaded'
+      'mapLoaded',
+      'waterState'
     ]),
     ...mapGetters([
       'userInfo'
@@ -158,7 +159,7 @@ export default {
     // this.monitor = setInterval(() => {
     //   this.initData(this.btnIndex)
     // }, this.monitorTime)
-    this.addPoint()
+    // this.addPoint()
   },
   beforeDestroy() {
     clearInterval(this.monitor)
@@ -173,27 +174,29 @@ export default {
     addPoint() {
       if (this.mapLoaded) {
         // 主动勾选点
-        this.dotIndex = [1, 0]
+        let index = -1
+        const indexArr = [0, 0]
+        for (let i = 0; i < this.btns.length; i++) {
+          if (this.btns[i] === this.waterState) {
+            indexArr[i] = 1
+            index = i
+            break
+          }
+        }
+        if (index === -1) {
+          return
+        }
+        this.dotIndex = indexArr
         let obj = {}
         for (let i = 0; i < this.monitorType.length; i++) {
-          if (this.monitorType[i].alias === this.point[0]) {
+          if (this.monitorType[i].alias === this.point[index]) {
             obj = JSON.parse(JSON.stringify(this.monitorType[i]))
             i = this.monitorType.length
           }
         }
         obj.checked = true
-        obj.from = this.point[0]
+        obj.from = this.point[index]
         this.SetCurrentMonitorType(obj)
-        // let obj1 = {}
-        // for (let i = 0; i < this.monitorType.length; i++) {
-        //   if (this.monitorType[i].alias === this.point[1]) {
-        //     obj1 = JSON.parse(JSON.stringify(this.monitorType[i]))
-        //     i = this.monitorType.length
-        //   }
-        // }
-        // obj1.checked = true
-        // obj1.from = this.point[1]
-        // this.SetCurrentMonitorTypeArr([obj1])
       }
     },
     initData(num) {

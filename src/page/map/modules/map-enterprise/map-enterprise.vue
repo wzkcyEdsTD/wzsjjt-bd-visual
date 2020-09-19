@@ -34,23 +34,26 @@
               <b class="value"></b>
             </div>
           </div>
-          <ItemTitle id="card1" title="效果图" color="orange" v-if="getBaseImg.length!=0"></ItemTitle>
+          <ItemTitle id="card1" :title="getImgname" color="orange" v-if="getBaseImg.length!=0"></ItemTitle>
           <div class="base-img" v-if="getBaseImg.length!=0">
             <div class="window" @mouseover="stop" @mouseleave="play">
               <ul class="container" :style="containerStyle">
                 <li>
                   <div style="display:inline-block;width:600px;height:400px">
-                    <img :src="getBaseImg[getBaseImg.length - 1]" alt />
+                    <img :src="pdfUrl+getBaseImg[getBaseImg.length - 1]+'.png'" alt />
+                    <div class="imgdata">{{getBaseImg[getBaseImg.length - 1]}}</div>
                   </div>
                 </li>
                 <li v-for="(item, index) in getBaseImg" :key="index">
                   <div style="display:inline-block;width:600px;height:400px">
-                    <img :src="item" alt />
+                    <img :src="pdfUrl+item+'.png'" alt />
+                    <div class="imgdata">{{item}}</div>
                   </div>
                 </li>
                 <li>
                   <div style="display:inline-block;width:600px;height:400px">
-                    <img :src="getBaseImg[0]" alt />
+                    <img :src="pdfUrl+getBaseImg[0]+'.png'" alt />
+                    <div class="imgdata">{{getBaseImg[0].png}}</div>
                   </div>
                 </li>
               </ul>
@@ -270,7 +273,7 @@ export default {
         description: "",
         value: "",
       };
-      let imgdatas =[];
+      let imgdatas = [];
       let imgsdata = [];
       const obj = JSON.parse(JSON.stringify(this.formData[0])) || {};
       for (let i = 0; i < obj.columnInfos.length; i++) {
@@ -278,14 +281,23 @@ export default {
           res = obj.columnInfos[i];
         }
       }
-      if (res.value != "") {
-        imgdatas = res.value.split(",");
-        for (let j = 0; j < imgdatas.length; j++) {
-          imgsdata[j] = "../../static/image/" + imgdatas[j];
+      if (res.value != null) {
+        if (res.value.length > 0) {
+          imgdatas = res.value.split(",");
         }
       }
 
-      return imgsdata;
+      return imgdatas;
+    },
+    getImgname() {
+      let imgname = "";
+      const obj = JSON.parse(JSON.stringify(this.formData[0])) || {};
+      for (let i = 0; i < obj.columnInfos.length; i++) {
+        if (obj.columnInfos[i].attname === "picture") {
+          imgname = obj.columnInfos[i].description;
+        }
+      }
+      return imgname;
     },
   },
   watch: {
@@ -300,7 +312,7 @@ export default {
       activeName: "card0",
       isShow: false,
       activeIndex: 0,
-      pdfUrl: "",
+      pdfUrl: "http://172.20.83.195:9000/file/",
       isShowBigImg: false,
       videoStyle: {},
       currentIndex: 1,
@@ -349,8 +361,8 @@ export default {
           this.transitionEnd = true;
           window.clearInterval(this.temp);
           this.distance = des;
-          if (des < -(600*this.getBaseImg.length)) this.distance = -600;
-          if (des > -600) this.distance = -(600*this.getBaseImg.length);
+          if (des < -(600 * this.getBaseImg.length)) this.distance = -600;
+          if (des > -600) this.distance = -(600 * this.getBaseImg.length);
         }
       }, 20);
     },
@@ -412,7 +424,6 @@ export default {
       } else {
         var Fieldsorder = me.$root.fwdata[5].replace(/,/g, "%2C");
       }
-      console.log("测试", Fieldsorder);
       getTableData(this.data.smid, this.data.table_name, Fieldsorder).then(
         (data) => {
           const resData = [];
@@ -701,6 +712,14 @@ img {
   user-select: none;
   height: 100%;
   width: 100%;
+}
+.imgdata {
+  position: absolute;
+  top: 4px;
+  float: left;
+  font-size: 24px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  color: rgba(255, 255, 255, 1);
 }
 .dots {
   position: absolute;

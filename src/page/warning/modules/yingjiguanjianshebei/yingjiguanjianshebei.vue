@@ -112,7 +112,7 @@
                 :fild="listFild4"></List>
             </div>
           </el-carousel-item>
-          <el-carousel-item v-if="userInfo && userInfo.districtName !== '永嘉县'">
+          <el-carousel-item>
             <div class="item">
               <div class="title">
                 <span>{{dataList[0].name}}(<i>{{weixinLength}}</i>){{dataList[0].unit}}</span>
@@ -137,7 +137,7 @@
 <script>
 import ItemTitle from '../item-title/item-title'
 import { mapActions, mapGetters } from 'vuex'
-import List from '../list/list-special'
+import List from '../list/list'
 
 export default {
   components: {
@@ -153,7 +153,7 @@ export default {
       listFild1: [
         { name: '名称', fild: 'isatphone_tel' },
         { name: '所属区域', fild: 'district' },
-        { name: '是否在线', fild: '', fildBool: true }
+        { name: '是否在线', fild: 'isOnline', fildBool: true }
       ],
       // 单兵设备
       listFild2: [
@@ -181,13 +181,13 @@ export default {
       dataList: [
         {
           name: '卫星电话',
-          value: '2',
+          value: '0',
           unit: '个',
           src: require(`./images/wxdh.png`)
         },
         {
           name: '单兵设备',
-          value: '2',
+          value: '0',
           unit: '台',
           src: require(`./images/dbsb.png`)
         }
@@ -201,13 +201,13 @@ export default {
       dataList2: [
         {
           name: '布控球',
-          value: '2',
+          value: '0',
           unit: '个',
           src: require(`./images/bkq.png`)
         },
         {
           name: '无人机',
-          value: '2',
+          value: '0',
           unit: '台',
           src: require(`./images/wrj.png`)
         }
@@ -275,7 +275,7 @@ export default {
       switch (this.carouselIndex) {
         case 0:
           this.danbingList[this.dataList[1].name].forEach(val => {
-            if (val.online) {
+            if (val.online === '是') {
               num += 1
             }
           })
@@ -283,7 +283,7 @@ export default {
           break
         case 1:
           this.danbingList[this.dataList2[0].name].forEach(val => {
-            if (val.online) {
+            if (val.online === '是') {
               num += 1
             }
           })
@@ -291,7 +291,7 @@ export default {
           break
         case 2:
           this.danbingList[this.dataList2[1].name].forEach(val => {
-            if (val.online) {
+            if (val.online === '是') {
               num += 1
             }
           })
@@ -304,6 +304,7 @@ export default {
       this.total = str
     },
     itemClick(data) {
+      console.log(data)
       if (this.carouselIndex === 0) {
         data.daxingguanjianshebeiType = '单兵设备'
         if (!this.status['单兵设备']) {
@@ -321,6 +322,7 @@ export default {
         }
       } else if (this.carouselIndex === 3) {
         data.daxingguanjianshebeiType = '卫星电话'
+        console.log(this.status['卫星电话'])
         if (!this.status['卫星电话']) {
           this.onclickme(0)
         }
@@ -368,6 +370,7 @@ export default {
         data = {
           name: '卫星电话'
         }
+        console.log(data)
         this.SetCurrentMonitorType(data)
       } else if (index === 1) {
         this.num = this.num + 1
@@ -384,6 +387,7 @@ export default {
         this.clearStatus()
         this.status[data.name] = true
       }
+      console.log(this.status)
       this.$bus.$emit('infoOfDaxing', this.status)
     },
     onclickme2(index) {

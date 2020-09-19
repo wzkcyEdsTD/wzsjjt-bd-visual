@@ -86,6 +86,7 @@ import {
   getSearchNameList,
   getTypeDetail,
   getPictureDistrictTypeNum,
+  getCommonPictureList,
   getNearAnalysisList,
 } from "api/map/map";
 
@@ -203,11 +204,11 @@ export default {
         return {};
       },
     },
-    getScreen:{
-      type:Object,
-      defaule(){
+    getScreen: {
+      type: Object,
+      defaule() {
         return {};
-      }
+      },
     },
     isCloseSpace: {
       type: Object,
@@ -287,18 +288,17 @@ export default {
         this.setDistrictLayer(this.selectedDistrict, true);
       }
     },
-    getScreen(data){
-      if(!data.refresh){
+    getScreen(data) {
+      if (!data.refresh) {
         return;
       }
-      if(data.key!=""){
-        var newsql = data.key +"="+"'"+data.value+"'";
-        console.log("newsql",newsql);
+      if (data.value != "") {
+        var newsql = data.key + "=" + "'" + data.value + "'";
+        console.log("newsql", newsql);
         this.setScreen(newsql);
-      }else{
+      } else {
         this.setScreen(this.$root.fwdata[10]);
       }
-
     },
     isCloseSpace(data) {
       if (data.data === true) {
@@ -973,113 +973,6 @@ export default {
           this.analysisType = data.value;
           // 画点操作
           document.getElementsByClassName("mapbox-gl-draw_point")[0].click();
-        } else if (data.value === "cheliangguiji") {
-          //车辆轨迹
-          var maps, myChart;
-          console.log("图层",document);
-          var ddd = document.getElementById("app");
-          myChart = this.$echarts.init(ddd);
-            var szRoad = {
-        success: true,
-        errorCode: 0,
-        errorMsg: "成功",
-        data: [
-            {ROAD_LINE: "104.096113,30.615077;104.098278,30.615873;104.098292,30.615875;104.098818,30.615953;104.098848,30.616028;104.098870,30.616195;104.098732,30.617522;104.098509,30.620377;104.098505,30.620469;104.097949,30.622939;104.097576,30.623194;104.097317,30.623492;104.094637,30.625320;104.094115,30.625740;104.094119,30.625785;104.094477,30.627981;104.094801,30.629104;104.094954,30.629733;104.094943,30.630138;104.094949,30.630221;104.094774,30.630891;104.094425,30.631573;104.093507,30.633908;104.092901,30.635783;104.092741,30.636169;104.090898,30.639007;104.088691,30.641360;104.085363,30.642658;104.083635,30.643239;104.081910,30.643978;104.081657,30.644021;104.080126,30.644908;104.078022,30.645938;104.074251,30.646484;104.070599,30.646582;104.067798,30.647174;104.066191,30.648032;104.066197,30.648432;104.066192,30.648534;104.066108,30.651254;104.066112,30.651402;104.066099,30.651729;104.066094,30.651789;104.066055,30.651950;104.065885,30.651965;104.065885,30.651965"},
-]
-    };
-
-    var taxiRoutes = [];
-    var data = szRoad.data;
-    var hStep = 300 / (data.length - 1);
-
-    var i = 0;
-    for (var x in data) {
-        var line = data[x];
-        var pointString = line.ROAD_LINE;
-        var pointArr = pointString.split(';');
-        var lnglats = [];
-        for (var j in pointArr) {
-            lnglats.push(pointArr[j].split(','))
-        }
-        taxiRoutes.push({
-            coords: lnglats,
-            lineStyle: {}
-        })
-    }
-    myChart.setOption({
-        mapbox: {
-            center: [104.091, 30.639],
-            zoom: 13.5,
-            pitch: 30,
-            bearing: -10,
-            altitudeScale: 2,
-            style: {
-                "version": 8,
-                "sources": {
-                    "raster-tiles": {
-                        "attribution": "",
-                        "type": "raster",
-                        "tiles": [],
-                        "tileSize": 256
-                    }
-                },
-                "layers": [{
-                    "id": "simple-tiles",
-                    "type": "raster",
-                    "source": "raster-tiles",
-                }]
-            },
-            postEffect: {
-                enable: true,
-                screenSpaceAmbientOcclusion: {
-                    enable: true,
-                    intensity: 1.2,
-                    radius: 6,
-                    quality: 'low'
-                },
-                screenSpaceReflection: {
-                    enable: true
-                }
-            },
-            light: {
-                main: {
-                    intensity: 1,
-                    shadow: true,
-                    shadowQuality: 'low'
-                },
-                ambient: {
-                    intensity: 0.
-                },
-                ambientCubemap: {
-                    texture: '',
-                    exposure: 1,
-                    diffuseIntensity: 0.5,
-                    specularIntensity: 2
-                }
-            }
-        },
-        series: [{
-            type: 'lines3D',
-            coordinateSystem: 'mapbox',
-            effect: {
-                show: true,
-                constantSpeed: 5,
-                trailWidth: 2,
-                trailLength: 0.4,
-                trailOpacity: 1,
-                spotIntensity: 10
-            },
-            blendMode: 'lighter',
-            polyline: true,
-            lineStyle: {
-                width: 0.1,
-                color: 'rgb(200, 40, 0)',
-                opacity: 0.
-            },
-            data: taxiRoutes
-        }]
-    });
-    myChart.getModel().getComponent('mapbox3D').getMapbox().addControl(new mapboxgl.NavigationControl(), 'top-left');
         } else if (data.value === "clearMapFeature") {
           // // 一键清空
           // this.measureMsg = "";
@@ -1969,160 +1862,163 @@ export default {
     checkValue(data) {
       if (data == "djh") {
         var host = "https://iserver.supermap.io";
-        $.get("https://iclient.supermap.io/examples/data/chinaEarthquake.csv", function (response) {
-          var dataObj = Papa.parse(response, {
-            skipEmptyLines: true,
-            header: true,
-          });
+        $.get(
+          "https://iclient.supermap.io/examples/data/chinaEarthquake.csv",
+          function (response) {
+            var dataObj = Papa.parse(response, {
+              skipEmptyLines: true,
+              header: true,
+            });
 
-          var data = dataObj.data;
+            var data = dataObj.data;
 
-          var geojson = {
-            type: "FeatureCollection",
-            features: [],
-          };
+            var geojson = {
+              type: "FeatureCollection",
+              features: [],
+            };
 
-          for (var i = 0; i < data.length; i++) {
-            var item = data[i];
-            var date = new Date(item.date);
-            var year = date.getFullYear();
+            for (var i = 0; i < data.length; i++) {
+              var item = data[i];
+              var date = new Date(item.date);
+              var year = date.getFullYear();
 
-            //2w+地震数据
-            if (year > 2000 && year < 2015) {
-              var feature = {
-                type: "feature",
-                geometry: {
-                  type: "Point",
-                  coordinates: [],
-                },
-                properties: {
-                  value: parseFloat(item.level),
-                },
-              };
-              feature.geometry.coordinates = [
-                parseFloat(item.X),
-                parseFloat(item.Y),
-              ];
+              //2w+地震数据
+              if (year > 2000 && year < 2015) {
+                var feature = {
+                  type: "feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [],
+                  },
+                  properties: {
+                    value: parseFloat(item.level),
+                  },
+                };
+                feature.geometry.coordinates = [
+                  parseFloat(item.X),
+                  parseFloat(item.Y),
+                ];
 
-              geojson.features.push(feature);
+                geojson.features.push(feature);
+              }
             }
-          }
-          mapa = new mapboxgl.Map({
-            container: "map",
-            style: {
-              version: 8,
-              glyphs:
-                host +
-                "/iserver/services/map-china400/rest/maps/China/tileFeature/sdffonts/{fontstack}/{range}.pbf",
-              sources: {
-                "raster-tiles": {
-                  type: "raster",
-                  tiles: [
-                    host +
-                      "/iserver/services/map-china400/rest/maps/China/zxyTileImage.png?z={z}&x={x}&y={y}",
-                  ],
-                  tileSize: 256,
+            mapa = new mapboxgl.Map({
+              container: "map",
+              style: {
+                version: 8,
+                glyphs:
+                  host +
+                  "/iserver/services/map-china400/rest/maps/China/tileFeature/sdffonts/{fontstack}/{range}.pbf",
+                sources: {
+                  "raster-tiles": {
+                    type: "raster",
+                    tiles: [
+                      host +
+                        "/iserver/services/map-china400/rest/maps/China/zxyTileImage.png?z={z}&x={x}&y={y}",
+                    ],
+                    tileSize: 256,
+                  },
                 },
-              },
 
-              layers: [
-                {
-                  id: "simple-tiles",
-                  type: "raster",
-                  source: "raster-tiles",
-                  minzoom: 0,
-                  maxzoom: 22,
-                },
-              ],
-            },
-            center: [112, 37.94],
-            zoom: 3,
-          });
-          map.on("load", function () {
-            map.addSource("earthquakes", {
-              type: "geojson",
-              data: geojson,
-              cluster: true,
-              clusterMaxZoom: 14,
-              clusterRadius: 100,
-            });
-
-            map.addLayer({
-              id: "clusters",
-              type: "circle",
-              source: "earthquakes",
-              filter: ["has", "point_count"],
-              paint: {
-                "circle-color": [
-                  "step",
-                  ["get", "point_count"],
-                  "#51bbd6",
-                  100,
-                  "#f1f075",
-                  750,
-                  "#f28cb1",
-                ],
-                "circle-radius": [
-                  "step",
-                  ["get", "point_count"],
-                  20,
-                  100,
-                  30,
-                  750,
-                  40,
+                layers: [
+                  {
+                    id: "simple-tiles",
+                    type: "raster",
+                    source: "raster-tiles",
+                    minzoom: 0,
+                    maxzoom: 22,
+                  },
                 ],
               },
+              center: [112, 37.94],
+              zoom: 3,
             });
-
-            map.addLayer({
-              id: "cluster-count",
-              type: "symbol",
-              source: "earthquakes",
-              filter: ["has", "point_count"],
-              layout: {
-                "text-field": "{point_count_abbreviated}",
-                "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-                "text-size": 12,
-              },
-            });
-
-            map.addLayer({
-              id: "unclustered-point",
-              type: "circle",
-              source: "earthquakes",
-              filter: ["!", ["has", "point_count"]],
-              paint: {
-                "circle-color": "#11b4da",
-                "circle-radius": 4,
-                "circle-stroke-width": 1,
-                "circle-stroke-color": "#fff",
-              },
-            });
-
-            map.on("click", "clusters", function (e) {
-              var features = map.queryRenderedFeatures(e.point, {
-                layers: ["clusters"],
+            map.on("load", function () {
+              map.addSource("earthquakes", {
+                type: "geojson",
+                data: geojson,
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 100,
               });
-              var clusterId = features[0].properties.cluster_id;
-              map
-                .getSource("earthquakes")
-                .getClusterExpansionZoom(clusterId, function (err, zoom) {
-                  if (err) return;
-                  map.easeTo({
-                    center: features[0].geometry.coordinates,
-                    zoom: zoom,
-                  });
-                });
-            });
 
-            map.on("mouseenter", "clusters", function () {
-              map.getCanvas().style.cursor = "pointer";
+              map.addLayer({
+                id: "clusters",
+                type: "circle",
+                source: "earthquakes",
+                filter: ["has", "point_count"],
+                paint: {
+                  "circle-color": [
+                    "step",
+                    ["get", "point_count"],
+                    "#51bbd6",
+                    100,
+                    "#f1f075",
+                    750,
+                    "#f28cb1",
+                  ],
+                  "circle-radius": [
+                    "step",
+                    ["get", "point_count"],
+                    20,
+                    100,
+                    30,
+                    750,
+                    40,
+                  ],
+                },
+              });
+
+              map.addLayer({
+                id: "cluster-count",
+                type: "symbol",
+                source: "earthquakes",
+                filter: ["has", "point_count"],
+                layout: {
+                  "text-field": "{point_count_abbreviated}",
+                  "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                  "text-size": 12,
+                },
+              });
+
+              map.addLayer({
+                id: "unclustered-point",
+                type: "circle",
+                source: "earthquakes",
+                filter: ["!", ["has", "point_count"]],
+                paint: {
+                  "circle-color": "#11b4da",
+                  "circle-radius": 4,
+                  "circle-stroke-width": 1,
+                  "circle-stroke-color": "#fff",
+                },
+              });
+
+              map.on("click", "clusters", function (e) {
+                var features = map.queryRenderedFeatures(e.point, {
+                  layers: ["clusters"],
+                });
+                var clusterId = features[0].properties.cluster_id;
+                map
+                  .getSource("earthquakes")
+                  .getClusterExpansionZoom(clusterId, function (err, zoom) {
+                    if (err) return;
+                    map.easeTo({
+                      center: features[0].geometry.coordinates,
+                      zoom: zoom,
+                    });
+                  });
+              });
+
+              map.on("mouseenter", "clusters", function () {
+                map.getCanvas().style.cursor = "pointer";
+              });
+              map.on("mouseleave", "clusters", function () {
+                map.getCanvas().style.cursor = "";
+              });
             });
-            map.on("mouseleave", "clusters", function () {
-              map.getCanvas().style.cursor = "";
-            });
-          });
-        });
+          }
+        );
       } else {
         this.basemapTiles = data;
         var tiles = "";
@@ -2589,13 +2485,23 @@ export default {
         });
       }
     },
-    setScreen(data){
-      if(this.map.getLayer("basemapDistrict_layer")||this.map.getLayer("districtBoundary_layer")){
-         this.removeLayer("basemapDistrict_layer");
+    setScreen(data) {
+      if (
+        this.map.getLayer("basemapDistrict_layer") ||
+        this.map.getLayer("districtBoundary_layer")
+      ) {
+        this.removeLayer("basemapDistrict_layer");
         this.removeLayer("districtBoundary_layer");
       }
-      this.removeLayer(this.$root.fwdata[7]+"_layer");
-      this.addScatterLayerFromServer(this.$root.fwdata[6],this.$root.fwdata[7],this.$root.fwdata[8],this.$root.fwdata[9],data,this.$root.fwdata[11]);
+      this.removeLayer(this.$root.fwdata[7] + "_layer");
+      this.addScatterLayerFromServer(
+        this.$root.fwdata[6],
+        this.$root.fwdata[7],
+        this.$root.fwdata[8],
+        this.$root.fwdata[9],
+        data,
+        this.$root.fwdata[11]
+      );
     },
     createFourColorLayer(layerFeatures, alias) {
       this.clearHeatPoints();
@@ -2985,6 +2891,9 @@ export default {
       var tiles = {};
       var basemapSourcesTiles = MAP_CONFIG.basemapSourcesTiles;
       var WWW_MAP = document.location.protocol + "//" + window.location.host;
+      if ("fourColorMap" === this.currentMapType) {
+        this.basemapTiles = "bigdata-raster";
+      }
       if (
         WWW_MAP.indexOf("http://pshyz.f3322.net:9000") < 0 &&
         WWW_MAP.indexOf("http://localhost") < 0
@@ -3444,10 +3353,6 @@ export default {
       });
       //地图点击实现
       this.map.on("click", function (e) {
-        __this.map.on("load", function () {
-      
-          console.log("底图数据",__this.map.style._layers);
-        })
         // console.log('e: ' + CircularJSON.stringify(e));
         var lngLat = e.lngLat;
         //console.log('lngLat: ' + CircularJSON.stringify(lngLat));
@@ -3460,7 +3365,7 @@ export default {
           coordinatesAry[1]
         );
         //判断是否为面或者线服务
-        if (__this.$root.fwdata[1] != "point") {
+        if (__this.$root.fwdata[1] == "polygon") {
           var getFeaturesByGeometryParameters, getFeaturesByGeometryService;
           getFeaturesByGeometryParameters = new SuperMap.REST.GetFeaturesByGeometryParameters(
             {
@@ -4332,43 +4237,19 @@ export default {
           coordinates: coordinatesAry,
         };
         var userDistrict = this.userInfo.district;
+        console.log("选中内容", checkedMenu);
         for (var i = 0; i < checkedMenu.length; i++) {
-          if (
-            "point" === checkedMenu[i].geotype &&
-            "" !== checkedMenu[i].icon.trim() &&
-            checkedMenu[i].icon !== null
-          ) {
-            this.addSpatialQueryResultSet(
-              queryPolygonGeometry,
-              checkedMenu[i].alias,
-              checkedMenu[i].datasetname,
-              checkedMenu[i].sql,
-              checkedMenu[i].icon,
-              checkedMenu[i].mapPopField,
-              checkedMenu[i].mapPopName,
-              userDistrict
-            );
-          }
-          if (checkedMenu[i].children && checkedMenu[i].children !== []) {
-            for (var j = 0; j < checkedMenu[i].children.length; j++) {
-              if (
-                "point" === checkedMenu[i].children[j].geotype &&
-                "" !== checkedMenu[i].children[j].icon.trim() &&
-                checkedMenu[i].children[j].icon !== null
-              ) {
-                this.addSpatialQueryResultSet(
-                  queryPolygonGeometry,
-                  checkedMenu[i].children[j].alias,
-                  checkedMenu[i].children[j].datasetname,
-                  checkedMenu[i].children[j].sql,
-                  checkedMenu[i].children[j].icon,
-                  checkedMenu[i].children[j].mapPopField,
-                  checkedMenu[i].children[j].mapPopName,
-                  userDistrict
-                );
-              }
-            }
-          }
+          this.addSpatialQueryResultSet(
+            queryPolygonGeometry,
+            checkedMenu[i].alias,
+            checkedMenu[i].datasetname,
+            checkedMenu[i].sql,
+            checkedMenu[i].icon,
+            checkedMenu[i].mapPopField,
+            checkedMenu[i].mapPopName,
+            checkedMenu[i].geotype,
+            userDistrict
+          );
         }
       } else {
         // var url = "http://192.168.1.100:8090/iserver/services/map-world/rest/maps/World";
@@ -5063,38 +4944,20 @@ export default {
       icon,
       mapPopField,
       mapPopName,
+      geotype,
       userDistrict
     ) {
       var coordinatesAry = queryPolygonGeometry.coordinates;
       var searchWithin = polygon(coordinatesAry);
-
-      var sqlParam = {};
-      if ("3303" === userDistrict) {
-        sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+      var __this = this;
+      var tablename = datasetname.substring(datasetname.indexOf(":") + 1);
+      var attributeFilterSql = "";
+      attributeFilterSql = sql;
+      var dataUrl =
+        "http://172.20.83.223:8090/iserver/services/data-WZKG0728/rest/data";
+      if (geotype == "point") {
+        var pointdatas = new SuperMap.GetFeaturesBySQLParameters({
           queryParameter: {
-            name: alias,
-            attributeFilter: "SHARED is null AND " + sql,
-          },
-          datasetNames: [datasetname],
-          fromIndex: 0,
-          toIndex: 99999,
-          maxFeatures: 100000,
-        });
-      } else {
-        var attributeFilterSql =
-          "DISTRICT_CODE='" + userDistrict + "' AND (" + sql + ")";
-        // geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
-        //     attributeFilter: attributeFilterSql,
-        //     datasetNames: [datasetname],
-        //     geometry: queryPolygonGeometry,
-        //     spatialQueryMode: "INTERSECT",
-        //     fromIndex: 0,
-        //     toIndex: 99999,
-        //     maxFeatures: 100000
-        // });
-        sqlParam = new SuperMap.GetFeaturesBySQLParameters({
-          queryParameter: {
-            name: alias,
             attributeFilter: attributeFilterSql,
           },
           datasetNames: [datasetname],
@@ -5102,16 +4965,12 @@ export default {
           toIndex: 99999,
           maxFeatures: 100000,
         });
-      }
 
-      var __this = this;
-      // 创建任意几何范围查询实例
-      new FeatureService(this.dataUrl).getFeaturesBySQL(sqlParam, function (
-        serviceResult
-      ) {
-        if (serviceResult && serviceResult.result) {
-          // 获取服务器返回的结果
-          var features = serviceResult.result.features;
+        new FeatureService(dataUrl).getFeaturesBySQL(pointdatas, function (
+          serviceResult
+        ) {
+          var res = serviceResult.result;
+          var features = res.features;
           var featuresAry = [];
           // 筛选出在多边形区域内的点
           for (var i = 0; i < features.features.length; i++) {
@@ -5122,20 +4981,31 @@ export default {
             }
           }
           features = { type: "FeatureCollection", features: featuresAry };
-
           for (var i = 0; i < features.features.length; i++) {
             features.features[i].properties.icon = icon;
             features.features[i].properties._mapPopField = mapPopField;
             features.features[i].properties._mapPopName = mapPopName;
           }
-          // console.log('features:' + CircularJSON.stringify(features));
           let eachData = {};
           eachData.menuData = __this.data;
           eachData.mapData = features;
           __this.$emit("spaceData", eachData);
-          // __this.previousDrawEvents = e;
-        }
-      });
+        });
+      }else if(geotype == "line"){
+                var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
+            datasetNames: [datasetname],
+            geometry: queryPolygonGeometry,
+            spatialQueryMode: "INTERSECT"
+        });
+        console.log("线",geometryParam);
+        new mapboxgl.supermap.FeatureService(dataUrl).getFeaturesByGeometry(geometryParam, function (serviceResult) {
+            __this.map.addSource("queryDatas", {
+                "type": "geojson",
+                "data": serviceResult.result.features
+            });
+            console.log("线数据",serviceResult.result.features);
+        });
+      }
     },
     addDrawLineLayer(coordinatesAry) {
       document.getElementsByClassName("mapbox-gl-draw_trash")[0].click();

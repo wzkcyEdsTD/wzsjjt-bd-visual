@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 14:46:44
- * @LastEditTime: 2020-08-05 14:17:47
+ * @LastEditTime: 2020-09-17 14:17:47
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\commonFrame\filterKeys.js
@@ -13,6 +13,7 @@ const BIM_BUILDING_DETAILS_KEYS = [
   "SMGEOMETRY",
   "ELEMENTID",
   "CATEGORYID",
+  "CATEGORYNAME",
   "TYPEID",
   "TYPENAME",
   "ELEMENTNAME",
@@ -25,8 +26,8 @@ const BIM_BUILDING_DETAILS_KEYS = [
   "INTERIORFACESAREA",
   "EXTERIORFACESAREA"
 ];
-const BIM_BUILDING_DETAILS_HASH = { CATEGORYNAME: "部件" };
-
+//const BIM_BUILDING_DETAILS_HASH = { CATEGORYNAME: "部件" };
+//const BIM_BUILDING_DETAILS_HASH = { CATEGORYNAME: "部件" };
 const BIM_BUILDING_ROOM_KEYS = [
   "SMID",
   "SMUSERID",
@@ -88,7 +89,7 @@ export const FILTER_KEYS = [
 
 /** 映射字段 */
 export const HASH_KEYS = {
-  ...BIM_BUILDING_DETAILS_HASH,
+  //...BIM_BUILDING_DETAILS_HASH,
   ...BIM_BUILDING_ROOM_HASH,
   ...BIM_AIRSTATION_DETAIL_HASH,
   ...BIM_FINE_MODEL_HASH

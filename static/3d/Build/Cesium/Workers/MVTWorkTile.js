@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9e6', './defined-21f7e510', './pbf-9fe59c76'], function (when, createTaskProcessorWorker, earcut2_2_1, defined, pbf) { 'use strict';
+define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9e6', './pbf-9fe59c76', './defined-21f7e510'], function (when, createTaskProcessorWorker, earcut2_2_1, pbf, defined) { 'use strict';
 
     function DictionaryCoder(strings) {
         this._stringToNumber = {};

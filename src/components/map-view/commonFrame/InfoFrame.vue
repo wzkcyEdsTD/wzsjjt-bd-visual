@@ -10,33 +10,39 @@
   <div class="bimframe" v-if="fixedForceBimData.length">
     <div class="_bimframe_">
       <i class="close" @click="closeBimFrame"></i>
-      <el-tabs v-model="activeTab">
-        <el-tab-pane label="详细信息" name="bim">
-          <button v-if="isMAX2012" @click="openRtmpVideo">查看监控</button>
-          <table>
-            <tbody>
-              <tr v-for="(d,i) in fixedForceBimData" :key="i">
-                <td>{{d.k}}</td>
-                <td>{{d.v}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </el-tab-pane>
-        <el-tab-pane label="房间信息" name="room" v-if="fixedForceRoomData.length">
-          <div v-if="forceBimIDS.length">
-            <button @click="openFloorStructure">查看楼层结构</button>
-            <button @click="closeFloorStructure">关闭楼层结构</button>
-          </div>
-          <table>
-            <tbody>
-              <tr v-for="(d,i) in fixedForceRoomData" :key="i">
-                <td>{{d.k}}</td>
-                <td>{{d.v}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </el-tab-pane>
-      </el-tabs>
+      <div class="inforFrameH">
+        <el-tabs v-model="activeTab">
+          <el-tab-pane label="详细信息" name="bim" class="detailedInformation">
+            <button v-if="isMAX2012" @click="openRtmpVideo">查看监控</button>
+            <table>
+              <tbody>
+                <tr
+                  v-for="(d,i) in fixedForceBimData"
+                  :key="i"
+                  v-infinite-scroll="fixedForceBimData"
+                >
+                  <td>{{d.k}}:</td>
+                  <td>{{d.v}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </el-tab-pane>
+          <el-tab-pane label="房间信息" name="room" v-if="fixedForceRoomData.length">
+            <div v-if="forceBimIDS.length">
+              <button @click="openFloorStructure">查看楼层结构</button>
+              <button @click="closeFloorStructure">关闭楼层结构</button>
+            </div>
+            <table>
+              <tbody>
+                <tr v-for="(d,i) in fixedForceRoomData" :key="i">
+                  <td>{{d.k}}:</td>
+                  <td>{{d.v}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
       <rtmpVideo v-if="isMAX2012 && isRtmpVideoOpen" />
     </div>
   </div>
@@ -106,7 +112,31 @@ export default {
   },
 };
 </script>
-
 <style lang="less" scoped>
 @import url("./InfoFrame.less");
+</style>
+
+<style>
+.inforFrameH .el-tabs__nav-wrap {
+  height: 67px;
+}
+.inforFrameH .el-tabs__nav-scroll {
+  margin-top: 10px;
+}
+/* .inforFrameH .el-tabs__item{
+  margin-left: 19px;
+} */
+/*去除下划线 element默认样式坑爹的玩意*/
+.inforFrameH .el-tabs__active-bar {
+  background-color: transparent !important;
+}
+.inforFrameH .el-tabs__nav-wrap::after {
+  position: static !important;
+}
+.inforFrameH >>> .el-tabs__nav-wrap::after {
+  position: static !important;
+}
+.inforFrameH .el-tabs__header{
+  height: 37px;
+}
 </style>

@@ -57,6 +57,21 @@ const mutations = {
   },
   [types.SET_FORCE_ROOM_DATA](state, data) {
     state.forceRoomData = data;
+  },
+  [types.SET_HOSPITAL_LIST](state, data) {
+    state.hospitalList = data;
+  },
+  [types.SET_MEDICAL_LIST_WITH_GEOMETRY](state, data) {
+    state.medicalListWithGeometry = data;
+  },
+  [types.SET_MEDICAL_LIST](state, data) {
+    state.medicalList = data;
+  },
+  [types.SET_RTMP_LIST](state, data) {
+    state.rtmpList = data;
+  },
+  [types.SET_IS_INFO_FRAME](state, bool) {
+    state.isInfoFrame = bool;
   }
 };
 

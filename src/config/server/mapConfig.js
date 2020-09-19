@@ -60,7 +60,7 @@ export const ServiceUrl = {
     "http://172.20.83.223:8098/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
   // 温州白模
   WZBaimo:
-    "http://10.36.234.83:8098/iserver/services/3D-SW_YJ/rest/realspace/datas/RES_YJ_Z_EraseMax_Model@Baimo/config",
+  "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
   // 三维影像地图2019
   // SWImage: 'http://10.36.234.83:8098/iserver/services/3D-YX_2019_SW/rest/realspace/datas/YX_2019_SW',
   SWImage:
@@ -89,11 +89,21 @@ export const ServiceUrl = {
   YJBZMap:
     //"http://10.36.245.203:8090/iserver/services/map-agscache-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
     "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJSGBZB2019CGCS2000/rest/maps/YJ_SG_BZB_2019_CGCS2000",
+  
   // mvt矢量服务
- 
   YJMVT:
    //   "http://10.36.234.83:8098/iserver/services/map-mvt-XZQHYJ/restjsr/v1/vectortile/maps/XZQH_YJ"
-    "http://172.20.83.223:8098/iserver/services/map-mvt-SummaryPOI/restjsr/v1/vectortile/maps/Summary_POI"
+    "http://172.20.83.223:8098/iserver/services/map-mvt-SummaryPOI/restjsr/v1/vectortile/maps/Summary_POI",
+  
+  //  全市区精模
+  WZMODEL:
+    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config"
+    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config",
+    // "http://10.36.217.240:8098/iserver/services/3D-mongodb/rest/realspace/datas/JM_LC_2012_1/config"
+
+    //  大数据底图
+    DataImage:
+    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-DSJCGS2000SW/rest/realspace/datas/DSJ_CGS2000_SW"
 };
 
 export const dataSourceUrl = {
@@ -110,19 +120,30 @@ export const dataSourceUrl = {
 };
 
 export const BimSourceURL = {
+  //安置房三维服务
   SCENE_URL:
     //"http://172.20.83.223:8098/iserver/services/3D-Placement_house_0728/rest/realspace",
     "http://172.20.83.223:8098/iserver/services/3D-Placement_house_onetable/rest/realspace",
+  //安置房数据服务  
   SCENE_DATA_URL:
     //"http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data",
     "http://172.20.83.223:8098/iserver/services/data-Placement_house_onetable/rest/data",
+  //安置房sql查询  
   SCENE_SQL_URL:
     //"http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data/featureResults.rjson?returnContent=true",
     "http://172.20.83.223:8098/iserver/services/data-Placement_house_0728/rest/data/featureResults.rjson?returnContent=true",
+  //机场三维数据  
   STATION_SCENE_URL:
     "http://172.20.83.223:8098/iserver/services/3D-Airport_Station/rest/realspace",
+  //机场数据服务    
   STATION_DATA_URL:
     "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data",
+  //地下管线  
   UNDERGROUND_SCENE_URL:
-    "http://172.20.83.223:8098/iserver/services/3D-GSLINE/rest/realspace"
+    "http://172.20.83.223:8098/iserver/services/3D-ResultNetWork_JSLINE/rest/realspace",
+  //S1线轨道三维服务  
+  track_URL:
+    "http://172.20.83.223:8098/iserver/services/3D-GuiDaoS1Xian/rest/realspace",
+  Rivers_URL:
+    "http://172.20.83.223:8098/iserver/services/3D-ShuiYuYanShi/rest/realspace",  
 };

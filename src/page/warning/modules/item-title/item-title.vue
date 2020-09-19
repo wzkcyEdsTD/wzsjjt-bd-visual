@@ -30,31 +30,32 @@ export default {
 </script>
 
 <style scoped lang="less">
-  /deep/.input-with-select.el-input.el-input-group.el-input-group--append {
+  /deep/ .input-with-select.el-input.el-input-group.el-input-group--append {
     width: 1.1rem;
     float: right;
     margin-right: 0.5rem;
-    height: 0.3rem;
-    margin-top: 0.025rem;
-    /deep/.el-input-group__append{
+    height: 0.24rem;
+    margin-top: 0.06rem;
+    /deep/ .el-input-group__append {
       padding-left: 0.01rem;
       padding-right: 0.01rem;
       background: transparent;
       border-color: #43bafe;
     }
-    .el-input__inner{
+    .el-input__inner {
       background: transparent;
       border-color: #43bafe;
       color: #fff;
+      height:0.24rem;
     }
-    button{
+    button {
       background: transparent;
       color: #43bafe;
       // padding-left: 0.01rem;
       // padding-right: 0.01rem;
     }
   }
-  /deep/ .el-input-group--append .el-input__inner, .el-input-group__prepend{
+  /deep/ .el-input-group--append .el-input__inner, .el-input-group__prepend {
     height: 0.3rem;
   }
   .item-title {

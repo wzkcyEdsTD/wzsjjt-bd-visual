@@ -168,7 +168,6 @@ export default {
       let checkedList = this.$refs.tree.getCheckedKeys()
       // console.log(checkedList)
       if (checkedList.length === 0) {
-        console.log('setCheckedKeys16')
         this.$refs.tree.setCheckedKeys([data.type])
         // 设置数组
       } else {

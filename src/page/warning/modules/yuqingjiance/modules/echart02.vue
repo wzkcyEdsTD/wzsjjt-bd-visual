@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
-    <div class="tip">站点top10</div>
-    <div ref="echart" class="echart"></div>
+    <div class="tip">{{title}}</div>
+    <div ref="echart" class="echart top10"></div>
   </div>
 </template>
 
@@ -30,7 +30,8 @@ export default {
   },
   data() {
     return {
-      echart: null
+      echart: null,
+      title: ''
     }
   },
   computed: {
@@ -39,6 +40,24 @@ export default {
     ])
   },
   mounted() {
+    console.log(this.$store.state)
+    if (this.$store.state.userInfo.districtName === '文成县') {
+      this.title = '全部监测点'
+    } else {
+      this.title = '站点top10'
+    }
+    document.getElementsByClassName('yq-spc')[0].onmousemove = function(e) {
+      e.stopPropagation()
+    }
+    document.getElementsByClassName('echart')[1].onmousemove = function(e) {
+      e.stopPropagation()
+    }
+    document.getElementsByClassName('echart')[2].onmousemove = function(e) {
+      e.stopPropagation()
+    }
+    document.getElementsByClassName('echart')[3].onmousemove = function(e) {
+      e.stopPropagation()
+    }
     this.initData()
   },
   methods: {
@@ -62,8 +81,9 @@ export default {
         this.data.forEach(() => {
           minArr.push(min)
         })
+        console.log(this.data)
         const myChart = this.$echarts.init(this.$refs.echart)
-        myChart.setOption({
+        let option = {
           grid: {
             show: false,
             top: 30,
@@ -186,7 +206,25 @@ export default {
               }
             }
           ]
-        })
+        }
+        if (this.$store.state.userInfo.districtName === '文成县') {
+          option = {
+            dataZoom: [
+              {
+                show: true,
+                height: 15,
+                start: 0,
+                end: 10,
+                top: '90%',
+                textStyle: {
+                  color: '#fff'
+                }
+              }
+            ],
+            ...option
+          }
+        }
+        myChart.setOption(option)
         this.echart = myChart
         const me = this
         myChart.off('click')

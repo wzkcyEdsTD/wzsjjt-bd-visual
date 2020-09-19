@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      isShow: true,
+      isShow: false,
       isSmall: false
     }
   },
@@ -107,15 +107,17 @@ export default {
     min-height: 0.4rem;
     transition: all 0.3s linear;
     background: rgba(36, 120, 160, 0.5);
-    position: relative;
+    position: absolute;
     color: #fff;
     padding: 0.1rem 0.05rem 0.1rem 0.1rem;
-    width: 1.8rem;
+    width: 2.2rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     border-radius: 0.08rem;
     margin-left: 0;
+    right: 0;
+    bottom: 0;
     .no-wrap();
     .close {
       position: absolute;

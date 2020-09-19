@@ -22,20 +22,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      data: [
-        // {
-        //   key: 1,
-        //   name: '雨情监测',
-        //   alias: 'yuqingjiance',
-        //   url: 'http://pshyz.f3322.net:8099/iserver/services/data-wenzhouyingji/rest/data',
-        //   icon: './static/gitimage/3d/yuqingjiance.png',
-        //   datasetname: 'pg_wzyjdb:rain_stabasicatt',
-        //   sql: 'SMID >= 0',
-        //   geotype: 'point',
-        //   mapPopName: ['名称', '地区', '地点'], // 地图pop提示框名称
-        //   mapPopField: ['NAME', 'DISTRICT', 'STLC'] // 地图pop提示框字段
-        // }
-      ],
+      data: [],
       defaultProps: {
         children: 'children',
         label: 'name',
@@ -79,7 +66,6 @@ export default {
             })
           }
         }
-        console.log('setCheckedKeys15')
         this.$refs.tree.setCheckedKeys(checkedKeysArr)
       }
     }

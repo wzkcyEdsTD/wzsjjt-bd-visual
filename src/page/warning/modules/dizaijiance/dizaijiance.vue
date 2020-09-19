@@ -1,6 +1,10 @@
 <template>
   <div class="dizaijiance">
-    <ItemTitle title="地质灾害监测" :num="total"></ItemTitle>
+    <ItemTitle title="地质灾害监测" :num="total">
+      <el-input placeholder="输入名称" v-model="searchContent" @change='initData(true)' class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click="initData(true)"></el-button>
+      </el-input>
+    </ItemTitle>
     <div class="title-btn-group">
      <span class="dot-white" @click="changeDot">
         <img v-if="dotIndex===0" src="../item-title/images/dot_white.png"/>
@@ -131,48 +135,15 @@ export default {
         { name: '地区', fild: 'district' },
         { name: '类型', fild: 'type' }
       ],
-      formList: []
+      formList: [],
+      searchContent: ''
     }
   },
   methods: {
-    initData() {
-      // getPointList().then((data) => {
-      //   const newData = JSON.parse(JSON.stringify(this.list))
-      //   for (let i = 0; i < data.details.length; i++) {
-      //     switch (data.details[i].name) {
-      //       case '地表位移':
-      //         newData[0] = Object.assign(newData[0], data.details[i])
-      //         break
-      //       case 'GPS':
-      //         newData[1] = Object.assign(newData[1], data.details[i])
-      //         break
-      //       case '双轴倾斜':
-      //         newData[2] = Object.assign(newData[2], data.details[i])
-      //         break
-      //       case '雨量':
-      //         newData[3] = Object.assign(newData[3], data.details[i])
-      //         break
-      //     }
-      //   }
-      //   for (let i = 0; i < data.details.length; i++) {
-      //     if (data.details[i].info) {
-      //       for (let j = 0; j < data.details[i].info.length; j++) {
-      //         data.details[i].info[j].type = i
-      //       }
-      //     }
-      //   }
-      //   // newData[2].info = []
-      //   // newData[1].info = []
-      //   let warningNum = 0
-      //   for (let i = 0; i < newData.length; i++) {
-      //     warningNum += newData[i].warn
-      //   }
-      //   this.minDataWarning = warningNum
-      //   console.log(newData)
-      //   this.list = newData
-      // })
-      getDeviceList().then(res => {
-        console.log(res)
+    // 加载数据
+    initData(bool) {
+      getDeviceList(bool ? this.searchContent : '').then(res => {
+        // console.log(res)
         this.formList = res
         this.list[0].info = res.map((val, index) => {
           val.index = index + 1
@@ -182,6 +153,7 @@ export default {
       })
     },
     itemClick(data) {
+      console.log(data)
       if (!this.list[data.type].checked) {
         this.addDizai(data.type)
       }
@@ -193,6 +165,7 @@ export default {
     changeActiveIndex(num) {
       this.activeIndex = num
     },
+    // 地图展示图层
     changeDot() {
       this.dotIndex = (this.dotIndex + 1) % 2
       const arr = []
@@ -241,7 +214,8 @@ export default {
       'SetCurrentMonitorTypeArr',
       'SetCurrentMonitorType',
       'SetCurrentPoints',
-      'DeleteCurrentPoints'
+      'DeleteCurrentPoints',
+      'SetSpecalPoint'
     ])
   },
   mounted() {

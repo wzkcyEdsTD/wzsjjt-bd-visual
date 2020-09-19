@@ -36,7 +36,7 @@
     function load() {
         var includes = (targetScript.getAttribute('include') || "").split(",");
         var excludes = (targetScript.getAttribute('exclude') || "").split(",");
-        inputScript("../js/tokengenerator.js");
+        inputScript("static/js/tokengenerator.js");
         var jQueryInclude = false;
         if (!inArray(excludes, 'example-i18n')) {
             inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
@@ -44,8 +44,8 @@
             inputScript("https://cdn.bootcss.com/i18next/10.0.7/i18next.min.js");
             inputScript("https://cdn.bootcss.com/jquery-i18next/1.2.1/jquery-i18next.min.js");
 
-            inputScript("../js/utils.js");
-            inputScript("../js/localization.js");
+            inputScript("static/js/utils.js");
+            inputScript("static/js/localization.js");
             document.writeln("<script>Localization.initializeI18N('../', function () {Localization.localize();Localization.initGlobal();}); </script>");
             jQueryInclude = true;
         }

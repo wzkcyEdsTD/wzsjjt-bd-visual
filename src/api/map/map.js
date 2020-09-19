@@ -11,7 +11,6 @@ export function getRoleCategory() {
   const url = '/coverage/coverage/getRoleCategory'
   return get(url)
 }
-
 /**
  * 获取周边分析的信息树
  * @returns {*}
