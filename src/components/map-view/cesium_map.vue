@@ -232,12 +232,12 @@ export default {
           window.alert(error);
         });
 
-      /*    this.datalayer = viewer.imageryLayers.addImageryProvider(
+         /* this.datalayer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
         })
-      );
-  */
+      ); */
+      
       // 叠加mvt图层
       var mvtMap = viewer.scene.addVectorTilesMap({
         url: ServiceUrl.YJMVT,

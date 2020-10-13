@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="btn-wrapper">
+<!--     <div class="btn-wrapper">
       <div class="bt spec" @click="zoomIn()">
         <img src="./images/bigger.png"/>
       </div>
@@ -9,7 +9,7 @@
       <div class="bt spec" @click="zoomOut()">
         <img src="./images/smaller.png"/>
       </div>
-    </div>
+    </div> -->
     <div class="btn-wrapper">
       <div class="bt btClick" @click="mapInit()" :class="{active : currentIndex === 0}">
         <img src="./images/earth.png" class="button1"/>

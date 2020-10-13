@@ -16,20 +16,39 @@
         >{{item.name}}</div>
       </div>
     </div>
+   <!--  物联网使用 -->
+    <div 
+      class="map-toolbar-box1  map-toolbar-spc"
+      :class="this.collapse1?'collapse':''"
+      v-if="currentMapType =='internetthings'"
+    >
+      <div class="map-type">
+        <div
+          class="item"
+          :class="'item'+(index+1) + ' ' + (item.value===currentMapType?'active' + (index + 1):'')"
+          @click="changeMapType(item)"
+          :title="item.name"
+          :key="index"
+          v-for="(item,index) in mapType"
+        >{{item.name}}</div>
+      </div>
+    </div>
     <div
       class="toCenter1"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="全图" v-if="currentMapType!='internetthings'"
+      title="全图"
+      v-if="currentMapType!='internetthings'"
     >
       <i
         style="width: 100%;height: 0.42rem;"
         @click="changeMapTollBar({ name: '地图居中', value: 'map_init' })"
       ></i>
     </div>
-        <div
+    <div
       class="toCenter2"
       :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
-      title="物联网" v-if="currentMapType!='internetthings'"
+      title="物联网"
+      v-if="currentMapType!='internetthings'"
     >
       <i
         style="width: 100%;height: 0.42rem;"
@@ -39,7 +58,8 @@
     <div
       class="toCenter"
       :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: centerShow,moveRight1:currentMapType == 'cesiumMap'}"
-      title="底图"  v-if="currentMapType!='internetthings'"
+      title="底图"
+      v-if="currentMapType!='internetthings'"
     >
       <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
       <!-- 3d地图工具 -->
@@ -77,7 +97,8 @@
     </div>
     <div
       class="map-toolbar-box-map"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"  v-if="currentMapType!='internetthings'"
+      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"
+      v-if="currentMapType!='internetthings'"
     >
       <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
         <i style="width: 32px;height: 32px;" @click="mapTool"></i>
@@ -719,6 +740,189 @@ export default {
   /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
   border: 1px #5ab0e5 solid !important;
   padding: 0rem 0rem !important;
+}
+.map-toolbar-box1 {
+  position: absolute;
+  padding: 0.05rem 0.06rem;
+  margin: 0.1rem 0 0 0;
+  background: rgba(0, 0, 0, 0);
+  /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
+  /*border:1px #5ab0e5 solid;*/
+  border-radius: 6px;
+  left: 5.4rem;
+  top: 0rem;
+  z-index: 2;
+  transition: left 0.3s linear;
+  &.collapse {
+    left: 0.16rem;
+  }
+  .tool-detail {
+    .item {
+      margin-top: 0.08rem !important;
+      line-height: 0.18rem !important;
+      padding-top: 0.12rem;
+      padding-bottom: 0.05rem;
+      & + .item {
+        &:after {
+          top: -0.04rem;
+        }
+      }
+    }
+  }
+  .map-type {
+    .item {
+      width: 0.34rem;
+      margin-left: 8px;
+      cursor: pointer;
+      border-radius: 2px;
+      position: relative;
+      line-height: 0.26rem;
+      color: #fff;
+      text-align: center;
+      & + .item {
+        margin-top: 0rem;
+        &:after {
+          content: "";
+          height: 0.01rem;
+          width: 80%;
+          position: absolute;
+          // top: -0.1rem;
+          left: 50%;
+          top: 0rem;
+          transform: translate(-50%, 0);
+          background: rgba(255, 255, 255, 0.3);
+        }
+      }
+      /*&:hover > .item-child {*/
+      /*  display: block;*/
+      /*}*/
+    }
+    .item:hover,
+    .item.active {
+      color: #00baff;
+    }
+    .item.disabled:hover,
+    .item.disabled {
+      color: #999;
+      cursor: default;
+    }
+    .item1 {
+      float: left;
+      width: 0.8rem !important;
+      height: 0.28rem !important;
+      border-right: 1px #5ab0e5 solid;
+      text-align: center;
+      margin-left: 0px !important;
+    }
+    .item2 {
+      float: left;
+      width: 0.8rem !important;
+      height: 0.28rem !important;
+      border-right: 1px #5ab0e5 solid;
+      margin-left: 0px !important;
+      text-align: center;
+    }
+    .item3 {
+      float: left;
+      width: 1.5rem !important;
+      height: 0.28rem !important;
+      margin-left: 0px !important;
+      border-right: 1px #5ab0e5 solid;
+      text-align: center;
+    }
+    .item4 {
+      float: left;
+      width: 0.8rem !important;
+      height: 0.28rem !important;
+      margin-left: 0px !important;
+      text-align: center;
+    }
+    .item1:hover {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .item2:hover {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .item3:hover {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .item4:hover {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .active1 {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .active2 {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .active3 {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+    .active4 {
+      background-color: #002749;
+      box-shadow: 0px 0px 10px rgba(137, 210, 255, 0.8) inset;
+      color: #00baff;
+    }
+  }
+  .item-child {
+    transition: left 0.3s linear !important;
+    position: fixed;
+    left: 4.44rem;
+    color: #fff;
+    z-index: 9999;
+    > div {
+      margin-left: 0.24rem;
+      padding: 0.12rem 0.25rem;
+      border-radius: 4px;
+      background-color: rgba(0, 47, 87, 0.9);
+      box-shadow: rgb(46, 208, 255, 0.4) 0px 0px 12px inset;
+      > div {
+        line-height: 0.25rem;
+        white-space: nowrap;
+        label {
+          margin: 0;
+          display: inline-block;
+          span {
+            background-color: rgba(0, 0, 0, 0);
+            border: 2px solid #007ce4;
+            border-radius: 0;
+            display: inline-block;
+            height: 0.16rem;
+            margin-right: 0.1rem;
+            margin-top: -0.02rem;
+            vertical-align: middle;
+            width: 0.16rem;
+            line-height: 1;
+          }
+          &.active {
+            span:after {
+              background-color: #1167af;
+              border-radius: 0;
+              content: "";
+              display: inline-block;
+              height: 0.08rem;
+              margin: 0rem 0.02rem 0.04rem 0.02rem;
+              width: 0.08rem;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 .map-toolbar-box {
   position: absolute;

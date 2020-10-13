@@ -44,11 +44,9 @@ import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 const LAYER_NAME = [
-  "顶板",
-  "机场站-B1",
-  "机场站-B2",
-  "机场站标识",
-  "机场站标注",
+  "顶板new",
+  "机场站B2拆分_0915",
+  "机场站B1拆分_0916",
 ];
 export default {
   name: "StationTour",
@@ -120,6 +118,7 @@ export default {
     //  初始化BIM场景
     initBimScene(fn) {
       this.viewer.scene.undergroundMode = true;
+      this.viewer.scene.debugShowFramesPerSecond = true;//帧数
       const _LAYER_ = this.viewer.scene.layers.find(LAYER_NAME[0]);
       if (_LAYER_) {
         LAYER_NAME.map((d) => (this.viewer.scene.layers.find(d).visible = true));
@@ -127,6 +126,7 @@ export default {
         const { STATION_SCENE_URL, STATION_DATA_URL } = BimSourceURL;
         const promise = this.viewer.scene.open(STATION_SCENE_URL);
         Cesium.when(promise, async (layers) => {
+
           LAYER_NAME.map((d, index) => {
             if (index > 2) return undefined;
             const layer = this.viewer.scene.layers.find(d);

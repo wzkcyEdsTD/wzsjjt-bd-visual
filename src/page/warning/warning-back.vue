@@ -249,7 +249,7 @@
     <!--      <rightbtn/>-->
     <!--    </div>-->
     <div></div>
-    <WarningBar></WarningBar>
+
     <VideoList></VideoList>
     <VideoList2></VideoList2>
     <CenterMap1
@@ -285,7 +285,7 @@
 import DizaiDialog from './modules/dizaijiance/dizaiDialog'
 import ShuizhaDialog from './modules/shuizhajiance/shuizhaDialog'
 import Map from './modules/map/map'
-import WarningBar from './modules/map/warningBar'
+
 import VideoList from './modules/map/videoList'
 import VideoList2 from './modules/map/videoList2'
 import Yuqingjiance from './modules/yuqingjiance/yuqingjiance'
@@ -759,7 +759,6 @@ export default {
     // Daxingguanjianshebei,
     DizaiDialog,
     ShuizhaDialog,
-    WarningBar,
     VideoList,
     VideoList2,
     TyphoonVideo,
