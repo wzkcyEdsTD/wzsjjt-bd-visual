@@ -4,6 +4,7 @@ export const typhoonInfo = state => state.typhoonInfo
 export const monitorType = state => state.monitorType
 export const currentMonitorType = state => state.currentMonitorType
 export const currentMonitorTypeArr = state => state.currentMonitorTypeArr
+export const videoFirstMenuID = state => state.videoFirstMenuID
 export const specalPoint = state => state.specalPoint
 export const waterState = state => state.waterState
 export const mapLoaded = state => state.mapLoaded

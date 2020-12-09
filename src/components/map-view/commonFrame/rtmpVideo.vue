@@ -10,13 +10,21 @@
   <div class="rtmpVideo">
     <i class="close" @click="closeRtmpVideo"></i>
     <iframe
-      src="http://10.36.226.3:8089/video/index.html?url=rtmp://172.20.23.37:1935/service/PuId-ChannelNo=127905000100000001-003609&PlayMethod=0&StreamingType=1&NetType=1&FCode=9"
+      :src= SP
     ></iframe>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
+  computed:{
+    ...mapGetters("map",["forceBimSP"]),
+    SP(){
+      console.log("视频监控",this.forceBimSP);
+      return this.forceBimSP;
+    }
+  },
   methods: {
     closeRtmpVideo() {
       this.$parent.isRtmpVideoOpen = false;

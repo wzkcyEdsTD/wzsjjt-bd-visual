@@ -20,6 +20,9 @@ const mutations = {
   [types.SET_SPECAL_POINT](state, data) {
     state.specalPoint = data
   },
+  [types.SET_FIRST_MENU_ID](state,data){
+    state.videoFirstMenuID = data;
+  },
   [types.SET_WATER_STATE](state, data) {
     state.waterState = data
   },

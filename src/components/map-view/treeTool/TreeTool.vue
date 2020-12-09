@@ -16,7 +16,12 @@
       class="layerPopover"
       v-model="visible"
     >
-      <el-input v-model="filterText" class="treeFilterInput" placeholder="搜索" size="small" />
+      <el-input
+        v-model="filterText"
+        class="treeFilterInput"
+        placeholder="搜索"
+        size="small"
+      />
       <div class="layerTreeContainer">
         <el-tree
           ref="tree"
@@ -68,21 +73,25 @@
         <ul class="result-list">
           <li
             class="result-item"
-            :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}"
+            :class="{
+              checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME),
+            }"
             v-for="item in extraSearchList"
             :key="item.attributes.SMID"
           >
             <div class="left">
-              <p class="name">{{item.attributes.SHORTNAME}}</p>
+              <p class="name">{{ item.attributes.SHORTNAME }}</p>
               <div class="address">
                 <i class="icon-position"></i>
-                <span>{{item.attributes.ADDRESS}}</span>
+                <span>{{ item.attributes.ADDRESS }}</span>
               </div>
             </div>
             <div class="right">
               <input
                 type="checkbox"
-                :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0"
+                :checked="
+                  hospitalChecked.indexOf(item.attributes.SHORTNAME) >= 0
+                "
                 @click="checkedOne(item)"
               />
             </div>
@@ -92,8 +101,8 @@
     </el-popover>
     <img
       slot="reference"
-      :class="{animated: true, pulse: rotateIn}"
-      style="animation-duration: 0.5s;"
+      :class="{ animated: true, pulse: rotateIn }"
+      style="animation-duration: 0.5s"
       :src="avatar"
       width="59px"
       height="60px"
@@ -134,6 +143,7 @@ export default {
       //  cesium Object
       entityMap: {},
       featureMap: {}, //  源数据,量小
+      dsjdt: "",
     };
   },
   computed: {
@@ -154,7 +164,7 @@ export default {
   //   this.handler.destroy();
   // },
   methods: {
-    ...mapActions("map", SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
+    ...mapActions("map", ["SetForceBimName"]), //SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY资源图层的参数
     eventRegsiter() {
       // this.handler = new Cesium.ScreenSpaceEventHandler(
       //   window.earth.scene.canvas
@@ -220,9 +230,11 @@ export default {
             this.getPOIPickedFeature(node);
           }
         } else if (node.type == "model") {
-          if (node.fgmurl) {
-            //精模+小区范围线
-            console.log("data",this.data);
+          if (node.dlurl) {
+            //精模
+            //window.earth.scene.globe.globeAlpha = 0;
+            var ellipsoidProvider = new Cesium.EllipsoidTerrainProvider();
+            window.earth.terrainProvider = ellipsoidProvider;
             const LAYERJM = window.earth.scene.layers.find(node.id);
             if (!LAYERJM) {
               const PROMISEJM = window.earth.scene.addS3MTilesLayerByScp(
@@ -231,14 +243,63 @@ export default {
                   name: node.id,
                 }
               );
-              const FGM = window.earth.scene.addVectorTilesMap({
-                url: node.fgmurl,
-                canvasWidth: 512,
-                name: "fgm" + node.id,
+              const dlurl = window.earth.scene.addS3MTilesLayerByScp(
+                node.dlurl,
+                {
+                  name: "dlurl",
+                }
+              );
+              const zburl = window.earth.scene.addS3MTilesLayerByScp(
+                node.zburl,
+                {
+                  name: "zburl",
+                }
+              );
+              const qturl = window.earth.scene.addS3MTilesLayerByScp(
+                node.qturl,
+                {
+                  name: "qturl",
+                }
+              );
+              const dxurl = window.earth.scene.addS3MTilesLayerByScp(
+                node.dxurl,
+                {
+                  name: "dxurl",
+                }
+              );
+              const lurl = window.earth.scene.addS3MTilesLayerByScp(node.lurl, {
+                name: "lurl",
               });
+              const newurl = window.earth.scene.addS3MTilesLayerByScp(
+                node.newurl,
+                {
+                  name: "newurl",
+                }
+              );
+              const riverurl = window.earth.scene.addS3MTilesLayerByScp(
+                node.riverurl,
+                {
+                  name: "riverurl",
+                }
+              );
+              console.log("riverurl",riverurl);
+              //               console.log("图层高度1", window.earth.scene.layers);
+              // var layerlength = window.earth.scene.layers._layers.values;
+              // console.log("长度",layerlength)
+              // for (let g = 0; g < layerlength.length; g++) {
+              //   if (layerlength[g].name == "riverurl") {
+              //     console.log("成功1");
+              //     layerlength[g].style3D.bottomAltitude = 0.5;
+              //     console.log("成功2");
+              //   }
+              // }
+              console.log("图层高度2", window.earth.scene.layers);
+              //var styles = new Cesium.Style3D();
+              //styles.bottomAltitude = 50;
+              //riverurl.style3D = styles;
+              //riverurl.refresh();
               Cesium.when(PROMISEJM, async (layers) => {
                 const _LAYERJM_ = window.earth.scene.layers.find(node.id);
-                _LAYERJM_.coverImageryLayer = FGM;
                 node.dataBind &&
                   _LAYERJM_.setQueryParameter({
                     ...node.dataBind,
@@ -246,12 +307,49 @@ export default {
                     isMerge: true,
                   });
               });
+              var mvtMap = this.$root.fwdata[12];
+              var mapboxStyle = mvtMap.mapboxStyle;
+              var layers = mapboxStyle.layers;
+              for (let j = 0; j < layers.length; j++) {
+                if (layers[j].type == "line") {
+                  mvtMap.setLayoutProperty(layers[j].id, "visibility", "none"); //显示某个图层
+                }
+              }
+              this.SetForceBimName("精模");
+
             } else {
               LAYERJM.visible = true;
-              var layerlengths = window.earth.scene.imageryLayers._layers;
-              for (let g = 0; g < layerlengths.length; g++) {
-                if (layerlengths[g].imageryProvider._url == node.fgmurl) {
-                  window.earth.scene.imageryLayers._layers[g].show = true;
+              this.SetForceBimName("精模");
+              var layerlength = window.earth.scene.layers._layers.values;
+              for (let i = 0; i < layerlength.length; i++) {
+                if (layerlength[i].name == "dlurl") {
+                  layerlength[i].visible = true;
+                }
+                if (layerlength[i].name == "zburl") {
+                  layerlength[i].visible = true;
+                }
+                if (layerlength[i].name == "qturl") {
+                  layerlength[i].visible = true;
+                }
+                if (layerlength[i].name == "dxurl") {
+                  layerlength[i].visible = true;
+                }
+                if (layerlength[i].name == "lurl") {
+                  layerlength[i].visible = true;
+                }
+                if (layerlength[i].name == "newurl") {
+                  layerlength[i].visible = true;
+                }
+                if (layerlength[i].name == "riverurl") {
+                  layerlength[i].visible = true;
+                }
+              }
+              var mvtMap = this.$root.fwdata[12];
+              var mapboxStyle = mvtMap.mapboxStyle;
+              var layers = mapboxStyle.layers;
+              for (let j = 0; j < layers.length; j++) {
+                if (layers[j].type == "line") {
+                  mvtMap.setLayoutProperty(layers[j].id, "visibility", "none"); //显示某个图层
                 }
               }
             }
@@ -266,11 +364,18 @@ export default {
               );
               Cesium.when(PROMISE, async (layers) => {
                 if (node.id == "白模") {
+                  this.dsjdt = window.earth.imageryLayers.addImageryProvider(
+                    new Cesium.SuperMapImageryProvider({
+                      layers: "DSJ",
+                      url:
+                        "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000",
+                    })
+                  );
                   const bm = window.earth.scene.layers.find("白模");
                   var style = bm.style3D;
-                  var colors = Cesium.Color.CYAN;
+                  bm.selectColorType = Cesium.SelectColorType.REPLACE;
                   var style3D = new Cesium.Style3D();
-                  var color = new Cesium.Color(colors);
+                  var color = Cesium.Color.fromCssColorString("#696969");
                   style3D.fillForeColor = color;
                   bm.style3D = style3D;
                   bm.refresh();
@@ -285,6 +390,13 @@ export default {
               });
             } else {
               LAYER.visible = true;
+              this.dsjdt = window.earth.imageryLayers.addImageryProvider(
+                new Cesium.SuperMapImageryProvider({
+                  layers: "DSJ",
+                  url:
+                    "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000",
+                })
+              );
             }
           }
         } else if (node.type == "bim") {
@@ -400,6 +512,7 @@ export default {
               : Cesium.Cartesian3.fromDegrees(...node.camera)
           );
       } else {
+        window.earth.imageryLayers.remove(this.dsjdt);
         const LAYER =
           node.type == "model"
             ? window.earth.scene.layers.find(node.id)
@@ -425,12 +538,49 @@ export default {
           this.$bus.$emit(node.componentEvent, {
             value: eventNode.length ? eventNode[0].componentKey : null,
           });
-        } else if (node.fgmurl) {
-          var layerlength = window.earth.scene.imageryLayers._layers;
-          console.log(layerlength);
+        } else if (node.dlurl) {
+          this.SetForceBimName([]);
+          console.log("相机参数1", window.earth.scene.camera.position);
+          console.log("相机参数2", window.earth.scene.camera.heading);
+          console.log("相机参数3", window.earth.scene.camera.pitch);
+          console.log("相机参数4", window.earth.scene.camera.roll);
+          var layerlength = window.earth.scene.layers._layers.values;
+          window.earth.scene.terrainProvider = new Cesium.CesiumTerrainProvider(
+            {
+              url:
+                "http://172.20.83.223:8098/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem", // 政务网永嘉地形
+              requestWaterMask: true,
+            }
+          );
           for (let i = 0; i < layerlength.length; i++) {
-            if (layerlength[i].imageryProvider._url == node.fgmurl) {
-              window.earth.scene.imageryLayers._layers[i].show = false;
+            if (layerlength[i].name == "dlurl") {
+              layerlength[i].visible = false;
+            }
+            if (layerlength[i].name == "zburl") {
+              layerlength[i].visible = false;
+            }
+            if (layerlength[i].name == "qturl") {
+              layerlength[i].visible = false;
+            }
+            if (layerlength[i].name == "dxurl") {
+              layerlength[i].visible = false;
+            }
+            if (layerlength[i].name == "lurl") {
+              layerlength[i].visible = false;
+            }
+            if (layerlength[i].name == "newurl") {
+              layerlength[i].visible = false;
+            }
+            if (layerlength[i].name == "riverurl") {
+              layerlength[i].visible = false;
+            }
+          }
+          var mvtMap = this.$root.fwdata[12];
+          var mapboxStyle = mvtMap.mapboxStyle;
+          var layers = mapboxStyle.layers;
+          for (let j = 0; j < layers.length; j++) {
+            if (layers[j].type == "line") {
+              mvtMap.setLayoutProperty(layers[j].id, "visibility", "visible"); //显示某个图层
             }
           }
         } else if (node.ids) {
@@ -444,15 +594,16 @@ export default {
             }
           }
         } else if (node.fwmurl) {
-          const LAYERA = window.earth.scene.layers.find(node.id)  
+          const LAYERA = window.earth.scene.layers.find(node.id);
           if (LAYERA) {
             LAYERA.show = false;
             LAYERA.visible = false;
           }
           var fwm = window.earth.entities._entities._array;
-          // console.log("相机参数1", window.earth.scene.camera.position);
-          // console.log("相机参数2", window.earth.scene.camera.healing);
-          // console.log("相机参数3", window.earth.scene.camera.pitch);
+          console.log("相机参数1", window.earth.scene.camera.position);
+          console.log("相机参数2", window.earth.scene.camera.heading);
+          console.log("相机参数3", window.earth.scene.camera.pitch);
+          console.log("相机参数4", window.earth.scene.camera.roll);
           for (let a = 0; a < fwm.length; a++) {
             if (fwm[a]._id.indexOf(node.label) != -1) {
               window.earth.entities._entities._array[a].show = false;

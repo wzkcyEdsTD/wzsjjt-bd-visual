@@ -59,3 +59,7 @@ export const SetDanbingList = function({ commit }, data) {
 export const SetQixiangWarning = function({ commit }, data) {
   commit(types.SET_QIXIANG_WARNING, data)
 }
+//视频监控一级目录id
+export const SetVideoFirstMenuID  = function({ commit },data){
+  commit(types.SET_FIRST_MENU_ID,data)
+}

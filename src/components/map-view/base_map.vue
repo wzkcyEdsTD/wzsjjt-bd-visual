@@ -412,7 +412,7 @@ export default {
                 : "暂无数据"
             }&nbsp&nbsp</p>
             ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+            <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
             <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
             <span class="pop-tip-around" onclick="showAround()">周边分析</span>
             <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -427,7 +427,7 @@ export default {
                 : "暂无数据"
             }&nbsp&nbsp</p>
             ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+            <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
             <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
             <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
           </div>`;
@@ -2733,7 +2733,7 @@ export default {
             var html = `<div class="pop-tip">
                               <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px" >${data.NAME}</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                              <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                               <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                               <span class="pop-tip-around" onclick="showAround()">周边分析</span>
                               <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -2742,7 +2742,7 @@ export default {
             var html = `<div class="pop-tip">
                               <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${data.NAME}</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                              <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                               <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
                               <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
                             </div>`;
@@ -2854,7 +2854,7 @@ export default {
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                                <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                                <!-- <span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                                 <span class="pop-tip-around" onclick="showAround()">周边分析</span>
                                 <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -2867,7 +2867,7 @@ export default {
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                                <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                                 <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
                                 <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
                             </div>`;
@@ -3257,7 +3257,7 @@ export default {
             var html = `<div class="pop-tip">
                             <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${feature.properties.NAME}</p>
                             ${str}
-                            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                            <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                              <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                             <span class="pop-tip-around" onclick="showAround()">周边分析</span>
                             <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -3266,7 +3266,7 @@ export default {
             var html = `<div class="pop-tip">
                             <p class=""  style="font-size: 17px;font-weight: bold;line-height: 32px">${feature.properties.NAME}</p>
                             ${str}
-                            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                            <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                              <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
                             <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
                           </div>`;
@@ -3321,7 +3321,7 @@ export default {
                                   : "暂无数据"
                               }</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                              <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                                <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                               <span class="pop-tip-around" onclick="showAround()">周边分析</span>
                               <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -3334,7 +3334,7 @@ export default {
                                   : "暂无数据"
                               }</p>
                               ${str}
-                              <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                              <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                                <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
                               <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
                           </div>`;
@@ -3479,7 +3479,7 @@ export default {
                 : "暂无数据"
             }</p>
             ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+            <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
             <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
             <span class="pop-tip-around" onclick="showAround()">周边分析</span>
             <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -3494,7 +3494,7 @@ export default {
                 : "暂无数据"
             }&nbsp&nbsp</p>
             ${str}
-            <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+            <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
             <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
             <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
           </div>`;
@@ -4899,7 +4899,7 @@ export default {
                                         : "暂无数据"
                                     }</p>
                                     ${str}
-                                    <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                                    <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                                      <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                                     <span class="pop-tip-around" onclick="showAround()">周边分析</span>
                                     <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -4912,7 +4912,7 @@ export default {
                                         : "暂无数据"
                                     }</p>
                                     ${str}
-                                    <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                                    <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>></span>
                                      <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
                                     <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
                                 </div>`;
@@ -5413,7 +5413,7 @@ export default {
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情 </span>
+                                <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>> </span>
                                  <!--<span class="pop-tip-list" onclick="showInfoCamera()"><img src="./static/gitimage/other/camera_white.png"></span>
                                 <span class="pop-tip-around" onclick="showAround()">周边分析</span>
                                 <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
@@ -5426,7 +5426,7 @@ export default {
                                     : "暂无数据"
                                 }</p>
                                 ${str}
-                                <span class="pop-tip-more" onclick="showInfo()">信息详情 </span>
+                                <span class="pop-tip-more" style="color:aqua" onclick="showInfo()">信息详情>> </span>
                                  <!--<span class="pop-tip-around" onclick="showAround()">周边分析</span>
                                 <span class="pop-tip-nearby" onclick="showNearby()">就近分析</span>-->
                             </div>`;

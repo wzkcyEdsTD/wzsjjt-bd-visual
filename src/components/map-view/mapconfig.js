@@ -242,7 +242,8 @@ const WWW_MAP = document.location.protocol + "//" + window.location.host;
 dataurl =
   "http://10.36.234.83:8090/iserver/services/data-wenzhouyingji/rest/data";
 measureurl =
-  "http://172.20.83.218:8090/iserver/services/map-world/rest/maps/World";
+  //"http://172.20.83.218:8090/iserver/services/map-world/rest/maps/World";
+  "http://10.36.234.83:8090/iserver/services/map-world/rest/maps/World";
 multilayersTable = [
   "化工及危化品企业",
   "规上工贸企业",

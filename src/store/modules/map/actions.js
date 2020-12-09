@@ -3,40 +3,62 @@ import router from "../../../router/index";
 import { getMedicalList } from "api/layerServerAPI";
 
 // 设置bim单层物体id
-export const SetForceBimIDS = function({ commit }, data) {
+export const SetForceBimIDS = function ({ commit }, data) {
   commit(types.SET_FORCE_BIM_IDS, data);
 };
 // 设置bim详细数据
-export const SetForceBimData = function({ commit }, data) {
+export const SetForceBimData = function ({ commit }, data) {
+  console.log('SetForceBimDatadata', data);
   commit(types.SET_FORCE_BIM_DATA, data);
 };
+//点击查看视频监控
+export const SetForceBimSP = function ({ commit},data) {
+  console.log("视频监控",data);
+  commit(types.SET_FORCE_BIM_SP,data);
+}
+//点击精模弹出对应地名地址框
+export const SetForceBimName = function ({ commit},data) {
+  console.log("白模点击实现",data);
+  commit(types.SET_FORCE_BIM_NAME,data);
+}
+//详情面板有问题
+export const SetForceJMData = function ({ commit }, data) {
+  console.log('SetForceBimDatadata', data);
+  commit(types.SET_FORCE_BIM_DATA, data);
+};
+//设置biim右侧面板点击事件
+export const SetForceBimDataByType = function ({ commit }, data) {
+ // console.log('我被调用到了');
+  //本来应该在这里进行调用操作的，但是已经写完了，我就不改了
+  commit(types.SET_FORCE_BIM_DATABYTYPE, data);
+};
 // 设置bim房间数据
-export const SetForceRoomData = function({ commit }, data) {
+export const SetForceRoomData = function ({ commit }, data) {
   commit(types.SET_FORCE_ROOM_DATA, data);
 };
 // 设置折叠1
-export const SetCollapse1 = function({ commit }, bool) {
+export const SetCollapse1 = function ({ commit }, bool) {
   commit(types.SET_COLLAPSE1, bool);
 };
 // 设置折叠2
-export const SetCollapse2 = function({ commit }, bool) {
+export const SetCollapse2 = function ({ commit }, bool) {
   commit(types.SET_COLLAPSE2, bool);
 };
 // 设置图例
-export const SetLegendShow = function({ commit }, bool) {
+export const SetLegendShow = function ({ commit }, bool) {
   commit(types.SET_LEGEND_SHOW, bool);
 };
 // 设置树
-export const SetTree = function({ commit }, data) {
+export const SetTree = function ({ commit }, data) {
   commit(types.SET_TREE, data);
 };
 // 设置地图类型
-export const SetCurrentMapType = function({ commit }, data) {
+export const SetCurrentMapType = function ({ commit }, data) {
   commit(types.SET_CURRENT_MAP_TYPE, data);
   commit(types.SET_COLLAPSE1, false);
 };
 // 设置页签
-export const SetTreeCheckedList = function({ commit, state }, res) {
+export const SetTreeCheckedList = function ({ commit, state }, res) {
   const data = [...state.treeCheckedList];
   const needPushArr = [];
   if (res.level === "3") {
@@ -61,7 +83,7 @@ export const SetTreeCheckedList = function({ commit, state }, res) {
   commit(types.SET_TYPE_INDEX, 0);
 };
 // 删除页签
-export const DeleteTreeCheckedList = function({ commit, state }, res) {
+export const DeleteTreeCheckedList = function ({ commit, state }, res) {
   if (res) {
     const arr = [...state.treeCheckedList];
     const needDelArr = [];
@@ -99,19 +121,19 @@ export const DeleteTreeCheckedList = function({ commit, state }, res) {
   }
 };
 // 设置页签下标
-export const SetTypeIndex = function({ commit }, data) {
+export const SetTypeIndex = function ({ commit }, data) {
   commit(types.SET_TYPE_INDEX, data);
 };
 // 设置当前页签的数据
-export const SetCurrentOnePoint = function({ commit }, data) {
+export const SetCurrentOnePoint = function ({ commit }, data) {
   commit(types.SET_CURRENT_ONE_POINT, data);
 };
 // 设置地图底图是否加载完毕
-export const SetMapLoaded = function({ commit }, data) {
+export const SetMapLoaded = function ({ commit }, data) {
   commit(types.SET_MAP_LOADED, data);
 };
 // 设置特别的树的勾选的名称
-export const SetSpecalTreeName = function({ commit }, data) {
+export const SetSpecalTreeName = function ({ commit }, data) {
   if (data) {
     commit(types.SET_CURRENT_MAP_TYPE, "sandian");
     commit(types.SET_SPECAL_TREE_NAME, data);
@@ -120,7 +142,7 @@ export const SetSpecalTreeName = function({ commit }, data) {
   commit(types.SET_COLLAPSE2, false);
 };
 // 设置四色图特别的树的勾选的名称
-export const SetFourColorSpecalTreeName = function({ commit }, data) {
+export const SetFourColorSpecalTreeName = function ({ commit }, data) {
   if (data) {
     commit(types.SET_CURRENT_MAP_TYPE, "fourColorMap");
     commit(types.SET_SPECAL_TREE_NAME, data);
@@ -129,7 +151,7 @@ export const SetFourColorSpecalTreeName = function({ commit }, data) {
   commit(types.SET_COLLAPSE2, false);
 };
 // 清空特别的树的勾选的名称
-export const clearSpecalTreeName = function({ commit }, data) {
+export const clearSpecalTreeName = function ({ commit }, data) {
   if (data === undefined) {
     data = "";
   }
@@ -137,24 +159,24 @@ export const clearSpecalTreeName = function({ commit }, data) {
 };
 
 // 分屏
-export const setSplitScreen = function({ commit }, data) {
+export const setSplitScreen = function ({ commit }, data) {
   commit(types.SET_SPLIT_SCREEN, data);
 };
 // 设置一张图目录名
-export const SetNameList = function({ commit }, data) {
+export const SetNameList = function ({ commit }, data) {
   // console.log(router)
   // router.push({ path: '/map' })
   commit(types.SET_NAME_LIST, data);
 };
 // 跳转
-export const clickme = function({ commit, state }, data) {
+export const clickme = function ({ commit, state }, data) {
   // console.log(router)
   // router.push({ path: '/map' })
   // commit(types.SET_NAME_LIST, data)
   if (data === undefined) {
     data = "";
   }
-  console.log("跳转",state.nameList.indexOf(data));
+  console.log("跳转", state.nameList.indexOf(data));
   if (state.nameList.indexOf(data) > -1) {
     commit(types.SET_SPECAL_TREE_NAME, data);
     commit(types.SET_COLLAPSE1, false);

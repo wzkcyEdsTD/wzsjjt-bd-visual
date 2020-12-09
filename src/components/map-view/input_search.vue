@@ -219,7 +219,8 @@ export default {
     border-radius: 6px;
     outline: none;
     background: #03315a;
-    display: flex;
+    //display: flex;
+    display: none;
     align-items: center;
     padding: 0 0.1rem;
     // padding: 10px;

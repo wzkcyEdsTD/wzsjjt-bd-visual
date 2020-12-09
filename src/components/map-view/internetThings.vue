@@ -51,6 +51,7 @@ export default {
         minZoom: 5,
         maxZoom: 24,
       });
+      console.log("大数据底图",map);
       map.addControl(new mapboxgl.NavigationControl(), "top-left");
       var uploadedDataURL = "../../static/yjjson/Bus.json";
 

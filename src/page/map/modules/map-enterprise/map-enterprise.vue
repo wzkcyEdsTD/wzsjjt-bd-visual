@@ -1,59 +1,88 @@
 <template>
   <transition name="slide">
     <div class="map-enterprise flex flex-y" v-show="isShow">
-      <h3 class="title">{{title}}</h3>
+      <h3 class="title">{{ title }}</h3>
       <i class="close" @click="close" v-show="!isShowBigImg"></i>
       <ul class="header-box">
         <li
           :key="index"
-          v-for="(item,index) in formData"
+          v-for="(item, index) in formData"
           :class="activeIndex === index ? 'active' : ''"
-          @click.prevent="custormAnchor('card'+index,index)"
-        >{{item.typeName}}</li>
+          @click.prevent="custormAnchor('card' + index, index)"
+        >
+          {{ item.typeName }}
+        </li>
       </ul>
       <div class="content-box flex-1">
         <div ref="cardBox">
           <!--基本信息-->
-          <ItemTitle id="card0" :title="getBaseList.typeName" color="orange"></ItemTitle>
+          <ItemTitle
+            id="card0"
+            :title="getBaseList.typeName"
+            color="orange"
+          ></ItemTitle>
           <div class="table-box">
             <div
               class="onInformation"
-              v-if="!getBaseList.columnInfos || getBaseList.columnInfos.length===0"
-            >暂无信息</div>
+              v-if="
+                !getBaseList.columnInfos || getBaseList.columnInfos.length === 0
+              "
+            >
+              暂无信息
+            </div>
             <div
               class="item"
-              :key="'a'+index"
-              v-if="item.attname!=='pic_url'"
-              v-for="(item,index) in getBaseList.columnInfos"
+              :key="'a' + index"
+              v-if="item.attname !== 'pic_url'"
+              v-for="(item, index) in getBaseList.columnInfos"
             >
-              <span class="key" :title="item.description">{{item.description}}</span>
-              <b class="value" :title="item.value">{{item.value}}</b>
+              <span class="key" :title="item.description">{{
+                item.description
+              }}</span>
+              <b class="value" :title="item.value">{{ item.value }}</b>
             </div>
-            <div class="item" v-if="getBaseList.columnInfos.length%2===1">
+            <div class="item" v-if="getBaseList.columnInfos.length % 2 === 1">
               <span class="key"></span>
               <b class="value"></b>
             </div>
           </div>
-          <ItemTitle id="card1" :title="getImgname" color="orange" v-if="getBaseImg.length!=0"></ItemTitle>
-          <div class="base-img" v-if="getBaseImg.length!=0">
+          <!-- 工程图片 -->
+          <ItemTitle
+            id="card1"
+            :title="getImgname"
+            color="orange"
+            v-if="getBaseImg.length != 0"
+          ></ItemTitle>
+          <div class="base-img" v-if="getBaseImg.length != 0">
             <div class="window" @mouseover="stop" @mouseleave="play">
               <ul class="container" :style="containerStyle">
                 <li>
-                  <div style="display:inline-block;width:600px;height:400px">
-                    <img :src="pdfUrl+getBaseImg[getBaseImg.length - 1]+'.png'" alt />
-                    <div class="imgdata">{{getBaseImg[getBaseImg.length - 1]}}</div>
+                  <div
+                    style="display: inline-block; width: 600px; height: 400px"
+                  >
+                    <img
+                      :src="pdfUrl + getBaseImg[getBaseImg.length - 1] + '.png'"
+                      alt
+                    />
+                    <div class="imgdata">
+                      {{ getBaseImg[getBaseImg.length - 1] }}
+                    </div>
                   </div>
                 </li>
                 <li v-for="(item, index) in getBaseImg" :key="index">
-                  <div style="display:inline-block;width:600px;height:400px">
-                    <img :src="pdfUrl+item+'.png'" alt />
-                    <div class="imgdata">{{item}}</div>
+                  <div
+                    style="display: inline-block; width: 600px; height: 400px"
+                  >
+                    <img :src="pdfUrl + item + '.png'" alt />
+                    <div class="imgdata">{{ item }}</div>
                   </div>
                 </li>
                 <li>
-                  <div style="display:inline-block;width:600px;height:400px">
-                    <img :src="pdfUrl+getBaseImg[0]+'.png'" alt />
-                    <div class="imgdata">{{getBaseImg[0].png}}</div>
+                  <div
+                    style="display: inline-block; width: 600px; height: 400px"
+                  >
+                    <img :src="pdfUrl + getBaseImg[0] + '.png'" alt />
+                    <div class="imgdata">{{ getBaseImg[0].png }}</div>
                   </div>
                 </li>
               </ul>
@@ -93,13 +122,96 @@
                 <li
                   v-for="(dot, i) in getBaseImg"
                   :key="i"
-                  :class="{dotted: i === (currentIndex-1)}"
-                  @click="jump(i+1)"
+                  :class="{ dotted: i === currentIndex - 1 }"
+                  @click="jump(i + 1)"
                 ></li>
               </ul>
             </div>
           </div>
-
+          <!-- 奖项图片 -->
+          <ItemTitle
+            id="card2"
+            :title="getImgnames"
+            color="orange"
+            v-if="getBaseImgs.length != 0"
+          ></ItemTitle>
+          <div class="base-img" v-if="getBaseImgs.length != 0">
+            <div class="window" @mouseover="stop" @mouseleave="play">
+              <ul class="container" :style="containerStyle">
+                <li>
+                  <div
+                    style="display: inline-block; width: 600px; height: 400px"
+                  >
+                    <img
+                      :src="
+                        pdfUrl + getBaseImgs[getBaseImgs.length - 1] + '.png'
+                      "
+                      alt
+                    />
+                    <div class="imgdata">
+                      {{ getBaseImgs[getBaseImgs.length - 1] }}
+                    </div>
+                  </div>
+                </li>
+                <li v-for="(item, index) in getBaseImgs" :key="index">
+                  <div
+                    style="display: inline-block; width: 600px; height: 400px"
+                  >
+                    <img :src="pdfUrl + item + '.png'" alt />
+                    <div class="imgdata">{{ item }}</div>
+                  </div>
+                </li>
+                <li>
+                  <div
+                    style="display: inline-block; width: 600px; height: 400px"
+                  >
+                    <img :src="pdfUrl + getBaseImgs[0] + '.png'" alt />
+                    <div class="imgdata">{{ getBaseImgs[0].png }}</div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="direction">
+                <li class="left" @click="move(600, 1, speed)">
+                  <svg
+                    class="icon"
+                    width="30px"
+                    height="30.00px"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="#ffffff"
+                      d="M481.233 904c8.189 0 16.379-3.124 22.628-9.372 12.496-12.497 12.496-32.759 0-45.256L166.488 512l337.373-337.373c12.496-12.497 12.496-32.758 0-45.255-12.498-12.497-32.758-12.497-45.256 0l-360 360c-12.496 12.497-12.496 32.758 0 45.255l360 360c6.249 6.249 14.439 9.373 22.628 9.373z"
+                    />
+                  </svg>
+                </li>
+                <li class="right" @click="move(600, -1, speed)">
+                  <svg
+                    class="icon"
+                    width="30px"
+                    height="30.00px"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="#ffffff"
+                      d="M557.179 904c-8.189 0-16.379-3.124-22.628-9.372-12.496-12.497-12.496-32.759 0-45.256L871.924 512 534.551 174.627c-12.496-12.497-12.496-32.758 0-45.255 12.498-12.497 32.758-12.497 45.256 0l360 360c12.496 12.497 12.496 32.758 0 45.255l-360 360c-6.249 6.249-14.439 9.373-22.628 9.373z"
+                    />
+                  </svg>
+                </li>
+              </ul>
+              <ul class="dots">
+                <li
+                  v-for="(dot, i) in getBaseImgs"
+                  :key="i"
+                  :class="{ dotted: i === currentIndex - 1 }"
+                  @click="jump(i + 1)"
+                ></li>
+              </ul>
+            </div>
+          </div>
           <!--           <div class="base-img" v-if="getBaseImg.value">
             <img @click="showBigImg" :src="'/file/picture/'+getBaseImg.value" alt />
             <div class="big-img-wrapper" v-show="isShowBigImg">
@@ -108,66 +220,89 @@
             </div>
           </div>-->
           <!--别的信息-->
-          <template v-for="(item1,index1) in getList">
+          <template v-for="(item1, index1) in getList">
             <ItemTitle
-              :key="'b'+index1"
-              :id="'card'+(index1+1)"
+              :key="'b' + index1"
+              :id="'card' + (index1 + 1)"
               :title="item1.typeName"
               color="orange"
             ></ItemTitle>
-            <template v-if="item1.typeName==='分级管控'">
-              <table :key="'aa'+index1" class="table" :style="{'width':percentWidth(item1)}">
+            <template v-if="item1.typeName === '分级管控'">
+              <table
+                :key="'aa' + index1"
+                class="table"
+                :style="{ width: percentWidth(item1) }"
+              >
                 <thead>
                   <tr>
                     <th
-                      :key="'th'+index4"
-                      v-for="(item4,index4) in item1.columnInfos[0]"
-                    >{{item4.description}}</th>
+                      :key="'th' + index4"
+                      v-for="(item4, index4) in item1.columnInfos[0]"
+                    >
+                      {{ item4.description }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    :key="'aa-tr'+index2"
-                    v-for="(item2,index2) in item1.columnInfos"
+                    :key="'aa-tr' + index2"
+                    v-for="(item2, index2) in item1.columnInfos"
                     v-show="item1.columnInfos.length"
                   >
-                    <td :key="'aa-td'+index3" v-for="(item3,index3) in item2">
+                    <td
+                      :key="'aa-td' + index3"
+                      v-for="(item3, index3) in item2"
+                    >
                       <span
                         @click="openPDF(item3)"
                         class="pointer"
-                        v-if="item3.attname==='url'"
-                      >{{item3.value}}</span>
-                      <span v-else>{{item3.value}}</span>
+                        v-if="item3.attname === 'url'"
+                        >{{ item3.value }}</span
+                      >
+                      <span v-else>{{ item3.value }}</span>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </template>
-            <template v-else-if="item1.typeName==='物联感知设备'">
-              <div :key="'bb'+index1">
+            <template v-else-if="item1.typeName === '物联感知设备'">
+              <div :key="'bb' + index1">
                 <div
                   class="table-box"
-                  style="margin-bottom: 0;"
-                  :class="item1.columnInfos.info.length?'':'no-line'"
+                  style="margin-bottom: 0"
+                  :class="item1.columnInfos.info.length ? '' : 'no-line'"
                 >
                   <div
                     class="item"
-                    :key="'bbbb'+index3"
-                    v-for="(item3,index3) in item1.columnInfos.info"
+                    :key="'bbbb' + index3"
+                    v-for="(item3, index3) in item1.columnInfos.info"
                   >
-                    <span class="key" :title="item3.description">{{item3.description}}</span>
-                    <b class="value" :title="item3.value">{{item3.value}}</b>
+                    <span class="key" :title="item3.description">{{
+                      item3.description
+                    }}</span>
+                    <b class="value" :title="item3.value">{{ item3.value }}</b>
                   </div>
-                  <div class="item" v-if="item1.columnInfos.info.length%2===1">
+                  <div
+                    class="item"
+                    v-if="item1.columnInfos.info.length % 2 === 1"
+                  >
                     <span class="key"></span>
                     <b class="value"></b>
                   </div>
                 </div>
                 <ul class="table video-list">
-                  <li :key="'bbb'+index2" v-for="(item2,index2) in item1.columnInfos.video">
+                  <li
+                    :key="'bbb' + index2"
+                    v-for="(item2, index2) in item1.columnInfos.video"
+                  >
                     <div ref="videoWidth">
                       <div>
-                        <button class="full-video" @click="fullVideo(item2.video_url)">全屏</button>
+                        <button
+                          class="full-video"
+                          @click="fullVideo(item2.video_url)"
+                        >
+                          全屏
+                        </button>
                         <iframe :src="item2.video_url"></iframe>
                       </div>
                     </div>
@@ -177,22 +312,33 @@
               </div>
             </template>
             <template v-else>
-              <table :key="'zz'+index1" class="table" :style="{'width':percentWidth(item1)}">
+              <table
+                :key="'zz' + index1"
+                class="table"
+                :style="{ width: percentWidth(item1) }"
+              >
                 <thead>
                   <tr>
                     <th
-                      :key="'zz-th'+index4"
-                      v-for="(item4,index4) in item1.columnInfos[0]"
-                    >{{item4.description}}</th>
+                      :key="'zz-th' + index4"
+                      v-for="(item4, index4) in item1.columnInfos[0]"
+                    >
+                      {{ item4.description }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    :key="'zz-tr'+index2"
-                    v-for="(item2,index2) in item1.columnInfos"
+                    :key="'zz-tr' + index2"
+                    v-for="(item2, index2) in item1.columnInfos"
                     v-show="item1.columnInfos.length"
                   >
-                    <td :key="'zz-td'+index3" v-for="(item3,index3) in item2">{{item3.value}}</td>
+                    <td
+                      :key="'zz-td' + index3"
+                      v-for="(item3, index3) in item2"
+                    >
+                      {{ item3.value }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -265,6 +411,13 @@ export default {
           i = obj.columnInfos.length;
         }
       }
+      for (let j = 0; j < obj.columnInfos.length; j++) {
+        if (obj.columnInfos[j].attname === "photoss") {
+          obj.columnInfos.splice(j, 1);
+          j = obj.columnInfos.length;
+        }
+      }
+      console.log("显示", obj);
       return obj;
     },
     getBaseImg() {
@@ -289,11 +442,45 @@ export default {
 
       return imgdatas;
     },
+    getBaseImgs() {
+      let res = {
+        attname: "",
+        description: "",
+        value: "",
+      };
+      let imgdatas = [];
+      let imgsdata = [];
+      const obj = JSON.parse(JSON.stringify(this.formData[0])) || {};
+console.log("obj",obj)
+      for (let i = 0; i < obj.columnInfos.length; i++) {
+        if (obj.columnInfos[i].attname === "photoss") {
+          res = obj.columnInfos[i];
+        }
+      }
+      console.log("res",res);
+      if (res.value != null) {
+        if (res.value.length > 0) {
+          imgdatas = res.value.split(",");
+        }
+      }
+      console.log("图片数据",imgdatas);
+      return imgdatas;
+    },
     getImgname() {
       let imgname = "";
       const obj = JSON.parse(JSON.stringify(this.formData[0])) || {};
       for (let i = 0; i < obj.columnInfos.length; i++) {
         if (obj.columnInfos[i].attname === "picture") {
+          imgname = obj.columnInfos[i].description;
+        }
+      }
+      return imgname;
+    },
+    getImgnames() {
+      let imgname = "";
+      const obj = JSON.parse(JSON.stringify(this.formData[0])) || {};
+      for (let i = 0; i < obj.columnInfos.length; i++) {
+        if (obj.columnInfos[i].attname === "photoss") {
           imgname = obj.columnInfos[i].description;
         }
       }
@@ -428,6 +615,7 @@ export default {
         (data) => {
           const resData = [];
           data.forEach((item) => {
+            console.log("项目数据", item);
             if (item.columnInfos instanceof Array) {
               if (item.columnInfos.length > 0) {
                 resData.push(item);

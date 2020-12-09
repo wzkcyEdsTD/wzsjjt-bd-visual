@@ -2,122 +2,186 @@
   <div class="wrapper map-tools">
     <div
       class="map-toolbar-box map-toolbar-spc"
-      :class="currentMapType != 'sandian' || this.collapse1?'collapse':''"
-      v-if="currentMapType!='internetthings'"
+      :class="currentMapType != 'sandian' || this.collapse1 ? 'collapse' : ''"
+      v-if="currentMapType != 'internetthings'"
     >
       <div class="map-type">
         <div
           class="item"
-          :class="'item'+(index+1) + ' ' + (item.value===currentMapType?'active' + (index + 1):'')"
+          :class="
+            'item' +
+            (index + 1) +
+            ' ' +
+            (item.value === currentMapType ? 'active' + (index + 1) : '')
+          "
           @click="changeMapType(item)"
           :title="item.name"
           :key="index"
-          v-for="(item,index) in mapType"
-        >{{item.name}}</div>
+          v-for="(item, index) in mapType"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </div>
-   <!--  物联网使用 -->
-    <div 
-      class="map-toolbar-box1  map-toolbar-spc"
-      :class="this.collapse1?'collapse':''"
-      v-if="currentMapType =='internetthings'"
+    <!--  物联网使用 -->
+    <div
+      class="map-toolbar-box1 map-toolbar-spc"
+      :class="this.collapse1 ? 'collapse' : ''"
+      v-if="currentMapType == 'internetthings'"
     >
       <div class="map-type">
         <div
           class="item"
-          :class="'item'+(index+1) + ' ' + (item.value===currentMapType?'active' + (index + 1):'')"
+          :class="
+            'item' +
+            (index + 1) +
+            ' ' +
+            (item.value === currentMapType ? 'active' + (index + 1) : '')
+          "
           @click="changeMapType(item)"
           :title="item.name"
           :key="index"
-          v-for="(item,index) in mapType"
-        >{{item.name}}</div>
+          v-for="(item, index) in mapType"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </div>
     <div
       class="toCenter1"
-      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
+      :class="{
+        collapse: currentMapType == 'cesiumMap' || collapse1,
+        moveRight2: currentMapType == 'cesiumMap',
+      }"
       title="全图"
-      v-if="currentMapType!='internetthings'"
+      v-if="currentMapType != 'internetthings'"
     >
       <i
-        style="width: 100%;height: 0.42rem;"
+        style="width: 100%; height: 0.42rem"
         @click="changeMapTollBar({ name: '地图居中', value: 'map_init' })"
       ></i>
     </div>
     <div
       class="toCenter2"
-      :class="{collapse:currentMapType == 'cesiumMap' || collapse1,moveRight2:currentMapType == 'cesiumMap'}"
+      :class="{
+        collapse: currentMapType == 'cesiumMap' || collapse1,
+        moveRight2: currentMapType == 'cesiumMap',
+      }"
       title="物联网"
-      v-if="currentMapType!='internetthings'"
+      v-if="currentMapType != 'internetthings'"
     >
       <i
-        style="width: 100%;height: 0.42rem;"
-        @click="changeMapType({ name: '物联网', value: 'internetthings'})"
+        style="width: 100%; height: 0.42rem"
+        @click="changeMapType({ name: '物联网', value: 'internetthings' })"
       ></i>
     </div>
     <div
       class="toCenter"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: centerShow,moveRight1:currentMapType == 'cesiumMap'}"
+      :class="{
+        collapse: currentMapType == 'cesiumMap' || collapse1,
+        active: centerShow,
+        moveRight1: currentMapType == 'cesiumMap',
+      }"
       title="底图"
-      v-if="currentMapType!='internetthings'"
+      v-if="currentMapType != 'internetthings'"
     >
-      <i style="width: 100%;height: 0.42rem;" @click="showTool"></i>
+      <i style="width: 100%; height: 0.42rem" @click="showTool"></i>
       <!-- 3d地图工具 -->
       <div
         v-show="currentMapType == 'cesiumMap'"
         class="map-toolbar-box"
-        :class="{active: centerShow}"
+        :class="{ active: centerShow }"
       >
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
-            :class="'btn'+(index+1)"
+            :class="'btn' + (index + 1)"
             :key="index"
             :title="item.name"
-            v-for="(item, index) in map3DBtn"
-            @click="changeMap3DEventBar(item, index)"
-          >{{item.abbrev}}</div>
+            v-for="(item, index) in map3D"
+            @click="changeMap3D(item, index)"
+          >
+            {{ item.abbrev }}
+          </div>
         </div>
       </div>
       <!-- 2d地图工具 -->
       <div
         v-show="currentMapType != 'cesiumMap'"
         class="map-toolbar-box"
-        :class="{active: centerShow}"
+        :class="{ active: centerShow }"
       >
         <div
           class="center-item"
-          :class="'btn'+(index+1)"
+          :class="'btn' + (index + 1)"
           :key="index"
           :title="item.name"
           v-for="(item, index) in mapNew"
           @click="changeMapTollBarTop(item, index)"
-        >{{item.abbrev}}</div>
+        >
+          {{ item.abbrev }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="toCenter3"
+      :class="{
+        collapse: currentMapType == 'cesiumMap' || collapse1,
+        active: DcenterShow,
+        moveRight1: currentMapType == 'cesiumMap',
+      }"
+      title="淹没和管线分析"
+      v-if="currentMapType == 'cesiumMap'"
+    >
+      <i style="width: 100%; height: 0.42rem" @click="show3Dmap"></i>
+      <!-- 3d地图工具 -->
+      <div
+        v-show="currentMapType == 'cesiumMap'"
+        class="map-toolbar-box"
+        :class="{ active: DcenterShow }"
+      >
+        <div class="map-type tool-detail">
+          <div
+            class="item item-spc"
+            :class="'btn' + (index + 1)"
+            :key="index"
+            :title="item.name"
+            v-for="(item, index) in map3DBtn"
+            @click="changeMap3DEventBar(item, index)"
+          >
+            {{ item.abbrev }}
+          </div>
+        </div>
       </div>
     </div>
     <div
       class="map-toolbar-box-map"
-      :class="{'collapse': currentMapType == 'cesiumMap' || collapse1, active: toolShow}"
-      v-if="currentMapType!='internetthings'"
+      :class="{
+        collapse: currentMapType == 'cesiumMap' || collapse1,
+        active: toolShow,
+      }"
+      v-if="currentMapType != 'internetthings'"
     >
-      <span class="collapse-btn" :class="{active: toolShow}" title="地图工具">
-        <i style="width: 32px;height: 32px;" @click="mapTool"></i>
+      <span class="collapse-btn" :class="{ active: toolShow }" title="地图工具">
+        <i style="width: 32px; height: 32px" @click="mapTool"></i>
       </span>
       <!-- 3d地图工具 -->
       <div
         v-show="currentMapType == 'cesiumMap'"
         class="map-toolbar-box"
-        :class="{active: toolShow}"
+        :class="{ active: toolShow }"
       >
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
-            :class="'btn'+(index+1)"
+            :class="'btn' + (index + 1)"
             :key="index"
             :title="item.name"
             v-for="(item, index) in map3DTool"
             @click="changeMap3DToolBar(item, index)"
-          >{{item.abbrev}}</div>
+          >
+            {{ item.abbrev }}
+          </div>
         </div>
       </div>
 
@@ -125,29 +189,41 @@
       <div
         v-show="currentMapType != 'cesiumMap'"
         class="map-toolbar-box"
-        :class="{active: toolShow}"
+        :class="{ active: toolShow }"
       >
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
-            :class="'btn'+(index+1)"
+            :class="'btn' + (index + 1)"
             :key="index"
             :title="item.name"
             v-for="(item, index) in mapBtn"
             @click="changeMapTollBar(item, index)"
-          >{{item.abbrev}}</div>
-          <div
+          >
+            {{ item.abbrev }}
+          </div>
+          <!-- <div
             class="item item-spc"
-            :class="{'active':isSetOpacity,'disabled':!isCoverToolbarShow}"
+            :class="{ active: isSetOpacity, disabled: !isCoverToolbarShow }"
             title="透明度"
             @click="setOpacity"
-          >透明度</div>
+          >
+            透明度
+          </div> -->
           <div class="item item-spc" title="打印" @click="printMap">打印</div>
         </div>
-        <div ref="slider" class="children_opacity" v-show="isSetOpacity && isCoverToolbarShow">
+        <div
+          ref="slider"
+          class="children_opacity"
+          v-show="isSetOpacity && isCoverToolbarShow"
+        >
           <Slider></Slider>
         </div>
-        <div ref="longitudeSearch" class="children_point" v-show="isPointSearch">
+        <div
+          ref="longitudeSearch"
+          class="children_point"
+          v-show="isPointSearch"
+        >
           <LongitudeSearch></LongitudeSearch>
         </div>
       </div>
@@ -159,14 +235,20 @@
       v-if="mapNew[selectIndex].children"
       v-show="mapNew[selectIndex].childrenShow && centerShow"
       class="item-child"
-      :class="collapse1?'collapse':''"
-      :style="{top:mapNew[selectIndex].top}"
+      :class="collapse1 ? 'collapse' : ''"
+      :style="{ top: mapNew[selectIndex].top }"
     >
       <div>
-        <div :key="'b'+index2" v-for="(item2,index2) in mapNew[selectIndex].children">
-          <label :class="{'active':dituType===item2.value}" @click="changedituType(item2)">
+        <div
+          :key="'b' + index2"
+          v-for="(item2, index2) in mapNew[selectIndex].children"
+        >
+          <label
+            :class="{ active: dituType === item2.value }"
+            @click="changedituType(item2)"
+          >
             <span></span>
-            {{item2.name}}
+            {{ item2.name }}
           </label>
         </div>
       </div>
@@ -191,6 +273,7 @@ export default {
   },
   data() {
     return {
+      datalayer: "",
       canCilckMapType: true, // 可以点击切换底图类型
       dituType: "standard-raster",
       // 地图类型
@@ -201,10 +284,15 @@ export default {
       selectIndex: 0,
       toolShow: false,
       centerShow: false,
+      DcenterShow: false,
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
         { name: "地下管线", value: "3d4", abbrev: "地下管线" },
+      ],
+      map3D: [
+        { name: "标准底图", value: "standard-raster", abbrev: "标准底图" },
+        { name: "大数据底图", value: "bigdata-raster", abbrev: "大数据底图" },
       ],
       map3DTool: [
         { name: "测量工具", value: "3t1", abbrev: "测量工具" },
@@ -328,6 +416,9 @@ export default {
     showTool() {
       this.centerShow = !this.centerShow;
     },
+    show3Dmap() {
+      this.DcenterShow = !this.DcenterShow;
+    },
     mapTool() {
       this.toolShow = !this.toolShow;
     },
@@ -376,6 +467,25 @@ export default {
     },
     changeMap3DToolBar(item, index) {
       this.$bus.$emit("cesium-3d-maptool", item);
+    },
+    changeMap3D(item, index) {
+      if (item.name == "大数据底图") {
+        //console.log("底图服务",window.earth.imageryLayers)
+        if (window.earth.imageryLayers.get(3) == undefined) {
+           window.earth.imageryLayers.get(1).show = false;
+          this.datalayer = window.earth.imageryLayers.addImageryProvider(
+            new Cesium.SuperMapImageryProvider({
+              layers: "DSJ",
+              url:
+                "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000",
+            })
+          );
+        }
+      } else {
+        //console.log(window.earth.imageryLayers.get(1))
+        window.earth.imageryLayers.get(1).show = true;
+        window.earth.imageryLayers.remove(this.datalayer);
+      }
     },
     changeMapTollBarTop(item, index) {
       if (typeof index === "number") this.selectIndex = index;
@@ -482,7 +592,7 @@ export default {
   &.active {
     height: auto;
     > i {
-      .bg-image("images/draw_type-act");
+      .bg-image("images/qiehuan-act");
       background-size: 0.34rem;
       color: #0d6aad;
       background-color: rgba(0, 0, 0, 0.4) !important;
@@ -506,14 +616,14 @@ export default {
     width: 0.16rem;
     height: 0.16rem;
     display: block;
-    .bg-image("images/draw_type");
+    .bg-image("images/qiehuan");
     background-size: 0.34rem;
     position: relative;
     left: 50%;
     transform: translate(-50%, 0);
   }
   > i:hover {
-    .bg-image("images/draw_type-act");
+    .bg-image("images/qiehuan-act");
     background-size: 0.34rem;
     color: #0d6aad;
     background-color: rgba(0, 0, 0, 0.4) !important;
@@ -549,7 +659,7 @@ export default {
   transition: all 0.3s linear;
   top: 0.5rem;
   border-radius: 6px;
-  left: 5.3rem;
+  left: 5.9rem;
   /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
   border: 1px #5ab0e5 solid !important;
   cursor: pointer;
@@ -597,7 +707,7 @@ export default {
     left: 0.16rem;
   }
 }
-.toCenter2 {
+.toCenter3 {
   width: 0.5rem;
   height: 0.46rem;
   display: block;
@@ -607,6 +717,78 @@ export default {
   top: 0.5rem;
   border-radius: 6px;
   left: 5.9rem;
+  /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
+  border: 1px #5ab0e5 solid !important;
+  cursor: pointer;
+  overflow: hidden;
+  &.active {
+    height: 1.6rem;
+    > i {
+      .bg-image("images/draw_type-act");
+      background-size: 0.34rem;
+      color: #0d6aad;
+      background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+  }
+  .center-item {
+    width: 0.32rem;
+    height: 0.46rem;
+    margin-left: 7px;
+    text-align: center;
+    line-height: 0.46rem;
+    color: #fff;
+  }
+  .center-item:hover {
+    color: #00baff;
+  }
+  .center-item.active {
+    color: #00baff;
+  }
+  > i {
+    width: 0.16rem;
+    height: 0.16rem;
+    display: block;
+    .bg-image("images/draw_type");
+    background-size: 0.34rem;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  > i:hover {
+    .bg-image("images/draw_type-act");
+    background-size: 0.34rem;
+    color: #0d6aad;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+  }
+  &.collapse {
+    left: 1.5rem;
+  }
+  .map-toolbar-box {
+    height: 0;
+    padding: 0 0.06rem;
+    position: relative;
+    top: -0.1rem;
+    left: 0;
+    margin: 0;
+    overflow-y: hidden;
+  }
+  .map-toolbar-box.active {
+    transition: height 0.3s linear;
+    padding: 0.06rem 0;
+    height: 100%; // 多
+    padding-top: 0px;
+  }
+}
+.toCenter2 {
+  width: 0.5rem;
+  height: 0.46rem;
+  display: block;
+  background: #03315a !important;
+  position: absolute;
+  transition: all 0.3s linear;
+  top: 0.5rem;
+  border-radius: 6px;
+  left: 5.3rem;
   border: 1px #5ab0e5 solid !important;
   cursor: pointer;
   overflow: hidden;
@@ -660,7 +842,7 @@ export default {
   left: 0.8rem !important;
 }
 .toCenter1.moveRight2 {
-  left: 1.45rem !important;
+  left: 2.16rem !important;
 }
 .map-toolbar-box-map {
   overflow: hidden;
@@ -749,7 +931,7 @@ export default {
   /*box-shadow: 0 0 0 0.02rem rgba(0, 0, 0, 0.1);*/
   /*border:1px #5ab0e5 solid;*/
   border-radius: 6px;
-  left: 5.4rem;
+  left: 4.4rem;
   top: 0rem;
   z-index: 2;
   transition: left 0.3s linear;

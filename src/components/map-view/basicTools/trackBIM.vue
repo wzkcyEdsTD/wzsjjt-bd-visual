@@ -19,27 +19,7 @@ import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 const LAYER_NAME = [
-  "动车南站_站台屋顶",
-  "动车南站_地下通道",
-  "动车南站_摄像头",
-  "动车南站_安全黄线",
-  "穿山隧道",
-  "动车南站_站台",
-  "动车南站_售票厅",
-  "动车南站_盲道",
-  "动车南站_升降梯",
-  "动车南站_站厅屋顶",
-  "动车南站_屏蔽门",
-  "动车南站_闸机",
-  "动车南站_手扶梯",
-  "动车南站_指示牌",
-  "动车南站_自助终端",
-  "动车南站_客服中心",
-  "轨道桥墩",
-  "动车南站_地下通道吊顶",
-  "动车南站_消防设施",
-  "动车南站_显示屏",
-  "动车南站_市政通道",
+  "市域轨道",
 ];
 export default {
   name: "trackBIM",
@@ -108,6 +88,7 @@ export default {
     initBimScene(fn) {
       this.viewer.scene.undergroundMode = true;
       const _LAYER_ = this.viewer.scene.layers.find(LAYER_NAME[0]);
+      console.log("_LAYER_",_LAYER_);
       if (_LAYER_) {
         LAYER_NAME.map(
           (d) => (this.viewer.scene.layers.find(d).visible = true)
@@ -161,7 +142,11 @@ export default {
     },
     //  清除BIM模块
     clearStationTour() {
-      LAYER_NAME.map((d) => (this.viewer.scene.layers.find(d).visible = false));
+      console.log("S1",LAYER_NAME[0]);
+      var dddddd = this.viewer.scene.layers.find(LAYER_NAME[0]);
+      console.log("LAYER_NAME",dddddd);
+      this.viewer.scene.layers.find(LAYER_NAME[0]).visible = false;
+      //LAYER_NAME.map((LAYER_NAME) => (this.viewer.scene.layers.find(LAYER_NAME).visible = false));
       //this.flyManager && (this.flyManager = undefined);
       //LAYER_NAME.map((d) => (this.viewer.scene.layers.find(d).visible = false));
     },

@@ -513,11 +513,13 @@ export default {
     height: 0.72rem;
     right: 0;
     position: absolute;
+    display: none;
   }
   .right-content-first {
     height: 0.72rem;
     right: 0.4rem;
     position: absolute;
+    display: none;
     .modal {
       position: absolute;
       background: #1c1f24;

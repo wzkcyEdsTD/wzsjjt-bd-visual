@@ -6,6 +6,9 @@
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\getters.js
  */
+
+import state from "./state";
+
 // 获取state
 export const collapse1 = state => state.collapse1;
 export const collapse2 = state => state.collapse2;
@@ -21,9 +24,12 @@ export const mapLoaded = state => state.mapLoaded;
 export const specalTreeName = state => state.specalTreeName;
 export const forceBimIDS = state => state.forceBimIDS;
 export const forceBimData = state => state.forceBimData;
+export const forceBimSP  = state => state.forceBimSP;
+export const forceBimName = state => state.forceBimName;
 export const forceRoomData = state => state.forceRoomData;
 export const isInfoFrame = state => state.isInfoFrame;
 export const rtmpList = state => state.rtmpList;
 export const medicalList = state => state.medicalList;
 export const medicalListWithGeometry = state => state.medicalListWithGeometry;
 export const hospitalList = state => state.hospitalList;
+export const forceBimDataByType = state => state.forceBimDataByType;

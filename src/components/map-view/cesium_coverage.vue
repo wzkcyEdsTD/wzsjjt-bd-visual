@@ -1007,7 +1007,7 @@ export default {
                   </tr>
                 </table>
                 <div class="pop-tip-bottom">
-                 <span class="pop-tip-more" onclick="showInfo()">信息详情</span>
+                 <span class="pop-tip-more" onclick="showInfo()">信息详情>>></span>
                  <span class="pop-tip-analyse" onclick="showAround()">就近分析</span>
                 </div>
               </div>`;

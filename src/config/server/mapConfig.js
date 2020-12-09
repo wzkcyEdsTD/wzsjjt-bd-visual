@@ -22,7 +22,8 @@ export const ServiceUrl = {
     "http://10.36.245.203:8090/iserver/services/map-agscachev2-Layers2/rest/maps/Layers",
   // 全球图
   globalMap:
-    "http://10.36.245.203:8090/iserver/services/map-agscachev2-QQXZQ/rest/maps/QQXZQ",
+    //"http://10.36.245.203:8090/iserver/services/map-agscachev2-QQXZQ/rest/maps/QQXZQ",
+    "http://10.36.245.203:8090/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000",
   // 中国地图
   ZGMap:
     "http://10.36.245.203:8090/iserver/services/map-agscachev2-DSJZG/rest/maps/DSJ_ZG",
@@ -103,7 +104,8 @@ export const ServiceUrl = {
 
     //  大数据底图
     DataImage:
-    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-DSJCGS2000SW/rest/realspace/datas/DSJ_CGS2000_SW"
+    "http://172.20.83.223:8091/iserver/services/map-agscachev2-YJDSJCGCS2000/rest/maps/YJ_DSJ_CGCS2000"
+    //"https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-DSJCGS2000SW/rest/realspace/datas/DSJ_CGS2000_SW"
 };
 
 export const dataSourceUrl = {
@@ -140,6 +142,7 @@ export const BimSourceURL = {
     "http://172.20.83.223:8098/iserver/services/data-Airport_Station/rest/data",
   //地下管线  
   UNDERGROUND_SCENE_URL:
+    //"http://172.20.83.223:8098/iserver/services/3D-mongodb3/rest/realspace",
     "http://172.20.83.223:8098/iserver/services/3D-ResultNetWork_JSLINE/rest/realspace",
   //S1线轨道三维服务  
   track_URL:

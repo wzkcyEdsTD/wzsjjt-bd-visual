@@ -344,8 +344,8 @@ export default {
       right: 0.35rem;
     }
     transform: translate(0, 0);
-    top: 1rem;
-    left: 4.7rem;
+    top: 1.5rem;
+    left: 4.0rem;
     &.collapse {
       left: 0.75rem;
     }

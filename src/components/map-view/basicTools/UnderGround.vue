@@ -7,20 +7,26 @@
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\UnderGround.vue
 -->
 <template>
-  <div class="ThreeDContainer ThreeToTop" :style="{width:'290px'}">
+  <div class="ThreeDContainer ThreeToTop" :style="{ width: '290px' }">
     <div class="underground tframe" id="toolbar">
       <el-form>
         <el-row>
           <el-col :span="24">
             <el-form-item class="elformbtns">
-              <el-button class="elformbtn" @click="digUnderGround">倾斜开挖</el-button>
-              <el-button class="elformbtn" @click="clearUnderGround">清除</el-button>
-              <el-button class="elformbtn" @click="closeUnderGround">关闭</el-button>
+              <el-button class="elformbtn" @click="digUnderGround"
+                >倾斜开挖</el-button
+              >
+              <el-button class="elformbtn" @click="clearUnderGround"
+                >清除</el-button
+              >
+              <el-button class="elformbtn" @click="closeUnderGround"
+                >关闭</el-button
+              >
               <br />
               <label class="UnderGroundTitle">图层透明:</label>
               <input
                 type="range"
-                style="width: 70%;margin-top:13px"
+                style="width: 70%; margin-top: 13px"
                 value="0"
                 min="0"
                 max="1"
@@ -40,9 +46,10 @@ import { BimSourceURL } from "config/server/mapConfig";
 import { ServiceUrl } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 const LAYER_NAME = [
-  "ResultNetWork_JSLINE@guanxian",
-  "ResultNetWork_JSLINE_Node@guanxian",
-  "给水_附属设施_Z@guanxian",
+  "东方管线",
+  // "GSFuShuSheShi",
+  // "GSLineNode",
+  // "GSLine"
 ];
 export default {
   name: "UnderGround",
@@ -202,21 +209,44 @@ export default {
         // 关闭裙边
         that.viewer.scene.terrainProvider.isCreateSkirt = false;
         that.viewer.scene.camera.setView({
-        // 将经度、纬度、高度的坐标转换为笛卡尔坐标
-        destination: {
-          x: -2873554.9477471025,
-          y: 4845359.60787617,
-          z: 2991429.755893625
-        },
-        orientation: {
-          heading: 2.3280016887452777,
-          pitch: -1.570742020609205,
-          roll: 0,
-        },
-      });
+          destination: Cesium.Cartesian3.fromDegrees(
+            120.793885014263,
+            27.8071459704,
+            150
+          ),
+          orientation: {
+            heading: 2.3280016887452777,
+            pitch: -1.570742020609205,
+            roll: 0,
+          },
+        });
       } else {
         const { UNDERGROUND_SCENE_URL } = BimSourceURL;
-        that.promise = this.viewer.scene.open(UNDERGROUND_SCENE_URL);
+        //that.promise = this.viewer.scene.open(UNDERGROUND_SCENE_URL);
+        that.promise = window.earth.scene.addS3MTilesLayerByScp(
+          "http://172.20.83.223:8098/iserver/services/3D-DongFangGuanXian/rest/realspace/datas/%E4%B8%9C%E6%96%B9%E7%AE%A1%E7%BA%BF/config",
+          {
+            name: "东方管线",
+          }
+        );
+        // that.promise = window.earth.scene.addS3MTilesLayerByScp(
+        //   "http://172.20.83.223:8098/iserver/services/3D-mongodb3/rest/realspace/datas/GSFuShuSheShi/config",
+        //   {
+        //     name: "GSFuShuSheShi"
+        //   }
+        // );
+        // const GSLine = window.earth.scene.addS3MTilesLayerByScp(
+        //   "http://172.20.83.223:8098/iserver/services/3D-mongodb3/rest/realspace/datas/GSLine/config",
+        //   {
+        //     name: "GSLine"
+        //   }
+        // );
+        // const GSLineNode = window.earth.scene.addS3MTilesLayerByScp(
+        //   "http://172.20.83.223:8098/iserver/services/3D-mongodb3/rest/realspace/datas/GSLineNode/config",
+        //   {
+        //     name: "GSLineNode"
+        //   }
+        // );
         that.globe = that.viewer.scene.globe;
         //开启地下模式
         that.viewer.scene.undergroundMode = true;
@@ -224,6 +254,31 @@ export default {
         that.viewer.scene.screenSpaceCameraController.minimumZoomDistance = -1000;
         // 关闭裙边
         that.viewer.scene.terrainProvider.isCreateSkirt = false;
+        // that.viewer.scene.camera.setView({
+        //   // 将经度、纬度、高度的坐标转换为笛卡尔坐标
+        //   destination: {
+        //     x: -2885689.43805791,
+        //     y: 4865993.322893596,
+        //     z: 2991429.755893625,
+        //   },
+        //   orientation: {
+        //     heading: 2.3280016887452777,
+        //     pitch: -1.570742020609205,
+        //     roll: 0,
+        //   },
+        // });
+        that.viewer.scene.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(
+            120.793885014263,
+            27.8071459704,
+            150
+          ),
+          orientation: {
+            heading: 2.3280016887452777,
+            pitch: -1.570742020609205,
+            roll: 0,
+          },
+        });
       }
 
       //打开地下管线
@@ -236,6 +291,10 @@ export default {
     },
     //  关闭地下管线分析模块
     closeUnderGround() {
+      console.log("相机参数1", window.earth.scene.camera.position);
+      console.log("相机参数2", window.earth.scene.camera.heading);
+      console.log("相机参数3", window.earth.scene.camera.pitch);
+      console.log("相机参数4", window.earth.scene.camera.roll);
       this.clearUnderGround();
       // 设置地表图层透明度
       this.viewer.scene.globe.globeAlpha = 1;
@@ -262,7 +321,7 @@ export default {
     clearUnderGround() {
       const that = this;
       that.viewer.scene.globe.removeAllExcavationRegion();
-       
+
       //that.handlerPolygon.polygon.show = false;
       //that.handlerPolygon.polyline.show = false;
     },

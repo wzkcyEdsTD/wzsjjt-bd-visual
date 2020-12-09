@@ -11,6 +11,7 @@ const state = {
   qixiangWarning: [], // 气象信息预警
   jumpWarning: { value: '', index: 0, t: null }, // 跳转到预警
   clearAllLayers: { value: false, t: null }, // 清空所有图层
-  danbingList: {}
+  danbingList: {},
+  videoFirstMenuID:{},
 }
 export default state

@@ -58,7 +58,7 @@ const LAYER_NAME = "Block1";
 const DATASOURCE_NAME = "第一栋";
 const DATA_SETS = "门@窗@墙@楼板@结构柱@结构框架@梯段@平台"
   .split("@")
-  .map((v) => `${DATASOURCE_NAME}:${v}`);
+  .map(v => `${DATASOURCE_NAME}:${v}`);
 export default {
   name: "BimAnalyse",
   data() {
@@ -70,8 +70,8 @@ export default {
         {
           label: "楼层控制",
           id: 1,
-          children: [],
-        },
+          children: []
+        }
       ],
       //这个树节点是整栋楼的部件显隐
       wholeBuildingTreeData: [
@@ -111,8 +111,8 @@ export default {
             //   label: "平台",
             //   id: 9,
             // },
-          ],
-        },
+          ]
+        }
       ],
       BimHash: {},
       endID: 0,
@@ -125,11 +125,11 @@ export default {
       lastHouseEntity: undefined,
       //  节流
       count: 0,
-      fnScroll: () => {},
+      fnScroll: () => {}
     };
   },
   computed: {
-    ...mapGetters("map", ["forceBimIDS"]),
+    ...mapGetters("map", ["forceBimIDS", "forceBimData"])
   },
   watch: {
     // BimTreeData: {
@@ -145,7 +145,7 @@ export default {
   },
   async mounted() {
     this.initBimScene();
-    this.eventRegsiter();
+    // this.eventRegsiter();
     this.cameraMove();
   },
   beforeDestroy() {
@@ -157,10 +157,12 @@ export default {
     ...mapActions("map", [
       "SetForceBimData",
       "SetForceRoomData",
-      "SetForceBimIDS",
+      "SetForceBimIDS"
     ]),
+    // ...mapGetters("map", ["forceBimIDS","forceBimData"]),
     //树节点点击的时候触发的事件
     treeHandler() {
+      window.earth.entities.removeAll();
       var ids1 = this.$refs.tree.getCheckedKeys();
       var result = [];
       for (const item of ids1) {
@@ -207,18 +209,18 @@ export default {
       for (const item of result) {
         if (typeof item == "number") {
           //这里用来进行item的类型判断 如果为number类型
-          floors["f" + item].forEach((el) => {
+          floors["f" + item].forEach(el => {
             floorids.push(el);
           });
         } else {
           //如果是string类型
-          parts[item].forEach((el) => {
+          parts[item].forEach(el => {
             partsids.push(el);
           });
         }
       }
       //对这个floorids进行数组进行过滤，查找最大的那个数组中包含的小数组的元素取相同的
-      IDS = floorids.filter((item) => partsids.indexOf(item) > -1);
+      IDS = floorids.filter(item => partsids.indexOf(item) > -1);
       //找到这个楼层
       this.layer = this.viewer.scene.layers.find(LAYER_NAME);
       //让此时这个IDS数组里面的部件为true，就可以显示出对应的楼层
@@ -231,7 +233,7 @@ export default {
         floors.push({
           label: `第${i}层`,
           id: i,
-          children: this.getFloorParts(i),
+          children: this.getFloorParts(i)
         });
       }
       this.BimTreeData[0].children = floors;
@@ -243,12 +245,13 @@ export default {
         const element = arr[i];
         if (element > 0 && element < 19) {
           for (const key in floors) {
-            floors["f" + element].forEach((item) => {
+            floors["f" + element].forEach(item => {
               IDS.push(item);
             });
           }
         }
       }
+      console.log("安置房", IDS);
       this.layer = this.viewer.scene.layers.find(LAYER_NAME);
       this.layer.setObjsVisible(IDS, true);
     },
@@ -330,36 +333,36 @@ export default {
       let floors = [
         {
           label: `门`,
-          id: i * 100 + 1,
+          id: i * 100 + 1
         },
         {
           label: `窗`,
-          id: i * 100 + 2,
+          id: i * 100 + 2
         },
         {
           label: `墙`,
-          id: i * 100 + 3,
+          id: i * 100 + 3
         },
         {
           label: `楼板`,
-          id: i * 100 + 4,
+          id: i * 100 + 4
         },
         {
           label: `结构柱`,
-          id: i * 100 + 5,
+          id: i * 100 + 5
         },
         {
           label: `结构框架`,
-          id: i * 100 + 6,
+          id: i * 100 + 6
         },
         {
           label: `梯段`,
-          id: i * 100 + 7,
+          id: i * 100 + 7
         },
         {
           label: `平台`,
-          id: i * 100 + 8,
-        },
+          id: i * 100 + 8
+        }
       ];
       return floors;
     },
@@ -367,7 +370,7 @@ export default {
       //节流函数
       let timer = null;
       let previous = null;
-      return function () {
+      return function() {
         let now = +new Date();
         if (!previous) previous = now;
         if (atleast && now - previous > atleast) {
@@ -385,9 +388,10 @@ export default {
     },
     //  事件绑定
     eventRegsiter() {
+      console.log("调用成功");
       const that = this;
       this.$bus.$off("cesium-3d-floorDIS");
-      this.$bus.$on("cesium-3d-floorDIS", (value) => {
+      this.$bus.$on("cesium-3d-floorDIS", value => {
         const layer = this.viewer.scene.layers.find(LAYER_NAME);
         if (value) {
           layer.setObjsVisible(this.forceBimIDS, true);
@@ -400,16 +404,13 @@ export default {
           layer.setObjsVisible(IDS, true);
         }
       });
-
-      that.handler.setInputAction((e) => {
-        let position = that.viewer.scene.pickPosition(e.position);
-        !position && (position = Cesium.Cartesian3.fromDegrees(0, 0, 0));
-        const cartographic = Cesium.Cartographic.fromCartesian(position);
-        const longitude = Cesium.Math.toDegrees(cartographic.longitude);
-        const latitude = Cesium.Math.toDegrees(cartographic.latitude);
-        const height = cartographic.height;
-        that.bindDataSQL({ x: longitude, y: latitude, z: height });
-      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+      let position = window.position;
+      !position && (position = Cesium.Cartesian3.fromDegrees(0, 0, 0));
+      const cartographic = Cesium.Cartographic.fromCartesian(position);
+      const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+      const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+      const height = cartographic.height;
+      that.bindDataSQL({ x: longitude, y: latitude, z: height });
     },
     //  相机移动
     cameraMove() {
@@ -417,13 +418,13 @@ export default {
         destination: {
           x: -2875539.090787695,
           y: 4842735.556374235,
-          z: 2993566.8100139066,
+          z: 2993566.8100139066
         },
         orientation: {
           heading: 0.00000410168472608774,
           pitch: -0.5655332606839059,
-          roll: 0,
-        },
+          roll: 0
+        }
       });
     },
     //  初始化BIM场景
@@ -437,22 +438,22 @@ export default {
           `${SCENE_URL}/datas/${LAYER_NAME}/config`,
           { name: LAYER_NAME }
         );
-        Cesium.when(promise, async (layers) => {
+        Cesium.when(promise, async layers => {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
           layer.setQueryParameter({
             url: SCENE_DATA_URL,
             dataSourceName: "第一栋",
-            isMerge: true,
+            isMerge: true
           });
           const color = new Cesium.Color.fromCssColorString(
             "rgba(23,92,239,0.3)"
           );
           layer.selectedColor = color;
-          layer.datasetInfo().then((result) => {
+          layer.datasetInfo().then(result => {
             console.log("result", result);
             const bimHash = {};
             let endID = 0;
-            this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
+            this.keys = [...this.keys, ...result.map(v => v.datasetName)];
             this.getFloors();
             this.wholeBuildingTreeData[0].children.push({
               id: 0, //DATASOURCE_NAME,
@@ -464,9 +465,9 @@ export default {
                   id: `${DATASOURCE_NAME}_${index}`,
                   label: v.datasetName,
                   startID: v.startID,
-                  endID: v.endID,
+                  endID: v.endID
                 };
-              }),
+              })
             });
             this.endID = endID;
             this.bimHash = bimHash;
@@ -477,6 +478,7 @@ export default {
     },
     //  属性表SQL查询（三维每）
     bindDataSQL({ x, y, z }) {
+      console.log("sql", x, y, z);
       const that = this;
       const { SCENE_SQL_URL } = BimSourceURL;
       $.ajax({
@@ -490,15 +492,16 @@ export default {
             id: 0,
             parts: [1],
             points: [{ x, y }],
-            type: "POINT",
-          },
+            type: "POINT"
+          }
         }),
-        success: (result) => {
+        success: result => {
+          //console.log("result",JSON.parse(result).features)
           that.onQueryComplete(JSON.parse(result).features, z);
         },
-        error: (msg) => {
+        error: msg => {
           console.log(msg);
-        },
+        }
       });
     },
     //  楼层贴皮
@@ -509,15 +512,25 @@ export default {
         this.lastHouseEntity = null;
         this.SetForceRoomData([]);
       }
+      var louceng = "";
+      for (let i = 0; i < window.a.length; i++) {
+        if (window.a[i].k == "所属楼层") {
+          louceng = window.a[i].v;
+        }
+      }
       const selectedFloors = features.filter(({ fieldNames, fieldValues }) => {
-        const BOTTOM = fieldNames.indexOf("BOTTOM");
-        const LSG = fieldNames.indexOf("LSG");
+        // const BOTTOM = fieldNames.indexOf("BOTTOM");
+         const LSG = fieldNames.indexOf("LSG");
+        // const isTheFloor =
+        //   BOTTOM > -1 &&
+        //   LSG > -1 &&
+        //   parseFloat(fieldValues[BOTTOM]) <= height &&
+        //   parseFloat(fieldValues[BOTTOM]) + parseFloat(fieldValues[LSG]) >=
+        //     height;
+        const  longFloor = fieldNames.indexOf("楼层");
         const isTheFloor =
-          BOTTOM > -1 &&
-          LSG > -1 &&
-          parseFloat(fieldValues[BOTTOM]) <= height &&
-          parseFloat(fieldValues[BOTTOM]) + parseFloat(fieldValues[LSG]) >=
-            height;
+          fieldValues[longFloor] == louceng &&
+          LSG > -1;
         return isTheFloor;
       });
       const selectedFeature = selectedFloors.length ? selectedFloors[0] : null;
@@ -531,14 +544,15 @@ export default {
         selectedFeature.fieldValues[
           selectedFeature.fieldNames.indexOf("BOTTOM")
         ]
-      ); // 底部高程
+      );
       var extrudeHeight = Number(
         selectedFeature.fieldValues[selectedFeature.fieldNames.indexOf("LSG")]
       ); // 层高（拉伸高度）
       //  获取该楼层所有ids
       queryFloorByBottom(
         this,
-        Math.floor(bottomHeight / extrudeHeight) + "F",
+        //Math.floor(bottomHeight / extrudeHeight) + "F",
+        louceng,
         // "7F",
         this.bimHash,
         layer
@@ -552,9 +566,9 @@ export default {
       this.lastHouseEntity = this.viewer.entities.add({
         polygon: {
           hierarchy: Cesium.Cartesian3.fromDegreesArray(points3D),
-          material: new Cesium.Color(223 / 255, 199 / 255, 0 / 255, 0.4),
+          material: new Cesium.Color(223 / 255, 199 / 255, 0 / 255, 0.4)
         },
-        clampToS3M: true, // 贴在S3M模型表面
+        clampToS3M: true // 贴在S3M模型表面
       });
       this.SetForceRoomData(
         selectedFeature.fieldNames.map((k, i) => {
@@ -564,11 +578,12 @@ export default {
     },
     //  树结构改变
     checkChange(...params) {
+      window.earth.entities.removeAll();
       const array = [];
       const nodes = this.$refs.tree1
         .getCheckedNodes()
-        .filter((v) => !v.children)
-        .map((v) => {
+        .filter(v => !v.children)
+        .map(v => {
           for (let i = v.startID; i < v.endID + 1; i++) {
             array.push(i);
           }
@@ -583,6 +598,7 @@ export default {
     },
     //  清除BIM模块
     clearBimAnalyse() {
+      console.log(this.viewer.scene.layers);
       this.viewer.scene.layers.find(LAYER_NAME).visible = false;
     },
     //  关闭详情框
@@ -590,7 +606,7 @@ export default {
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
       this.SetForceBimIDS([]);
-    },
-  },
+    }
+  }
 };
 </script>

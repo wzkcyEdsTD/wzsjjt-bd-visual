@@ -26,6 +26,9 @@ const state = {
   //  bim
   forceBimIDS: [],
   forceBimData: [],
+  forceBimSP:[],
+  forceBimName:[],
+  forceBimDataByType:[],
   forceRoomData: [],
   //  详情
   isInfoFrame: false,

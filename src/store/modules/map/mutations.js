@@ -52,8 +52,17 @@ const mutations = {
   [types.SET_FORCE_BIM_IDS](state, data) {
     state.forceBimIDS = data;
   },
+  [types.SET_FORCE_BIM_DATABYTYPE](state, data) {
+    state.forceBimDataByType = data;
+  },
   [types.SET_FORCE_BIM_DATA](state, data) {
     state.forceBimData = data;
+  },
+  [types.SET_FORCE_BIM_SP](state,data){
+    state.forceBimSP = data;
+  },
+  [types.SET_FORCE_BIM_NAME](state, data) {
+    state.forceBimName = data;
   },
   [types.SET_FORCE_ROOM_DATA](state, data) {
     state.forceRoomData = data;
