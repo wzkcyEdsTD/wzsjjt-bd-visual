@@ -20,11 +20,15 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './IntersectionTests-397d9494', './Plane-8390418f', './GeometryOffsetAttribute-ca302482', './arrayRemoveDuplicates-f0b089b1', './EllipsoidTangentPlane-605dc181', './EllipsoidRhumbLine-f161e674', './earcut-2.2.1-b404d9e6', './PolygonPipeline-62047934', './PolylineVolumeGeometryLibrary-30d16dbe', './EllipsoidGeodesic-84507801', './PolylinePipeline-a9f32196', './CorridorGeometryLibrary-ac1b8968'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, GeometryOffsetAttribute, arrayRemoveDuplicates, EllipsoidTangentPlane, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, PolylineVolumeGeometryLibrary, EllipsoidGeodesic, PolylinePipeline, CorridorGeometryLibrary) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './GeometryOffsetAttribute-c9accdb9', './arrayRemoveDuplicates-aafa59fd', './EllipsoidTangentPlane-b778e576', './EllipsoidRhumbLine-c9b776a6', './earcut-2.2.1-b404d9e6', './PolygonPipeline-7df0d8c5', './PolylineVolumeGeometryLibrary-a0b548bc', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca', './CorridorGeometryLibrary-60c7a539'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, GeometryOffsetAttribute, arrayRemoveDuplicates, EllipsoidTangentPlane, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, PolylineVolumeGeometryLibrary, EllipsoidGeodesic, PolylinePipeline, CorridorGeometryLibrary) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
-    var cartesian1 = new Cartographic.Cartesian3();
-        var cartesian2 = new Cartographic.Cartesian3();
-        var cartesian3 = new Cartographic.Cartesian3();
+    var cartesian1 = new Cartesian2.Cartesian3();
+        var cartesian2 = new Cartesian2.Cartesian3();
+        var cartesian3 = new Cartesian2.Cartesian3();
 
         function scaleToSurface(positions, ellipsoid) {
             for (var i = 0; i < positions.length; i++) {
@@ -95,8 +99,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 rightPos = cartesian2;
                 var firstEndPositions = endPositions[0];
                 for (i = 0; i < halfLength; i++) {
-                    leftPos = Cartographic.Cartesian3.fromArray(firstEndPositions, (halfLength - 1 - i) * 3, leftPos);
-                    rightPos = Cartographic.Cartesian3.fromArray(firstEndPositions, (halfLength + i) * 3, rightPos);
+                    leftPos = Cartesian2.Cartesian3.fromArray(firstEndPositions, (halfLength - 1 - i) * 3, leftPos);
+                    rightPos = Cartesian2.Cartesian3.fromArray(firstEndPositions, (halfLength + i) * 3, rightPos);
                     CorridorGeometryLibrary.CorridorGeometryLibrary.addAttribute(finalPositions, rightPos, front);
                     CorridorGeometryLibrary.CorridorGeometryLibrary.addAttribute(finalPositions, leftPos, undefined, back);
 
@@ -148,7 +152,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                     start = UR;
                     wallIndices.push(LR);
                     for (j = 0; j < l.length / 3; j++) {
-                        outsidePoint = Cartographic.Cartesian3.fromArray(l, j * 3, outsidePoint);
+                        outsidePoint = Cartesian2.Cartesian3.fromArray(l, j * 3, outsidePoint);
                         indices[index++] = start - j - 1;
                         indices[index++] = start - j;
                         CorridorGeometryLibrary.CorridorGeometryLibrary.addAttribute(finalPositions, outsidePoint, undefined, back);
@@ -164,7 +168,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                     start = LR;
                     wallIndices.push(UR);
                     for (j = 0; j < r.length / 3; j++) {
-                        outsidePoint = Cartographic.Cartesian3.fromArray(r, j * 3, outsidePoint);
+                        outsidePoint = Cartesian2.Cartesian3.fromArray(r, j * 3, outsidePoint);
                         indices[index++] = start + j;
                         indices[index++] = start + j + 1;
                         CorridorGeometryLibrary.CorridorGeometryLibrary.addAttribute(finalPositions, outsidePoint, front);
@@ -208,8 +212,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 rightPos = cartesian2;
                 var lastEndPositions = endPositions[1];
                 for (i = 0; i < halfLength; i++) {
-                    leftPos = Cartographic.Cartesian3.fromArray(lastEndPositions, (endPositionLength - i - 1) * 3, leftPos);
-                    rightPos = Cartographic.Cartesian3.fromArray(lastEndPositions, i * 3, rightPos);
+                    leftPos = Cartesian2.Cartesian3.fromArray(lastEndPositions, (endPositionLength - i - 1) * 3, leftPos);
+                    rightPos = Cartesian2.Cartesian3.fromArray(lastEndPositions, i * 3, rightPos);
                     CorridorGeometryLibrary.CorridorGeometryLibrary.addAttribute(finalPositions, leftPos, undefined, back);
                     CorridorGeometryLibrary.CorridorGeometryLibrary.addAttribute(finalPositions, rightPos, front);
 
@@ -360,7 +364,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
              * The number of elements used to pack the object into an array.
              * @type {Number}
              */
-            this.packedLength = 1 + positions.length * Cartographic.Cartesian3.packedLength + Cartesian2.Ellipsoid.packedLength + 6;
+            this.packedLength = 1 + positions.length * Cartesian2.Cartesian3.packedLength + Cartesian2.Ellipsoid.packedLength + 6;
         }
 
         /**
@@ -384,8 +388,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = positions.length;
             array[startingIndex++] = length;
 
-            for (var i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                Cartographic.Cartesian3.pack(positions[i], array, startingIndex);
+            for (var i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                Cartesian2.Cartesian3.pack(positions[i], array, startingIndex);
             }
 
             Cartesian2.Ellipsoid.pack(value._ellipsoid, array, startingIndex);
@@ -431,8 +435,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = array[startingIndex++];
             var positions = new Array(length);
 
-            for (var i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                positions[i] = Cartographic.Cartesian3.unpack(array, startingIndex);
+            for (var i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                positions[i] = Cartesian2.Cartesian3.unpack(array, startingIndex);
             }
 
             var ellipsoid = Cartesian2.Ellipsoid.unpack(array, startingIndex, scratchEllipsoid);
@@ -480,7 +484,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var ellipsoid = corridorOutlineGeometry._ellipsoid;
 
             positions = scaleToSurface(positions, ellipsoid);
-            var cleanPositions = arrayRemoveDuplicates.arrayRemoveDuplicates(positions, Cartographic.Cartesian3.equalsEpsilon);
+            var cleanPositions = arrayRemoveDuplicates.arrayRemoveDuplicates(positions, Cartesian2.Cartesian3.equalsEpsilon);
 
             if ((cleanPositions.length < 2) || (width <= 0)) {
                 return;

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-06 14:12:52
+ * @LastEditTime: 2020-07-28 17:16:36
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_map.vue
@@ -9,6 +9,7 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
+<<<<<<< HEAD
     <div v-if="mapLoaded">
       <Coverage />
       <RegionSimulateFlood
@@ -39,23 +40,41 @@
       <Population />
       <!--注意这边是两个 "==" 而不是一个 ↑-->
     </div>
+=======
+    <Coverage />
+    <RegionSimulateFlood ref="regionsimulateflood" v-if="showSubFrame == '3d1'" />
+    <BimAnalyse ref="bimanalyse" v-if="showSubFrame == '3d2'" />
+    <StationTour ref="stationtour" v-if="showSubFrame == '3d3'" />
+    <!-- <UnderGround ref="underground" v-if="showSubFrame == '3d4'" /> -->
+    <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
+    <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
+    <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
+    <Sightline ref="sightline" v-if="showSubTool == '3t4'" />
+    <Shadow ref="shadow" v-if="showSubTool =='3t5'"/>
+    <InfoFrame ref="infoframe" />
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   </div>
 </template>
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
-import Coverage from "./treeTool/TreeTool";
+import Coverage from "./cesium_coverage";
 import RegionSimulateFlood from "./basicTools/RegionSimulateFlood";
 import BimAnalyse from "./basicTools/BimAnalyse";
 import StationTour from "./basicTools/StationTour";
+<<<<<<< HEAD
 import trackBIM from "./basicTools/trackBIM";
 import Riversline from "./basicTools/Riversline";
 import UnderGround from "./basicTools/UnderGround";
+=======
+// import UnderGround from "./basicTools/UnderGround";
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
+<<<<<<< HEAD
 import Tsaddress from "./commonFrame/tsaddress";
 import Jingmoqipao from "./commonFrame/jingmoqipao";
 import Sightline from "@/components/map-view/basicTools/Sightline";
@@ -67,6 +86,10 @@ import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
+=======
+import Sightline from "./basicTools/Sightline";
+import Shadow from "./basicTools/Shadow";
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
 
@@ -74,11 +97,15 @@ export default {
   data() {
     return {
       showSubFrame: null,
+<<<<<<< HEAD
       showSubTool: null,
       mapLoaded: false,
       handler: undefined,
       datalayer: undefined,
       isMedicalInfoFrame: false,
+=======
+      showSubTool: true,
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     };
   },
   computed: {
@@ -89,9 +116,13 @@ export default {
     RegionSimulateFlood,
     BimAnalyse,
     StationTour,
+<<<<<<< HEAD
     trackBIM,
     UnderGround,
     Riversline,
+=======
+    // UnderGround,
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     VisualizationAnalyse,
     SectionAnalyse,
     CesiumMapTool,
@@ -99,6 +130,7 @@ export default {
     Tsaddress,
     Jingmoqipao,
     Sightline,
+<<<<<<< HEAD
     ShadowQuery,
     NanTangModel,
     MedicalPopup,
@@ -113,6 +145,12 @@ export default {
       this.initPostRender();
       this.initHandler();
     });
+=======
+    Shadow,
+  },
+  mounted() {
+    this.init3DMap();
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     this.eventRegsiter();
   },
   methods: {
@@ -235,7 +273,6 @@ export default {
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
       this.$bus.$on("cesium-3d-event", ({ value }) => {
-        this.SetForceBimData([]);
         this.showSubFrame = value;
       });
       this.$bus.$off("cesium-3d-maptool");
@@ -250,7 +287,7 @@ export default {
         }
       });
     },
-    init3DMap(fn) {
+    init3DMap() {
       const that = this;
       // 加载地图和影像地图
       //       var viewer = new Cesium.Viewer("cesiumContainer", {
@@ -388,6 +425,18 @@ export default {
           roll: 0, //滚动角(roll)
         },
       });
+<<<<<<< HEAD
+=======
+      window.earth = viewer; // 全局变量（优化性能）
+      // store.dispatch('cesium', viewer)
+      // this.initPop();
+      viewer.pickEvent.addEventListener((feature) => {
+        const _data_ = Object.keys(feature).map((k) => {
+          return { k, v: feature[k] };
+        });
+        that.SetForceBimData(_data_);
+      });
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     },
   },
 };

@@ -1,21 +1,34 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-21 14:49:17
+<<<<<<< HEAD
  * @LastEditTime: 2020-09-16 16:21:51
+=======
+ * @LastEditTime: 2020-07-28 20:12:29
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyse.vue
 -->
 <template>
+<<<<<<< HEAD
   <div class="ThreeDContainer ThreeToTop BimThreeLeft" :style="{width:'125px'}">
+=======
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'200px'}">
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     <div class="bimanalayse tframe">
       <el-form>
         <el-row>
           <el-col :span="24">
             <el-form-item class="elformbtns">
+<<<<<<< HEAD
               <el-popover placement="top" title="楼层控制" width="300" trigger="click">
                 <div class="bim-analyse-tree" v-if="true">
                   <!--整栋楼层门窗显隐-->
+=======
+              <el-popover placement="top" title="图层选择" width="300" trigger="click">
+                <div class="bim-analyse-tree">
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
                   <el-tree
                     :data="wholeBuildingTreeData"
                     show-checkbox
@@ -31,15 +44,19 @@
                     :data="BimTreeData"
                     show-checkbox
                     node-key="id"
+<<<<<<< HEAD
                     ref="tree"
                     :default-expanded-keys="['all']"
                     :default-checked-keys="['all']"
                     @check="treeHandler"
+=======
+                    @check-change="checkChange"
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
                   />
                 </div>
                 <el-button slot="reference">楼层控制</el-button>
               </el-popover>
-              <el-button v-show="false" class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
+              <el-button class="elformbtn" @click="closeBimAnalyse">关闭</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -49,6 +66,7 @@
 </template>
 <script>
 import { BimSourceURL } from "config/server/mapConfig";
+<<<<<<< HEAD
 import { queryFloorByBottom } from "./BimAnalyseFloorSection";
 import floors from "./floors.json";
 import parts from "./parts.json";
@@ -59,10 +77,16 @@ const DATASOURCE_NAME = "第一栋";
 const DATA_SETS = "门@窗@墙@楼板@结构柱@结构框架@梯段@平台"
   .split("@")
   .map(v => `${DATASOURCE_NAME}:${v}`);
+=======
+const Cesium = window.Cesium;
+import { mapGetters, mapActions } from "vuex";
+const LAYER_NAME = "Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge";
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 export default {
   name: "BimAnalyse",
   data() {
     return {
+<<<<<<< HEAD
       shallTree: false,
       keys: [],
       //这个树节点是楼层控制树节点
@@ -139,6 +163,15 @@ export default {
     //   deep: true,
     // },
   },
+=======
+      BimTreeData: [],
+      // cesium Object
+      viewer: undefined,
+      handler: undefined,
+      lastHouseEntity: undefined,
+    };
+  },
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   created() {
     this.viewer = window.earth;
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
@@ -150,10 +183,11 @@ export default {
   },
   beforeDestroy() {
     this.clearBimAnalyse();
-    this.handler.destroy();
+    this.handler = undefined;
     this.viewer = undefined;
   },
   methods: {
+<<<<<<< HEAD
     ...mapActions("map", [
       "SetForceBimData",
       "SetForceRoomData",
@@ -386,10 +420,14 @@ export default {
         }
       };
     },
+=======
+    ...mapActions("map", ["SetForceBimData", "SetForceRoomData"]),
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     //  事件绑定
     eventRegsiter() {
       console.log("调用成功");
       const that = this;
+<<<<<<< HEAD
       this.$bus.$off("cesium-3d-floorDIS");
       this.$bus.$on("cesium-3d-floorDIS", value => {
         const layer = this.viewer.scene.layers.find(LAYER_NAME);
@@ -411,11 +449,23 @@ export default {
       const latitude = Cesium.Math.toDegrees(cartographic.latitude);
       const height = cartographic.height;
       that.bindDataSQL({ x: longitude, y: latitude, z: height });
+=======
+      that.handler.setInputAction((e) => {
+        let position = that.viewer.scene.pickPosition(e.position);
+        !position && (position = Cesium.Cartesian3.fromDegrees(0, 0, 0));
+        const cartographic = Cesium.Cartographic.fromCartesian(position);
+        const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+        const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+        const height = cartographic.height;
+        that.bindDataSQL({ x: longitude, y: latitude, z: height });
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     },
     //  相机移动
     cameraMove() {
-      window.earth.scene.camera.setView({
+      this.viewer.scene.camera.setView({
         destination: {
+<<<<<<< HEAD
           x: -2875539.090787695,
           y: 4842735.556374235,
           z: 2993566.8100139066
@@ -425,6 +475,17 @@ export default {
           pitch: -0.5655332606839059,
           roll: 0
         }
+=======
+          x: -2875652.7880414873,
+          y: 4843023.435651329,
+          z: 2993391.653376218,
+        },
+        orientation: {
+          heading: 0,
+          pitch: -0.5655775824490981,
+          roll: 0,
+        },
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
       });
     },
     //  初始化BIM场景
@@ -435,20 +496,35 @@ export default {
       } else {
         const { SCENE_URL, SCENE_DATA_URL } = BimSourceURL;
         const promise = this.viewer.scene.addS3MTilesLayerByScp(
-          `${SCENE_URL}/datas/${LAYER_NAME}/config`,
-          { name: LAYER_NAME }
+          "http://172.20.83.223:8090/iserver/services/3D-Placement_house_merge/rest/realspace/datas/Merge_F_03a_AS_9__2018_1@F-03a_AS-9_merge/config",
+          {
+            name: LAYER_NAME,
+          }
         );
+<<<<<<< HEAD
         Cesium.when(promise, async layers => {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
           layer.setQueryParameter({
             url: SCENE_DATA_URL,
             dataSourceName: "第一栋",
             isMerge: true
+=======
+        console.log("start loading...");
+        Cesium.when(promise, async (layers) => {
+          console.log("end loading...");
+          const layer = this.viewer.scene.layers.find(LAYER_NAME);
+          layer.setQueryParameter({
+            url: SCENE_DATA_URL,
+            dataSourceName: "F-03a_AS-9_merge",
+            dataSetName: "Merge_F_03a_AS_9__2018_1",
+            isMerge: true,
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
           });
           const color = new Cesium.Color.fromCssColorString(
             "rgba(23,92,239,0.3)"
           );
           layer.selectedColor = color;
+<<<<<<< HEAD
           layer.datasetInfo().then(result => {
             console.log("result", result);
             const bimHash = {};
@@ -473,6 +549,8 @@ export default {
             this.bimHash = bimHash;
             console.log(bimHash);
           });
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
         });
       }
     },
@@ -487,7 +565,7 @@ export default {
         data: JSON.stringify({
           getFeatureMode: "SPATIAL",
           spatialQueryMode: "INTERSECT",
-          datasetNames: ["Block_2D:Block_2D"],
+          datasetNames: ["172.20.83.196_swdata:Block_2D"],
           geometry: {
             id: 0,
             parts: [1],
@@ -506,7 +584,6 @@ export default {
     },
     //  楼层贴皮
     onQueryComplete(features, height) {
-      const layer = this.viewer.scene.layers.find(LAYER_NAME);
       if (this.lastHouseEntity) {
         this.viewer.entities.remove(this.lastHouseEntity);
         this.lastHouseEntity = null;
@@ -548,6 +625,7 @@ export default {
       var extrudeHeight = Number(
         selectedFeature.fieldValues[selectedFeature.fieldNames.indexOf("LSG")]
       ); // 层高（拉伸高度）
+<<<<<<< HEAD
       //  获取该楼层所有ids
       queryFloorByBottom(
         this,
@@ -557,6 +635,8 @@ export default {
         this.bimHash,
         layer
       );
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
       Cesium.GroundPrimitive.bottomAltitude = bottomHeight;
       Cesium.GroundPrimitive.extrudeHeight = extrudeHeight;
       var points3D = [];
@@ -578,6 +658,7 @@ export default {
     },
     //  树结构改变
     checkChange(...params) {
+<<<<<<< HEAD
       window.earth.entities.removeAll();
       const array = [];
       const nodes = this.$refs.tree1
@@ -590,6 +671,9 @@ export default {
         });
       const layer = this.viewer.scene.layers.find(LAYER_NAME);
       this.fnThrottle(layer.setObjsVisible(array, true), 1000);
+=======
+      console.log(params);
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     },
     //  关闭BIM分析模块
     closeBimAnalyse() {
@@ -605,8 +689,13 @@ export default {
     closeBimFrame() {
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
+<<<<<<< HEAD
       this.SetForceBimIDS([]);
     }
   }
+=======
+    },
+  },
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 };
 </script>

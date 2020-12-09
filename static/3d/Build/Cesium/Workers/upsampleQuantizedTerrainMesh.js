@@ -20,7 +20,11 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './AttributeCompression-84a90a13', './IndexDatatype-9435b55f', './IntersectionTests-397d9494', './Plane-8390418f', './createTaskProcessorWorker', './EllipsoidTangentPlane-605dc181', './OrientedBoundingBox-64cb80e5', './TerrainEncoding-a807a704'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, buildModuleUrl, AttributeCompression, IndexDatatype, IntersectionTests, Plane, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './FeatureDetection-bac17d71', './Transforms-93a668f1', './AttributeCompression-4a5b893f', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './createTaskProcessorWorker', './EllipsoidTangentPlane-b778e576', './OrientedBoundingBox-5c8f5550', './TerrainEncoding-f6db33b5'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, AttributeCompression, IndexDatatype, IntersectionTests, Plane, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
     /**
          * Contains functions for operating on 2D triangles.
@@ -289,7 +293,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 result.z = l3;
                 return result;
             }
-            return new Cartographic.Cartesian3(l1, l2, l3);
+            return new Cartesian2.Cartesian3(l1, l2, l3);
         };
 
         /**
@@ -353,18 +357,18 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
         var clipScratch = [];
         var clipScratch2 = [];
         var verticesScratch = [];
-        var cartographicScratch = new Cartographic.Cartographic();
-        var cartesian3Scratch = new Cartographic.Cartesian3();
+        var cartographicScratch = new Cartesian2.Cartographic();
+        var cartesian3Scratch = new Cartesian2.Cartesian3();
         var uScratch = [];
         var vScratch = [];
         var heightScratch = [];
         var indicesScratch = [];
         var normalsScratch = [];
-        var horizonOcclusionPointScratch = new Cartographic.Cartesian3();
+        var horizonOcclusionPointScratch = new Cartesian2.Cartesian3();
         var boundingSphereScratch = new BoundingSphere.BoundingSphere();
         var orientedBoundingBoxScratch = new OrientedBoundingBox.OrientedBoundingBox();
         var decodeTexCoordsScratch = new Cartesian2.Cartesian2();
-        var octEncodedNormalScratch = new Cartographic.Cartesian3();
+        var octEncodedNormalScratch = new Cartesian2.Cartesian3();
 
         function upsampleQuantizedTerrainMesh(parameters, transferableObjects) {
             var isEastChild = parameters.isEastChild;
@@ -599,7 +603,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 cartesianVertices.push(cartesian3Scratch.z);
             }
 
-            var boundingSphere = BoundingSphere.BoundingSphere.fromVertices(cartesianVertices, Cartographic.Cartesian3.ZERO, 3, boundingSphereScratch);
+            var boundingSphere = BoundingSphere.BoundingSphere.fromVertices(cartesianVertices, Cartesian2.Cartesian3.ZERO, 3, boundingSphereScratch);
             var orientedBoundingBox = OrientedBoundingBox.OrientedBoundingBox.fromRectangle(rectangle, minimumHeight, maximumHeight, ellipsoid, orientedBoundingBoxScratch);
 
             var occluder = new TerrainEncoding.EllipsoidalOccluder(ellipsoid);
@@ -750,8 +754,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
         // An upsampled triangle may be clipped twice before it is assigned an index
         // In this case, we need a buffer to handle the recursion of getNormalX() and getNormalY().
         var depth = -1;
-        var cartesianScratch1 = [new Cartographic.Cartesian3(), new Cartographic.Cartesian3()];
-        var cartesianScratch2 = [new Cartographic.Cartesian3(), new Cartographic.Cartesian3()];
+        var cartesianScratch1 = [new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3()];
+        var cartesianScratch2 = [new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3()];
         function lerpOctEncodedNormal(vertex, result) {
             ++depth;
 
@@ -760,8 +764,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
             first = AttributeCompression.AttributeCompression.octDecode(vertex.first.getNormalX(), vertex.first.getNormalY(), first);
             second = AttributeCompression.AttributeCompression.octDecode(vertex.second.getNormalX(), vertex.second.getNormalY(), second);
-            cartesian3Scratch = Cartographic.Cartesian3.lerp(first, second, vertex.ratio, cartesian3Scratch);
-            Cartographic.Cartesian3.normalize(cartesian3Scratch, cartesian3Scratch);
+            cartesian3Scratch = Cartesian2.Cartesian3.lerp(first, second, vertex.ratio, cartesian3Scratch);
+            Cartesian2.Cartesian3.normalize(cartesian3Scratch, cartesian3Scratch);
 
             AttributeCompression.AttributeCompression.octEncode(cartesian3Scratch, result);
 

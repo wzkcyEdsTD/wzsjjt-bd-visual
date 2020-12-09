@@ -8,9 +8,13 @@
           :key="index"
           v-for="(item, index) in formData"
           :class="activeIndex === index ? 'active' : ''"
+<<<<<<< HEAD
           @click.prevent="custormAnchor('card' + index, index)"
         >
           {{ item.typeName }}
+=======
+          @click.prevent="custormAnchor('card'+index,index)">{{item.typeName}}
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
         </li>
       </ul>
       <div class="content-box flex-1">
@@ -22,6 +26,7 @@
             color="orange"
           ></ItemTitle>
           <div class="table-box">
+<<<<<<< HEAD
             <div
               class="onInformation"
               v-if="
@@ -40,12 +45,23 @@
                 item.description
               }}</span>
               <b class="value" :title="item.value">{{ item.value }}</b>
+=======
+            <div class="onInformation" v-if="!getBaseList.columnInfos || getBaseList.columnInfos.length===0">暂无信息</div>
+            <div
+              class="item"
+              :key="'a'+index"
+              v-if="item.attname!=='pic_url'"
+              v-for="(item,index) in getBaseList.columnInfos">
+              <span class="key" :title="item.description">{{item.description}}</span>
+              <b class="value" :title="item.value">{{item.value}}</b>
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
             </div>
             <div class="item" v-if="getBaseList.columnInfos.length % 2 === 1">
               <span class="key"></span>
               <b class="value"></b>
             </div>
           </div>
+<<<<<<< HEAD
           <!-- 工程图片 -->
           <ItemTitle
             id="card1"
@@ -214,12 +230,17 @@
           </div>
           <!--           <div class="base-img" v-if="getBaseImg.value">
             <img @click="showBigImg" :src="'/file/picture/'+getBaseImg.value" alt />
+=======
+          <div class="base-img" v-if="getBaseImg.value">
+            <img @click="showBigImg" :src="'/file/picture/'+getBaseImg.value" alt="">
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
             <div class="big-img-wrapper" v-show="isShowBigImg">
               <i @click="hideBigImg"></i>
-              <img :src="'/file/picture/'+getBaseImg.value" alt />
+              <img :src="'/file/picture/'+getBaseImg.value" alt="">
             </div>
-          </div>-->
+          </div>
           <!--别的信息-->
+<<<<<<< HEAD
           <template v-for="(item1, index1) in getList">
             <ItemTitle
               :key="'b' + index1"
@@ -281,6 +302,38 @@
                       item3.description
                     }}</span>
                     <b class="value" :title="item3.value">{{ item3.value }}</b>
+=======
+          <template v-for="(item1,index1) in getList">
+            <ItemTitle :key="'b'+index1" :id="'card'+(index1+1)" :title="item1.typeName" color="orange"></ItemTitle>
+            <template v-if="item1.typeName==='分级管控'">
+              <table :key="'aa'+index1" class="table" :style="{'width':percentWidth(item1)}">
+                <thead>
+                <tr>
+                  <th :key="'th'+index4" v-for="(item4,index4) in item1.columnInfos[0]">
+                    {{item4.description}}
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr :key="'aa-tr'+index2" v-for="(item2,index2) in item1.columnInfos" v-show="item1.columnInfos.length">
+                  <td :key="'aa-td'+index3" v-for="(item3,index3) in item2">
+                    <span @click="openPDF(item3)" class="pointer" v-if="item3.attname==='url'">{{item3.value}}</span>
+                    <span v-else>{{item3.value}}</span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </template>
+            <template v-else-if="item1.typeName==='物联感知设备'">
+              <div :key="'bb'+index1">
+                <div class="table-box" style="margin-bottom: 0;" :class="item1.columnInfos.info.length?'':'no-line'">
+                  <div
+                    class="item"
+                    :key="'bbbb'+index3"
+                    v-for="(item3,index3) in item1.columnInfos.info">
+                    <span class="key" :title="item3.description">{{item3.description}}</span>
+                    <b class="value" :title="item3.value">{{item3.value}}</b>
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
                   </div>
                   <div
                     class="item"
@@ -318,6 +371,7 @@
                 :style="{ width: percentWidth(item1) }"
               >
                 <thead>
+<<<<<<< HEAD
                   <tr>
                     <th
                       :key="'zz-th' + index4"
@@ -340,6 +394,18 @@
                       {{ item3.value }}
                     </td>
                   </tr>
+=======
+                <tr>
+                  <th :key="'zz-th'+index4" v-for="(item4,index4) in item1.columnInfos[0]">
+                    {{item4.description}}
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr :key="'zz-tr'+index2" v-for="(item2,index2) in item1.columnInfos" v-show="item1.columnInfos.length">
+                  <td :key="'zz-td'+index3" v-for="(item3,index3) in item2">{{item3.value}}</td>
+                </tr>
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
                 </tbody>
               </table>
             </template>
@@ -351,66 +417,50 @@
   </transition>
 </template>
 <script>
-import ItemTitle from "components/item-title/item-title";
-import { getTableData } from "api/map/map";
-import PDF from "./modules/pdf";
-import BigVideo from "components/big-video/big-video";
+import ItemTitle from 'components/item-title/item-title'
+import { getTableData } from 'api/map/map'
+import PDF from './modules/pdf'
+import BigVideo from 'components/big-video/big-video'
 
 export default {
-  name: "MapEnterprise",
+  name: 'MapEnterprise',
   props: {
-    initialSpeed: {
-      type: Number,
-      default: 30,
-    },
-    initialInterval: {
-      type: Number,
-      default: 4,
-    },
     data: {
       type: Object,
       default() {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
-
   computed: {
-    containerStyle() {
-      return {
-        transform: `translate3d(${this.distance}px, 0, 0)`,
-      };
-    },
-    interval() {
-      return this.initialInterval * 1000;
-    },
     title() {
-      let str = "";
+      let str = ''
       if (this.formData[0]) {
         for (let i = 0; i < this.formData[0].columnInfos.length; i++) {
-          var item = this.formData[0].columnInfos[i];
-          if (item.attname === "name") {
-            str = item.value;
-            i = this.formData[0].columnInfos.length;
+          var item = this.formData[0].columnInfos[i]
+          if (item.attname === 'name') {
+            str = item.value
+            i = this.formData[0].columnInfos.length
           }
         }
       }
       if (!str) {
-        str = "信息详情";
+        str = '信息详情'
       }
-      return str;
+      return str
     },
     getList() {
-      return this.formData.filter((item, index) => index > 0);
+      return this.formData.filter((item, index) => index > 0)
     },
     getBaseList() {
-      const obj = JSON.parse(JSON.stringify(this.formData[0])) || {};
+      const obj = JSON.parse(JSON.stringify(this.formData[0])) || {}
       for (let i = 0; i < obj.columnInfos.length; i++) {
-        if (obj.columnInfos[i].attname === "picture") {
-          obj.columnInfos.splice(i, 1);
-          i = obj.columnInfos.length;
+        if (obj.columnInfos[i].attname === 'pic_url') {
+          obj.columnInfos.splice(i, 1)
+          i = obj.columnInfos.length
         }
       }
+<<<<<<< HEAD
       for (let j = 0; j < obj.columnInfos.length; j++) {
         if (obj.columnInfos[j].attname === "photoss") {
           obj.columnInfos.splice(j, 1);
@@ -486,32 +536,48 @@ console.log("obj",obj)
       }
       return imgname;
     },
+=======
+      return obj
+    },
+    getBaseImg() {
+      let res = {
+        attname: '',
+        description: '',
+        value: ''
+      }
+      const obj = JSON.parse(JSON.stringify(this.formData[0])) || {}
+      for (let i = 0; i < obj.columnInfos.length; i++) {
+        if (obj.columnInfos[i].attname === 'pic_url') {
+          res = obj.columnInfos[i]
+        }
+      }
+      return res
+    }
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   },
   watch: {
     data() {
-      this.close();
-      this.initData();
-    },
+      this.close()
+      this.initData()
+    }
   },
   data() {
     return {
       formData: [{ columnInfos: [] }], // 要显示的数据
-      activeName: "card0",
+      activeName: 'card0',
       isShow: false,
       activeIndex: 0,
+<<<<<<< HEAD
       pdfUrl: "http://172.20.83.195:9000/file/",
+=======
+      pdfUrl: '',
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
       isShowBigImg: false,
-      videoStyle: {},
-      currentIndex: 1,
-      distance: -600,
-      transitionEnd: true,
-      speed: this.initialSpeed,
-    };
-  },
-  mounted() {
-    this.init();
+      videoStyle: {}
+    }
   },
   methods: {
+<<<<<<< HEAD
     init() {
       this.play();
       window.onblur = function () {
@@ -575,33 +641,36 @@ console.log("obj",obj)
       window.clearInterval(this.timer);
       this.timer = null;
     },
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     fullVideo(url) {
-      this.$refs.fullVideoEl[0].show(url);
+      this.$refs.fullVideoEl[0].show(url)
     },
     initPdfUrl() {
-      this.pdfUrl = "";
+      this.pdfUrl = ''
     },
     showBigImg() {
-      this.isShowBigImg = true;
+      this.isShowBigImg = true
     },
     hideBigImg() {
-      this.isShowBigImg = false;
+      this.isShowBigImg = false
     },
     openPDF(item) {
       // this.pdfUrl = '/file/pdf/中国石化销售股份有限公司浙江文成南田加油站_应急预案.pdf'
-      this.pdfUrl = "/file/pdf/" + item.value;
-      this.$refs.pdf.show();
+      this.pdfUrl = '/file/pdf/' + item.value
+      this.$refs.pdf.show()
     },
     percentWidth(item) {
-      let res = "";
+      let res = ''
       if (item.columnInfos[0]) {
-        let width = (item.columnInfos[0].length / 3) * 100;
-        width = width > 100 ? 100 : width;
-        res = width + "%";
+        let width = item.columnInfos[0].length / 3 * 100
+        width = width > 100 ? 100 : width
+        res = width + '%'
       }
-      return res;
+      return res
     },
     initData() {
+<<<<<<< HEAD
       //console.log("aaa",this.$root.fwdata);
       const me = this;
       this.activeName = "card0";
@@ -636,226 +705,247 @@ console.log("obj",obj)
                 }
                 if (num > 0) {
                   resData.push(item);
+=======
+      const me = this
+      this.activeName = 'card0'
+      this.activeIndex = 0
+      getTableData(this.data.smid, this.data.table_name).then(data => {
+        const resData = []
+        data.forEach((item) => {
+          if (item.columnInfos instanceof Array) {
+            if (item.columnInfos.length > 0) {
+              resData.push(item)
+            }
+          } else {
+            if (item.columnInfos.video && item.columnInfos.video.length > 0) {
+              resData.push(item)
+            } else if (item.columnInfos.info && item.columnInfos.info.length > 0) {
+              let num = 0
+              for (let i = 0; i < item.columnInfos.info.length; i++) {
+                if (item.columnInfos.info[i].value !== null) {
+                  num += 1
+                  i = item.columnInfos.info.length
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
                 }
               }
+              if (num > 0) {
+                resData.push(item)
+              }
             }
-          });
-          this.formData = resData;
-          if (!me.data.latitude) {
-            me.show();
           }
+        })
+        this.formData = resData
+        if (!me.data.latitude) {
+          me.show()
         }
-      );
+      })
     },
     custormAnchor(anchorName, index) {
-      const anchorElement = document.getElementById(anchorName);
+      const anchorElement = document.getElementById(anchorName)
       if (anchorElement) {
-        const total = anchorElement.offsetTop;
-        this.$refs.cardBox.scrollTop = total;
-        this.activeIndex = index;
+        const total = anchorElement.offsetTop
+        this.$refs.cardBox.scrollTop = total
+        this.activeIndex = index
       }
     },
     close() {
-      this.isShow = false;
+      this.isShow = false
     },
     show(spec) {
       if (!this.isShow) {
-        this.isShow = true;
+        this.isShow = true
         if (!spec) {
-          this.activeIndex = 0;
+          this.activeIndex = 0
           setTimeout(() => {
-            this.$refs.cardBox.scrollTop = 0;
-          }, 20);
+            this.$refs.cardBox.scrollTop = 0
+          }, 20)
         } else {
-          this.activeIndex = this.formData.length - 1;
+          this.activeIndex = this.formData.length - 1
           setTimeout(() => {
-            this.$refs.cardBox.scrollTop = 999999;
-          }, 20);
+            this.$refs.cardBox.scrollTop = 999999
+          }, 20)
         }
       }
-    },
+    }
   },
   components: {
     ItemTitle,
     PDF,
-    BigVideo,
-  },
-};
+    BigVideo
+  }
+}
 </script>
 
 <style scoped lang="less">
-.map-enterprise {
-  opacity: 1;
-  width: 7rem;
-  position: absolute;
-  right: 0.14rem;
-  bottom: 0.05rem;
-  top: 80px;
-  z-index: 999999;
-  padding: 10px;
-  /*background: rgba(3, 67, 106, 0.95);*/
-  background: #01334e;
-  padding: 0.1rem;
-  .title {
-    height: 0.35rem;
-    line-height: 0.35rem;
-    color: #fff;
-    font-size: 0.2rem;
-    padding: 0 0.4rem 0 0.1rem;
-    .no-wrap();
-  }
-  .header-box {
-    margin-bottom: 0.1rem;
-    margin-top: 0.1rem;
-    line-height: 0.3rem;
-    overflow: hidden;
-    li {
-      float: left;
-      line-height: 0.2rem;
-      text-align: center;
-      color: #e3de0b;
-      cursor: pointer;
-      position: relative;
-      padding: 0 0.1rem;
-      font-size: 0.16rem;
+  .map-enterprise {
+    opacity: 1;
+    width: 7rem;
+    position: absolute;
+    right: 0.14rem;
+    bottom: 0.05rem;
+    top: 80px;
+    z-index: 999999;
+    padding : 10px;
+    /*background: rgba(3, 67, 106, 0.95);*/
+    background: #01334e;
+    padding: 0.1rem;
+    .title {
+      height: 0.35rem;
+      line-height: 0.35rem;
+      color: #fff;
+      font-size: 0.2rem;
+      padding: 0 0.4rem 0 0.1rem;
+      .no-wrap();
+    }
+    .header-box {
       margin-bottom: 0.1rem;
-      &.active:before {
-        content: "";
-        position: absolute;
-        bottom: -0.05rem;
-        left: 50%;
-        width: 60%;
-        height: 0.02rem;
-        background: #43bafe;
-        transform: translate(-50%, 0);
-      }
-    }
-  }
-  .content-box {
-    position: relative;
-    > div {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      overflow: auto;
-    }
-  }
-  .table-box {
-    margin-bottom: 0.3rem;
-    border-top: 0.01rem solid #0d5978;
-    border-left: 0.01rem solid #0d5978;
-    overflow: hidden;
-    &.no-line {
-      border-top: none;
-    }
-    .item {
-      position: relative;
-      float: left;
-      width: 50%;
-      .key {
-        color: #ebe8c6;
-        /*background: rgba(62,134,174,0.3);*/
-        background: #184660;
-        width: 1.2rem;
-        height: 0.32rem;
-        line-height: 0.32rem;
+      margin-top: 0.1rem;
+      line-height: 0.3rem;
+      overflow: hidden;
+      li {
+        float: left;
+        line-height: 0.2rem;
         text-align: center;
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-right: 0.01rem solid #024364;
-        border-bottom: 0.01rem solid #2c5a73;
+        color: #E3DE0B;
+        cursor: pointer;
+        position: relative;
+        padding: 0 0.1rem;
         font-size: 0.16rem;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        padding: 0 0.05rem;
-      }
-      .value {
-        color: #fff;
-        width: 100%;
-        height: 0.32rem;
-        line-height: 0.32rem;
-        border-right: 0.01rem solid #024364;
-        border-bottom: 0.01rem solid #024364;
-        padding: 0 0.1rem 0 1.3rem;
-        display: block;
-        font-size: 0.16rem;
-        font-weight: 400;
-        .no-wrap();
-      }
-    }
-  }
-  .table {
-    margin-bottom: 0.3rem;
-    max-width: 100%;
-    font-size: 0.12rem;
-    border-collapse: collapse;
-    text-align: center;
-    thead {
-      tr {
-        th {
-          color: #ebe8c6;
-          font-weight: 400;
-          border: 0.01rem solid rgba(42, 127, 161, 0.4);
-          padding: 0.02rem 0.1rem;
-          line-height: 0.3rem;
-          vertical-align: middle;
-          font-size: 0.16rem;
-          background: rgba(62, 134, 174, 0.3);
+        margin-bottom: 0.1rem;
+        &.active:before {
+          content: '';
+          position: absolute;
+          bottom: -0.05rem;
+          left: 50%;
+          width: 60%;
+          height: 0.02rem;
+          background: #43BAFE;
+          transform: translate(-50%, 0);
         }
       }
     }
-    tbody {
-      tr {
-        td {
-          color: #fff;
-          border: 0.01rem solid rgba(42, 127, 161, 0.4);
-          padding: 0.02rem 0.1rem;
-          line-height: 0.3rem;
-          vertical-align: middle;
+    .content-box {
+      position: relative;
+      > div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        overflow: auto;
+      }
+    }
+    .table-box {
+      margin-bottom: 0.3rem;
+      border-top: 0.01rem solid #0D5978;
+      border-left: 0.01rem solid #0D5978;
+      overflow: hidden;
+      &.no-line {
+        border-top: none;
+      }
+      .item {
+        position: relative;
+        float: left;
+        width: 50%;
+        .key {
+          color: #ebe8c6;
+          /*background: rgba(62,134,174,0.3);*/
+          background: #184660;
+          width: 1.2rem;
+          height: 0.32rem;
+          line-height: 0.32rem;
+          text-align: center;
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          border-right: 0.01rem solid #024364;
+          border-bottom: 0.01rem solid #2c5a73;
           font-size: 0.16rem;
-          .pointer {
-            cursor: pointer;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          padding: 0 0.05rem;
+        }
+        .value {
+          color: #fff;
+          width: 100%;
+          height: 0.32rem;
+          line-height: 0.32rem;
+          border-right: 0.01rem solid #024364;
+          border-bottom: 0.01rem solid #024364;
+          padding: 0 0.1rem 0 1.3rem;
+          display: block;
+          font-size: 0.16rem;
+          font-weight: 400;
+          .no-wrap();
+        }
+      }
+    }
+    .table {
+      margin-bottom: 0.3rem;
+      max-width: 100%;
+      font-size: 0.12rem;
+      border-collapse: collapse;
+      text-align: center;
+      thead {
+        tr {
+          th {
+            color: #ebe8c6;
+            font-weight: 400;
+            border: 0.01rem solid rgba(42, 127, 161, 0.4);
+            padding: 0.02rem 0.1rem;
+            line-height: 0.3rem;
+            vertical-align: middle;
+            font-size: 0.16rem;
+            background: rgba(62, 134, 174, 0.3);
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            color: #fff;
+            border: 0.01rem solid rgba(42, 127, 161, 0.4);
+            padding: 0.02rem 0.1rem;
+            line-height: 0.3rem;
+            vertical-align: middle;
+            font-size: 0.16rem;
+            .pointer {
+              cursor: pointer;
+            }
           }
         }
       }
     }
-  }
-  .close {
-    position: absolute;
-    right: 0.2rem;
-    top: 0.17rem;
-    width: 0.2rem;
-    height: 0.2rem;
-    display: block;
-    .bg-image("../../images/zoom-in");
-    transform: rotate(-45deg);
-    transition: all 0.1s linear;
-    cursor: pointer;
-    &:hover {
-      transform: rotate(45deg);
+    .close {
+      position: absolute;
+      right: 0.2rem;
+      top: 0.17rem;
+      width: 0.2rem;
+      height: 0.2rem;
+      display: block;
+      .bg-image('../../images/zoom-in');
+      transform: rotate(-45deg);
+      transition: all 0.1s linear;
+      cursor: pointer;
+      &:hover {
+        transform: rotate(45deg);
+      }
     }
   }
-}
-.base-img {
-  /*  width: 74%;
-  height: auto;
-  margin: -0.2rem auto 0.3rem; */
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-
-  > img {
-    max-width: 100%;
-    display: block;
-    /*   margin:0 auto; */
-    margin: 44px 0 0 0;
-    cursor: pointer;
+  .base-img {
+    width: 60%;
+    height: auto;
+    margin: -0.2rem auto 0.3rem;
+    > img {
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+      cursor: pointer;
+    }
   }
+<<<<<<< HEAD
 }
 ol,
 ul {
@@ -953,56 +1043,83 @@ img {
     z-index: 1;
     &:hover {
       transform: rotate(45deg);
+=======
+  .big-img-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.4);
+    > i {
+      width: 0.3rem;
+      height: 0.3rem;
+      display: block;
+      .bg-image('./modules/images/close');
+      background-size: 0.2rem 0.2rem;
+      position: absolute;
+      right: 0.34rem;
+      top: 0.71rem;
+      transform: rotate(-45deg);
+      transition: all 0.1s linear;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 0.02rem solid #fff;
+      z-index: 1;
+      &:hover {
+        transform: rotate(45deg);
+      }
+    }
+    > img {
+      width: auto;
+      height: 90%;
+      margin: 0 auto;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     }
   }
-  > img {
-    width: auto;
-    height: 90%;
-    margin: 0 auto;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .onInformation {
+    color: #fff;
   }
-}
-.onInformation {
-  color: #fff;
-}
-.video-list {
-  overflow: hidden;
-  > li {
-    float: left;
-    width: 50%;
-    padding: 0.05rem;
-    > div {
-      width: 100%;
-      height: 2.52rem;
+  .video-list {
+    overflow: hidden;
+    > li {
+      float: left;
+      width: 50%;
+      padding: 0.05rem;
       > div {
-        width: 3.9rem;
-        height: 3rem;
-        position: relative;
-        margin: 0 auto;
-        transform: scale(0.84);
-        transform-origin: 0 0;
-        > iframe {
-          display: block;
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          background: #000;
+        width: 100%;
+        height: 2.52rem;
+        > div {
+          width: 3.9rem;
+          height: 3rem;
+          position: relative;
+          margin: 0 auto;
+          transform: scale(0.84);
+          transform-origin: 0 0;
+          > iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #000;
+          }
         }
       }
     }
   }
-}
-.full-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  cursor: pointer;
-}
+  .full-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    cursor: pointer;
+  }
 </style>

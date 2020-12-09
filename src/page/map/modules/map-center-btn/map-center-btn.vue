@@ -95,7 +95,11 @@
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
+<<<<<<< HEAD
             :class="'btn' + (index + 1)"
+=======
+            :class="'btn'+(index)"
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
             :key="index"
             :title="item.name"
             v-for="(item, index) in map3D"
@@ -194,10 +198,14 @@
         <div class="map-type tool-detail">
           <div
             class="item item-spc"
+<<<<<<< HEAD
             :class="'btn' + (index + 1)"
+=======
+            v-for="(item, index) in mapBtn"
+            :class="'btn'+(index+1)"
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
             :key="index"
             :title="item.name"
-            v-for="(item, index) in mapBtn"
             @click="changeMapTollBar(item, index)"
           >
             {{ item.abbrev }}
@@ -228,6 +236,7 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
     <div
       @mouseover="mapChildMouseover(0)"
       @mouseout="mapChildMouseout(0)"
@@ -253,6 +262,8 @@
         </div>
       </div>
     </div>
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   </div>
 </template>
 
@@ -288,6 +299,11 @@ export default {
       // 地图工具按钮
       map3DBtn: [
         { name: "淹没分析", value: "3d1", abbrev: "淹没分析" },
+<<<<<<< HEAD
+=======
+        { name: "BIM分析",  value: "3d2", abbrev: "BIM分析"  },
+        { name: "BIM车站",  value: "3d3", abbrev: "BIM车站"  },
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
         { name: "地下管线", value: "3d4", abbrev: "地下管线" },
       ],
       map3D: [
@@ -298,8 +314,8 @@ export default {
         { name: "测量工具", value: "3t1", abbrev: "测量工具" },
         { name: "可视分析", value: "3t2", abbrev: "可视分析" },
         { name: "剖面分析", value: "3t3", abbrev: "剖面分析" },
-        { name: "通视分析", value: "3t4", abbrev: "通视分析" },
-        { name: "阴影分析", value: "3t5", abbrev: "阴影分析" },
+        { name: "通视分析", value: "3t4", addrev: "通视分析" },
+        { name: "阴影分析", value: "3t5", addrev: "阴影分析" }, 
       ],
       mapBtn: [
         { name: "测距离", value: "line_string", abbrev: "测距" },
@@ -313,7 +329,7 @@ export default {
           name: "矢量",
           abbrev: "矢量",
           value: "changeMap",
-          top: "1.5rem",
+          top: "2.05rem",
           childrenShow: false,
           childrenFocus: false,
           children: [
@@ -333,7 +349,7 @@ export default {
           name: "影像",
           abbrev: "影像",
           value: "changeMap",
-          top: "1.9rem",
+          top: "2.5rem",
           childrenShow: false,
           childrenFocus: false,
           children: [
@@ -565,7 +581,7 @@ export default {
   components: {
     LongitudeSearch,
     Slider,
-  },
+  }
 };
 </script>
 
@@ -590,7 +606,7 @@ export default {
   cursor: pointer;
   overflow: hidden;
   &.active {
-    height: auto;
+    height: 3.1rem;
     > i {
       .bg-image("images/qiehuan-act");
       background-size: 0.34rem;
@@ -836,7 +852,7 @@ export default {
   }
 }
 .map-toolbar-box-map.active {
-  height: auto;
+  height: 4rem;
 }
 .toCenter.moveRight1 {
   left: 0.8rem !important;
@@ -1134,9 +1150,19 @@ export default {
       }
     }
   }
+  // :::after解决了添加3dMapTool时不显示文字的问题 
+  .btn4::after
+  {
+    content:"通视分析"!important;
+    
+  }
+  .btn5::after{
+    content:"阴影分析"!important;
+    margin-top: 35px;
+  }
   .map-type {
     .item {
-      width: 0.34rem;
+      // width: 0.34rem;
       margin-left: 8px;
       cursor: pointer;
       border-radius: 2px;
@@ -1292,7 +1318,7 @@ export default {
 .item-child {
   transition: left 0.3s linear !important;
   position: fixed;
-  left: 5rem;
+  left: 4.44rem;
   color: #fff;
   z-index: 9999;
   &.collapse {

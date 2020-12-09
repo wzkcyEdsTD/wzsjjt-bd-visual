@@ -20,7 +20,11 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './AttributeCompression-84a90a13', './GeometryPipeline-f6e7a4ed', './EncodedCartesian3-a569cba8', './IndexDatatype-9435b55f', './IntersectionTests-397d9494', './Plane-8390418f', './VertexFormat-fe4db402', './arrayRemoveDuplicates-f0b089b1', './BoundingRectangle-dc808c42', './EllipsoidTangentPlane-605dc181', './EllipsoidRhumbLine-f161e674', './earcut-2.2.1-b404d9e6', './PolygonPipeline-62047934', './PolylineVolumeGeometryLibrary-30d16dbe', './EllipsoidGeodesic-84507801', './PolylinePipeline-a9f32196'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, VertexFormat, arrayRemoveDuplicates, BoundingRectangle, EllipsoidTangentPlane, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, PolylineVolumeGeometryLibrary, EllipsoidGeodesic, PolylinePipeline) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './AttributeCompression-4a5b893f', './GeometryPipeline-dac088f2', './EncodedCartesian3-daa1cb04', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './VertexFormat-7f136973', './arrayRemoveDuplicates-aafa59fd', './BoundingRectangle-dae1b1ac', './EllipsoidTangentPlane-b778e576', './EllipsoidRhumbLine-c9b776a6', './earcut-2.2.1-b404d9e6', './PolygonPipeline-7df0d8c5', './PolylineVolumeGeometryLibrary-a0b548bc', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, VertexFormat, arrayRemoveDuplicates, BoundingRectangle, EllipsoidTangentPlane, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, PolylineVolumeGeometryLibrary, EllipsoidGeodesic, PolylinePipeline) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
     function computeAttributes(result, shape, boundingRectangle, vertexFormat) {
             var combinedPositions = result.combinedPositions;
@@ -143,7 +147,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 try {
                     geometry = GeometryPipeline.GeometryPipeline.computeTangentAndBitangent(geometry);
                 } catch (e) {
-                    buildModuleUrl.oneTimeWarning('polyline-volume-tangent-bitangent', 'Unable to compute tangents and bitangents for polyline volume geometry');
+                    Transforms.oneTimeWarning('polyline-volume-tangent-bitangent', 'Unable to compute tangents and bitangents for polyline volume geometry');
                     //TODO https://github.com/AnalyticalGraphicsInc/cesium/issues/3609
                 }
 
@@ -224,9 +228,9 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             this._vertexFormat = VertexFormat.VertexFormat.clone(when.defaultValue(options.vertexFormat, VertexFormat.VertexFormat.DEFAULT));
             this._granularity = when.defaultValue(options.granularity, _Math.CesiumMath.RADIANS_PER_DEGREE);
             this._workerName = 'createPolylineVolumeGeometry';
-            this.enuCenter = when.defaultValue(options.enuCenter, Cartographic.Cartesian3.ZERO);
-            var numComponents = 1 + positions.length * Cartographic.Cartesian3.packedLength;
-            numComponents += 1 + shape.length * Cartesian2.Cartesian2.packedLength + Cartographic.Cartesian3.packedLength;
+            this.enuCenter = when.defaultValue(options.enuCenter, Cartesian2.Cartesian3.ZERO);
+            var numComponents = 1 + positions.length * Cartesian2.Cartesian3.packedLength;
+            numComponents += 1 + shape.length * Cartesian2.Cartesian2.packedLength + Cartesian2.Cartesian3.packedLength;
 
             /**
              * The number of elements used to pack the object into an array.
@@ -262,8 +266,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = positions.length;
             array[startingIndex++] = length;
 
-            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                Cartographic.Cartesian3.pack(positions[i], array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                Cartesian2.Cartesian3.pack(positions[i], array, startingIndex);
             }
 
             var shape = value._shape;
@@ -282,7 +286,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
             array[startingIndex++] = value._cornerType;
             array[startingIndex++]   = value._granularity;
-            Cartographic.Cartesian3.pack(value.enuCenter, array, startingIndex);
+            Cartesian2.Cartesian3.pack(value.enuCenter, array, startingIndex);
             return array;
         };
 
@@ -320,8 +324,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = array[startingIndex++];
             var positions = new Array(length);
 
-            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                positions[i] = Cartographic.Cartesian3.unpack(array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                positions[i] = Cartesian2.Cartesian3.unpack(array, startingIndex);
             }
 
             length = array[startingIndex++];
@@ -340,7 +344,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var cornerType = array[startingIndex++];
             var granularity = array[startingIndex++];
             var enuCenter;
-            enuCenter = Cartographic.Cartesian3.unpack(array, startingIndex);
+            enuCenter = Cartesian2.Cartesian3.unpack(array, startingIndex);
             if (!when.defined(result)) {
                 scratchOptions.polylinePositions = positions;
                 scratchOptions.shapePositions = shape;
@@ -371,11 +375,11 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
          */
         PolylineVolumeGeometry.createGeometry = function(polylineVolumeGeometry) {
             var positions = polylineVolumeGeometry._positions;
-            var cleanPositions = arrayRemoveDuplicates.arrayRemoveDuplicates(positions, Cartographic.Cartesian3.equalsEpsilon);
+            var cleanPositions = arrayRemoveDuplicates.arrayRemoveDuplicates(positions, Cartesian2.Cartesian3.equalsEpsilon);
             var len = cleanPositions.length;
             var copyPositions = new Array(len);
             for(var i = 0;i < len;i++){
-                copyPositions[i] = Cartographic.Cartesian3.clone(cleanPositions[i]);
+                copyPositions[i] = Cartesian2.Cartesian3.clone(cleanPositions[i]);
             }
             var shape2D = polylineVolumeGeometry._shape;
             shape2D = PolylineVolumeGeometryLibrary.PolylineVolumeGeometryLibrary.removeDuplicatesFromShape(shape2D);
@@ -391,10 +395,10 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
             var res = {};
             res.combinedPositions = PolylineVolumeGeometryLibrary.PolylineVolumeGeometryLibrary.computePositions(copyPositions, shape2D, boundingRectangle, polylineVolumeGeometry, true);
-            if(!Cartographic.Cartesian3.equals(polylineVolumeGeometry.enuCenter, Cartographic.Cartesian3.ZERO)) {
+            if(!Cartesian2.Cartesian3.equals(polylineVolumeGeometry.enuCenter, Cartesian2.Cartesian3.ZERO)) {
                 var cleanPositionsClone = new Array(len);
                 for(var i = 0;i < len;i++){
-                    cleanPositionsClone[i] = Cartographic.Cartesian3.clone(cleanPositions[i]);
+                    cleanPositionsClone[i] = Cartesian2.Cartesian3.clone(cleanPositions[i]);
                 }
                 res.combinedLocalPositions = PolylineVolumeGeometryLibrary.PolylineVolumeGeometryLibrary.computeLocalPositions(cleanPositionsClone, shape2D, boundingRectangle, polylineVolumeGeometry, true, polylineVolumeGeometry.enuCenter);
             }

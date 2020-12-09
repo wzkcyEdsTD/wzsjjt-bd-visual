@@ -20,22 +20,26 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './AttributeCompression-84a90a13', './GeometryPipeline-f6e7a4ed', './EncodedCartesian3-a569cba8', './IndexDatatype-9435b55f', './IntersectionTests-397d9494', './Plane-8390418f', './VertexFormat-fe4db402', './GeometryInstance-93a01b5d', './arrayRemoveDuplicates-f0b089b1', './BoundingRectangle-dc808c42', './EllipsoidTangentPlane-605dc181', './OrientedBoundingBox-64cb80e5', './CoplanarPolygonGeometryLibrary-c5eaec10', './ArcType-66bc286a', './EllipsoidRhumbLine-f161e674', './earcut-2.2.1-b404d9e6', './PolygonPipeline-62047934', './PolygonGeometryLibrary-6dd47643'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, VertexFormat, GeometryInstance, arrayRemoveDuplicates, BoundingRectangle, EllipsoidTangentPlane, OrientedBoundingBox, CoplanarPolygonGeometryLibrary, ArcType, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, PolygonGeometryLibrary) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './AttributeCompression-4a5b893f', './GeometryPipeline-dac088f2', './EncodedCartesian3-daa1cb04', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './VertexFormat-7f136973', './GeometryInstance-2015f767', './arrayRemoveDuplicates-aafa59fd', './BoundingRectangle-dae1b1ac', './EllipsoidTangentPlane-b778e576', './OrientedBoundingBox-5c8f5550', './CoplanarPolygonGeometryLibrary-9b95f38f', './ArcType-66bc286a', './EllipsoidRhumbLine-c9b776a6', './earcut-2.2.1-b404d9e6', './PolygonPipeline-7df0d8c5', './PolygonGeometryLibrary-fe2d62ce'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, VertexFormat, GeometryInstance, arrayRemoveDuplicates, BoundingRectangle, EllipsoidTangentPlane, OrientedBoundingBox, CoplanarPolygonGeometryLibrary, ArcType, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, PolygonGeometryLibrary) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
-    var scratchPosition = new Cartographic.Cartesian3();
+    var scratchPosition = new Cartesian2.Cartesian3();
         var scratchBR = new BoundingRectangle.BoundingRectangle();
         var stScratch = new Cartesian2.Cartesian2();
         var textureCoordinatesOrigin = new Cartesian2.Cartesian2();
-        var scratchNormal = new Cartographic.Cartesian3();
-        var scratchTangent = new Cartographic.Cartesian3();
-        var scratchBitangent = new Cartographic.Cartesian3();
-        var centerScratch = new Cartographic.Cartesian3();
-        var axis1Scratch = new Cartographic.Cartesian3();
-        var axis2Scratch = new Cartographic.Cartesian3();
+        var scratchNormal = new Cartesian2.Cartesian3();
+        var scratchTangent = new Cartesian2.Cartesian3();
+        var scratchBitangent = new Cartesian2.Cartesian3();
+        var centerScratch = new Cartesian2.Cartesian3();
+        var axis1Scratch = new Cartesian2.Cartesian3();
+        var axis2Scratch = new Cartesian2.Cartesian3();
         var quaternionScratch = new Transforms.Quaternion();
         var textureMatrixScratch = new BoundingSphere.Matrix3();
         var tangentRotationScratch = new BoundingSphere.Matrix3();
-        var surfaceNormalScratch = new Cartographic.Cartesian3();
+        var surfaceNormalScratch = new Cartesian2.Cartesian3();
 
         function createGeometryFromPolygon(polygon, vertexFormat, boundingRectangle, stRotation, projectPointTo2D, normal, tangent, bitangent) {
             var positions = polygon.positions;
@@ -58,9 +62,9 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                     rotation = Transforms.Quaternion.fromAxisAngle(normal, -stRotation, quaternionScratch);
                     var tangentRotation = BoundingSphere.Matrix3.fromQuaternion(rotation, tangentRotationScratch);
 
-                    tangent = Cartographic.Cartesian3.normalize(BoundingSphere.Matrix3.multiplyByVector(tangentRotation, tangent, tangent), tangent);
+                    tangent = Cartesian2.Cartesian3.normalize(BoundingSphere.Matrix3.multiplyByVector(tangentRotation, tangent, tangent), tangent);
                     if (vertexFormat.bitangent) {
-                        bitangent = Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.cross(normal, tangent, bitangent), bitangent);
+                        bitangent = Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.cross(normal, tangent, bitangent), bitangent);
                     }
                 }
             } else {
@@ -349,7 +353,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var stRotation = polygonGeometry._stRotation;
 
             var outerPositions = polygonHierarchy.positions;
-            outerPositions = arrayRemoveDuplicates.arrayRemoveDuplicates(outerPositions, Cartographic.Cartesian3.equalsEpsilon, true);
+            outerPositions = arrayRemoveDuplicates.arrayRemoveDuplicates(outerPositions, Cartesian2.Cartesian3.equalsEpsilon, true);
             if (outerPositions.length < 3) {
                 return;
             }
@@ -365,14 +369,14 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 return undefined;
             }
 
-            normal = Cartographic.Cartesian3.cross(axis1, axis2, normal);
-            normal = Cartographic.Cartesian3.normalize(normal, normal);
+            normal = Cartesian2.Cartesian3.cross(axis1, axis2, normal);
+            normal = Cartesian2.Cartesian3.normalize(normal, normal);
 
-            if (!Cartographic.Cartesian3.equalsEpsilon(centerScratch, Cartographic.Cartesian3.ZERO, _Math.CesiumMath.EPSILON6)) {
+            if (!Cartesian2.Cartesian3.equalsEpsilon(centerScratch, Cartesian2.Cartesian3.ZERO, _Math.CesiumMath.EPSILON6)) {
                 var surfaceNormal = polygonGeometry._ellipsoid.geodeticSurfaceNormal(centerScratch, surfaceNormalScratch);
-                if (Cartographic.Cartesian3.dot(normal, surfaceNormal) < 0) {
-                    normal = Cartographic.Cartesian3.negate(normal, normal);
-                    axis1 = Cartographic.Cartesian3.negate(axis1, axis1);
+                if (Cartesian2.Cartesian3.dot(normal, surfaceNormal) < 0) {
+                    normal = Cartesian2.Cartesian3.negate(normal, normal);
+                    axis1 = Cartesian2.Cartesian3.negate(axis1, axis1);
                 }
             }
 
@@ -380,10 +384,10 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var projectPoint = CoplanarPolygonGeometryLibrary.CoplanarPolygonGeometryLibrary.createProjectPointTo2DFunction(centerScratch, axis1, axis2);
 
             if (vertexFormat.tangent) {
-                tangent = Cartographic.Cartesian3.clone(axis1, tangent);
+                tangent = Cartesian2.Cartesian3.clone(axis1, tangent);
             }
             if (vertexFormat.bitangent) {
-                bitangent = Cartographic.Cartesian3.clone(axis2, bitangent);
+                bitangent = Cartesian2.Cartesian3.clone(axis2, bitangent);
             }
 
             var results = PolygonGeometryLibrary.PolygonGeometryLibrary.polygonsFromHierarchy(polygonHierarchy, projectPoints, false);

@@ -1,6 +1,16 @@
 文件夹 PATH 列表
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
 卷序列号为 9690-2C49
 E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
+=======
+卷序列号为 F03C-081A
+D:\WEBGL_AUTO1\PACKAGE\SUPERMAP_ICLIENT3D_10I(2021)_FOR_WEBGL
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+卷序列号为 9690-2C49
+E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 │  CHANGES.md
 │  download.html
 │  index.html
@@ -10,7 +20,15 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
 │  webglreport.html
 │  
 ├─Build
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
 │  │  SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+=======
+│  │  SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+│  │  SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 │  │  
 │  ├─Cesium
 │  │  │  Cesium.js
@@ -431,8 +449,31 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
 │  │  │          ZoomIndicator.css
 │  │  │          
 │  │  └─Workers
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
 │  │          cesiumWorkerBootstrapper.js
 │  │          combineGeometry.js
+=======
+│  │          ArcType-66bc286a.js
+│  │          arrayRemoveDuplicates-aafa59fd.js
+│  │          AttributeCompression-4a5b893f.js
+│  │          BoundingRectangle-dae1b1ac.js
+│  │          BoundingSphere-ab31357a.js
+│  │          BoxGeometry-43fbcc9e.js
+│  │          buildModuleUrl-02e5236f.js
+│  │          Cartesian2-52d9479f.js
+│  │          cesiumWorkerBootstrapper.js
+│  │          Check-bc1d37d9.js
+│  │          Color-b1821df1.js
+│  │          combineGeometry.js
+│  │          ComponentDatatype-919a7463.js
+│  │          CoplanarPolygonGeometryLibrary-1a473f13.js
+│  │          CorridorGeometryLibrary-c4b3131e.js
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+│  │          cesiumWorkerBootstrapper.js
+│  │          combineGeometry.js
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 │  │          createBoxGeometry.js
 │  │          createBoxOutlineGeometry.js
 │  │          createCircleGeometry.js
@@ -472,6 +513,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
 │  │          createVerticesFromQuantizedTerrainMesh.js
 │  │          createWallGeometry.js
 │  │          createWallOutlineGeometry.js
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
 │  │          decodeDraco.js
 │  │          decodeGoogleEarthEnterprisePacket.js
 │  │          S3MBTilesParser.js
@@ -480,6 +523,73 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
 │  │          transferTypedArrayTest.js
 │  │          UnZipTerrainData.js
 │  │          upsampleQuantizedTerrainMesh.js
+=======
+│  │          CylinderGeometry-c19455fe.js
+│  │          CylinderGeometryLibrary-08369efb.js
+│  │          decodeDraco.js
+│  │          decodeGoogleEarthEnterprisePacket.js
+│  │          defined-21f7e510.js
+│  │          earcut-2.2.1-b404d9e6.js
+│  │          EllipseGeometry-e577985a.js
+│  │          EllipseGeometryLibrary-9b6be1d7.js
+│  │          EllipseOutlineGeometry-319280d3.js
+│  │          EllipsoidGeodesic-0654a7af.js
+│  │          EllipsoidGeometry-04599ee9.js
+│  │          EllipsoidOutlineGeometry-ea19a531.js
+│  │          EllipsoidRhumbLine-c9b776a6.js
+│  │          EllipsoidTangentPlane-7eb9b50e.js
+│  │          EncodedCartesian3-daa1cb04.js
+│  │          FeatureDetection-bac17d71.js
+│  │          FrustumGeometry-53991852.js
+│  │          GeometryAttribute-ba19792d.js
+│  │          GeometryAttributes-1c7ce91d.js
+│  │          GeometryInstance-2015f767.js
+│  │          GeometryOffsetAttribute-c9accdb9.js
+│  │          GeometryPipeline-5d611954.js
+│  │          IndexDatatype-18a8cae6.js
+│  │          indexedDBWorker.js
+│  │          IntersectionTests-afd4a13d.js
+│  │          Math-edfe2d1c.js
+│  │          MVTWorker.js
+│  │          MVTWorkTile.js
+│  │          OrientedBoundingBox-80ab75fe.js
+│  │          pako_inflate-8ea163f9.js
+│  │          pbf-9fe59c76.js
+│  │          Plane-68b37818.js
+│  │          PolygonGeometryLibrary-adc41ee0.js
+│  │          PolygonPipeline-0532ac9c.js
+│  │          PolylinePipeline-8bfd9bca.js
+│  │          PolylineVolumeGeometryLibrary-f1734ce0.js
+│  │          PrimitivePipeline-a59f787d.js
+│  │          PrimitiveType-97893bc7.js
+│  │          RectangleGeometryLibrary-67917413.js
+│  │          RuntimeError-7c184ac0.js
+│  │          S3MBTilesParser.js
+│  │          S3MCompressType-9a50b1c3.js
+│  │          S3MTilesParser.js
+│  │          TerrainEncoding-f6db33b5.js
+│  │          transcodeCRNToDXT.js
+│  │          transferTypedArrayTest.js
+│  │          Transforms-794e44e6.js
+│  │          unzip-b0fc9445.js
+│  │          UnZipTerrainData.js
+│  │          upsampleQuantizedTerrainMesh.js
+│  │          VertexFormat-7f136973.js
+│  │          WallGeometryLibrary-5be6d57e.js
+│  │          WebGLConstants-4c11ee5f.js
+│  │          WebMercatorProjection-65629b9f.js
+│  │          when-a55a8a4c.js
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+│  │          decodeDraco.js
+│  │          decodeGoogleEarthEnterprisePacket.js
+│  │          S3MBTilesParser.js
+│  │          S3MTilesParser.js
+│  │          transcodeCRNToDXT.js
+│  │          transferTypedArrayTest.js
+│  │          UnZipTerrainData.js
+│  │          upsampleQuantizedTerrainMesh.js
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 │  │          
 │  ├─Documentation
 │  │  │  AlgoSymbol.html
@@ -946,6 +1056,14 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
 │  │  │  Skyline.html
 │  │  │  SlopeSetting.html
 │  │  │  SlopeSettingEnum.html
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+=======
+│  │  │  SMAA.html
+│  │  │  SolidModelsProfile.html
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 │  │  │  SphereEmitter.html
 │  │  │  SphereGeometry.html
 │  │  │  SphereOutlineGeometry.html
@@ -1092,6 +1210,15 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
     │  flood.html
     │  floodex.html
     │  flyRoute.html
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+=======
+    │  geologicBodyClip.html
+    │  geologicBodyOperation.html
+    │  geologicBodyStretch.html
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     │  Geometry.html
     │  GeometryEx.html
     │  getFeatureByGeometry.html
@@ -1716,6 +1843,14 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
     │      flood.jpg
     │      floodex.jpg
     │      flyRoute.jpg
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+=======
+    │      geologicBodyClip.jpg
+    │      geologicBodyStretch.jpg
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     │      Geometry.jpg
     │      GeometryEx.jpg
     │      getFeatureByGeometry.jpg
@@ -1743,6 +1878,13 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
     │      Nightlight.jpg
     │      offset.jpg
     │      onLineAnalysis.jpg
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+=======
+    │      opennessAnalysis.jpg
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     │      overlayAnalyze.jpg
     │      Particle System_Fire.jpg
     │      Particle System_fountain.jpg
@@ -1889,6 +2031,95 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_10I_FOR_WEBGL
     │  │  world.json
     │  │  zh-cn.js
     │  │  
+<<<<<<< HEAD
+<<<<<<< HEAD:static/3d/Build/SuperMap_iClient3D_10i_for_WebGL_1911271649.txt
+=======
+    │  ├─components
+    │  │      Loading.js
+    │  │      
+    │  ├─iview
+    │  │  │  iview.js
+    │  │  │  iview.js.map
+    │  │  │  iview.min.js
+    │  │  │  iview.min.js.gz
+    │  │  │  iview.min.js.map
+    │  │  │  
+    │  │  ├─locale
+    │  │  │      ar-EG.js
+    │  │  │      ar-EG.js.map
+    │  │  │      ar-SA.js
+    │  │  │      ar-SA.js.map
+    │  │  │      cs-CZ.js
+    │  │  │      cs-CZ.js.map
+    │  │  │      da-DK.js
+    │  │  │      da-DK.js.map
+    │  │  │      de-DE.js
+    │  │  │      de-DE.js.map
+    │  │  │      el-GR.js
+    │  │  │      el-GR.js.map
+    │  │  │      en-US.js
+    │  │  │      en-US.js.map
+    │  │  │      es-ES.js
+    │  │  │      es-ES.js.map
+    │  │  │      fa-IR.js
+    │  │  │      fa-IR.js.map
+    │  │  │      fi-FI.js
+    │  │  │      fi-FI.js.map
+    │  │  │      fr-FR.js
+    │  │  │      fr-FR.js.map
+    │  │  │      hi-IN.js
+    │  │  │      hi-IN.js.map
+    │  │  │      id-ID.js
+    │  │  │      id-ID.js.map
+    │  │  │      it-IT.js
+    │  │  │      it-IT.js.map
+    │  │  │      ja-JP.js
+    │  │  │      ja-JP.js.map
+    │  │  │      ko-KR.js
+    │  │  │      ko-KR.js.map
+    │  │  │      mn-MN.js
+    │  │  │      mn-MN.js.map
+    │  │  │      mn-TR.js
+    │  │  │      mn-TR.js.map
+    │  │  │      nl-NL.js
+    │  │  │      nl-NL.js.map
+    │  │  │      pl-PL.js
+    │  │  │      pl-PL.js.map
+    │  │  │      pt-BR.js
+    │  │  │      pt-BR.js.map
+    │  │  │      pt-PT.js
+    │  │  │      pt-PT.js.map
+    │  │  │      ro-RO.js
+    │  │  │      ro-RO.js.map
+    │  │  │      ru-RU.js
+    │  │  │      ru-RU.js.map
+    │  │  │      sv-SE.js
+    │  │  │      sv-SE.js.map
+    │  │  │      th-TH.js
+    │  │  │      th-TH.js.map
+    │  │  │      tr-TR.js
+    │  │  │      tr-TR.js.map
+    │  │  │      uk-UA.js
+    │  │  │      uk-UA.js.map
+    │  │  │      vi-VN.js
+    │  │  │      vi-VN.js.map
+    │  │  │      zh-CN.js
+    │  │  │      zh-CN.js.map
+    │  │  │      zh-TW.js
+    │  │  │      zh-TW.js.map
+    │  │  │      
+    │  │  └─styles
+    │  │      │  iview.css
+    │  │      │  
+    │  │      └─fonts
+    │  │              ionicons.svg
+    │  │              ionicons.ttf
+    │  │              ionicons.woff
+    │  │              ionicons.woff2
+    │  │              
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271:static/Cesium/SuperMap_iClient3D_10i(2021)_for_WebGL_2007021347.txt
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     │  ├─js
     │  │      jquery-2.1.1.min.js
     │  │      jquery.liMarquee.js

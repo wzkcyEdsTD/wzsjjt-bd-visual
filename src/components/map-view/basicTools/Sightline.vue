@@ -1,20 +1,150 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-07-29 9.11
+ * @LastEditTime: 2020-07-29 9:12:10
+ * @LastEditors: wat
+ * @Description:
+ * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\sightline.vue
+-->
 <template>
-  <div class="ThreeDContainer" :style="{width:'400px'}">
+  <div class="ThreeDContainer" :style="{width:'450px'}">
     <div class="sightline tframe">
-      <el-form label-width="110px">
-        <el-form-item label="通视分析" :style="'margin-left:111px'"></el-form-item>
-        <el-form-item label="可见区域颜色">
-          <el-tag type="success" color="green"></el-tag>
-        </el-form-item>
-        <el-form-item label="不可见区域颜色">
-          <el-tag type="success" color="red"></el-tag>
-        </el-form-item>
-        <el-form-item>
-          <el-button class="elformbtn" type="button" @click="eventRegsiter">分析</el-button>
-          <el-button class="elformbtn" type="button" @click="sightlineClear">清除</el-button>
-          <el-button class="elformbtn" type="button" @click="sightlineClose">关闭</el-button>
-        </el-form-item>
-      </el-form>
+      <div>
+        <div v-if="sightlineComb">
+          <div class="sm-function-module-content">
+            <div class="sm-point"></div>
+            <label class="sm-function-module-sub-section-setting">观察者信息</label>
+            <div class="sm-function-module-sub-section">
+              <div>
+                <div class="sm-half">
+                  <label class="sm-function-module-sub-section-caption">经度(°)</label>
+                  <input v-model="viewlongitude" type="text" class="sm-input-right" />
+                </div>
+                <div class="sm-half">
+                  <label class="sm-sightline-label-right">纬度(°)</label>
+                  <input v-model="viewlatitude" type="text" class="sm-input-right" />
+                </div>
+              </div>
+              <div>
+                <div class="sm-half">
+                  <label class="sm-function-module-sub-section-caption">高程(m)</label>
+                  <input v-model="viewheight" type="text" class="sm-input-right" />
+                </div>
+              </div>
+            </div>
+            <div class="sm-point"></div>
+            <label class="sm-function-module-sub-section-setting">参数设置</label>
+            <div class="sm-function-module-sub-section">
+              <div>
+                <label class="sm-function-module-sub-section-caption">可见区域颜色</label>
+                <ColorPicker class="sm-colorpicker" v-model="visibleColor" alpha />
+              </div>
+              <div>
+                <label class="sm-function-module-sub-section-caption">不可视颜色</label>
+                <ColorPicker class="sm-colorpicker" v-model="hiddenColor" alpha />
+              </div>
+              <div>
+                <label class="sm-function-module-sub-section-caption">障碍物高亮颜色</label>
+                <ColorPicker class="sm-colorpicker" v-model="highlightBarrierColor" alpha />
+              </div>
+              <div>
+                <input type="checkbox" checked v-model="highlightBarrier" />
+                <label class="sm-function-module-sub-section-caption">高亮显示障碍物</label>
+              </div>
+            </div>
+            <div class="boxchild">
+              <button type="button" class="tbtn tbn1" v-on:click="analysis">分析</button>
+              <button type="button" class="tbtn" @click="clear">清除</button>
+            </div>
+          </div>
+        </div>
+        <div id="sightline-panel" class="sm-sightline-panel" v-if="dsMode">
+          <div
+            class="sm-sightline-toggle-btn"
+            @click="toggleVisibility"
+            :class="{'sm-sightline-toggle-btn-only': !show}"
+          >
+            <span class="iconfont iconVue-sightline"></span>
+          </div>
+          <div class="sm-sightline-content" :class="{'sm-sightline-content-hidden' : !show}">
+            <div class="sm-sightline-panel-header">
+              <span>通视分析</span>
+            </div>
+            <div class="sm-function-module-content">
+              <div class="sm-point"></div>
+              <label class="sm-function-module-sub-section-setting">观察者信息</label>
+              <div class="sm-function-module-sub-section">
+                <div>
+                  <div class="sm-half">
+                    <label class="sm-function-module-sub-section-caption">经度(°)</label>
+                    <input
+                      v-model="viewlongitude"
+                      type="text"
+                      id="sightline-observation-place-x"
+                      class="sm-input-right"
+                    />
+                  </div>
+                  <div class="sm-half">
+                    <label class="sm-sightline-label-right">纬度(°)</label>
+                    <input
+                      v-model="viewlatitude"
+                      type="text"
+                      id="sightline-observation-place-y"
+                      class="sm-input-right"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div class="sm-half">
+                    <label class="sm-function-module-sub-section-caption">高程(m)</label>
+                    <input
+                      v-model="viewheight"
+                      type="text"
+                      id="sightline-observation-place-z"
+                      class="sm-input-right"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="sm-point"></div>
+              <label class="sm-function-module-sub-section-setting">参数设置</label>
+              <div class="sm-function-module-sub-section">
+                <div>
+                  <label class="sm-function-module-sub-section-caption">可见区域颜色</label>
+                  <ColorPicker
+                    id="visibleColor"
+                    class="sm-colorpicker"
+                    v-model="visibleColor"
+                    alpha
+                  />
+                </div>
+                <div>
+                  <label class="sm-function-module-sub-section-caption">不可视颜色</label>
+                  <ColorPicker id="hiddenColor" class="sm-colorpicker" v-model="hiddenColor" alpha />
+                </div>
+                <div>
+                  <label class="sm-function-module-sub-section-caption">障碍物高亮颜色</label>
+                  <ColorPicker
+                    id="highlightBarrierColor"
+                    class="sm-colorpicker"
+                    v-model="highlightBarrierColor"
+                    alpha
+                  />
+                </div>
+                <div>
+                  <input type="checkbox" id="highlightBarrier" checked v-model="highlightBarrier" />
+                  <label class="sm-function-module-sub-section-caption">高亮显示障碍物</label>
+                </div>
+              </div>
+              <div class="boxchild">
+                <button type="button" class="tbtn tbn1" id="analysis" v-on:click="analysis">分析</button>
+                <button type="button" class="tbtn" id="clear" @click="clear">清除</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <canvas
       style="position : fixed;z-index: 10, right : 2%; bottom : 2%;background-color:rgba(65, 65, 65, 0.5)"
@@ -24,111 +154,142 @@
     ></canvas>
   </div>
 </template>
+
 <script>
-// let sightline;
 const Cesium = window.Cesium;
+let sightline;
 export default {
-  name: "Sightline",
-  data: function () {
+  name: "Sm3dSightline",
+  data() {
     return {
-      sightline: undefined,
-      visibleColor: "rbg(0,200,0)", // 可见区域显示的颜色
-      hiddenColor: "rbg(255,0,0)", // 不可见区域显示的颜色
-      viewPosition: {}, //获取或设置观察者的位置，位置由经度、纬度和高程组成的数组表示
-      viewer: undefined, //
+      show: true,
+      dsMode: 1,
+      sightlineComb: false,
+      viewPosition: {},
       HandlerFlag: true,
-      sightLineHandler: undefined, //通视分析
-      pointHandler: undefined,
-      screenSpaceEventHandler: undefined,
+      // clickFlag: 0,
+      screenSpaceEventHandler: null,
+      sightLineHandler: null,
+      pointHandler: null,
+      flag: false,
+      viewlongitude: 0,
+      viewlatitude: 0,
+      viewheight: 0,
+      visibleColor: "rgb(0, 200, 0)",
+      hiddenColor: "rgb(200, 0, 0)",
+      highlightBarrierColor: "rgba(255, 186, 1, 1)",
+      highlightBarrier: false,
       tooltip: null,
-      handlerPolygon: undefined,
     };
   },
-  created() {
-    //let that =this;
-    this.viewer = window.earth;
-    this.sightLineHandler = new Cesium.DrawHandler(
-      this.viewer,
-      Cesium.DrawMode.Line
-    );
-    this.screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(
-      this.viewer.scene.canvas
-    );
-    this.sightline = new Cesium.Sightline(this.viewer.scene);
-    this.pointHandler = new Cesium.PointHandler(this.viewer);
-  },
+  components: {},
+  // 监听viewer
   mounted() {
-    this.eventRegsiter(); //监听eventDraw方法
+    // console.log("aaa");
+    // //console.log(eventBus);
+    // conosle.log(createTooltip);
+    //this.init();
+    eventBus.$on("init", (e) => {
+      this.init();
+    });
   },
-  beforeDestroy() {
-    this.sightline = undefined;
-    this.viewPosition = [];
-    this.viewer = undefined;
-    this.HandlerFlag = undefined;
-    this.sightLineHandler = undefined;
-    this.pointHandler = undefined;
-    this.screenSpaceEventHandler = undefined;
-    this.handlerPolygon = undefined;
-    this.sightlineClear();
-  },
+  
   methods: {
-    //事件绑定
-    eventRegsiter() {
-      const that = this;
-      //that.tooltip = createTooltip(document.body);
-      that.sightLineHandler.activeEvt.addEventListener((isActive) => {
+    init() {
+      // conosle.log(createTooltip);
+      //console.log(Cesium);
+      this.tooltip = createTooltip(document.body);
+      var scene = viewer.scene;
+      // for (var layer of scene.layers.layerQueue) {
+      //   layer.removeAllObjsColor();
+      // }
+      if (!sightline) {
+        sightline = new Cesium.Sightline(scene);
+      }
+      // sightline.build();
+      // this.clickFlag += 1;
+      // sightline.removeAllTargetPoint();
+      this.screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(
+        scene.canvas
+      );
+
+      this.sightLineHandler = new Cesium.DrawHandler(
+        viewer,
+        Cesium.DrawMode.Line
+      );
+
+      this.pointHandler = new Cesium.PointHandler(viewer);
+    },
+
+    analysis() {
+      console.log(sightline);
+       console.log(sightline.visibleColor);
+      if (this.flag) {
+        this.clear();
+      }
+      sightline.visibleColor = Cesium.Color.fromCssColorString(
+        this.visibleColor
+      );
+      sightline.hiddenColor = Cesium.Color.fromCssColorString(this.hiddenColor);
+      viewer.entities.removeAll();
+      // let screenSpaceEventHandler = this.ScreenSpaceEventHandler;
+      let sightLineHandler = this.sightLineHandler;
+      sightLineHandler.activeEvt.addEventListener((isActive) => {
         if (isActive == true) {
-          that.viewer.enableCursorStyle = false;
-          that.viewer._element.style.cursor = "";
+          viewer.enableCursorStyle = false;
+          viewer._element.style.cursor = "";
           document.body.classList.add("drawCur");
         } else {
-          that.viewer.enableCursorStyle = true;
+          viewer.enableCursorStyle = true;
           document.body.classList.remove("drawCur");
         }
       });
-      // that.sightLineHandler.movingEvt.addEventListener((windowPosition) => {
-      //   that.sightLineHandler.polyline &&
-      //     (that.sightLineHandler.polyline.show = false);
-      //   // that.tooltip.showAt(windowPosition, "<p>点击鼠标左键添加观察点</p>");
-      //   // if (sightLineHandler.isDrawing) {
-      //   //   that.tooltip.showAt(
-      //   //     windowPosition,
-      //   //     "<p>点击鼠标左键可添加多个目标点</p><p>点击鼠标右键结束</p>"
-      //   //   );
-      //   // }
-      // });
-      that.sightLineHandler.drawEvt.addEventListener(function (result) {
+      sightLineHandler.movingEvt.addEventListener((windowPosition) => {
+        sightLineHandler.polyline && (sightLineHandler.polyline.show = false);
+        this.tooltip.showAt(windowPosition, "<p>点击鼠标左键添加观察点</p>");
+        if (sightLineHandler.isDrawing) {
+          this.tooltip.showAt(
+            windowPosition,
+            "<p>点击鼠标左键可添加多个目标点</p><p>点击鼠标右键结束</p>"
+          );
+        }
+      });
+      let that = this;
+      //画线绘制完成事件
+      sightLineHandler.drawEvt.addEventListener(function (result) {
         that.HandlerFlag = false; //移除监听
-        that.sightLineHandler.polyline.show = false;
+        sightLineHandler.polyline.show = false;
         that.tooltip.setVisible(false);
       });
-      that.sightline.build();
+
+      sightline.build();
+      let pointHandler = this.pointHandler;
       //鼠标点击第一下，调用drawEvt；再点击，调用screenSpaceEventHandler.setInputAction
-      that.pointHandler.drawEvt.addEventListener(function (result) {
-        const point = result.object;
+      pointHandler.drawEvt.addEventListener(function (result) {
+        var point = result.object;
         point.show = true;
         that.viewPosition = point;
-        const position = point.position;
-        const cartographic = Cesium.Cartographic.fromCartesian(position);
-        const longitude = Cesium.Math.toDegrees(cartographic.longitude);
-        const latitude = Cesium.Math.toDegrees(cartographic.latitude);
-        const height = cartographic.height;
+        var position = point.position;
+        var cartographic = Cesium.Cartographic.fromCartesian(position);
+        let longitude = Cesium.Math.toDegrees(cartographic.longitude);
+        let latitude = Cesium.Math.toDegrees(cartographic.latitude);
+        let height = cartographic.height;
         that.viewlongitude = longitude.toFixed(6);
         that.viewlatitude = latitude.toFixed(6);
         that.viewheight = height.toFixed(6);
-        that.sightline.viewPosition = [longitude, latitude, height];
+        sightline.viewPosition = [longitude, latitude, height];
 
         //可以添加多个目标点
         that.screenSpaceEventHandler.setInputAction(function (evt) {
           if (that.HandlerFlag) {
             that.sightLineHandler.polyline &&
               (that.sightLineHandler.polyline.show = false);
-            const pick = that.viewer.scene.pickPosition(evt.position);
-            const ecartographic = Cesium.Cartographic.fromCartesian(pick);
-            const elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
-            const elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
-            const eheight = ecartographic.height;
-            that.sightline.addTargetPoint({
+            var pick = viewer.scene.pickPosition(evt.position);
+            var ecartographic = Cesium.Cartographic.fromCartesian(pick);
+            var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
+            var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
+            var eheight = ecartographic.height;
+            sightline.addTargetPoint({
               position: [elongitude, elatitude, eheight],
               name: "point" + new Date(),
             });
@@ -136,45 +297,122 @@ export default {
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
       });
 
-      that.pointHandler.activate();
-      that.sightLineHandler.activate();
-      that.flag = true;
+      this.pointHandler.activate();
+      this.sightLineHandler.activate();
+      this.flag = true;
     },
-    sightlineClear() {
-      const that = this;
-      that.viewlongitude = 0;
-      that.viewlatitude = 0;
-      that.viewheight = 0;
-      that.visibleColor = "rgb(0, 200, 0)";
-      that.hiddenColor = "rgb(200, 0, 0)";
-      that.highlightBarrierColor = "rgba(255, 186, 1, 1)";
-      that.highlightBarrier = false;
-      that.screenSpaceEventHandler.removeInputAction(
+    clear() {
+      //初始化参数
+      this.viewlongitude = 0;
+      this.viewlatitude = 0;
+      this.viewheight = 0;
+
+      this.visibleColor = "rgb(0, 200, 0)";
+      this.hiddenColor = "rgb(200, 0, 0)";
+      this.highlightBarrierColor = "rgba(255, 186, 1, 1)";
+      this.highlightBarrier = false;
+      this.screenSpaceEventHandler.removeInputAction(
         Cesium.ScreenSpaceEventType.LEFT_CLICK
       );
-      that.HandlerFlag = true;
-      if (that.sightLineHandler) {
+      this.HandlerFlag = true;
+
+      if (this.sightLineHandler) {
         this.sightLineHandler.deactivate();
       }
-      if (that.pointHandler) {
+      if (this.pointHandler) {
+        // pointHandler.clear();
         this.pointHandler.deactivate();
       }
-      that.viewer.entities.removeAll();
-      that.sightline && this.sightline.removeAllTargetPoint();
+      viewer.entities.removeAll();
+      sightline && sightline.removeAllTargetPoint();
+      for (var layer of scene.layers.layerQueue) {
+        layer.removeAllObjsColor();
+      }
+      this.flag = false;
+      this.tooltip.setVisible(false);
     },
-    sightlineClose() {
-      this.sightlineClear();
-      this.$bus.$emit("cesium-3d-maptool", { value: null });
+    closetoolbar() {
+      this.show = false;
     },
+    destory() {
+      this.clear();
+      if (sightline) {
+        sightline.destroy();
+        sightline = undefined;
+      }
+    },
+    toggleVisibility() {
+      this.show = !this.show;
+    },
+  },
+  watch: {
+    visibleColor: function (newValue) {
+      if (this.flag) {
+        let color = Cesium.Color.fromCssColorString(newValue);
+        if (sightline) {
+          sightline.visibleColor = color;
+        }
+      }
+    },
+    hiddenColor: function (newValue) {
+      if (this.flag) {
+        let color = Cesium.Color.fromCssColorString(newValue);
+        if (sightline) {
+          sightline.hiddenColor = color;
+        }
+      }
+    },
+    highlightBarrierColor: function (newValue) {
+      this.highlightBarrierColor = newValue;
+
+      for (var layer of scene.layers.layerQueue) {
+        layer.removeAllObjsColor();
+      }
+      if (sightline && this.highlightBarrier) {
+        let color = Cesium.Color.fromCssColorString(this.highlightBarrierColor);
+        try {
+          let ObjectIds = sightline.getObjectIds();
+          for (let index in ObjectIds) {
+            let layer = viewer.scene.layers.findByIndex(Number(index) - 3); // 底层索引从3开始
+            let ids = sightline.getObjectIds()[index];
+            layer.setObjsColor(ids, color);
+          }
+        } catch (error) {}
+      }
+    },
+    highlightBarrier: function (newValue) {
+      if (sightline && newValue) {
+        let color = Cesium.Color.fromCssColorString(this.highlightBarrierColor);
+        try {
+          let ObjectIds = sightline.getObjectIds();
+          for (let index in ObjectIds) {
+            let layer = viewer.scene.layers.findByIndex(Number(index) - 3); // 底层索引从3开始
+            let ids = sightline.getObjectIds()[index];
+            layer.setObjsColor(ids, color);
+          }
+        } catch (error) {}
+      }
+    },
+  },
+  beforeMount() {
+    eventBus.$emit("sendPname", {
+      type: "analysis",
+      name: "通视分析",
+      value: this.sightlineComb,
+    });
+    eventBus.$on("sendCname", (e) => {
+      if (this.dsMode) {
+        this.dsMode = 0;
+      }
+      if (e == "通视分析") {
+        this.sightlineComb = true;
+      } else {
+        this.sightlineComb = false;
+      }
+    });
   },
 };
 </script>
-<style>
-.el-form:nth-child(1) {
-  padding: 0px 0px 0px 0px !important;
-}
-.el-tag.el-tag--success {
-  width: 160px;
-  margin-top: 5px;
-}
+<style lang="scss" scoped>
+@import "./SightLine.scss";
 </style>

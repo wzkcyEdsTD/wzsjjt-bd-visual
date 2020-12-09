@@ -20,7 +20,11 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './GeometryOffsetAttribute-ca302482', './VertexFormat-fe4db402', './EllipsoidGeometry-ce5f9b68'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, VertexFormat, EllipsoidGeometry) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './GeometryOffsetAttribute-c9accdb9', './VertexFormat-7f136973', './EllipsoidGeometry-fc998027'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, VertexFormat, EllipsoidGeometry) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
     /**
          * A description of a sphere centered at the origin.
@@ -48,7 +52,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
          */
         function SphereGeometry(options) {
             var radius = when.defaultValue(options.radius, 1.0);
-            var radii = new Cartographic.Cartesian3(radius, radius, radius);
+            var radii = new Cartesian2.Cartesian3(radius, radius, radius);
             var ellipsoidOptions = {
                     radii: radii,
                     stackPartitions: options.stackPartitions,
@@ -86,7 +90,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
         var scratchEllipsoidGeometry = new EllipsoidGeometry.EllipsoidGeometry();
         var scratchOptions = {
             radius : undefined,
-            radii : new Cartographic.Cartesian3(),
+            radii : new Cartesian2.Cartesian3(),
             vertexFormat : new VertexFormat.VertexFormat(),
             stackPartitions : undefined,
             slicePartitions : undefined
@@ -111,7 +115,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 return new SphereGeometry(scratchOptions);
             }
 
-            Cartographic.Cartesian3.clone(ellipsoidGeometry._radii, scratchOptions.radii);
+            Cartesian2.Cartesian3.clone(ellipsoidGeometry._radii, scratchOptions.radii);
             result._ellipsoidGeometry = new EllipsoidGeometry.EllipsoidGeometry(scratchOptions);
             return result;
         };

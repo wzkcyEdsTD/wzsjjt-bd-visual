@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-07-29 17:10:26
+ * @LastEditTime: 2020-07-28 15:08:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\cesium_coverage.vue
@@ -85,6 +85,7 @@ export default {
       xxxhandler: null, // 永嘉溪下乡绑定事件
       stzlayer: null, // 永嘉沙头镇
       stzhandler: null, // 永嘉沙头镇绑定事件
+
       xzzlayer: null, // 永嘉巽宅镇
       xzzhandler: null, // 永嘉巽宅镇绑定事件
       ytzlayer: null, // 永嘉岩头镇
@@ -299,7 +300,6 @@ export default {
                 this.sqcllayer = window.earth.imageryLayers.addImageryProvider(
                   new Cesium.SuperMapImageryProvider({
                     url: a.url,
-                    name : 'test'
                   })
                 );
               }

@@ -20,7 +20,60 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './IntersectionTests-397d9494', './Plane-8390418f', './VertexFormat-fe4db402', './arrayRemoveDuplicates-f0b089b1', './ArcType-66bc286a', './EllipsoidRhumbLine-f161e674', './EllipsoidGeodesic-84507801', './PolylinePipeline-a9f32196', './Color-69f1845f'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, VertexFormat, arrayRemoveDuplicates, ArcType, EllipsoidRhumbLine, EllipsoidGeodesic, PolylinePipeline, Color) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './VertexFormat-7f136973', './arrayRemoveDuplicates-aafa59fd', './ArcType-66bc286a', './EllipsoidRhumbLine-c9b776a6', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca', './Color-b1821df1'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, VertexFormat, arrayRemoveDuplicates, ArcType, EllipsoidRhumbLine, EllipsoidGeodesic, PolylinePipeline, Color) { 'use strict';
+
+    /**
+         * Logs a deprecation message to the console.  Use this function instead of
+         * <code>console.log</code> directly since this does not log duplicate messages
+         * unless it is called from multiple workers.
+         *
+         * @exports deprecationWarning
+         *
+         * @param {String} identifier The unique identifier for this deprecated API.
+         * @param {String} message The message to log to the console.
+         *
+         * @example
+         * // Deprecated function or class
+         * function Foo() {
+         *    deprecationWarning('Foo', 'Foo was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use newFoo instead.');
+         *    // ...
+         * }
+         *
+         * // Deprecated function
+         * Bar.prototype.func = function() {
+         *    deprecationWarning('Bar.func', 'Bar.func() was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use Bar.newFunc() instead.');
+         *    // ...
+         * };
+         *
+         * // Deprecated property
+         * Object.defineProperties(Bar.prototype, {
+         *     prop : {
+         *         get : function() {
+         *             deprecationWarning('Bar.prop', 'Bar.prop was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use Bar.newProp instead.');
+         *             // ...
+         *         },
+         *         set : function(value) {
+         *             deprecationWarning('Bar.prop', 'Bar.prop was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use Bar.newProp instead.');
+         *             // ...
+         *         }
+         *     }
+         * });
+         *
+         * @private
+         */
+        function deprecationWarning(identifier, message) {
+            //>>includeStart('debug', pragmas.debug);
+            if (!when.defined(identifier) || !when.defined(message)) {
+                throw new Check.DeveloperError('identifier and message are required.');
+            }
+            //>>includeEnd('debug');
+
+            Transforms.oneTimeWarning(identifier, message);
+        }
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
     var scratchInterpolateColorsArray = [];
 
@@ -127,7 +180,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
             this._followSurface = when.defaultValue(options.followSurface, true);
             if (when.defined(options.followSurface)) {
-                buildModuleUrl.deprecationWarning('PolylineGeometry.followSurface', 'PolylineGeometry.followSurface is deprecated and will be removed in Cesium 1.55. Use PolylineGeometry.arcType instead.');
+                deprecationWarning('PolylineGeometry.followSurface', 'PolylineGeometry.followSurface is deprecated and will be removed in Cesium 1.55. Use PolylineGeometry.arcType instead.');
                 options.arcType = options.followSurface ? ArcType.ArcType.GEODESIC : ArcType.ArcType.NONE;
             }
             this._arcType = when.defaultValue(options.arcType, ArcType.ArcType.GEODESIC);
@@ -137,7 +190,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             this._ellipsoid = Cartesian2.Ellipsoid.clone(when.defaultValue(options.ellipsoid, Cartesian2.Ellipsoid.WGS84));
             this._workerName = 'createPolylineGeometry';
 
-            var numComponents = 1 + positions.length * Cartographic.Cartesian3.packedLength;
+            var numComponents = 1 + positions.length * Cartesian2.Cartesian3.packedLength;
             numComponents += when.defined(colors) ? 1 + colors.length * Color.Color.packedLength : 1;
 
             /**
@@ -174,8 +227,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = positions.length;
             array[startingIndex++] = length;
 
-            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                Cartographic.Cartesian3.pack(positions[i], array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                Cartesian2.Cartesian3.pack(positions[i], array, startingIndex);
             }
 
             var colors = value._colors;
@@ -238,8 +291,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var length = array[startingIndex++];
             var positions = new Array(length);
 
-            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
-                positions[i] = Cartographic.Cartesian3.unpack(array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
+                positions[i] = Cartesian2.Cartesian3.unpack(array, startingIndex);
             }
 
             length = array[startingIndex++];
@@ -291,10 +344,10 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             return result;
         };
 
-        var scratchCartesian3 = new Cartographic.Cartesian3();
-        var scratchPosition = new Cartographic.Cartesian3();
-        var scratchPrevPosition = new Cartographic.Cartesian3();
-        var scratchNextPosition = new Cartographic.Cartesian3();
+        var scratchCartesian3 = new Cartesian2.Cartesian3();
+        var scratchPosition = new Cartesian2.Cartesian3();
+        var scratchPrevPosition = new Cartesian2.Cartesian3();
+        var scratchNextPosition = new Cartesian2.Cartesian3();
 
         /**
          * Computes the geometric representation of a polyline, including its vertices, indices, and a bounding sphere.
@@ -318,7 +371,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             var j;
             var k;
 
-            var positions = arrayRemoveDuplicates.arrayRemoveDuplicates(polylineGeometry._positions, Cartographic.Cartesian3.equalsEpsilon);
+            var positions = arrayRemoveDuplicates.arrayRemoveDuplicates(polylineGeometry._positions, Cartesian2.Cartesian3.equalsEpsilon);
             var positionsLength = positions.length;
 
             // A width of a pixel or less is not a valid geometry, but in order to support external data
@@ -415,24 +468,24 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             for (j = 0; j < positionsLength; ++j) {
                 if (j === 0) {
                     position = scratchCartesian3;
-                    Cartographic.Cartesian3.subtract(positions[0], positions[1], position);
-                    Cartographic.Cartesian3.add(positions[0], position, position);
+                    Cartesian2.Cartesian3.subtract(positions[0], positions[1], position);
+                    Cartesian2.Cartesian3.add(positions[0], position, position);
                 } else {
                     position = positions[j - 1];
                 }
 
-                Cartographic.Cartesian3.clone(position, scratchPrevPosition);
-                Cartographic.Cartesian3.clone(positions[j], scratchPosition);
+                Cartesian2.Cartesian3.clone(position, scratchPrevPosition);
+                Cartesian2.Cartesian3.clone(positions[j], scratchPosition);
 
                 if (j === positionsLength - 1) {
                     position = scratchCartesian3;
-                    Cartographic.Cartesian3.subtract(positions[positionsLength - 1], positions[positionsLength - 2], position);
-                    Cartographic.Cartesian3.add(positions[positionsLength - 1], position, position);
+                    Cartesian2.Cartesian3.subtract(positions[positionsLength - 1], positions[positionsLength - 2], position);
+                    Cartesian2.Cartesian3.add(positions[positionsLength - 1], position, position);
                 } else {
                     position = positions[j + 1];
                 }
 
-                Cartographic.Cartesian3.clone(position, scratchNextPosition);
+                Cartesian2.Cartesian3.clone(position, scratchNextPosition);
 
                 var color0, color1;
                 if (when.defined(finalColors)) {
@@ -451,9 +504,9 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                 var endK = j === positionsLength - 1 ? 2 : 4;
 
                 for (k = startK; k < endK; ++k) {
-                    Cartographic.Cartesian3.pack(scratchPosition, finalPositions, positionIndex);
-                    Cartographic.Cartesian3.pack(scratchPrevPosition, prevPositions, positionIndex);
-                    Cartographic.Cartesian3.pack(scratchNextPosition, nextPositions, positionIndex);
+                    Cartesian2.Cartesian3.pack(scratchPosition, finalPositions, positionIndex);
+                    Cartesian2.Cartesian3.pack(scratchPrevPosition, prevPositions, positionIndex);
+                    Cartesian2.Cartesian3.pack(scratchNextPosition, nextPositions, positionIndex);
                     positionIndex += 3;
 
                     var direction = (k - 2 < 0) ? -1.0 : 1.0;
@@ -482,7 +535,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                         distIndex++;
                     }
                 }
-                curDist += Cartographic.Cartesian3.distance(position, positions[j]);
+                curDist += Cartesian2.Cartesian3.distance(position, positions[j]);
             }
 
             if(hasDist){

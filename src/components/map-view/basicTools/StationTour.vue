@@ -1,13 +1,17 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 09:41:59
- * @LastEditTime: 2020-08-06 14:30:28
+ * @LastEditTime: 2020-07-28 20:10:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\StationTour.vue
 -->
 <template>
+<<<<<<< HEAD
   <div class="ThreeDContainer ThreeToTop" :style="{ width: '445px' }">
+=======
+  <div class="ThreeDContainer ThreeToTop" :style="{width:'640px'}">
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     <div class="stationtour tframe">
       <el-form>
         <el-row>
@@ -31,7 +35,7 @@
               <el-button class="elformbtn" :disabled="!tourOn" @click="pauseStationTour">暂停漫游</el-button>
               <el-button class="elformbtn" :disabled="!tourOn" @click="stopStationTour">停止漫游</el-button>
               <el-button class="elformbtn" :disabled="!tourOn" @click="cameraMove">视角调整</el-button>
-              <el-button class="elformbtn" v-show="false" @click="closeStationTour">关闭</el-button>
+              <el-button class="elformbtn" @click="closeStationTour">关闭</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -43,6 +47,7 @@
 import { BimSourceURL } from "config/server/mapConfig";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
+<<<<<<< HEAD
 var LAYERS = [
   {
     key: "Airport_B1_macro",
@@ -77,6 +82,14 @@ const LAYER_NAME = [
   "Airport_B1_micro",
   "Airport_B2_invisible",
   "Airport_B1_macro"
+=======
+const layerName = [
+  "顶板",
+  "机场站-B1",
+  "机场站-B2",
+  "机场站标识",
+  "机场站标注",
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 ];
 export default {
   name: "StationTour",
@@ -131,7 +144,6 @@ export default {
     },
     //  相机移动
     cameraMove() {
-      this.stopStationTour();
       this.viewer.scene.camera.setView({
         destination: {
           x: -2889836.1221072627,
@@ -147,6 +159,7 @@ export default {
     },
     //  初始化BIM场景
     initBimScene(fn) {
+<<<<<<< HEAD
       
       this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = -20;
       //this.viewer.scene.debugShowFramesPerSecond = true;//帧数
@@ -155,6 +168,11 @@ export default {
         LAYERS.map(v => {
           window.earth.scene.layers.find(v.key).visible = true;
         });
+=======
+      const _LAYER_ = this.viewer.scene.layers.find(layerName[0]);
+      if (_LAYER_) {
+        layerName.map((d) => (this.viewer.scene.layers.find(d).visible = true));
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
       } else {
         const promise_array = LAYERS.map(v => {
           //console.log(v);
@@ -168,6 +186,7 @@ export default {
           return v.key;
         });
         const { STATION_SCENE_URL, STATION_DATA_URL } = BimSourceURL;
+<<<<<<< HEAD
         //const promise = this.viewer.scene.open(STATION_SCENE_URL);
         Promise.all(promise_array).then(function(layers) {
           window.earth.scene.camera.setView({
@@ -181,6 +200,38 @@ export default {
               pitch: -0.510722024776082,
               roll: 0
             }
+=======
+        const promise = this.viewer.scene.open(STATION_SCENE_URL);
+        Cesium.when(promise, async (layers) => {
+          layerName.map((d, index) => {
+            if (index > 2) return undefined;
+            const layer = this.viewer.scene.layers.find(d);
+            layer.setQueryParameter({
+              url: STATION_DATA_URL,
+              dataSourceName: d,
+              isMerge: true,
+            });
+            const color = new Cesium.Color.fromCssColorString(
+              "rgba(23,92,239,0.3)"
+            );
+            layer.selectedColor = color;
+            layer.datasetInfo().then((result) => {
+              this.keys = [...this.keys, ...result.map((v) => v.datasetName)];
+              this.StationTreeData[0].children.push({
+                id: d,
+                label: d,
+                children: result.map((v, index) => {
+                  return {
+                    id: `${d}_${index}`,
+                    label: v.datasetName,
+                    k: d,
+                    startID: v.startID,
+                    endID: v.endID,
+                  };
+                }),
+              });
+            });
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
           });
           for (var layer_name of layers_airport) {
             //console.log(layer_name);
@@ -256,6 +307,7 @@ export default {
     },
     //  树结构改变
     checkChange(...params) {
+<<<<<<< HEAD
       // const obj = { 顶板: [], "机场站-B1": [], "机场站-B2": [] };
       // const nodes = this.$refs.tree
       //   .getCheckedNodes()
@@ -269,6 +321,22 @@ export default {
       //   const layer = this.viewer.scene.layers.find(v);
       //   layer.setObjsVisible(obj[v], true);
       // });
+=======
+      const obj = { 顶板: [], "机场站-B1": [], "机场站-B2": [] };
+      const nodes = this.$refs.tree
+        .getCheckedNodes()
+        .filter((v) => !v.children)
+        .map((v) => {
+          for (let i = v.startID; i < v.endID + 1; i++) {
+            obj[v.k].push(i);
+          }
+        });
+      console.log(obj);
+      Object.keys(obj).map((v) => {
+        const layer = this.viewer.scene.layers.find(v);
+        layer.setOnlyObjsVisible(obj[v], true);
+      });
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     },
     startStationTour() {
       var mvtMap = this.$root.fwdata[12];
@@ -301,6 +369,7 @@ export default {
     },
     //  清除BIM模块
     clearStationTour() {
+<<<<<<< HEAD
       this.stopStationTour();
       window.earth.scene.camera.setView({
         destination: {
@@ -330,5 +399,11 @@ export default {
       });
     }
   }
+=======
+      this.flyManager && (this.flyManager = undefined);
+      layerName.map((d) => (this.viewer.scene.layers.find(d).visible = false));
+    },
+  },
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 };
 </script>

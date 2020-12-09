@@ -1,15 +1,16 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 14:09:16
- * @LastEditTime: 2020-08-06 16:05:47
+ * @LastEditTime: 2020-07-28 16:38:22
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\commonFrame\InfoFrame.vue
 -->
 <template>
-  <div class="bimframe" v-if="fixedForceBimData.length">
+  <div class="bimframe" v-if="forceBimData.length">
     <div class="_bimframe_">
       <i class="close" @click="closeBimFrame"></i>
+<<<<<<< HEAD
       <div class="inforFrameH">
         <el-tabs v-model="activeTab">
           <el-tab-pane label="详细信息" name="bim" class="detailedInformation">
@@ -44,24 +45,43 @@
         </el-tabs>
       </div>
       <rtmpVideo v-if="isMAX2012 && isRtmpVideoOpen" />
+=======
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="详细信息" name="bim">
+          <table>
+            <tbody>
+              <tr v-for="(d,i) in forceBimData" :key="i">
+                <td>{{d.k}}</td>
+                <td>{{d.v}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="房间信息" name="room" v-if="forceRoomData.length">
+          <table>
+            <tbody>
+              <tr v-for="(d,i) in forceRoomData" :key="i">
+                <td>{{d.k}}</td>
+                <td>{{d.v}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </el-tab-pane>
+      </el-tabs>
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { FILTER_KEYS, HASH_KEYS } from "./filterKeys";
-import rtmpVideo from "./rtmpVideo";
 export default {
   name: "InfoFrame",
   data() {
-    return { activeTab: "bim", isRtmpVideoOpen: false };
-  },
-  components: { rtmpVideo },
-  beforeDestroy() {
-    this.closeBimFrame();
+    return { activeTab: "bim" };
   },
   computed: {
+<<<<<<< HEAD
     ...mapGetters("map", ["forceBimData", "forceRoomData", "forceBimIDS"]),
     isMAX2012() {
       return ~this.forceBimData.map(item => item.k).indexOf("VIDEO_URL");
@@ -82,6 +102,9 @@ export default {
           return { k: HASH_KEYS[k] || k, v };
         });
     }
+=======
+    ...mapGetters("map", ["forceBimData", "forceRoomData"]),
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   },
   watch: {
     forceBimData(n, o) {
@@ -89,6 +112,7 @@ export default {
     }
   },
   methods: {
+<<<<<<< HEAD
     ...mapActions("map", [
       "SetForceBimData",
       "SetForceRoomData",
@@ -215,13 +239,20 @@ export default {
       window.earth.entities.removeAll();
       this.$bus.$emit("cesium-3d-floorDIS", false);
     },
+=======
+    ...mapActions("map", ["SetForceBimData", "SetForceRoomData"]),
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     closeBimFrame() {
-      this.closeFloorStructure();
       this.SetForceBimData([]);
       this.SetForceRoomData([]);
+<<<<<<< HEAD
       this.SetForceBimIDS([]);
     }
   }
+=======
+    },
+  },
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 };
 </script>
 <style lang="less" scoped>

@@ -4,7 +4,9 @@
 }
 .ThreeToTop {
   top: 70px !important;
-  bottom: unset!important;
+}
+.SightLineThreeToTop {
+  top: 70px !important;
 }
 .ThreeDContainer {
   position: fixed;
@@ -72,9 +74,6 @@
 }
 .ThreeDContainer .el-form-item {
   margin-bottom: 0px;
-  color: #00f2ff;
-}
-.ThreeDContainer .el-tag.el-tag--success {
   color: #00f2ff;
 }
 .select-option .el-select-dropdown__list .hover {

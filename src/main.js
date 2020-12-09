@@ -20,6 +20,7 @@ import "./font/DIN.css";
 import * as filters from './filters' // 全局过滤器
 import ElementUI from 'element-ui'
 import echarts from 'echarts'
+window.echarts = echarts //挂载到window上
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueBus from 'vue-bus'
 // import 'jquery'/* eslint-disable */
@@ -27,7 +28,15 @@ import VueBus from 'vue-bus'
 // require('../mock')
 // }
 
-
+//第三方库
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+Vue.use(ViewUI);
+import axios from 'axios'
+window.axios = axios //挂载到window上
+//vue-iclient3d-webgl组件库
+import VueiClient from '@supermap/vue-iclient3d-webgl';
+Vue.use(VueiClient);
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -38,13 +47,12 @@ Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
-
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  render: h => h(App),
   components: { App },
-  template: '<App/>',
+  template: '<App/>'
 })

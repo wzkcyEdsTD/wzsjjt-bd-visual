@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-05 10:49:44
+ * @LastEditTime: 2020-07-28 14:16:11
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\mutations.js
@@ -49,12 +49,15 @@ const mutations = {
   [types.SET_FORCE_MAP_TYPE](state, data) {
     state.forceMapTypeBase = data;
   },
+<<<<<<< HEAD
   [types.SET_FORCE_BIM_IDS](state, data) {
     state.forceBimIDS = data;
   },
   [types.SET_FORCE_BIM_DATABYTYPE](state, data) {
     state.forceBimDataByType = data;
   },
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   [types.SET_FORCE_BIM_DATA](state, data) {
     state.forceBimData = data;
   },

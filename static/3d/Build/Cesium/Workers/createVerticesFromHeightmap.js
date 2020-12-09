@@ -20,7 +20,11 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian2-85064f09', './BoundingSphere-775c5788', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './FeatureDetection-7bd32c34', './Transforms-913163ed', './buildModuleUrl-9d43158d', './AttributeCompression-84a90a13', './IntersectionTests-397d9494', './Plane-8390418f', './WebMercatorProjection-80c70558', './createTaskProcessorWorker', './EllipsoidTangentPlane-605dc181', './OrientedBoundingBox-64cb80e5', './TerrainEncoding-a807a704'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, buildModuleUrl, AttributeCompression, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './FeatureDetection-bac17d71', './Transforms-93a668f1', './AttributeCompression-4a5b893f', './IntersectionTests-afd4a13d', './Plane-68b37818', './WebMercatorProjection-65629b9f', './createTaskProcessorWorker', './EllipsoidTangentPlane-b778e576', './OrientedBoundingBox-5c8f5550', './TerrainEncoding-f6db33b5'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, AttributeCompression, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
     /**
          * The encoding that is used for a heightmap
@@ -71,10 +75,10 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             isBigEndian : false
         });
 
-        var cartesian3Scratch = new Cartographic.Cartesian3();
+        var cartesian3Scratch = new Cartesian2.Cartesian3();
         var matrix4Scratch = new BoundingSphere.Matrix4();
-        var minimumScratch = new Cartographic.Cartesian3();
-        var maximumScratch = new Cartographic.Cartesian3();
+        var minimumScratch = new Cartesian2.Cartesian3();
+        var maximumScratch = new Cartesian2.Cartesian3();
 
         /**
          * Fills an array of vertices from a heightmap image.
@@ -213,7 +217,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
             var relativeToCenter = options.relativeToCenter;
             var hasRelativeToCenter = when.defined(relativeToCenter);
-            relativeToCenter = hasRelativeToCenter ? relativeToCenter : Cartographic.Cartesian3.ZERO;
+            relativeToCenter = hasRelativeToCenter ? relativeToCenter : Cartesian2.Cartesian3.ZERO;
             var exaggeration = when.defaultValue(options.exaggeration, 1.0);
             var includeWebMercatorT = when.defaultValue(options.includeWebMercatorT, false);
 
@@ -417,7 +421,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                     var rSurfaceY = kY * oneOverGamma;
                     var rSurfaceZ = kZ * oneOverGamma;
 
-                    var position = new Cartographic.Cartesian3();
+                    var position = new Cartesian2.Cartesian3();
                     position.x = rSurfaceX + nX * heightSample;
                     position.y = rSurfaceY + nY * heightSample;
                     position.z = rSurfaceZ + nZ * heightSample;
@@ -432,8 +436,8 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
 
                     BoundingSphere.Matrix4.multiplyByPoint(toENU, position, cartesian3Scratch);
 
-                    Cartographic.Cartesian3.minimumByComponent(cartesian3Scratch, minimum, minimum);
-                    Cartographic.Cartesian3.maximumByComponent(cartesian3Scratch, maximum, maximum);
+                    Cartesian2.Cartesian3.minimumByComponent(cartesian3Scratch, minimum, minimum);
+                    Cartesian2.Cartesian3.maximumByComponent(cartesian3Scratch, maximum, maximum);
                     hMin = Math.min(hMin, heightSample);
                 }
             }

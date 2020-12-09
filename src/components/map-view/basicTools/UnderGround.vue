@@ -1,7 +1,11 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 15:58:33
+<<<<<<< HEAD
  * @LastEditTime: 2020-09-03 15:35:00
+=======
+ * @LastEditTime: 2020-07-28 20:16:55
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\UnderGround.vue
@@ -13,6 +17,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item class="elformbtns">
+<<<<<<< HEAD
               <el-button class="elformbtn" @click="digUnderGround"
                 >倾斜开挖</el-button
               >
@@ -34,6 +39,9 @@
                 title="调整地上图层透明度"
                 data-bind="value: overGroundAlpha, valueUpdate: 'input'"
               />
+=======
+              <el-button class="elformbtn" @click="closeUnderGround">关闭</el-button>
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
             </el-form-item>
           </el-col>
         </el-row>
@@ -45,28 +53,37 @@
 import { BimSourceURL } from "config/server/mapConfig";
 import { ServiceUrl } from "config/server/mapConfig";
 const Cesium = window.Cesium;
+<<<<<<< HEAD
 const LAYER_NAME = [
   "东方管线",
   // "GSFuShuSheShi",
   // "GSLineNode",
   // "GSLine"
 ];
+=======
+import { mapGetters, mapActions } from "vuex";
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 export default {
   name: "UnderGround",
   data() {
     return {
       // cesium Object
       viewer: undefined,
+<<<<<<< HEAD
       handlerPolygon: undefined,
       overGroundLayer: undefined,
       globe: undefined,
       scene: undefined,
       tooltip: undefined,
       promise: undefined,
+=======
+      handler: undefined,
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     };
   },
   created() {
     this.viewer = window.earth;
+<<<<<<< HEAD
     this.scene = this.viewer.scene;
     this.scene = this.viewer.globe;
     this.handlerPolygon = new Cesium.DrawHandler(
@@ -74,23 +91,33 @@ export default {
       Cesium.DrawMode.Polygon
     );
     //this.tooltip = this.createTooltip(viewer._element)
+=======
+    this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   },
   async mounted() {
     this.initBimScene();
     this.eventRegsiter();
   },
   beforeDestroy() {
+<<<<<<< HEAD
     //this.clearUnderGround();
     this.handlerPolygon.destroy;
+=======
+    this.clearUnderGround();
+    this.handler = undefined;
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     this.viewer = undefined;
     this.overGroundLayer = undefined;
     this.scene = undefined;
     this.promise = undefined;
   },
   methods: {
+    ...mapActions("map", ["SetForceBimData"]),
     //  事件绑定
     eventRegsiter() {
       const that = this;
+<<<<<<< HEAD
       //监听滑动条变化，改变alpha的值，设置地表透明度
       var viewModel = {
         color: "#ffffff",
@@ -290,6 +317,28 @@ export default {
       this.eventRegsiter();
     },
     //  关闭地下管线分析模块
+=======
+    },
+    //  相机移动
+    cameraMove() {
+      this.viewer.scene.camera.setView({
+        // 将经度、纬度、高度的坐标转换为笛卡尔坐标
+        destination: {
+          x: -2875652.7880414873,
+          y: 4843023.435651329,
+          z: 2993391.653376218,
+        },
+        orientation: {
+          heading: 0,
+          pitch: -0.5655775824490981,
+          roll: 0,
+        },
+      });
+    },
+    //  初始化BIM场景
+    initBimScene(fn) {},
+    //  关闭BIM分析模块
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
     closeUnderGround() {
       console.log("相机参数1", window.earth.scene.camera.position);
       console.log("相机参数2", window.earth.scene.camera.heading);
@@ -317,6 +366,7 @@ export default {
         },
       });
     },
+<<<<<<< HEAD
     //  清除选中内容
     clearUnderGround() {
       const that = this;
@@ -325,6 +375,10 @@ export default {
       //that.handlerPolygon.polygon.show = false;
       //that.handlerPolygon.polyline.show = false;
     },
+=======
+    //  清除BIM模块
+    clearUnderGround() {},
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   },
 };
 </script>

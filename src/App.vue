@@ -17,11 +17,14 @@ import { getUserInfo } from "./api/public/public";
 import { mapGetters, mapActions, mapState } from "vuex";
 import { getRoleCategory } from "api/map/map";
 import category from "mock/category";
+import Sightline from "./components/map-view/basicTools/Sightline";
+//import Sightline from "components/map-view/basicTools/Sightline";
 export default {
   name: "App",
   components: {
     MHeader,
-    Loading
+    Loading,
+    Sightline,
   },
   data() {
     return {

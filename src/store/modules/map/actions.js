@@ -1,11 +1,14 @@
 import * as types from "./mutation-types";
 import router from "../../../router/index";
+<<<<<<< HEAD
 import { getMedicalList } from "api/layerServerAPI";
 
 // 设置bim单层物体id
 export const SetForceBimIDS = function ({ commit }, data) {
   commit(types.SET_FORCE_BIM_IDS, data);
 };
+=======
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 // 设置bim详细数据
 export const SetForceBimData = function ({ commit }, data) {
   console.log('SetForceBimDatadata', data);
@@ -176,7 +179,11 @@ export const clickme = function ({ commit, state }, data) {
   if (data === undefined) {
     data = "";
   }
+<<<<<<< HEAD
   console.log("跳转", state.nameList.indexOf(data));
+=======
+  console.log(state.nameList.indexOf(data));
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
   if (state.nameList.indexOf(data) > -1) {
     commit(types.SET_SPECAL_TREE_NAME, data);
     commit(types.SET_COLLAPSE1, false);

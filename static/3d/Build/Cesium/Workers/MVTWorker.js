@@ -20,7 +20,11 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
+<<<<<<< HEAD
 define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDetection-7bd32c34', './createTaskProcessorWorker', './Color-69f1845f', './pbf-9fe59c76'], function (when, Check, _Math, FeatureDetection, createTaskProcessorWorker, Color, pbf) { 'use strict';
+=======
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './FeatureDetection-bac17d71', './createTaskProcessorWorker', './Color-b1821df1', './pbf-9fe59c76'], function (when, Check, _Math, FeatureDetection, createTaskProcessorWorker, Color, pbf) { 'use strict';
+>>>>>>> 3364ecdc0e13c6a5963175d2223d849284b28271
 
     // 用来根据Mapbox style标准构建过滤器和定义过滤方法
     function MvtFilter() {
@@ -44,7 +48,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
                 filterArray.push(condition);
             }
         }
-        else{
+        else {
             for (var fi = 0; fi < filter.length; fi++) {
                 if (!(filter[fi] instanceof Array)) {
                     continue;
@@ -94,7 +98,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
         if (isOperator(filterArray[0])) {
             filterOperator = filterArray[0];
         }
-        else{
+        else {
             return null;
         }
 
@@ -337,7 +341,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             circleStyle.setImage(iconImg);
             return circleStyle;
         }
-        else{
+        else {
             return this.getStyle();
         }
     };
@@ -386,7 +390,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             circleStyle.setImage(iconImg);
             return circleStyle;
         }
-        else{
+        else {
             var scratchIDFill = new openlayer.style.Fill({
                 color: ""
             });
@@ -554,7 +558,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if(this._useOffscreen){
                 canvas = new OffscreenCanvas(spriteImage.width, spriteImage.height);
             }
-            else{
+            else {
                 canvas = document.createElement('canvas');
                 canvas.width = spriteImage.width;
                 canvas.height = spriteImage.height;
@@ -659,7 +663,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
                             style : textStyle
                         });
                     }
-                    else{
+                    else {
                         if(renderColor){
                             ol.renderer.vector.renderFeature_(replayGroup, feature, textStyle, -1);
                         }
@@ -674,7 +678,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
                         });
                         continue;
                     }
-                    else{
+                    else {
                         this._mvtStyleClass.setIconImageForStyle(spriteImageDatas, style, layerById.mapboxStyleLayer);
                     }
                 }
@@ -768,7 +772,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if(when.defined(feature.lineWidth)){
                 feature.lineWidth = Math.max(feature.lineWidth, styleLineWidth);
             }
-            else{
+            else {
                 feature.lineWidth = styleLineWidth;
             }
         }
@@ -786,7 +790,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if(when.defined(feature.radius)){
                 feature.radius = Math.max(feature.radius, radius);
             }
-            else{
+            else {
                 feature.radius = radius;
             }
         }
@@ -2102,7 +2106,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if (opt_width && opt_height) {
                 canvas = new OffscreenCanvas(opt_width, opt_height);
             }
-            else{
+            else {
                 canvas = new OffscreenCanvas(1, 1);
             }
             return canvas.getContext('2d');

@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-06 15:17:38
+ * @LastEditTime: 2020-07-28 14:14:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wzsjjt-bd-visual\src\store\modules\map\state.js
@@ -24,7 +24,6 @@ const state = {
   //  3d
   primitivelist: [],
   //  bim
-  forceBimIDS: [],
   forceBimData: [],
   forceBimSP:[],
   forceBimName:[],
